@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Sign In | Sign Up - Book A MEAL</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <header class="text-center">
+    <h3>Book A Meal</h3>
+  </header>
+  <main class="flex-container">
+    <section>
+      <p><h1>BOOK</h1></p>
+      <p><h1>A</h1></p>
+      <p><h1>MEAL</h1></p>
+    </section>
+    <section id="signIn">
+      <h2 class="text-center">SIGN IN</h2>
+      <form  class="form" action="#">
+        <div>
+          <label class="label-block" for="email">Email address: </label>
+          <input type="email" placeholder="johndoe@domain.com" id="email" required />
+        </div>
+        <div>
+          <label class="label-block" for="password">Password: </label>
+          <input type="password" placeholder="Enter password"
+            id="password" required />
+        </div>
+        <button class="btn btn-default">Sign In</button>
+        <p class="form-footer text-right">
+          Don't have an account?
+          <span><button class="btn btn-alt">Sign Up</button></span>
+        </p>
+      </form>
+    </section>
+    <section id="signUp">
+      <h2 class="text-center">SIGN UP</h2>
+      <form class="form" action="#">
+        <div>
+          <lable class="label-block" for="name">Full name</lable>
+          <input type="text" placeholder="Enter full name" id="name" required />
+        </div>
+        <div>
+          <label class="label-block" for="email">Email address: </label>
+          <input type="email" placeholder="johndoe@domain.com" id="signUpemail" required />
+        </div>
+        <div>
+          <label class="label-block" for="password">Password: </label>
+          <input type="password" placeholder="Enter password"
+            id="signUppassword" required />
+        </div>
+        <div>
+          <label class="label-block" for="confirmPassword">Confirm Password: </label>
+          <input type="password" placeholder="Enter password"
+            id="confirmPassword" required />
+        </div>
+        <button type="submit" class="btn btn-default">Sign Up</button>
+      </form>
+    </section> 
+  </main>
+</body>
+</html>

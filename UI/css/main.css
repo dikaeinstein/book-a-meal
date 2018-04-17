@@ -1,0 +1,165 @@
+:root {
+    --minsk: #3D3462;
+    --ghost-white: #F8F8F9;
+    --scampi: #726B93;
+    --amethyst-smoke: #957D98;
+    --east-side: #A49DAA;
+    --pink-flare: #C3B3B4;
+    font-size: 16px;
+}
+
+:root2 {
+    --cadet-blue: #58A6A9;
+    --monte-carlo: #80C0B6;
+    --gothic: #608587;
+    --bermuda: #8CC7B9;
+    --white-smoke: #F2F2F2;
+    --glacier: #7BB9BE;
+}
+
+:root3 {
+    --ghost-white: #F8F8FA;
+    --gossamer: #3EAE98;
+    --dark-slate-grey: #255857;
+    --gossamer: #2F9781;
+    --zircon: #DCE5E4;
+    --bermuda: #85CABD;
+}
+
+body {
+    background: #3D3462;
+    font-family: 'Open sans', sans-serif;
+    color: #F2F2F2;
+}
+
+/*
+===================================
+ Typography
+===================================
+*/
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/*
+===================================
+ Grid: flexbox
+===================================
+*/
+
+.flex-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+/*
+===================================
+ Side-bar
+===================================
+*/
+
+.side-bar {
+    width: 200%;
+}
+
+/*
+ ===================================
+ forms
+ ===================================
+*/
+
+.form {
+    width: 100%;
+    background: #fff;
+    padding: 30px;
+    border-radius: 5px;
+}
+
+.label-block {
+    display: block;
+    text-align: left;
+    color: #726B93;
+    padding-bottom: 5px;
+    font-weight: 600;
+}
+.form input,
+.form .btn {
+    margin: 0.3125rem auto 1.6875rem auto; /* 5px 0 27px 0; */
+}
+.form input {
+    border: 0.0625rem solid var(--scampi); /* 1px */
+    border-radius: 0.3125rem; /* 5px */
+    color: #3D3462;
+    display: block;
+    padding: 0.3125rem 0.5rem; /* 5px 8px */
+    width: 93%;
+    font-size: 1rem; /* 22px */
+}
+.form-footer {
+    color: #3D3462;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.form-footer .btn-alt {
+    margin-bottom: 0;
+}
+#signIn .form-footer {
+    margin: 0;
+}
+#signUp {
+    display: none;
+}
+#signUp .btn {
+    margin-bottom: 0;
+}
+
+
+/*
+  ========================================
+  Buttons
+  ========================================
+*/
+
+.btn {
+    border-radius: 0.3125rem; /* 5px */
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 600;
+    letter-spacing: .5px;
+    margin: 0;
+    text-transform: uppercase;
+}
+.btn-default {
+    border: 0;
+    background: #3D3462;
+    padding: 0.6875rem 1.875rem; /* 11px 30px */
+    margin-bottom: 1.375rem; /* 22px */ 
+    font-size: 0.875rem; /* 14px */
+    width: 100%;
+}
+.btn-default:hover {
+    background: #726B93;
+}
+.btn-alt {
+    border: 1px solid #3D3462;
+    background: #fff;
+    color: #3D3462;
+    padding: 0.625rem 0.625rem; /* 10px 10px */
+    font-size: 0.75rem;
+    margin-bottom: 1.375rem; /* 22px */
+}
+.btn-alt:hover {
+    color: #fff;
+    background: #3D3462;
+}
+  
