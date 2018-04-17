@@ -8,40 +8,21 @@
     font-size: 16px;
 }
 
-:root2 {
-    --cadet-blue: #58A6A9;
-    --monte-carlo: #80C0B6;
-    --gothic: #608587;
-    --bermuda: #8CC7B9;
-    --white-smoke: #F2F2F2;
-    --glacier: #7BB9BE;
-}
-
-:root3 {
-    --ghost-white: #F8F8FA;
-    --gossamer: #3EAE98;
-    --dark-slate-grey: #255857;
-    --gossamer: #2F9781;
-    --zircon: #DCE5E4;
-    --bermuda: #85CABD;
-}
-
 body {
     background: #3D3462;
-    font-family: 'Open sans', sans-serif;
-    color: #F2F2F2;
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
 }
 
 /*
-===================================
+ ===================================
  Typography
-===================================
+ ===================================
 */
 
 .text-center {
     text-align: center;
 }
-
 .text-left {
     text-align: left;
 }
@@ -49,26 +30,44 @@ body {
 .text-right {
     text-align: right;
 }
+.hero {
+    font-size: 2.0rem;
+    line-height: 1rem;
+}
+.lead {
+    line-height: 0.875rem;
+    font-family: 'Comfortaa', cursive;
+}
 
 /*
-===================================
+ ===================================
+ Links
+ ===================================
+*/
+
+a {
+    text-decoration: none;
+}
+
+/*
+ ===================================
  Grid: flexbox
-===================================
+ ===================================
 */
 
 .flex-container {
     display: flex;
     justify-content: space-around;
+    flex-direction: column;
 }
-
-/*
-===================================
- Side-bar
-===================================
-*/
-
-.side-bar {
-    width: 200%;
+.col-3-4 {
+    flex: 100%;
+}
+.col-1-4 {
+    flex: 100%;
+}
+.aside {
+    padding: 60px;
 }
 
 /*
@@ -78,9 +77,10 @@ body {
 */
 
 .form {
-    width: 100%;
+    width: 17.1875rem; /* 275px */
     background: #fff;
     padding: 30px;
+    margin: 0 auto;
     border-radius: 5px;
 }
 
@@ -97,12 +97,36 @@ body {
 }
 .form input {
     border: 0.0625rem solid var(--scampi); /* 1px */
-    border-radius: 0.3125rem; /* 5px */
+    border-radius: 0.1875rem; /* 3px */
     color: #3D3462;
     display: block;
     padding: 0.3125rem 0.5rem; /* 5px 8px */
     width: 93%;
     font-size: 1rem; /* 22px */
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    font-size: 0.75rem;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    font-size: 0.75rem;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    font-size: 0.75rem;
+}
+:-moz-placeholder { /* Firefox 18- */
+    font-size: 0.75rem;
+}
+#signIn p {
+    color: #3D3462;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+#signIn .form-footer {
+    margin: 0;
+}
+#signUp .btn {
+    margin-bottom: 0;
 }
 .form-footer {
     color: #3D3462;
@@ -112,16 +136,6 @@ body {
 .form-footer .btn-alt {
     margin-bottom: 0;
 }
-#signIn .form-footer {
-    margin: 0;
-}
-#signUp {
-    display: none;
-}
-#signUp .btn {
-    margin-bottom: 0;
-}
-
 
 /*
   ========================================
@@ -162,4 +176,41 @@ body {
     color: #fff;
     background: #3D3462;
 }
-  
+
+@media screen and (min-width: 1100px) {
+    /*
+     ===================================
+     Grid: flexbox
+     ===================================
+    */
+
+    .flex-container {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+    }
+    .col-3-4 {
+        flex: 75%;
+    }
+    .col-1-4 {
+        flex: 25%;
+    }
+    .aside {
+        padding: 60px;
+    }
+
+    /*
+     ===================================
+     Typography
+     ===================================
+    */
+    .hero {
+        font-size: 5rem;
+        line-height: 2rem;
+        display: block;
+    }
+    .lead {
+        line-height: 1rem;
+        font-family: 'Comfortaa', cursive;
+    }
+}
