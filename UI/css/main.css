@@ -8,10 +8,46 @@
     font-size: 16px;
 }
 
+/*
+ ================================
+ Reset Base Styles
+ ================================
+*/
+header, div, footer, table,
+body, ul, li, tr, th, td,
+tbody, thead {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
 body {
     background: #3D3462;
     font-family: 'Roboto', sans-serif;
     color: #fff;
+}
+
+.bg-light {
+    background: #fff;
+}
+
+/*
+ ===================================
+ Header, footer
+ ===================================
+*/
+
+header {
+    background: #3D3462;
+}
+header, footer {
+    color: rgba(255,255,255,.75);
+}
+footer {
+    padding: 1.75rem 120px;
+}
+footer p {
+    margin: 0;
 }
 
 /*
@@ -26,13 +62,19 @@ body {
 .text-left {
     text-align: left;
 }
-
 .text-right {
     text-align: right;
+}
+.text-dark {
+    color: #3D3462;
+}
+.font-weight-bold {
+    font-weight: bold;
 }
 .hero {
     font-size: 2.0rem;
     line-height: 1rem;
+    order: 1;
 }
 .lead {
     line-height: 0.875rem;
@@ -47,6 +89,12 @@ body {
 
 a {
     text-decoration: none;
+}
+.nav-container a.active {
+    color: #fff;
+}
+.nav-container a {
+    color: inherit;
 }
 
 /*
@@ -67,7 +115,8 @@ a {
     flex: 100%;
 }
 .aside {
-    padding: 60px;
+    padding-bottom: 30px;
+    order: 2;
 }
 
 /*
@@ -83,13 +132,15 @@ a {
     margin: 0 auto;
     border-radius: 5px;
 }
+.label {
+    text-align: left;
+    color: #726B93;
+    display: inline;
+}
 
 .label-block {
     display: block;
-    text-align: left;
-    color: #726B93;
     padding-bottom: 5px;
-    font-weight: 600;
 }
 .form input,
 .form .btn {
@@ -102,7 +153,7 @@ a {
     display: block;
     padding: 0.3125rem 0.5rem; /* 5px 8px */
     width: 93%;
-    font-size: 1rem; /* 22px */
+    font-size: 1rem; /* 16px */
 }
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     font-size: 0.75rem;
@@ -119,7 +170,6 @@ a {
 #signIn p {
     color: #3D3462;
     font-size: 1rem;
-    font-weight: 600;
     margin-bottom: 30px;
 }
 #signIn .form-footer {
@@ -131,7 +181,6 @@ a {
 .form-footer {
     color: #3D3462;
     font-size: 0.75rem;
-    font-weight: 600;
 }
 .form-footer .btn-alt {
     margin-bottom: 0;
@@ -148,18 +197,16 @@ a {
     color: #fff;
     cursor: pointer;
     display: inline-block;
-    font-weight: 600;
     letter-spacing: .5px;
     margin: 0;
     text-transform: uppercase;
+    padding: 0.6875rem 1.875rem; /* 11px 30px */
+    margin-bottom: 1.375rem; /* 22px */ 
+    font-size: 0.875rem; /* 14px */
 }
 .btn-default {
     border: 0;
     background: #3D3462;
-    padding: 0.6875rem 1.875rem; /* 11px 30px */
-    margin-bottom: 1.375rem; /* 22px */ 
-    font-size: 0.875rem; /* 14px */
-    width: 100%;
 }
 .btn-default:hover {
     background: #726B93;
@@ -176,8 +223,188 @@ a {
     color: #fff;
     background: #3D3462;
 }
+.btn-default-lg {
+    width: 100%;
+}
+.btn-danger {
+    color: #fff;
+    background: #dc3545;
+    border: 0;
+}
+.btn-danger:hover {
+    background: rgba(​220, ​53, 69, 0.75)
+}
+.btn-light {
+    background: #dae0e5;
+    color: #3D3462;
+    border: 0;
+}
 
-@media screen and (min-width: 1100px) {
+/*
+ ===================================
+ Navigation
+ ===================================
+*/
+.navbar {
+    display: flex;
+    padding: 1rem;
+}
+.navbar, .nav-container {
+    flex-direction: column;
+}
+.nav-container {
+    display: none;
+}
+.nav-container > li {
+    list-style-type: none;
+    padding: 0.5rem;
+    flex-direction: column;
+}
+.logo {
+    font-size: 2rem;
+    cursor: default;
+    padding: 0;
+}
+.toggle-show {
+    align-self: flex-end;
+    display: initial;
+    font-size: 2rem;
+    position: absolute;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 15px;
+}
+.navbar-toggle-show {
+    display: flex;
+}
+
+/*
+ =====================================
+ Menus
+ =====================================
+*/
+
+.add-section > h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 20px;
+}
+.add-section .form {
+    padding-top: 0.875rem; /* 14px */
+}
+.meals {
+    padding-bottom: 2rem;
+}
+.meals h3 {
+    margin: 0;
+}
+.meals .btn {
+    text-transform: capitalize;
+}
+
+table {
+    width: 100%;
+    margin: 0 auto;
+    margin: 1rem;
+    border-collapse: collapse;
+}
+table, th, td {
+    border: 1px solid #3D3462;
+}
+td,
+th {
+    padding: 15px;
+}
+td {
+    font-size: 0.875rem;
+}
+tr:hover {
+    background: #A49DAA;
+    color: #fff;
+}
+.table-scroll {
+    overflow-x: auto;
+}
+.actions button:first-of-type {
+    margin: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+    header {
+        padding: 0 60px;
+    }
+    /*
+     ===================================
+     Grid: flexbox
+     ===================================
+    */
+
+    .flex-container, .container {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+    }
+    .col-3-4 {
+        flex: 50%;
+    }
+    .col-1-4 {
+        flex: 50%;
+    }
+
+    /*
+     ===================================
+     Navigation
+     ===================================
+    */
+
+    .navbar {
+        display: flex;
+        padding: 0 6rem;
+    }
+    .navbar, .nav-container {
+        flex-direction: row;
+    }
+    .nav-container {
+        display: flex;
+        padding: 1.6875rem 0; /* 27px 0 */
+    }
+    .nav-container > li {
+        list-style-type: none;
+        font-size: 1.125rem; /* 18px */
+        margin-left: 1rem;
+        padding: 0;
+    }
+    .nav-container > li:first-of-type {
+        margin-right: auto;
+    }
+    .toggle-show {
+        display: none;
+    }
+    .logo {
+        padding-bottom: 1rem; /* 16px */
+        font-size: 40px;
+        line-height: 1rem;
+        cursor: default;
+    }
+
+    /*
+     ====================================
+     Menus
+     ====================================
+    */
+
+    table {
+        max-width: 75%;
+        margin: 0 auto;
+        margin-top: 1rem;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    header {
+        padding: 0 60px;
+    }
+
     /*
      ===================================
      Grid: flexbox
@@ -190,10 +417,10 @@ a {
         flex-direction: row;
     }
     .col-3-4 {
-        flex: 75%;
+        flex: 65%;
     }
     .col-1-4 {
-        flex: 25%;
+        flex: 35%;
     }
     .aside {
         padding: 60px;
@@ -212,5 +439,144 @@ a {
     .lead {
         line-height: 1rem;
         font-family: 'Comfortaa', cursive;
+    }
+
+    /*
+     ===================================
+     Navigation
+     ===================================
+    */
+
+    .navbar {
+        display: flex;
+        padding: 0 6rem;
+    }
+    .navbar, .nav-container {
+        flex-direction: row;
+    }
+    .nav-container {
+        display: flex;
+        padding: 1.6875rem 0; /* 27px 0 */
+    }
+    .nav-container > li {
+        list-style-type: none;
+        font-size: 1.125rem; /* 18px */
+        margin-left: 2rem;
+        padding: 0;
+    }
+    .nav-container > li:first-of-type {
+        margin-right: auto;
+    }
+    .toggle-show {
+        display: none;
+    }
+    .logo {
+        padding-bottom: 1rem; /* 16px */
+        font-size: 40px;
+        line-height: 1rem;
+        cursor: default;
+    }
+
+    /*
+     ====================================
+     Menus
+     ====================================
+    */
+
+    table {
+        max-width: 75%;
+        margin: 0 auto;
+        margin-top: 1rem;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    header {
+        background: #3D3462;
+        height: 72px;
+        padding: 0 120px;
+    }
+    /*
+    ===================================
+    Grid: flexbox
+    ===================================
+    */
+
+    .flex-container {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+    }
+    .col-3-4 {
+        flex: 75%;
+    }
+    .col-1-4 {
+        flex: 25%;
+    }
+    .aside {
+        padding: 60px;
+    }
+
+    /*
+    ===================================
+    Typography
+    ===================================
+    */
+    .hero {
+        font-size: 5rem;
+        line-height: 2rem;
+        display: block;
+    }
+    .lead {
+        line-height: 1rem;
+        font-family: 'Comfortaa', cursive;
+    }
+
+    /*
+    ===================================
+    Navigation
+    ===================================
+    */
+
+    .navbar {
+        display: flex;
+        padding: 0 6rem;
+    }
+    .navbar, .nav-container {
+        flex-direction: row;
+    }
+    .nav-container {
+        display: flex;
+        padding: 1.6875rem 0; /* 27px 0 */
+    }
+    .nav-container > li {
+        list-style-type: none;
+        font-size: 1.125rem; /* 18px */
+        margin-left: 2rem;
+        padding: 0;
+    }
+    .nav-container > li:first-of-type {
+        margin-right: auto;
+    }
+    .toggle-show {
+        display: none;
+    }
+    .logo {
+        padding-bottom: 1rem; /* 16px */
+        font-size: 40px;
+        line-height: 1rem;
+        cursor: default;
+    }
+
+    /*
+    ====================================
+    Menus
+    ====================================
+    */
+
+    table {
+        max-width: 75%;
+        margin: 0 auto;
+        margin-top: 1rem;
     }
 }
