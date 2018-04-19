@@ -23,8 +23,10 @@ tbody, thead {
 
 body {
     background: #3D3462;
+    /* background: #fff; */
     font-family: 'Roboto', sans-serif;
     color: #fff;
+    /* color: #3D3462; */
 }
 
 .bg-light {
@@ -81,6 +83,9 @@ footer p {
     line-height: 0.875rem;
     font-family: 'Comfortaa', cursive;
 }
+.aside h2 {
+    color: #3D3462;
+}
 
 /*
  ===================================
@@ -118,6 +123,7 @@ a {
 .aside {
     padding-bottom: 30px;
     order: 2;
+    background: #fff;
 }
 
 /*
@@ -130,8 +136,13 @@ a {
     width: 17.1875rem; /* 275px */
     background: #fff;
     padding: 30px;
-    margin: 0 auto;
+    margin: 2rem auto;
     border-radius: 5px;
+    box-shadow: 2px 2px 5px 4px#ccc;
+}
+.form h2 {
+    margin-top: 0;
+    margin-bottom: 2rem;
 }
 .label {
     text-align: left;
@@ -168,14 +179,18 @@ a {
 :-moz-placeholder { /* Firefox 18- */
     font-size: 0.75rem;
 }
-#signIn p {
+#signIn p,
+.aside p {
     color: #3D3462;
     font-size: 1rem;
+}
+.aside p:first-of-type {
     margin-bottom: 30px;
 }
-#signIn .form-footer {
-    margin: 0;
+#signIn h2 {
+    margin-bottom: 0;
 }
+
 #signUp .btn {
     margin-bottom: 0;
 }
@@ -194,7 +209,7 @@ a {
 */
 
 .btn {
-    border-radius: 0.3125rem; /* 5px */
+    border-radius: 5px;/*0.3125rem;*/ /* 5px */
     color: #fff;
     cursor: pointer;
     display: inline-block;
@@ -205,9 +220,11 @@ a {
     margin-bottom: 1.375rem; /* 22px */ 
     font-size: 0.875rem; /* 14px */
 }
+
 .btn-default {
     border: 0;
     background: #3D3462;
+    background-image: linear-gradient(to right, #3D3462, #726B93);
 }
 .btn-default:hover {
     background: #726B93;
@@ -320,6 +337,9 @@ td {
     font-size: 0.875rem;
     font-weight: 600;
 }
+tr {
+    cursor: pointer;
+}
 tbody > tr:hover {
     background: #A49DAA;
     color: #fff;
@@ -344,13 +364,17 @@ tbody > tr:hover {
     margin: 0;
     font-family: 'Comfortaa', cursive;
 }
+.menu .btn {
+    margin: 2rem auto;
+}
 .menu-card {
     width: 75%;
     margin: 1rem auto;
     padding: 2rem;
     background: #f5f5f5;
-    border: 1px solid #e3e3e3;
+    /* border: 1px solid #e3e3e3; */
     font-family: 'Comfortaa', cursive;
+    box-shadow: 2px 2px 8px 4px#ccc;
 }
 .menu-card table,
 .menu-card th,
@@ -362,10 +386,6 @@ tbody > tr:hover {
 }
 .menu-card td {
     font-size: 1.5rem;
-}
-.menu-card tbody > tr:hover {
-    background: inherit;
-    color: inherit;
 }
 .add-section form {
     width: 20rem;
@@ -386,7 +406,8 @@ tbody > tr:hover {
         padding: 0 60px;
     }
     footer {
-        padding: 1.75rem 120px;
+        padding-top: 1.75rem;
+        padding-bottom: 1.75rem;
     }
 
     /*
@@ -405,6 +426,12 @@ tbody > tr:hover {
     }
     .col-1-4 {
         flex: 50%;
+    }
+    .hero {
+        /* font-size: 5rem;
+        line-height: 2rem;
+        display: block; */
+        margin-top: 3rem;
     }
 
     /*
@@ -461,7 +488,8 @@ tbody > tr:hover {
         padding: 0 60px;
     }
     footer {
-        padding: 1.75rem 120px;
+        padding-top: 1.75rem;
+        padding-bottom: 1.75rem;
     }
 
     /*
@@ -494,6 +522,7 @@ tbody > tr:hover {
         font-size: 5rem;
         line-height: 2rem;
         display: block;
+        margin-top: 2rem;
     }
     .lead {
         line-height: 1rem;
@@ -550,15 +579,6 @@ tbody > tr:hover {
 }
 
 @media screen and (min-width: 1200px){
-    header {
-        background: #3D3462;
-        height: 72px;
-        padding: 0 120px;
-    }
-    footer {
-        padding: 1.75rem 120px;
-    }
-
     /*
     ===================================
     Grid: flexbox
@@ -570,14 +590,15 @@ tbody > tr:hover {
         justify-content: space-around;
         flex-direction: row;
     }
-    .col-3-4 {
-        flex: 75%;
+    /* .col-3-4 {
+        flex: 60%;
     }
     .col-1-4 {
-        flex: 25%;
-    }
+        flex: 40%;
+    } */
     .aside {
         padding: 60px;
+        padding-bottom: 0;
     }
 
     /*
@@ -589,6 +610,7 @@ tbody > tr:hover {
         font-size: 5rem;
         line-height: 2rem;
         display: block;
+        margin-top: 2rem;
     }
     .lead {
         line-height: 1rem;
