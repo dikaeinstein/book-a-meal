@@ -15,9 +15,10 @@
     <div class="toggle-show">&#9776;</div>
     <nav class="col-3-4 font-weight-bold">
       <ul class="nav-container text-center">
-        <li><a href="#">Home</a></li>
+        <li class="text-center"><a href="#">Home</a></li>
         <li><a href="meals.html">Meals</a></li>
         <li><a href="menus.html" class="active">Menus</a></li>
+        <li><a href="signin.html">Logout</a></li>
       </ul>
     </nav>
   </header>
@@ -27,7 +28,7 @@
       <form class="form" action="#">
         <div>
           <select type="email" id="email" required>
-            <option selected>Select meal for menu</option>
+            <option selected>Select meal to add to menu</option>
             <option value="1">Vegetable Soup</option>
             <option value="2">Nigerian Jollof</option>
             <option value="3">Spaghetti</option>
@@ -42,19 +43,24 @@
       <h2 class="text-center">Menu for <span id="date"></span></h2>
       <div class="menu-card table-scroll">
         <table class="font-weight-bold">
-          <tr>
+          <tr title="Click to Edit">
             <td>Vegetable Soup</td>
             <td>&#x20a6 2500</td>
           </tr>
-          <tr>
+          <tr title="Click to Edit">
             <td>Nigerian Jollof</td>
             <td>&#x20a6 1500</td>
           </tr>
-          <tr>
+          <tr title="Click to Edit">
             <td>Spaghetti</td>
             <td>&#x20a6 2000</td>
           </tr>
         </table>
+      </div>
+      <div class="set-menu text-center">
+        <button class="btn btn-default font-weight-bold">
+            Set Menu
+        </button>
       </div>
     </section>
   </main>
