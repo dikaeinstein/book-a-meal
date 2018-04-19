@@ -15,17 +15,17 @@
     <div class="toggle-show">&#9776;</div>
     <nav class="col-3-4 font-weight-bold">
       <ul class="nav-container text-center">
-        <li class="text-center"><a href="#">Home</a></li>
+        <li class="text-center"><a href="caterer_dashboard.html">Home</a></li>
         <li><a href="meals.html">Meals</a></li>
         <li><a href="menus.html" class="active">Menus</a></li>
         <li><a href="signin.html">Logout</a></li>
       </ul>
     </nav>
   </header>
-  <main class="bg-light text-dark">
+  <main class="bg-light-blue text-dark">
     <section class="add-section">
       <h2 class="text-dark text-center">Set Menu</h2>
-      <form class="form" action="#">
+      <form class="form card" action="#">
         <div>
           <select type="email" id="email" required>
             <option selected>Select meal to add to menu</option>
@@ -41,19 +41,22 @@
     </section>
     <section class="menu">
       <h2 class="text-center">Menu for <span id="date"></span></h2>
-      <div class="menu-card table-scroll">
+      <div class="card menu-card table-scroll">
         <table class="font-weight-bold">
-          <tr title="Click to Edit">
+          <tr>
             <td>Vegetable Soup</td>
             <td>&#x20a6 2500</td>
+            <td title="Click to delete meal from menu">&times;</td>
           </tr>
-          <tr title="Click to Edit">
+          <tr>
             <td>Nigerian Jollof</td>
             <td>&#x20a6 1500</td>
+            <td title="Click to delete meal from menu">&times;</td>
           </tr>
-          <tr title="Click to Edit">
+          <tr>
             <td>Spaghetti</td>
             <td>&#x20a6 2000</td>
+            <td title="Click to delete meal from menu">&times;</td>
           </tr>
         </table>
       </div>
