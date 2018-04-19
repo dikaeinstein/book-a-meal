@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dashboard - Book A Meal</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto|Comfortaa"
+  rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+  <header class="navbar">
+    <h1 class="col-1-4 logo text-left">Book-A-Meal</h1>
+    <div class="toggle-show">&#9776;</div>
+    <nav class="col-3-4 font-weight-bold">
+      <ul class="nav-container text-center">
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="meals.html">Meals</a></li>
+        <li><a href="menus.html">Menus</a></li>
+        <li><a href="signin.html">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="bg-light-blue dash-main">
+    <section class="card dashbord text-center">
+      <div class="dashbord-item">
+        <p class="font-weight-bold">Total Orders</p>
+        <h2 class="amount font-weight-bold">100</h2>
+      </div>
+      <div class="dashbord-item">
+        <p class="font-weight-bold">Total Sales</p>
+        <h2 class="amount font-weight-bold">&#x20a6 125000</h2>
+      </div>
+      <div class="filter font-weight-bold">
+        From: <input type="date" /> 
+        <span class="bar">&ThinSpace;|&ThinSpace;</span>
+        To: <input type="date" />
+        <button class="btn btn-default font-weight-bold">
+          Filter
+        </button>
+      </div>
+      <div class="orders">
+        <table>
+          <caption class="text-left font-weight-bold">
+            &#9776; Orders
+          </caption>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Order Name</th>
+              <th>Order Amount (&#x20a6)</th>
+              <th>Quantity</th>
+              <th>Total (&#x20a6)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>BAM 0001</td>
+              <td>Eba with efo riro and cow head</td>
+              <td>3500</td>
+              <td>1</td>
+              <td>3500</td>
+            </tr>
+            <tr>
+              <td>BAM 0002</td>
+              <td>Nigerian jollof</td>
+              <td>2000</td>
+              <td>2</td>
+              <td>4000</td>
+            </tr>
+            <tr>
+              <td>BAM 0003</td>
+              <td>Vegetable Soup</td>
+              <td>2500</td>
+              <td>2</td>
+              <td>5000</td>
+            </tr>
+            <tr>
+              <td>BAM 0004</td>
+              <td>Spaghetti and Meatballs</td>
+              <td>1500</td>
+              <td>3</td>
+              <td>4500</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <footer class="font-weight-bold text-center">
+    <p>&copy; Book-A-Meal <span id="year"></span></p>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
