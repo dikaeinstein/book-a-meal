@@ -44,7 +44,8 @@ header, footer {
     color: rgba(255,255,255,.75);
 }
 footer {
-    padding: 1.75rem 120px;
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
 }
 footer p {
     margin: 0;
@@ -280,7 +281,7 @@ a {
 
 /*
  =====================================
- Menus
+ Meals
  =====================================
 */
 
@@ -317,8 +318,9 @@ th {
 }
 td {
     font-size: 0.875rem;
+    font-weight: 600;
 }
-tr:hover {
+tbody > tr:hover {
     background: #A49DAA;
     color: #fff;
 }
@@ -329,10 +331,64 @@ tr:hover {
     margin: 1rem;
 }
 
+/*
+ ================================
+ Menus
+ ================================
+*/
+
+.menu {
+    padding: 2rem;
+}
+.menu h2 {
+    margin: 0;
+    font-family: 'Comfortaa', cursive;
+}
+.menu-card {
+    width: 75%;
+    margin: 1rem auto;
+    padding: 2rem;
+    background: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    font-family: 'Comfortaa', cursive;
+}
+.menu-card table,
+.menu-card th,
+.menu-card td {
+    border: 0;
+}
+.menu-card table {
+    margin-top: 0;
+}
+.menu-card td {
+    font-size: 1.5rem;
+}
+.menu-card tbody > tr:hover {
+    background: inherit;
+    color: inherit;
+}
+.add-section form {
+    width: 20rem;
+}
+.add-section select {
+    width: 100%;
+    height: 3rem;
+    font-size: 1.25rem; /* 20px */
+    padding: 0.5rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+
 @media screen and (min-width: 768px) {
     header {
         padding: 0 60px;
     }
+    footer {
+        padding: 1.75rem 120px;
+    }
+
     /*
      ===================================
      Grid: flexbox
@@ -389,7 +445,7 @@ tr:hover {
 
     /*
      ====================================
-     Menus
+     Meals
      ====================================
     */
 
@@ -403,6 +459,9 @@ tr:hover {
 @media screen and (min-width: 1024px) {
     header {
         padding: 0 60px;
+    }
+    footer {
+        padding: 1.75rem 120px;
     }
 
     /*
@@ -479,7 +538,7 @@ tr:hover {
 
     /*
      ====================================
-     Menus
+     Meals
      ====================================
     */
 
@@ -496,6 +555,10 @@ tr:hover {
         height: 72px;
         padding: 0 120px;
     }
+    footer {
+        padding: 1.75rem 120px;
+    }
+
     /*
     ===================================
     Grid: flexbox
@@ -570,7 +633,7 @@ tr:hover {
 
     /*
     ====================================
-    Menus
+    Meals
     ====================================
     */
 
