@@ -7,6 +7,14 @@
     --pink-flare: #C3B3B4;
     font-size: 16px;
 }
+:root2 {
+    --alice-blue: #F3F7FA;
+    --licorice: #323A4B;
+    --pattens-blue: #DBE7F1;
+    --fog: #D2D1D7;
+    --pattens-blue: #D1DDE9;
+    --grey-suit: #95949B;
+}
 
 /*
  ================================
@@ -31,6 +39,13 @@ body {
 
 .bg-light {
     background: #fff;
+}
+.bg-light-blue {
+    background: #F3F7FA;
+}
+.card {
+    border-radius: 5px;
+    box-shadow: 2px 2px 8px 4px#ccc;
 }
 
 /*
@@ -137,8 +152,6 @@ a {
     background: #fff;
     padding: 30px;
     margin: 2rem auto;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px 4px#ccc;
 }
 .form h2 {
     margin-top: 0;
@@ -326,7 +339,11 @@ table {
     margin: 1rem;
     border-collapse: collapse;
 }
-table, th, td {
+table, th, td,
+tbody, thead, tr, {
+    border-radius: 10px;
+}
+table, th, td, caption {
     border: 1px solid #3D3462;
 }
 td,
@@ -337,7 +354,8 @@ td {
     font-size: 0.875rem;
     font-weight: 600;
 }
-tr {
+td[title] {
+    color: #dc3545;
     cursor: pointer;
 }
 tbody > tr:hover {
@@ -371,10 +389,8 @@ tbody > tr:hover {
     width: 75%;
     margin: 1rem auto;
     padding: 2rem;
-    background: #f5f5f5;
-    /* border: 1px solid #e3e3e3; */
+    background: #fff;
     font-family: 'Comfortaa', cursive;
-    box-shadow: 2px 2px 8px 4px#ccc;
 }
 .menu-card table,
 .menu-card th,
@@ -398,6 +414,84 @@ tbody > tr:hover {
     border-radius: 5px;
     margin-top: 1rem;
     margin-bottom: 1rem;
+}
+
+/*
+ ===================================
+ Dashboard
+ ===================================
+*/
+
+.dashbord {
+    margin: 2rem auto;
+    width: 950px;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background: #fff;
+    color: #3D3462;
+}
+.dash-main {
+    padding: 1.5rem;
+}
+.dashbord-item {
+    min-width: 0;
+    margin: 2rem auto;
+    width: 15rem;
+    max-width: 85%; 
+    max-height: 450px;
+    color: #9e9e9e;
+    border: 1px solid #9e9e9e;
+    border-radius: 5px;
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+.dashbord-item h2 {
+    margin-top: .5rem;
+    font-size: 2rem;
+}
+.dashbord-item p {
+    margin-bottom: .5rem;
+}
+.filter {
+    font-size: .875rem;
+}
+.filter .btn {
+    font-size: .875rem;
+    margin-bottom: 0;
+}
+input[type="date"] {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    margin: .5rem;
+    margin-top: 1.5rem;
+    padding: .5rem .875rem;
+    border: .5px solid #9e9e9e;
+    border-radius: 5px;
+    width: 85%;
+}
+.bar { display: none; }
+.amount {
+    color: var(--minsk);
+}
+.orders {
+    overflow-x: auto;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+.orders table {
+    width: 42.5rem; /* 680px */
+    max-width: 100%;
+    margin: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 0;
+    color: #3D3462;
+}
+.orders table > caption {
+    border-bottom: 0;
+    padding: .5rem;
 }
 
 
@@ -468,6 +562,7 @@ tbody > tr:hover {
         font-size: 40px;
         line-height: 1rem;
         cursor: default;
+        color: yellow;
     }
 
     /*
@@ -480,6 +575,76 @@ tbody > tr:hover {
         max-width: 75%;
         margin: 0 auto;
         margin-top: 1rem;
+    }
+
+    /*
+     ===================================
+     Dashboard
+     ===================================
+    */
+
+    .dashbord {
+        margin: 2rem auto;
+        width: 950px;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        background: #fff;
+    }
+    .dash-main {
+        padding: 1.5rem;
+    }
+    .dashbord-item {
+        min-width: 0;
+        margin: 2rem;
+        width: 15rem;
+        max-width: 100%; 
+        max-height: 450px;
+        color: #9e9e9e;
+        border: 1px solid #9e9e9e;
+        border-radius: 5px;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    .filter {
+        font-size: .875rem;
+    }
+    .filter .btn {
+        font-size: .875rem;
+        margin-bottom: 0;
+    }
+    input[type="date"] {
+        font-family: 'Roboto', sans-serif;
+        font-size: 1rem;
+        margin-right: .5rem;
+        padding: .5rem .875rem;
+        border: .5px solid #9e9e9e;
+        border-radius: 5px;
+        width: inherit;
+    }
+    .bar { display: none; }
+    .amount {
+        color: var(--minsk);
+    }
+    .orders {
+        overflow-x: auto;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+    .orders table {
+        width: 42.5rem; /* 680px */
+        max-width: 100%;
+        margin: 0;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        padding: 0;
+        color: #3D3462;
+    }
+    .orders table > caption {
+        border-bottom: 0;
+        padding: .5rem;
     }
 }
 
