@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Sign Up - Book A Meal</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto|Comfortaa"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+  <main class="flex-container">
+    <section class="col-3-4 hero text-center">
+      <h1>Hungry?</h1>
+      <div class="lead">
+        <h4>BOOK</h4>
+        <h4>A</h4>
+        <h4>MEAL NOW</h4>
+      </div>
+      <div>
+        <img src="img/close-up-cooking-dinner-46239.jpg"
+          alt="meal image" />
+      </div>
+    </section>
+    <section id="signUp" class="col-1-4 aside">
+
+      <form class="form card" action="#">
+        <h2 class="text-center">Sign Up</h2>
+        <div>
+          <label class="label label-block font-weight-bold" for="name">
+            Full name
+          </label>
+          <input type="text" placeholder="Enter full name"
+            id="name" required />
+        </div>
+        <div>
+          <label class="label label-block font-weight-bold" for="email">
+            Email address:
+          </label>
+          <input type="email" placeholder="johndoe@domain.com"
+            id="signUpemail" required />
+        </div>
+        <div>
+          <label class="label label-block font-weight-bold"
+            for="password">
+            Password:
+          </label>
+          <input type="password" placeholder="Enter password"
+            id="signUppassword" required />
+        </div>
+        <div>
+          <label class="label label-block font-weight-bold"
+            for="confirmPassword">
+            Confirm Password:
+          </label>
+          <input type="password" placeholder="Enter password"
+            id="confirmPassword" required />
+        </div>
+        <button type="submit"
+          class="btn btn-default btn-default-lg font-weight-bold"
+        >
+          Sign Up
+        </button>
+      </form>
+      <footer class="font-weight-bold text-center">
+        <p>&copy; Book-A-Meal <span id="year"></span></p>
+      </footer>
+    </section>
+  </main>
+  <script src="js/main.js"></script>
+</body>
+</html>

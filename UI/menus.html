@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Menus - Book A Meal</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto|Comfortaa"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+  <header class="navbar">
+    <h1 class="col-1-4 logo text-left">Book-A-Meal</h1>
+    <div class="toggle-show">&#9776;</div>
+    <nav class="col-3-4 font-weight-bold">
+      <ul class="nav-container text-center">
+        <li class="text-center"><a href="caterer_dashboard.html">Home</a></li>
+        <li><a href="meals.html">Meals</a></li>
+        <li><a href="menus.html" class="active">Menus</a></li>
+        <li><a href="index.html">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="bg-light-blue text-dark">
+    <section class="add-section">
+      <h2 class="text-dark text-center">Set Menu</h2>
+      <form class="form card" action="#">
+        <div>
+          <select type="email" id="email" required>
+            <option selected>Select meal to add to menu</option>
+            <option value="1">Vegetable Soup</option>
+            <option value="2">Nigerian Jollof</option>
+            <option value="3">Spaghetti</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-default font-weight-bold">
+          Add Meal To Menu
+        </button>
+      </form>
+    </section>
+    <section class="menu">
+      <h2 class="text-center">Menu for <span id="date"></span></h2>
+      <div class="card menu-card table-scroll">
+        <table class="font-weight-bold">
+          <tr>
+            <td>Vegetable Soup</td>
+            <td>&#x20a6 2500</td>
+            <td title="Click to delete meal from menu">&times;</td>
+          </tr>
+          <tr>
+            <td>Nigerian Jollof</td>
+            <td>&#x20a6 1500</td>
+            <td title="Click to delete meal from menu">&times;</td>
+          </tr>
+          <tr>
+            <td>Spaghetti</td>
+            <td>&#x20a6 2000</td>
+            <td title="Click to delete meal from menu">&times;</td>
+          </tr>
+        </table>
+      </div>
+      <div class="set-menu text-center">
+        <button class="btn btn-default font-weight-bold">
+            Set Menu
+        </button>
+      </div>
+    </section>
+  </main>
+  <footer class="font-weight-bold text-center">
+    <p>&copy; Book-A-Meal <span id="year"></span></p>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
