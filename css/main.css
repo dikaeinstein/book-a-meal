@@ -780,6 +780,9 @@ li.user {
     .user-menu-item:last-of-type:not(even) {
         margin-right: auto;
     }
+    .nav-container > li:first-of-type {
+        visibility: hidden;
+    }
 }
 
 
