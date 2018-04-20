@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Meals - Book A Meal</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto|Comfortaa"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+  <header class="navbar">
+    <h1 class="col-1-4 logo text-left">Book-A-Meal</h1>
+    <div class="toggle-show">&#9776;</div>
+    <nav class="col-3-4 font-weight-bold">
+      <ul class="nav-container text-center">
+        <li class="text-left"><a href="caterer_dashboard.html">Home</a></li>
+        <li><a href="meals.html" class="active">Meals</a></li>
+        <li><a href="menus.html">Menus</a></li>
+        <li><a href="index.html">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="bg-light-blue">
+    <section class="add-section">
+      <h2 class="text-dark text-center">Add New Meal</h2>
+      <form class="form card" action="#">
+        <div>
+          <label class="label font-weight-bold" for="meal">
+            Meal name:
+          </label>
+          <input type="text" id="meal" placeholder="Enter meal name"
+            required />
+        </div>
+        <div>
+          <label class="label font-weight-bold" for="price">
+            Price (&#x20a6):
+          </label>
+          <input type="number" id="price" placeholder="Enter price"
+            required />
+        </div>
+        <button type="submit" class="btn btn-default font-weight-bold">
+          Add Meal
+        </button>
+      </form>
+    </section>
+    <section class="meals text-dark">
+      <h3 class="text-center">Meals</h3>
+      <div class="table-scroll text-center">
+        <table>
+          <thead>
+            <tr>
+              <th>Meal</th>
+              <th>Price (&#x20a6)</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Vegetable Soup</td>
+              <td>2500</td>
+              <td class="actions">
+                <span>
+                  <button class="btn btn-light font-weight-bold">
+                    Edit
+                  </button>
+                </span>
+                <span>
+                  <button class="btn  btn-danger font-weight-bold">
+                    Delete
+                  </button>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>Nigerian Jollof</td>
+              <td>1500</td>
+              <td class="actions">
+                <span>
+                  <button class="btn btn-light font-weight-bold">
+                    Edit
+                  </button>
+                </span>
+                <span>
+                  <button class="btn btn-danger font-weight-bold">
+                    Delete
+                  </button>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>Spaghetti</td>
+              <td>2000</td>
+              <td class="actions">
+                <span>
+                  <button class="btn btn-light font-weight-bold">Edit</button>
+                </span>
+                <span>
+                  <button class="btn btn-danger font-weight-bold">
+                    Delete
+                  </button>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <footer class="font-weight-bold text-center">
+    <p>&copy; Book-A-Meal <span id="year"></span></p>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
