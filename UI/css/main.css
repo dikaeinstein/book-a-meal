@@ -1,13 +1,3 @@
-:root {
-    --minsk: #3D3462;
-    --ghost-white: #F8F8F9;
-    --scampi: #726B93;
-    --amethyst-smoke: #957D98;
-    --east-side: #A49DAA;
-    --pink-flare: #C3B3B4;
-}
-
-
 /*
  ================================
  Reset Base Styles
@@ -30,7 +20,7 @@ tbody, thead, img, nav {
 */
 
 body {
-    background: #3D3462;
+    background: #f00;
     font-family: 'Roboto', sans-serif;
     color: #fff;
 }
@@ -71,11 +61,11 @@ img {
 */
 
 header {
-    background: #3D3462;
+    background: #f00;
 }
 
 header, footer {
-    color: rgba(255,255,255,.75);
+    color: rgba(255,255,255,.85);
 }
 
 footer {
@@ -107,7 +97,7 @@ footer p {
 }
 
 .text-dark {
-    color: #3D3462;
+    color: #f00;
 }
 
 .font-weight-bold {
@@ -128,7 +118,7 @@ footer p {
 }
 
 .aside h2 {
-    color: #3D3462;
+    color: #f00;
 }
 
 
@@ -198,7 +188,7 @@ a {
 
 .label {
     text-align: left;
-    color: #726B93;
+    color: #f00;
     display: inline;
 }
 
@@ -213,9 +203,9 @@ a {
 }
 
 .form input {
-    border: 0.0625rem solid #726B93; /* 1px */
+    border: 0.0625rem solid #f00; /* 1px */
     border-radius: 0.1875rem; /* 3px */
-    color: #3D3462;
+    color: #f00;
     display: block;
     padding: 0.3125rem 0.5rem; /* 5px 8px */
     width: 93%;
@@ -237,7 +227,7 @@ a {
 
 #signIn p,
 .aside p {
-    color: #3D3462;
+    color: #f00;
     font-size: 1rem;
 }
 
@@ -254,7 +244,7 @@ a {
 }
 
 .form-footer {
-    color: #3D3462;
+    color: #f00;
     font-size: 0.75rem;
 }
 
@@ -284,18 +274,18 @@ a {
 
 .btn-default {
     border: 0;
-    background: #3D3462;
-    background-image: linear-gradient(to right, #3D3462, #726B93);
+    background: #f00;
+    background-image: linear-gradient(to right, #f00, #f00);
 }
 
 .btn-default:hover {
-    background: #726B93;
+    background: #f00;
 }
 
 .btn-alt {
-    border: 1px solid #3D3462;
+    border: 1px solid #f00;
     background: #fff;
-    color: #3D3462;
+    color: #f00;
     padding: 0.625rem 0.625rem; /* 10px 10px */
     font-size: 0.75rem;
     margin-bottom: 1.375rem; /* 22px */
@@ -303,7 +293,7 @@ a {
 
 .btn-alt:hover {
     color: #fff;
-    background: #3D3462;
+    background: #f00;
 }
 
 .btn-default-lg {
@@ -312,17 +302,17 @@ a {
 
 .btn-danger {
     color: #fff;
-    background: #dc3545;
+    background: #f00;
     border: 0;
 }
 
 .btn-danger:hover {
-    background: rgba(​220, ​53, 69, 0.75)
+    background: rgba(​220, ​53, 69, 0.85)
 }
 
 .btn-light {
     background: #dae0e5;
-    color: #3D3462;
+    color: #f00;
     border: 0;
 }
 
@@ -384,6 +374,7 @@ a {
     margin-top: 0;
     margin-bottom: 0;
     padding-top: 20px;
+    font-family: 'Comfortaa', cursive;
 }
 
 .add-section .form {
@@ -394,8 +385,10 @@ a {
     padding-bottom: 2rem;
 }
 
-.meals h3 {
+.meals h2 {
     margin: 0;
+    margin-top: 3rem;
+    font-family: 'Comfortaa', cursive;
 }
 
 .meals .btn {
@@ -407,6 +400,7 @@ table {
     margin: 0 auto;
     margin: 1rem;
     border-collapse: collapse;
+    color: #4e4a4a;
 }
 
 table, th, td,
@@ -415,7 +409,7 @@ tbody, thead, tr, {
 }
 
 table, th, td, caption {
-    border: 1px solid #3D3462;
+    border: 1px solid #9e9e9e;
 }
 
 td,
@@ -429,12 +423,12 @@ td {
 }
 
 td[title] {
-    color: #dc3545;
+    color: #f00;
     cursor: pointer;
 }
 
 tbody > tr:hover {
-    background: #A49DAA;
+    background: #9e9e9e;
     color: #fff;
 }
 
@@ -519,12 +513,16 @@ tbody > tr:hover {
     justify-content: center;
     flex-direction: column;
     background: #fff;
-    color: #3D3462;
+    color: #2c2c2c;
 }
 
 .dash-main,
 .user-menu-main {
     padding: 1.5rem;
+}
+
+.dash-main h2 {
+    font-family: 'Comfortaa', cursive;
 }
 
 .dashbord-item {
@@ -533,7 +531,7 @@ tbody > tr:hover {
     width: 15rem;
     max-width: 85%; 
     max-height: 450px;
-    color: #9e9e9e;
+    color: #4e4a4a;
     border: 1px solid #9e9e9e;
     border-radius: 5px;
     padding-left: 0rem;
@@ -562,7 +560,7 @@ input[type="date"] {
     font-family: 'Roboto', sans-serif;
     font-size: 1rem;
     margin: .5rem;
-    margin-top: 1.5rem;
+    margin-top: .5rem;
     padding: .5rem .875rem;
     border: .5px solid #9e9e9e;
     border-radius: 5px;
@@ -572,7 +570,7 @@ input[type="date"] {
 .bar { display: none; }
 
 .amount {
-    color: #3D3462;
+    color: #f00;
 }
 
 .orders {
@@ -588,12 +586,14 @@ input[type="date"] {
     margin-left: 1rem;
     margin-right: 1rem;
     padding: 0;
-    color: #3D3462;
+    color: #4e4a4a;
 }
 
-.orders table > caption {
+.orders table > caption,
+.meals table > caption {
     border-bottom: 0;
     padding: .5rem;
+    font-family: 'Comfortaa', cursive;
 }
 
 
@@ -620,7 +620,7 @@ input[type="date"] {
 }
 
 .user-menu-item .amount {
-    color: #3D3462;
+    color: #f00;
 }
 
 .user-menu-item p {
@@ -760,6 +760,7 @@ li.user {
         margin-right: .5rem;
         padding: .5rem .875rem;
         width: inherit;
+        margin-top: 1.5rem;
     }
 
 
@@ -780,9 +781,9 @@ li.user {
     .user-menu-item:last-of-type:not(even) {
         margin-right: auto;
     }
-    .nav-container > li:first-of-type {
+    /* .nav-container > li:first-of-type {
         visibility: hidden;
-    }
+    } */
 }
 
 
