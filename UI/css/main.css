@@ -97,8 +97,16 @@ footer p {
     text-align: right;
 }
 
-.text-dark {
+.text-dark, .text-danger {
     color: #f00;
+}
+
+.text-success {
+    color: #4CAF50;
+}
+
+.text-warning {
+    color: #ffa100;
 }
 
 .font-weight-bold {
@@ -358,7 +366,8 @@ footer a:hover {
     flex-direction: column;
     font-weight: 500;
 }
-.nav-container > li:hover {
+.nav-container > li:hover,
+a.active:hover {
     color: yellow;
 }
 
@@ -416,7 +425,7 @@ footer a:hover {
 }
 
 table {
-    width: 100%;
+    width: 75%;
     margin: 0 auto;
     margin: 1rem;
     border-collapse: collapse;
@@ -452,11 +461,6 @@ td[title] {
     cursor: pointer;
 }
 
-tbody > tr:hover {
-    background: #9e9e9e;
-    color: #fff;
-}
-
 .table-scroll {
     overflow-x: auto;
 }
@@ -480,6 +484,10 @@ tbody > tr:hover {
 .user-menu-main h2 {
     margin: 0;
     font-family: 'Varela Round', sans-serif;
+}
+
+.set-menu a {
+    color: #fff;
 }
 
 .menu .btn {
@@ -530,7 +538,8 @@ tbody > tr:hover {
 */
 
 .dashbord,
-.user-menu {
+.user-menu,
+.order-history {
     margin: 2rem auto;
     width: 950px;
     max-width: 100%;
@@ -542,11 +551,13 @@ tbody > tr:hover {
 }
 
 .dash-main,
-.user-menu-main {
+.user-menu-main,
+.order-history-main {
     padding: 1.5rem;
 }
 
-.dash-main h2 {
+.dash-main h2,
+.user-order-history h2 {
     font-family: 'Varela Round', sans-serif;
 }
 
@@ -605,7 +616,7 @@ input[type="date"] {
 }
 
 .orders table {
-    width: 42.5rem; /* 680px */
+    width: 50rem;
     max-width: 100%;
     margin: 0;
     margin-left: 1rem;
@@ -662,6 +673,17 @@ li.user {
     color: #fff;
     font-family: 'Varela Round', sans-serif;
 }
+
+/*
+ ===================================
+ Order History
+ ===================================
+*/
+
+.order-history .orders {
+    margin-top: 2rem;
+}
+
 
 /*
  ===================================
@@ -756,7 +778,7 @@ li.user {
     */
 
     table {
-        max-width: 75%;
+        max-width: 100%;
         margin: 0 auto;
         margin-top: 1rem;
     }
@@ -769,7 +791,8 @@ li.user {
     */
 
     .dashbord,
-    .user-menu {
+    .user-menu,
+    .order-history {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-around;
@@ -807,9 +830,6 @@ li.user {
     .user-menu-item:last-of-type:not(even) {
         margin-right: auto;
     }
-    /* .nav-container > li:first-of-type {
-        visibility: hidden;
-    } */
 }
 
 
