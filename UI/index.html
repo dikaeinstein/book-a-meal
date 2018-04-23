@@ -1,68 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Sign In - Book A Meal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Book A Meal</title>
   <link href="https://fonts.googleapis.com/css?family=Varela+Round"
     rel="stylesheet" />
   <link rel="stylesheet" href="css/main.css" />
 </head>
+
 <body>
-  <main class="flex-container">
-    <section class="col-3-4 hero text-center">
-      <h1>Hungry?</h1>
-      <div class="lead">
-        <h4>BOOK</h4>
-        <h4>A</h4>
-        <h4>MEAL NOW</h4>
-      </div>
-      <div>
-        <img src="img/avocado-cooked-delicious-262959.jpg"
-          alt="meal image" />
-      </div>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <h1 class="col-1-4 logo text-left">Book-A-Meal</h1>
+    <div class="toggle-show">&#9776;</div>
+    <nav class="col-3-4">
+      <ul class="nav-container text-center">
+        <li><a href="index.html">Sign In</a></li>
+        <li><a href="signup.html">Sign Up</a></li>
+        <li><a href="caterer_dashboard.html">Caterer</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Intro banner -->
+    <section class="text-center intro-banner image-overlay">
+      <h1>Book-A-Meal</h1>
+      <p>Your favourite meal order service</p>
+      <button class="btn btn-intro-lg">
+        <a href="#menu">Book A Meal Now</a>
+      </button>
     </section>
-    <section id="signIn" class="col-1-4 aside">
-      <form  class="form card" action="user_menus.html">
-          <h2 class="text-center">Sign In</h2>
-        <p class="text-center font-weight-bold">Sign in to book a meal now.</p>
-        <div>
-          <label class="label label-block" for="email">
-            Email address:
-          </label>
-          <input type="email" placeholder="johndoe@domain.com"
-            id="email" required />
+    <!-- Menu -->
+    <section class="bg-light landing-main" id="menu">
+      <h2 class="text-center amount">Menu for <span id="date"></span></h2>
+      <section class="card user-menu text-left">
+        <div class="card user-menu-item">
+          <img src="img/avocado-cooked-delicious-262959.jpg"
+            alt="Eba with efo riro and cow head">
+          <p class="amount">
+            Eba with efo riro and cow head
+          </p>
+          <p class="amount">&#x20a6 3500</p>
+          <button class="btn btn-default">
+            <a href="order_confirmation.html">Order Now</a>
+          </button>
         </div>
-        <div>
-          <label class="label label-block" for="password">
-            Password:
-          </label>
-          <input type="password" placeholder="Enter password"
-            id="password" required />
+        <div class="card user-menu-item">
+          <img src="img/basil-dinner-dish-64208.jpg"
+            alt="Vegetable Soup and Akpo" />
+          <p class="amount">
+            Vegetable Soup and Akpo
+          </p>
+          <p class="amount">&#x20a6 2500</p>
+          <button class="btn btn-default">
+            <a href="order_confirmation.html">Order Now</a>
+          </button>
         </div>
-        <button type="submit"
-          class="btn btn-default btn-default-lg font-weight-bold"
-        >
-          Sign In
-        </button>
-        <p class="form-footer text-right">
-          Don't have an account?
-          <span>
-            <a href="signup.html" class="btn btn-alt font-weight-bold">
-              Sign Up
-            </a>
-          </span>
-        </p>
-      </form>
-      <footer class="text-center">
-        <p>&copy; Book-A-Meal <span id="year"></span>.
-          Developed with &#10084; by 
-          <a href="https://dikaeinstein.github.io">Dikaeinstein</a>
-        </p>
-      </footer>
+        <div class="card user-menu-item">
+          <img src="img/blur-bowl-close-up-461326.jpg"
+            alt="Nigerian jollof" />
+          <p class="amount">
+            Nigerian jollof
+          </p>
+          <p class="amount">&#x20a6 2000</p>
+          <button class="btn btn-default">
+            <a href="order_confirmation.html">Order Now</a>
+          </button>
+        </div>
+        <div class="card user-menu-item">
+          <img src="img/bowl-close-up-cuisine-803963.jpg"
+            alt="Sphagetti with meatballs">
+          <p class="amount">
+            Sphagetti with meatballs
+          </p>
+          <p class="amount">&#x20a6 1500</p>
+          <button class="btn btn-default">
+            <a href="order_confirmation.html">Order Now</a>
+          </button>
+        </div>
+        <div class="card user-menu-item">
+          <img src="img/close-up-cooking-dinner-46239.jpg"
+            alt="Eba with efo riro and cow head">
+          <p class="amount">
+            Eba with efo riro and cow head
+          </p>
+          <p class="amount">&#x20a6 3500</p>
+          <button class="btn btn-default">
+            <a href="order_confirmation.html">Order Now</a>
+          </button>
+        </div>
+        <div class="card user-menu-item">
+          <img src="img/basil-dinner-dish-64208.jpg"
+            alt="Vegetable Soup and Akpo" />
+          <p class="amount">
+            Vegetable Soup and Akpo
+          </p>
+          <p class="amount">&#x20a6 2500</p>
+          <button class="btn btn-default">
+            <a href="order_confirmation.html">Order Now</a>
+          </button>
+        </div>
+        <div class="card user-menu-item">
+          <img src="img/blur-bowl-close-up-461326.jpg"
+            alt="Nigerian jollof" />
+          <p class="amount">
+            Nigerian jollof
+          </p>
+          <p class="amount">&#x20a6 2000</p>
+          <button class="btn btn-default">
+            <a href="order_confirmation.html">Order Now</a>
+          </button>
+        </div>
+        <div class="card user-menu-item">
+          <img src="img/avocado-cooked-delicious-262959.jpg"
+            alt="Eba with efo riro and cow head">
+          <p class="amount">
+            Eba with efo riro and cow head
+          </p>
+          <p class="amount">&#x20a6 3500</p>
+          <button class="btn btn-default">
+            <a href="order_confirmation.html">Order Now</a>
+          </button>
+        </div>
+        <div class="card user-menu-item">
+          <img src="img/bowl-close-up-cuisine-803963.jpg"
+          alt="Sphagetti with meatballs">
+          <p class="amount">
+            Sphagetti with meatballs
+          </p>
+          <p class="amount">&#x20a6 1500</p>
+          <button class="btn btn-default">
+            <a href="order_confirmation.html">Order Now</a>
+          </button>
+        </div>
+      </section>
     </section>
   </main>
+
+  <!-- Footer -->
+  <footer class="text-center">
+    <p>&copy; Book-A-Meal <span id="year"></span>.
+      Developed with &#10084; by 
+      <a href="https://dikaeinstein.github.io">Dikaeinstein</a>
+    </p>
+  </footer>
   <script src="js/main.js"></script>
 </body>
+
 </html>
