@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,13 +10,18 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="css/main.css" />
 </head>
+
 <body>
+  
+  <!-- Navigation -->
   <header class="navbar">
     <h1 class="col-1-4 logo text-left">Book-A-Meal</h1>
     <div class="toggle-show">&#9776;</div>
     <nav class="col-3-4 font-weight-bold">
       <ul class="nav-container text-center">
-        <li class="text-center"><a href="caterer_dashboard.html">Home</a></li>
+        <li class="text-center">
+          <a href="caterer_dashboard.html">Dashboard</a>
+        </li>
         <li><a href="meals.html">Meals</a></li>
         <li><a href="menus.html" class="active">Menus</a></li>
         <li><a href="#">Caterer</a></li>
@@ -23,7 +29,9 @@
       </ul>
     </nav>
   </header>
+
   <main class="bg-light-blue text-dark">
+    <!-- Set menu -->
     <section class="add-section">
       <h2 class="text-dark text-center">Set Menu</h2>
       <form class="form card" action="#">
@@ -40,6 +48,7 @@
         </button>
       </form>
     </section>
+    <!-- View menu -->
     <section class="menu">
       <h2 class="text-center">Menu for <span id="date"></span></h2>
       <div class="card menu-card table-scroll">
@@ -68,6 +77,8 @@
       </div>
     </section>
   </main>
+
+  <!-- Footer -->
   <footer class="text-center">
     <p>&copy; Book-A-Meal <span id="year"></span>.
       Developed with &#10084; by 
@@ -76,4 +87,5 @@
   </footer>
   <script src="js/main.js"></script>
 </body>
+
 </html>

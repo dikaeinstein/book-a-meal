@@ -26,7 +26,7 @@ body {
 }
 
 .bg-light {
-    background: #fff;
+    background: #f8f8ff;
 }
 
 .bg-light-blue {
@@ -324,6 +324,14 @@ footer a:hover {
     width: 100%;
 }
 
+.btn-intro-lg {
+    font-size: 1.5rem;
+}
+
+.intro-banner .btn-intro-lg:hover {
+    background: #ffa100;
+}
+
 .btn-danger {
     color: #fff;
     background: #f00;
@@ -552,7 +560,8 @@ td[title] {
 
 .dash-main,
 .user-menu-main,
-.order-history-main {
+.order-history-main,
+.landing-main {
     padding: 1.5rem;
 }
 
@@ -663,12 +672,18 @@ input[type="date"] {
 .user-menu-item p {
     margin: 0;
     margin-top: .5rem;
-    font-size: .75rem;
+    font-size: .875rem;
+    position: relative;
+    text-align: center;
 }
 .user-menu-item p:last-of-type {
-    font-size: .875rem;
+    font-size: 1rem;
 }
 
+.user-menu-item .btn {
+    position: relative;
+    left: 18%;
+}
 li.user {
     color: #fff;
     font-family: 'Varela Round', sans-serif;
@@ -682,6 +697,53 @@ li.user {
 
 .order-history .orders {
     margin-top: 2rem;
+}
+
+/*
+ ====================================
+ Landing Page
+ ====================================
+*/
+
+.image-overlay {
+    width: 100%;
+    background:  linear-gradient(rgba(255,0,0,0.4), rgba(255,0,0,0.4)),
+        url('../img/close-up-cooking-dinner-46239.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.intro-banner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+}
+
+.intro-banner h1 {
+    font-size: 4.5rem;
+    margin-top: 0;
+}
+
+.intro-banner p {
+    font-size: 2.5rem;
+}
+
+.landing-main a,
+.user-menu-main a {
+    color: #fff;
+}
+
+.landing-main .btn,
+.user-menu-main .btn {
+    margin: 1rem auto;
+}
+
+.intro-banner .btn {
+    border: 0;
+    background: yellow;
 }
 
 
@@ -735,7 +797,7 @@ li.user {
 
     .navbar {
         display: flex;
-        padding: 0 6rem;
+        padding: 0 4rem;
     }
     
     .navbar, .nav-container {
@@ -755,7 +817,7 @@ li.user {
     }
     
     .nav-container > li:first-of-type {
-        margin-right: auto;
+        margin-left: auto;
     }
     
     .toggle-show {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,13 +10,16 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="css/main.css" />
 </head>
+
 <body>
+
+  <!-- Navigation -->
   <header class="navbar">
     <h1 class="col-1-4 logo text-left">Book-A-Meal</h1>
     <div class="toggle-show">&#9776;</div>
     <nav class="col-3-4 font-weight-bold">
       <ul class="nav-container text-center">
-        <li><a href="caterer_dashboard.html">Home</a></li>
+        <li><a href="caterer_dashboard.html">Dashboard</a></li>
         <li><a href="meals.html" class="active">Meals</a></li>
         <li><a href="menus.html">Menus</a></li>
         <li><a href="#">Caterer</a></li>
@@ -23,7 +27,9 @@
       </ul>
     </nav>
   </header>
+
   <main class="bg-light-blue">
+    <!-- Add meal section -->
     <section class="add-section">
       <h2 class="text-dark text-center">Add New Meal</h2>
       <form class="form card" action="#">
@@ -59,6 +65,7 @@
         </button>
       </form>
     </section>
+    <!-- View meals -->
     <section class="meals text-dark">
       <h2 class="text-center">Meals</h2>
       <div class="table-scroll text-center">
@@ -129,6 +136,8 @@
       </div>
     </section>
   </main>
+
+  <!-- Footer -->
   <footer class="text-center">
     <p>&copy; Book-A-Meal <span id="year"></span>.
       Developed with &#10084; by 
@@ -137,4 +146,5 @@
   </footer>
   <script src="js/main.js"></script>
 </body>
+
 </html>
