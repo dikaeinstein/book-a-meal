@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Meals - Book A Meal</title>
+  <link href="https://fonts.googleapis.com/css?family=Varela+Round"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <h1 class="col-1-4 logo text-left">Book-A-Meal</h1>
+    <div class="toggle-show">&#9776;</div>
+    <nav class="col-3-4 font-weight-bold">
+      <ul class="nav-container text-center">
+        <li><a href="caterer_dashboard.html">Dashboard</a></li>
+        <li><a href="meals.html" class="active">Meals</a></li>
+        <li><a href="menus.html">Menus</a></li>
+        <li><a href="#">Caterer</a></li>
+        <li><a href="index.html">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="bg-light-blue">
+    <!-- Add meal section -->
+    <section class="add-section">
+      <h2 class="text-dark text-center">Add New Meal</h2>
+      <form class="form card" action="#">
+        <div>
+          <label class="label" for="meal">
+            Meal name:
+          </label>
+          <input type="text" id="meal" placeholder="Enter meal name"
+            required />
+        </div>
+        <div>
+          <label class="label" for="price">
+            Price (&#x20a6):
+          </label>
+          <input type="number" id="price" placeholder="Enter price"
+            required />
+        </div>
+        <div>
+          <label for="image" class="label">
+            Meal image
+          </label>
+          <input type="file" placeholder="Select meal image"/>
+        </div>
+        <div>
+          <label for="description" class="label">
+            Description:
+            <textarea name="description" id="description">
+            </textarea>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-default font-weight-bold">
+          Add Meal
+        </button>
+      </form>
+    </section>
+    <!-- View meals -->
+    <section class="meals text-dark">
+      <h2 class="text-center">Meals</h2>
+      <div class="table-scroll text-center">
+        <table>
+          <caption class="text-left">
+            &#9776; Meals
+          </caption>
+          <thead>
+            <tr>
+              <th>Meal</th>
+              <th>Description</th>
+              <th>Price (&#x20a6)</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Vegetable Soup</td>
+              <td>Local nigerian dish made with vegetables and palm oil</td>
+              <td>2500</td>
+              <td class="actions">
+                <span>
+                  <button class="btn btn-light font-weight-bold">
+                    Edit
+                  </button>
+                </span>
+                <span>
+                  <button class="btn  btn-danger font-weight-bold">
+                    Delete
+                  </button>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>Nigerian Jollof</td>
+              <td>Local nigerian dish made with vegetables and palm oil</td>
+              <td>1500</td>
+              <td class="actions">
+                <span>
+                  <button class="btn btn-light font-weight-bold">
+                    Edit
+                  </button>
+                </span>
+                <span>
+                  <button class="btn btn-danger font-weight-bold">
+                    Delete
+                  </button>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>Spaghetti</td>
+              <td>Local nigerian dish made with vegetables and palm oil</td>
+              <td>2000</td>
+              <td class="actions">
+                <span>
+                  <button class="btn btn-light font-weight-bold">Edit</button>
+                </span>
+                <span>
+                  <button class="btn btn-danger font-weight-bold">
+                    Delete
+                  </button>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center">
+    <p>&copy; Book-A-Meal <span id="year"></span>.
+      Developed with &#10084; by 
+      <a href="https://dikaeinstein.github.io">Dikaeinstein</a>
+    </p>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
