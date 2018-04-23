@@ -21,7 +21,7 @@ tbody, thead, img, nav {
 
 body {
     background: #f00;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Varela Round', sans-serif;
     color: #fff;
 }
 
@@ -75,6 +75,7 @@ footer {
 
 footer p {
     margin: 0;
+    font-size: 1.125rem;
 }
 
 
@@ -109,12 +110,12 @@ footer p {
     line-height: 1rem;
     order: 1;
     color: yellow;
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .lead {
     line-height: 0.875rem;
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .aside h2 {
@@ -138,6 +139,14 @@ a {
 
 .nav-container a {
     color: inherit;
+}
+
+footer a {
+    color: #4e4a4a;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
 
 
@@ -198,37 +207,43 @@ a {
 }
 
 .form input,
-.form .btn {
+.form .btn,
+.form textarea {
     margin: 0.3125rem auto 1.6875rem auto; /* 5px 0 27px 0; */
 }
 
-.form input {
+.form input,
+.form textarea {
     border: 0.0625rem solid #f00; /* 1px */
     border-radius: 0.1875rem; /* 3px */
-    color: #f00;
+    color: #4e4a4a;
     display: block;
     padding: 0.3125rem 0.5rem; /* 5px 8px */
     width: 93%;
     font-size: 1rem; /* 16px */
+    font-family: 'Varela Round', sans-serif;
 }
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     font-size: 0.75rem;
+    font-family: 'Varela Round', sans-serif;
 }
 ::-moz-placeholder { /* Firefox 19+ */
     font-size: 0.75rem;
+    font-family: 'Varela Round', sans-serif;
 }
 :-ms-input-placeholder { /* IE 10+ */
     font-size: 0.75rem;
+    font-family: 'Varela Round', sans-serif;
 }
 :-moz-placeholder { /* Firefox 18- */
     font-size: 0.75rem;
+    font-family: 'Varela Round', sans-serif;
 }
 
 #signIn p,
 .aside p {
     color: #f00;
-    font-size: 1rem;
 }
 
 .aside p:first-of-type {
@@ -245,7 +260,7 @@ a {
 
 .form-footer {
     color: #f00;
-    font-size: 0.75rem;
+    font-size: 1rem;
 }
 
 .form-footer .btn-alt {
@@ -270,6 +285,7 @@ a {
     padding: 0.6875rem 1.875rem; /* 11px 30px */
     margin-bottom: 1.375rem; /* 22px */ 
     font-size: 0.875rem; /* 14px */
+    font-family: 'Varela Round', sans-serif;
 }
 
 .btn-default {
@@ -279,7 +295,7 @@ a {
 }
 
 .btn-default:hover {
-    background: #f00;
+    background: rgb(209, 17, 17);
 }
 
 .btn-alt {
@@ -340,13 +356,17 @@ a {
     list-style-type: none;
     padding: 0.5rem;
     flex-direction: column;
+    font-weight: 500;
+}
+.nav-container > li:hover {
+    color: yellow;
 }
 
 .logo {
     font-size: 2rem;
     cursor: default;
     padding: 0;
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .toggle-show {
@@ -374,7 +394,7 @@ a {
     margin-top: 0;
     margin-bottom: 0;
     padding-top: 20px;
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .add-section .form {
@@ -388,7 +408,7 @@ a {
 .meals h2 {
     margin: 0;
     margin-top: 3rem;
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .meals .btn {
@@ -417,9 +437,14 @@ th {
     padding: 15px;
 }
 
+th {
+    font-weight: 400;
+    font-size: 1.125rem;
+}
+
 td {
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 td[title] {
@@ -454,7 +479,7 @@ tbody > tr:hover {
 .menu h2,
 .user-menu-main h2 {
     margin: 0;
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .menu .btn {
@@ -466,7 +491,7 @@ tbody > tr:hover {
     margin: 1rem auto;
     padding: 2rem;
     background: #fff;
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .menu-card table,
@@ -490,7 +515,7 @@ tbody > tr:hover {
 .add-section select {
     width: 100%;
     height: 3rem;
-    font-size: 1.25rem; /* 20px */
+    font-size: 1.125rem; /* 18px */
     padding: 0.5rem;
     border-radius: 5px;
     margin-top: 1rem;
@@ -522,7 +547,7 @@ tbody > tr:hover {
 }
 
 .dash-main h2 {
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .dashbord-item {
@@ -557,7 +582,7 @@ tbody > tr:hover {
 }
 
 input[type="date"] {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Varela Round', sans-serif;
     font-size: 1rem;
     margin: .5rem;
     margin-top: .5rem;
@@ -593,7 +618,8 @@ input[type="date"] {
 .meals table > caption {
     border-bottom: 0;
     padding: .5rem;
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 1.125rem;
 }
 
 
@@ -634,7 +660,7 @@ input[type="date"] {
 
 li.user {
     color: #fff;
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Varela Round', sans-serif;
 }
 
 /*
