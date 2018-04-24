@@ -19,33 +19,34 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Root handler
 app.get('/', (req, res) => {
-	return res.status(200).json({
-		message: 'Welcome to Book-A-Meal',
-		status: 'success',
-	});
+  res.status(200).json({
+    message: 'Welcome to Book-A-Meal',
+    status: 'success',
+  });
 });
+
 
 // catch all error handler
 // Will print stack trace in development
 app.use((err, req, res, next) => {
-	res
-		.status(err.statusCode || 500)
-		.json((app.get('env') === 'development') ?
-		{
-			status: 'error',
-			message: err.message,
-			stack: err.stack,
-		}
-		:
-		{
-			status: 'error',
-			message: err.message,
-		});
-	});
+  res
+    .status(err.statusCode || 500)
+    .json((app.get('env') === 'development') ?
+      {
+        status: 'error',
+        message: err.message,
+        stack: err.stack,
+      }
+      :
+      {
+        status: 'error',
+        message: err.message,
+      });
+});
 
 // Start server
-app.listen(port, () => { 
-	console.log(`Express server listening on ${port}`);
+app.listen(port, () => {
+  console.log(`Express server listening on ${port}`);
 });
 
 export default app;
