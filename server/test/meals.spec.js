@@ -15,6 +15,7 @@ const meal = {
 };
 
 describe('Meals', () => {
+  // Test Get All Meals
   describe('Get All Meals', () => {
     it('should return status 200', async () => {
       const res = await chai.request(app).get(mealUrl);
@@ -36,6 +37,7 @@ describe('Meals', () => {
     });
   });
 
+  // Test Get a meal
   describe('Get Meal', () => {
     it('should return one meal', async () => {
       const res = await chai.request(app).get(`${mealUrl}/1`);
@@ -50,6 +52,7 @@ describe('Meals', () => {
     });
   });
 
+  // Test Adding a meal
   describe('Add Meal', () => {
     it('should add meal with complete fields', async () => {
       const res = await chai.request(app).post(mealUrl)
@@ -129,6 +132,7 @@ describe('Meals', () => {
       .to.include('Meal image url is required');
   });
 
+  // Test Updating a meal
   describe('Update Meal', () => {
     it('should update meal with correct id', async () => {
       const res = await chai.request(app).put(`${mealUrl}/1`)
@@ -163,6 +167,7 @@ describe('Meals', () => {
     });
   });
 
+  // Test Delete a meal
   describe('Delete Meal', () => {
     it('should delete meal if it exitst', async () => {
       const res = await chai.request(app).del(`${mealUrl}/1`);
