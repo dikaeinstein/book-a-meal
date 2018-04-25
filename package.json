@@ -12,7 +12,7 @@
     "build": "babel server -d server/dist",
     "start-dev": "nodemon --exec babel-node server/app.js",
     "prestart": "yarn run build",
-    "test": "mocha server/test/**.spec.js --require babel-core/register --exit"
+    "test": "mocha server/test/**.spec.js --require babel-core/register --exit -w"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
@@ -20,8 +20,10 @@
     "chai-http": "^4.0.0",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "lodash.isempty": "^4.4.0",
     "mocha": "^5.1.1",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "validator": "^9.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
