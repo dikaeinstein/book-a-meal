@@ -23,17 +23,17 @@ describe('Meals', () => {
     });
     it('should return an array', async () => {
       const res = await chai.request(app).get(mealUrl);
-      expect(res.body).to.be.an('array');
+      expect(res.body.meals).to.be.an('array');
     });
     it('should return an empty array on start', async () => {
       const res = await chai.request(app).get(mealUrl);
-      expect(res.body).to.have.length(0);
+      expect(res.body.meals).to.have.length(0);
     });
     it('should return an array of meals', async () => {
       await chai.request(app).post(mealUrl).send(meal);
       const res = await chai.request(app).get(mealUrl);
       expect(res.status).to.equal(200);
-      expect(res.body.length).to.be.greaterThan(0);
+      expect(res.body.meals.length).to.be.greaterThan(0);
     });
   });
 

@@ -5,7 +5,11 @@ const error = {};
 class MealController {
   // Get all meals
   static getAllMeals(req, res) {
-    return res.status(200).json(meals);
+    return res.status(200).json({
+      meals,
+      status: 'success',
+      message: 'Meals found',
+    });
   }
 
   // Get a meal
@@ -18,7 +22,11 @@ class MealController {
       return res.status(404).json({ error });
     }
 
-    return res.status(200).json(mealResponse[0]);
+    return res.status(200).json({
+      meal: mealResponse[0],
+      status: 'success',
+      message: 'Meal found',
+    });
   }
 
   // Add meal
@@ -39,6 +47,7 @@ class MealController {
     return res.status(201).json({
       message: 'Successfully added meal',
       meal: meals[meals.length - 1],
+      status: 'success',
     });
   }
 
@@ -60,6 +69,8 @@ class MealController {
 
     return res.status(200).json({
       meal: updatedMeal,
+      status: 'success',
+      message: 'Updated meal',
     });
   }
 
@@ -74,6 +85,7 @@ class MealController {
       meals = filteredMeals;
       return res.status(201).json({
         message: 'Meal successfully deleted',
+        status: 'success',
       });
     }
 
