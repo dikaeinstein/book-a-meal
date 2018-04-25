@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
 import dotenv from 'dotenv';
+import routes from './routes';
 
 dotenv.config();
 
@@ -17,32 +18,14 @@ app.use(logger('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use('/api/v1', routes);
+
 // Root handler
-app.get('/', (req, res) => {
+app.get('/', (req, res) => (
   res.status(200).json({
     message: 'Welcome to Book-A-Meal',
-    status: 'success',
-  });
-});
-
-
-// catch all error handler
-// Will print stack trace in development
-app.use((err, req, res, next) => {
-  res
-    .status(err.statusCode || 500)
-    .json((app.get('env') === 'development') ?
-      {
-        status: 'error',
-        message: err.message,
-        stack: err.stack,
-      }
-      :
-      {
-        status: 'error',
-        message: err.message,
-      });
-});
+  })
+));
 
 // Start server
 app.listen(port, () => {
