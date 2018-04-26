@@ -22,6 +22,36 @@ class OrderController {
       matchedOrders,
     });
   }
+
+  // Make an order
+  static makeAnOrder(req, res) {
+    const {
+      mealId,
+      amount,
+      quantity,
+      total,
+      userId,
+    } = req.body;
+    const date = new Date();
+    date.setUTCHours(0, 0, 0, 0);
+
+    const order = {
+      id: orders.length + 1,
+      mealId,
+      amount,
+      quantity,
+      total,
+      userId,
+      date: date.toISOString(),
+    };
+
+    orders.push(order);
+    return res.status(201).json({
+      message: 'Order placed',
+      status: 'success',
+      order,
+    });
+  }
 }
 
 export default OrderController;

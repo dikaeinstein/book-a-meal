@@ -49,6 +49,8 @@ router.get('/menus', authenticate, MenuController.getMenu);
 
 // Get all orders
 router.get('/orders', authenticate, OrderController.getAllOrders);
+// Post Order
+router.post('/orders', authenticate, OrderController.makeAnOrder);
 
 
 // Root path
