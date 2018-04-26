@@ -4,12 +4,14 @@ class MenuController {
   // Setup menu
   static setupMenu(req, res) {
     const { name, meals } = req.body;
+    const date = (new Date());
+    date.setUTCHours(0, 0, 0, 0);
 
     menus.push({
       id: menus.length + 1,
       name,
       meals,
-      date: (new Date()).getDate(),
+      date: date.toISOString(),
     });
 
     return res.status(201).json({
@@ -22,8 +24,11 @@ class MenuController {
   // Get menu for specific day
   static getMenu(req, res) {
     const error = {};
+    const date = (new Date());
+    date.setUTCHours(0, 0, 0, 0);
+
     const todayMenu = menus.filter(menu => (
-      menu.date === (new Date()).getDate()
+      menu.date === date.toISOString()
     ))[0];
 
     if (!todayMenu) {
