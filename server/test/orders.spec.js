@@ -122,4 +122,26 @@ describe('Orders', () => {
       expect(res.body.error.message).to.equal('Forbidden');
     });
   });
+
+  // Test Get order history for specific user
+  describe('Get orders for specific user', () => {
+    // authenticated customer can see order history
+    it('should get orders for specific auth user without userId', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/users`)
+        .set('Authorization', `Bearer ${token}`);
+      expect(res.status).to.equal(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('success');
+      expect(res.body.orders).to.be.an('array');
+    });
+    // Admin can get order history for specific user
+    it('should get orders for specific auth user with userId', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/users/1`)
+        .set('Authorization', `Bearer ${token}`);
+      expect(res.status).to.equal(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('success');
+      expect(res.body.orders).to.be.an('array');
+    });
+  });
 });
