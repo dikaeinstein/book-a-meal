@@ -24,11 +24,11 @@ const user = {
 };
 
 const order = {
-  mealId: 1,
-  amount: 2000,
-  quantity: 1,
-  total: 2000,
-  userId: 1,
+  mealId: '1',
+  amount: '2000',
+  quantity: '1',
+  total: '2000',
+  userId: '1',
 };
 
 let token;
