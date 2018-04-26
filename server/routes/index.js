@@ -18,7 +18,7 @@ import {
 import validateMenu from '../middleware/menuValidator';
 import {
   validateNewOrder,
-  validateUpdateOrder
+  validateUpdateOrder,
 } from '../middleware/orderValidator';
 
 // Setup express router
