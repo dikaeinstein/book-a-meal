@@ -1,6 +1,7 @@
 import express from 'express';
 import MealController from '../controllers/mealController';
 import UserController from '../controllers/userController';
+
 import {
   validateAddMeal,
   validateUpdateMeal,
@@ -10,6 +11,11 @@ import {
   validateSignin,
   validateSignup,
 } from '../middleware/userValidator';
+import validateMenu from '../middleware/menuValidator';
+
+import authLogin from '../lib/authLogin';
+import MenuController from '../controllers/menuController';
+
 
 // Setup express router
 const router = express.Router();
@@ -23,11 +29,15 @@ router.post('/auth/signin', validateSignin, UserController.signinUser);
 router.get('/meals', MealController.getAllMeals);
 router.get('/meals/:id', validateGetMeal, MealController.getMeal);
 // Post meal
-router.post('/meals', validateAddMeal, MealController.addMeal);
+router.post('/meals', authLogin, validateAddMeal, MealController.addMeal);
 // Update meal
-router.put('/meals/:id', validateUpdateMeal, MealController.updateMeal);
+router.put('/meals/:id', authLogin, validateUpdateMeal, MealController.updateMeal);
 // Delete meal
-router.delete('/meals/:id', validateUpdateMeal, MealController.deleteMeal);
+router.delete('/meals/:id', authLogin, validateUpdateMeal, MealController.deleteMeal);
+
+
+// Setup menu
+router.post('/menus', authLogin, validateMenu, MenuController.setupMenu);
 
 
 // Root path
