@@ -52,6 +52,31 @@ class OrderController {
       order,
     });
   }
+
+  // Update an order
+  static updateOrder(req, res) {
+    const error = {};
+
+    // Filter orders
+    const matchedOrder = orders.filter(order => (
+      order.id === parseInt(req.params.id, 10)
+    ))[0];
+
+    if (!matchedOrder) {
+      error.id = 'Order id does not exist';
+      return res.status(404).json({ error });
+    }
+
+    // Merge changes
+    const updatedOrder = Object
+      .assign(matchedOrder, req.body.validatedMeal);
+
+    return res.status(200).json({
+      order: updatedOrder,
+      status: 'success',
+      message: 'Successfully updated order',
+    });
+  }
 }
 
 export default OrderController;
