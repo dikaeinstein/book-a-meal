@@ -31,7 +31,7 @@ const menu = {
   meals,
 };
 
-const menuUrl = '/api/v1/menus';
+const menuUrl = '/api/v1/menu';
 const signUpUrl = '/api/v1/auth/signup';
 const catererSignUpUrl = '/api/v1/caterer/auth/signup';
 
