@@ -13,33 +13,38 @@ import {
 } from '../middleware/userValidator';
 import validateMenu from '../middleware/menuValidator';
 
-import authLogin from '../lib/authLogin';
+import authenticate from '../middleware/authenticate';
+import authorize from '../middleware/authorize';
 import MenuController from '../controllers/menuController';
 
 
 // Setup express router
 const router = express.Router();
 
-// User sign in and sign up
+// Customer sign in and sign up
 router.post('/auth/signup', validateSignup, UserController.createUser);
 router.post('/auth/signin', validateSignin, UserController.signinUser);
+
+// Caterer(Admin) sign in and sign up
+router.post('/caterer/auth/signup', validateSignup, UserController.createUser);
+router.post('/caterer/auth/signin', validateSignin, UserController.signinUser);
 
 
 // Get all meals
 router.get('/meals', MealController.getAllMeals);
 router.get('/meals/:id', validateGetMeal, MealController.getMeal);
 // Post meal
-router.post('/meals', authLogin, validateAddMeal, MealController.addMeal);
+router.post('/meals', authenticate, authorize, validateAddMeal, MealController.addMeal);
 // Update meal
-router.put('/meals/:id', authLogin, validateUpdateMeal, MealController.updateMeal);
+router.put('/meals/:id', authenticate, authorize, validateUpdateMeal, MealController.updateMeal);
 // Delete meal
-router.delete('/meals/:id', authLogin, validateUpdateMeal, MealController.deleteMeal);
+router.delete('/meals/:id', authenticate, authorize, validateUpdateMeal, MealController.deleteMeal);
 
 
 // Setup menu
-router.post('/menus', authLogin, validateMenu, MenuController.setupMenu);
+router.post('/menus', authenticate, authorize, validateMenu, MenuController.setupMenu);
 // Get menu
-router.get('/menus', authLogin, MenuController.getMenu);
+router.get('/menus', authenticate, MenuController.getMenu);
 
 // Root path
 router.get('/', (req, res) => (

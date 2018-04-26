@@ -33,16 +33,33 @@ const menu = {
 
 const menuUrl = '/api/v1/menus';
 const signUpUrl = '/api/v1/auth/signup';
+const catererSignUpUrl = '/api/v1/caterer/auth/signup';
 
-const user = {
-  name: 'Solomon Okwa',
-  email: 'solozyokwamenu@gmail.com',
+const admin = {
+  name: 'Walter Okwa',
+  email: 'waltermenu@gmail.com',
   password: '1234567890',
   confirmPassword: '1234567890',
 };
+
+const user = {
+  name: 'Ann Ihe',
+  email: 'annihemenu@gmail.com',
+  password: '1234567890',
+  confirmPassword: '1234567890',
+};
+
 let token;
+let adminToken;
 
 describe('Menu', () => {
+  // Setup user(admin)
+  before(async () => {
+    const res = await chai.request(app).post(catererSignUpUrl)
+      .send(admin);
+    adminToken = res.body.token;
+  });
+  // Setup user(customer)
   before(async () => {
     const res = await chai.request(app).post(signUpUrl)
       .send(user);
@@ -59,9 +76,9 @@ describe('Menu', () => {
       expect(res.body.error.message).to
         .equal('Menu for today have not been set');
     });
-    it('should setup menu', async () => {
+    it('should only allow admin setup menu', async () => {
       const res = await chai.request(app).post(menuUrl)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${adminToken}`)
         .send(menu);
       expect(res.status).to.equal(201);
       expect(res.body).to.be.an('object');
@@ -71,13 +88,14 @@ describe('Menu', () => {
     });
     it('should not allow non auth admin to setup menu', async () => {
       const res = await chai.request(app).post(menuUrl)
+        .set('Authorization', `Bearer ${token}`)
         .send(menu);
-      expect(res.status).to.equal(401);
-      expect(res.body.error.token).to.equal('No token provided');
+      expect(res.status).to.equal(403);
+      expect(res.body.error.message).to.equal('Forbidden');
     });
     it('should not setup menu without meals', async () => {
       const res = await chai.request(app).post(menuUrl)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${adminToken}`)
         .send(emptyMenu);
       expect(res.status).to.equal(400);
       expect(res.body).to.be.an('object');
@@ -86,7 +104,7 @@ describe('Menu', () => {
     });
     it('should not setup menu without a name', async () => {
       const res = await chai.request(app).post(menuUrl)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${adminToken}`)
         .send({ meals });
       expect(res.status).to.equal(400);
       expect(res.body.error.name).to

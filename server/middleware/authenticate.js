@@ -6,7 +6,8 @@ dotenv.config();
 const secret = process.env.SECRET;
 
 const isLoggedIn = (req, res, next) => {
-  const token = req.get('Authorization') ? req.get('Authorization').slice(7) : req.body.token;
+  const token = req.get('Authorization') ?
+    req.get('Authorization').slice(7) : req.body.token;
   const error = {};
 
   if (!token) {
@@ -20,7 +21,7 @@ const isLoggedIn = (req, res, next) => {
     return next();
   } catch (err) {
     error.message = 'Unauthorized';
-    return res.status(403).json({ error });
+    return res.status(401).json({ error });
   }
 };
 

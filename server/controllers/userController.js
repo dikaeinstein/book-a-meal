@@ -1,7 +1,8 @@
 import { hashPassword, checkPassword } from '../lib/encrypt';
 import createToken from '../lib/createToken';
+import isAdminRoute from '../lib/isAdminRoute';
+import users from '../test/usersTestData';
 
-const users = [];
 
 class UserController {
   // Create user account
@@ -26,16 +27,17 @@ class UserController {
 
     // Hash user password and initialize new user
     return hashPassword(password).then((hashedPassword) => {
+      // Determine role to assign user
+      const role = isAdminRoute(req.path) ? 'admin' : 'customer';
       newUser.id = users.length + 1;
       newUser.name = name;
       newUser.email = email.toLowerCase();
       newUser.password = hashedPassword;
-      newUser.isAdmin = false;
+      newUser.role = role;
 
       users.push(newUser);
       // Create token for new created user
       const token = createToken(newUser.id);
-
       return res.status(201)
         .header('Authorization', `Bearer ${token}`)
         .json({
@@ -55,7 +57,6 @@ class UserController {
   static signinUser(req, res) {
     const { email, password } = req.body;
     const error = {};
-
     const matchedUser = users.filter(user => (
       user.email === email.toLowerCase()
     ))[0];
