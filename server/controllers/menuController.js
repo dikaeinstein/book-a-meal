@@ -9,6 +9,7 @@ class MenuController {
       id: menus.length + 1,
       name,
       meals,
+      date: (new Date()).getDate(),
     });
 
     return res.status(201).json({
