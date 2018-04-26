@@ -38,7 +38,8 @@ router.delete('/meals/:id', authLogin, validateUpdateMeal, MealController.delete
 
 // Setup menu
 router.post('/menus', authLogin, validateMenu, MenuController.setupMenu);
-
+// Get menu
+router.get('/menus', authLogin, MenuController.getMenu);
 
 // Root path
 router.get('/', (req, res) => (
