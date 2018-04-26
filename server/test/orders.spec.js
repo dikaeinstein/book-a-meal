@@ -78,4 +78,30 @@ describe('Orders', () => {
         .include('No token provided');
     });
   });
+
+  // Test Update an order
+  describe('Update an order', () => {
+    it('should allow auth customers update their order', async () => {
+      const res = await chai.request(app).put(`${orderUrl}/1`)
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          quantity: 2,
+          total: 4000,
+        });
+      expect(res.status).to.equal(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('success');
+      expect(res.body.order).to.be.an('object');
+    });
+    it('should not allow non auth customers update their order', async () => {
+      const res = await chai.request(app).put(`${orderUrl}/1`)
+        .send({
+          quantity: 2,
+          total: 4000,
+        });
+      expect(res.status).to.equal(401);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.token).to.include('No token provided');
+    });
+  });
 });
