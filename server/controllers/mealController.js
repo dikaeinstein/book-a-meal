@@ -1,7 +1,5 @@
 let meals = [];
 
-const error = {};
-
 class MealController {
   // Get all meals
   static getAllMeals(req, res) {
@@ -14,6 +12,7 @@ class MealController {
 
   // Get a meal
   static getMeal(req, res) {
+    const error = {};
     const mealResponse = meals.filter(meal => (
       meal.id === parseInt(req.params.id, 10)
     ));
@@ -53,6 +52,7 @@ class MealController {
 
   // Update meal
   static updateMeal(req, res) {
+    const error = {};
     // Filter meals
     const matchedMeal = meals.filter(meal => (
       meal.id === parseInt(req.params.id, 10)
@@ -76,6 +76,7 @@ class MealController {
 
   // Delete meal
   static deleteMeal(req, res) {
+    const error = {};
     // Delete meal by return a new filtered array without the meal
     const filteredMeals = meals.filter(meal => (
       meal.id !== parseInt(req.params.id, 10)

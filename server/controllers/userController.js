@@ -45,6 +45,7 @@ class UserController {
             name: newUser.name,
             email: newUser.email,
           },
+          token,
           status: 'success',
         });
     });
@@ -79,6 +80,7 @@ class UserController {
                 name: matchedUser.name,
                 email: matchedUser.email,
               },
+              token,
               status: 'success',
             });
         }
