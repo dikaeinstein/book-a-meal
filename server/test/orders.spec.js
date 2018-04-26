@@ -104,4 +104,22 @@ describe('Orders', () => {
       expect(res.body.error.token).to.include('No token provided');
     });
   });
+
+  // Test Get order total amount for specific day
+  describe('Get total amount made', () => {
+    it('should return total for current day', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/total`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.status).to.equal('success');
+      expect(parseInt(res.body.total, 10)).to.be.a('number');
+    });
+    it('should not retrieve total for non admin user', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/total`)
+        .set('Authorization', `Bearer ${token}`);
+      expect(res.status).to.equal(403);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.message).to.equal('Forbidden');
+    });
+  });
 });
