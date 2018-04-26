@@ -16,7 +16,10 @@ import {
   validateSignup,
 } from '../middleware/userValidator';
 import validateMenu from '../middleware/menuValidator';
-
+import {
+  validateNewOrder,
+  validateUpdateOrder
+} from '../middleware/orderValidator';
 
 // Setup express router
 const router = express.Router();
@@ -50,8 +53,9 @@ router.get('/menus', authenticate, MenuController.getMenu);
 // Get all orders
 router.get('/orders', authenticate, OrderController.getAllOrders);
 // Post Order
-router.post('/orders', authenticate, OrderController.makeAnOrder);
-
+router.post('/orders', authenticate, validateNewOrder, OrderController.makeAnOrder);
+// Update Order
+router.put('/orders/:id', authenticate, validateUpdateOrder, OrderController.updateOrder);
 
 // Root path
 router.get('/', (req, res) => (
