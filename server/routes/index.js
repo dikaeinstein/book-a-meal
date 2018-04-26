@@ -56,6 +56,8 @@ router.get('/orders', authenticate, OrderController.getAllOrders);
 router.post('/orders', authenticate, validateNewOrder, OrderController.makeAnOrder);
 // Update Order
 router.put('/orders/:id', authenticate, validateUpdateOrder, OrderController.updateOrder);
+// Get Total amount made
+router.get('/orders/total', authenticate, authorize, OrderController.getTotalAmount);
 
 // Root path
 router.get('/', (req, res) => (

@@ -23,6 +23,38 @@ class OrderController {
     });
   }
 
+  // Get Total amount made
+  static getTotalAmount(req, res) {
+    const { date } = req.params;
+    let total;
+    if (date) {
+      // Filter by date
+      const matchedOrders = orders.filter(order => order.date === date);
+      total = matchedOrders.reduce((start, current) => (
+        start.total + current.total
+      ));
+    } else {
+      // Use current date as default
+      const currentDate = new Date();
+      currentDate.setUTCHours(0, 0, 0, 0);
+      const matchedOrders = orders.filter(order => (
+        order.date === currentDate.toISOString()
+      ));
+      total = matchedOrders
+        .map(matchedOrder => (
+          matchedOrder.total
+        ))
+        .reduce((start, current) => (
+          start + current
+        ));
+    }
+
+    return res.status(200).json({
+      status: 'success',
+      total,
+    });
+  }
+
   // Make an order
   static makeAnOrder(req, res) {
     const {
