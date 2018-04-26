@@ -23,6 +23,14 @@ const user = {
   confirmPassword: '1234567890',
 };
 
+const order = {
+  mealId: 1,
+  amount: 2000,
+  quantity: 1,
+  total: 2000,
+  userId: 1,
+};
+
 let token;
 let adminToken;
 
@@ -47,6 +55,27 @@ describe('Orders', () => {
         .set('Authorization', `Bearer ${token}`);
       expect(res.status).to.equal(200);
       expect(res.body.orders).to.be.an('array');
+    });
+  });
+
+  // Test Post an order
+  describe('Post an order', () => {
+    it('should allow auth customers place an order', async () => {
+      const res = await chai.request(app).post(orderUrl)
+        .set('Authorization', `Bearer ${token}`)
+        .send(order);
+      expect(res.status).to.equal(201);
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('success');
+      expect(res.body.order).to.be.an('object');
+    });
+    it('should not allow non auth customers to post an order', async () => {
+      const res = await chai.request(app).post(orderUrl)
+        .send(order);
+      expect(res.status).to.equal(401);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.token).to
+        .include('No token provided');
     });
   });
 });
