@@ -23,6 +23,21 @@ class OrderController {
     });
   }
 
+  // Get order history for specific user
+  static getUserOrderHistory(req, res) {
+    const userId = req.params.userId || req.userId;
+
+    const matchedOrders = orders.filter((order) => {
+      return order.id === userId;
+    });
+
+    return res.status(200).json({
+      message: 'Orders succesfully retrieved',
+      status: 'success',
+      orders: matchedOrders,
+    });
+  }
+
   // Get Total amount made
   static getTotalAmount(req, res) {
     const { date } = req.params;
@@ -91,7 +106,7 @@ class OrderController {
 
     // Filter orders
     const matchedOrder = orders.filter(order => (
-      order.id === parseInt(req.params.id, 10)
+      order.id === parseInt(req.params.orderId, 10)
     ))[0];
 
     if (!matchedOrder) {

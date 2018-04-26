@@ -19,6 +19,7 @@ import validateMenu from '../middleware/menuValidator';
 import {
   validateNewOrder,
   validateUpdateOrder,
+  validateGetOrder,
 } from '../middleware/orderValidator';
 
 // Setup express router
@@ -35,13 +36,13 @@ router.post('/caterer/auth/signin', validateSignin, UserController.signinUser);
 
 // Get all meals
 router.get('/meals', MealController.getAllMeals);
-router.get('/meals/:id', validateGetMeal, MealController.getMeal);
+router.get('/meals/:mealId', validateGetMeal, MealController.getMeal);
 // Post meal
 router.post('/meals', authenticate, authorize, validateAddMeal, MealController.addMeal);
 // Update meal
-router.put('/meals/:id', authenticate, authorize, validateUpdateMeal, MealController.updateMeal);
+router.put('/meals/:mealId', authenticate, authorize, validateUpdateMeal, MealController.updateMeal);
 // Delete meal
-router.delete('/meals/:id', authenticate, authorize, validateUpdateMeal, MealController.deleteMeal);
+router.delete('/meals/:mealId', authenticate, authorize, validateUpdateMeal, MealController.deleteMeal);
 
 
 // Setup menu
@@ -55,9 +56,13 @@ router.get('/orders', authenticate, OrderController.getAllOrders);
 // Post Order
 router.post('/orders', authenticate, validateNewOrder, OrderController.makeAnOrder);
 // Update Order
-router.put('/orders/:id', authenticate, validateUpdateOrder, OrderController.updateOrder);
+router.put('/orders/:orderId', authenticate, validateUpdateOrder, OrderController.updateOrder);
 // Get Total amount made
 router.get('/orders/total', authenticate, authorize, OrderController.getTotalAmount);
+// Get orders for specific user
+router.get('/orders/users', authenticate, OrderController.getUserOrderHistory);
+router.get('/orders/users/:userId', authenticate, validateGetOrder, OrderController.getUserOrderHistory);
+
 
 // Root path
 router.get('/', (req, res) => (

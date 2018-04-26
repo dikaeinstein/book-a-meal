@@ -120,3 +120,18 @@ export const validateUpdateOrder = (req, res, next) => {
 
   return res.status(400).json({ error });
 };
+
+export const validateGetOrder = (req, res, next) => {
+  const { orderId } = req.params;
+  const error = {};
+
+  if (orderId && !validator.isNumeric(orderId)) {
+    error.id = 'Order id must be a number';
+  }
+
+  if (isEmpty(error)) {
+    return next();
+  }
+
+  return res.status(400).json({ error });
+};

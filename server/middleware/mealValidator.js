@@ -37,12 +37,12 @@ export const validateAddMeal = (req, res, next) => {
 };
 
 export const validateUpdateMeal = (req, res, next) => {
-  const { id } = req.params;
+  const { mealId } = req.params;
   const { name, imageUrl, description } = req.body;
   const validatedMeal = {};
   const error = {};
 
-  if (id && !validator.isNumeric(id)) {
+  if (mealId && !validator.isNumeric(mealId)) {
     error.id = 'Meal id must be a number';
   }
 
@@ -67,10 +67,10 @@ export const validateUpdateMeal = (req, res, next) => {
 };
 
 export const validateGetMeal = (req, res, next) => {
-  const { id } = req.params;
+  const { mealId } = req.params;
   const error = {};
 
-  if (id && !validator.isNumeric(id)) {
+  if (mealId && !validator.isNumeric(mealId)) {
     error.id = 'Meal id must be a number';
   }
 

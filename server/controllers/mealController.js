@@ -14,7 +14,7 @@ class MealController {
   static getMeal(req, res) {
     const error = {};
     const mealResponse = meals.filter(meal => (
-      meal.id === parseInt(req.params.id, 10)
+      meal.id === parseInt(req.params.mealId, 10)
     ));
     if (!mealResponse[0]) {
       error.id = 'Meal does not exist';
@@ -55,7 +55,7 @@ class MealController {
     const error = {};
     // Filter meals
     const matchedMeal = meals.filter(meal => (
-      meal.id === parseInt(req.params.id, 10)
+      meal.id === parseInt(req.params.mealId, 10)
     ))[0];
 
     if (!matchedMeal) {
@@ -79,7 +79,7 @@ class MealController {
     const error = {};
     // Delete meal by return a new filtered array without the meal
     const filteredMeals = meals.filter(meal => (
-      meal.id !== parseInt(req.params.id, 10)
+      meal.id !== parseInt(req.params.mealId, 10)
     ));
 
     if ((meals.length - filteredMeals.length) === 1) {
