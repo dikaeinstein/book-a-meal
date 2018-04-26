@@ -1,6 +1,10 @@
 import express from 'express';
 import MealController from '../controllers/mealController';
 import UserController from '../controllers/userController';
+import MenuController from '../controllers/menuController';
+import OrderController from '../controllers/orderController';
+import authenticate from '../middleware/authenticate';
+import authorize from '../middleware/authorize';
 
 import {
   validateAddMeal,
@@ -12,10 +16,6 @@ import {
   validateSignup,
 } from '../middleware/userValidator';
 import validateMenu from '../middleware/menuValidator';
-
-import authenticate from '../middleware/authenticate';
-import authorize from '../middleware/authorize';
-import MenuController from '../controllers/menuController';
 
 
 // Setup express router
@@ -45,6 +45,11 @@ router.delete('/meals/:id', authenticate, authorize, validateUpdateMeal, MealCon
 router.post('/menus', authenticate, authorize, validateMenu, MenuController.setupMenu);
 // Get menu
 router.get('/menus', authenticate, MenuController.getMenu);
+
+
+// Get all orders
+router.get('/orders', authenticate, OrderController.getAllOrders);
+
 
 // Root path
 router.get('/', (req, res) => (
