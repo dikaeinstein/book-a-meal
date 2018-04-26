@@ -51,6 +51,14 @@ describe('Menu', () => {
 
   // Test Setup Menu for specific day
   describe('Setup Menu', () => {
+    it('should not get menu if menu is not set', async () => {
+      const res = await chai.request(app).get(menuUrl)
+        .set('Authorization', `Bearer ${token}`);
+      expect(res.status).to.equal(404);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.message).to
+        .equal('Menu for today have not been set');
+    });
     it('should setup menu', async () => {
       const res = await chai.request(app).post(menuUrl)
         .set('Authorization', `Bearer ${token}`)
@@ -85,6 +93,16 @@ describe('Menu', () => {
         .include('Menu name is required');
     });
   });
-});
 
-// Test Get menu
+  // Test Get Menu for specific day
+  describe('Get Menu', () => {
+    it('should get menu for specific day', async () => {
+      const res = await chai.request(app).get(menuUrl)
+        .set('Authorization', `Bearer ${token}`);
+      expect(res.status).to.equal(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('success');
+      expect(res.body.menu).to.be.an('object');
+    });
+  });
+});
