@@ -9,7 +9,8 @@
   "private": true,
   "scripts": {
     "start": "node server/dist/app.js",
-    "build": "babel server -d server/dist",
+		"build": "babel server -d server/dist",
+		"heroku-postbuild": "babel server -d server/dist",
     "start-dev": "nodemon --exec babel-node server/app.js",
     "prestart": "yarn run build",
     "test": "nyc --require babel-core/register mocha server/test/**.spec.js --exit -w",
@@ -45,5 +46,8 @@
     "ghooks": {
       "pre-commit": "yarn test-single"
     }
+	},
+	"engines": {
+    "yarn": "1.6.0"
   }
 }
