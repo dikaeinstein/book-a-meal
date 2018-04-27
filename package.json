@@ -12,7 +12,8 @@
     "build": "babel server -d server/dist",
     "start-dev": "nodemon --exec babel-node server/app.js",
     "prestart": "yarn run build",
-    "test": "mocha server/test/**.spec.js --require babel-core/register --exit -w"
+		"test": "mocha server/test/**.spec.js --require babel-core/register --exit -w",
+		"test-single": "mocha server/test/**.spec.js --require babel-core/register --exit"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
@@ -33,6 +34,12 @@
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.11.0",
+    "ghooks": "^2.0.3",
     "nodemon": "^1.17.3"
-  }
+	},
+	"config": {
+		"ghooks": {
+			"pre-commit": "yarn test-single"
+		}
+	}
 }
