@@ -50,8 +50,118 @@ Now start the server:
 
 ```yarn
 yarn start
-yarn start-dev     /* to watch for file changes */
+yarn start-dev     /* Keep watching files for changes */
+```
+
+## Testing
+
+To run tests:
+
+```yarn
+yarn test-single
+yarn test          /* Keep watching files for changes */
 ```
 
 ## API
+
 API is deployed at [here](https://dikaeinstein-book-a-meal.herokuapp.com/) on heroku.
+
+### API Routes
+
+<table>
+	<tr>
+		<th>HTTP VERB</th>
+		<th>ENDPOINT</th>
+		<th>FUNCTIONALITY</th>
+	</tr>
+	<tr>
+		<td>POST</td>
+		<td>/api/v1/auth/signup</td> 
+		<td>/Create user account</td>
+	</tr>
+	<tr>
+		<td>POST</td>
+		<td>/api/v1/auth/signin</td> 
+		<td>Sign in to user account</td>
+	</tr>
+	<tr>
+		<td>POST</td>
+		<td>/api/v1/auth/signup</td> 
+		<td>Create user account</td>
+	</tr>
+	<tr>
+		<td>POST</td>
+		<td>/api/v1/caterer/auth/signup</td> 
+		<td>Create Admin account</td>
+	</tr>
+	<tr>
+		<td>POST</td>
+		<td>/api/v1/caterer/auth/signin</td> 
+		<td>Sign in to Admin account</td>
+	</tr>
+	<tr>
+		<td>GET</td>
+		<td>/api/v1/meals</td> 
+		<td>Get all meals</td>
+	</tr>
+	<tr>
+		<td>GET</td>
+		<td>/api/v1/meals/:mealId</td> 
+		<td>Get a meal</td>
+	</tr>
+	<tr>
+		<td>POST</td>
+		<td>/api/v1/meals</td> 
+		<td>Add new meal</td>
+	</tr>
+	<tr>
+		<td>PUT</td>
+		<td>/api/v1/meals/:mealId</td> 
+		<td>Update or modify meal</td>
+	</tr>
+	<tr>
+		<td>DELETE</td>
+		<td>/api/v1/meals/:mealId</td> 
+		<td>Delete meal</td>
+	</tr>
+	<tr>
+		<td>POST</td>
+		<td>/api/v1/menu</td> 
+		<td>Setup menu</td>
+	</tr>
+	<tr>
+		<td>GET</td>
+		<td>/api/v1/menu</td> 
+		<td>Get menu</td>
+	</tr>
+	<tr>
+		<td>GET</td>
+		<td>/api/v1/orders</td> 
+		<td>Get all orders</td>
+	</tr>
+	<tr>
+		<td>POST</td>
+		<td>/api/v1/orders</td> 
+		<td>Make an order</td>
+	</tr>
+	<tr>
+		<td>PUT</td>
+		<td>/api/v1/orders/:orderId</td> 
+		<td>Modify an order</td>
+	</tr>
+	<tr>
+		<td>GET</td>
+		<td>/api/v1/orders/total</td> 
+		<td>GET total amount from orders of current day</td>
+	</tr>
+	<tr>
+		<td>GET</td>
+		<td>/api/v1/orders/users</td> 
+		<td>Get order for current logged in user</td>
+	</tr>
+		<tr>
+		<td>GET</td>
+		<td>/api/v1/orders/users/:userId</td> 
+		<td>Get order for the user with userId</td>
+	</tr>
+</table>
