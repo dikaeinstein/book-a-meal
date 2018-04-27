@@ -12,8 +12,8 @@
     "build": "babel server -d server/dist",
     "start-dev": "nodemon --exec babel-node server/app.js",
     "prestart": "yarn run build",
-    "test": "nyc mocha server/test/**.spec.js --require babel-core/register --exit -w",
-		"test-single": "nyc mocha server/test/**.spec.js --require babel-core/register --exit",
+    "test": "nyc --require babel-core/register mocha server/test/**.spec.js --exit -w",
+		"test-single": "nyc --require babel-core/register mocha server/test/**.spec.js --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
