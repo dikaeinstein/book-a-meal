@@ -561,7 +561,8 @@ td[title] {
 .dash-main,
 .user-menu-main,
 .order-history-main,
-.landing-main {
+.landing-main,
+.order-details-main {
     padding: 1.5rem;
 }
 
@@ -744,6 +745,28 @@ li.user {
 .intro-banner .btn {
     border: 0;
     background: yellow;
+}
+
+
+/*
+ ===================================
+ Order Details
+ ==================================
+*/
+
+.order-details {
+	margin: 2rem auto;
+	width: 38rem;
+	max-width: 100%;
+	padding: 2rem;
+	color: #4e4a4a;
+}
+
+.order-details h2 {
+	color: #f00;
+}
+.order-details p {
+	font-size: 2rem;
 }
 
 
