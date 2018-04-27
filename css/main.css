@@ -755,18 +755,33 @@ li.user {
 */
 
 .order-details {
-	margin: 2rem auto;
-	width: 38rem;
-	max-width: 100%;
-	padding: 2rem;
-	color: #4e4a4a;
+    margin: 2rem auto;
+    width: 30rem;
+    max-width: 75%;
+    padding: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    color: #4e4a4a;
 }
-
+.order-details .btn { margin-top: 1rem; }
 .order-details h2 {
-	color: #f00;
+    color: #f00;
+}
+.meal-details {
+    display: flex;
+    justify-content: space-around;
+    align-items: center
 }
 .order-details p {
-	font-size: 2rem;
+    font-size: 1.5rem;
+    margin: 1.125rem;
+}
+hr {
+   margin: 0 0.75rem;
+}
+#total {
+  font-size: 3rem;
+  align-self: flex-end;
 }
 
 
@@ -915,6 +930,16 @@ li.user {
     .user-menu-item:last-of-type:not(even) {
         margin-right: auto;
     }
+
+    .meal-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    hr {
+        margin: 0 1.125rem;
+     }
 }
 
 
