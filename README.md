@@ -52,3 +52,6 @@ Now start the server:
 yarn start
 yarn start-dev     /* to watch for file changes */
 ```
+
+## API
+API is deployed at [here](https://dikaeinstein-book-a-meal.herokuapp.com/) on heroku.
