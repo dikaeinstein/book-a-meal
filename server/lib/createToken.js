@@ -3,11 +3,12 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// const { secret } = process.env;
+const { secret } = process.env;
 
-const secret = 'dikababa1111111111111111111111';
+// const secret = 'dikababa1111111111111111111111';
 
 const createToken = (id) => {
+  console.log(secret);
   return jwt.sign(
     { id },
     secret,
