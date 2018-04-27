@@ -1,7 +1,8 @@
 sudo: false
 dist: trusty
 language: node_js
-node_js: stable
+node_js: 
+  - stable
 cache:
   directories:
     - node_modules
