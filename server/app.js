@@ -27,6 +27,17 @@ app.get('/', (req, res) => (
   })
 ));
 
+// Catch all error handler
+app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
+  return res.status(500).json({
+    status: 'error',
+    message: 'Something failed',
+  });
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Express server listening on ${port}`);
