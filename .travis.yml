@@ -8,6 +8,7 @@ cache:
   - node_modules
 branches:
   only:
+  - ch-add-travis-157141554
   - ft-auth-users-can-see-their-order-history-156826449
 before_install:
 - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.6.0
