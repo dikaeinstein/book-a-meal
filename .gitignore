@@ -10,6 +10,8 @@ server/dist
 # nyc
 .nyc_output
 
+.coveralls.yml
+
 # vscode
 .vscode
 
