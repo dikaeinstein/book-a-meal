@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const secret = process.env.SECRET;
-// const secret = 'dikababa1111111111111111111111';
+const { SECRET } = process.env;
+// const SECRET = 'dikababa1111111111111111111111';
 
 const isLoggedIn = (req, res, next) => {
   const token = req.get('Authorization') ?
@@ -17,7 +17,7 @@ const isLoggedIn = (req, res, next) => {
   }
 
   try {
-    const verifiedToken = jwt.verify(token, secret);
+    const verifiedToken = jwt.verify(token, SECRET);
     req.userId = verifiedToken.id;
     return next();
   } catch (err) {
