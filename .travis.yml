@@ -9,6 +9,9 @@ cache:
 branches:
   only:
     - ft-auth-users-can-see-their-order-history-156826449
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version version-number
+  - export PATH="$HOME/.yarn/bin:$PATH"
 before_script:
   - npm install
 script:
