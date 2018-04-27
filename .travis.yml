@@ -1,6 +1,13 @@
 sudo: false
+dist: trusty
 language: node_js
 node_js: stable
+cache:
+  directories:
+    - node_modules
+branches:
+  only:
+    - ft-auth-users-can-see-their-order-history-156826449
 before_script:
   - npm install
 script:
