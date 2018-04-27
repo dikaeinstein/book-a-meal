@@ -14,6 +14,7 @@ const meal = {
   name: 'Spaghetti with meat balls',
   description: 'Some dummy description',
   imageUrl: 'https://mydummyimgurl.com',
+  price: '2000',
 };
 
 const admin = {
@@ -179,6 +180,19 @@ describe('Meals', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.error.imageUrl)
         .to.include('Meal image url is required');
+    });
+    it('should not add meal without price', async () => {
+      const res = await chai.request(app).post(mealUrl)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          name: 'Meal with empty image url',
+          description: 'I am the description for the meal without image url',
+          imageUrl: 'http://somedummyurl.com/fake.jpg',
+        });
+      expect(res.status).to.equal(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.price).to
+        .include('Meal price is required');
     });
   });
 
