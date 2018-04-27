@@ -1,0 +1,24 @@
+sudo: false
+dist: trusty
+language: node_js
+node_js:
+- 8.11.1
+cache:
+  directories:
+  - node_modules
+before_install:
+- curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.6.0
+- export PATH="$HOME/.yarn/bin:$PATH"
+before_script:
+- yarn install
+script:
+- yarn test-single
+after_success: yarn coverage
+deploy:
+  provider: heroku
+  api_key:
+    secure: DxI8w9GAYfveAylXYtmIiCyeDKJSpP8znOJM4zvrfZ/7AFsyi/a/lzSsVz3lFVC+TUsD4wCPXwIne7HGUgVuNH4hIBE6pdZ2CCBM+2t50xl9yEAIAXIrojR4IA8hxYq074P6YhjyKfsok9AxQzcX/jy3GtnZCM7grPFSV5YL8/IFnd4WdjCfudtoMRjP/vWkfYklDWgKM3XISwGRZJRX6UCzTOa0Lxv3r2ARooD7z8UMVGB2cwYLq9DWNbNCG7VMZb6QJx+j8rbcAz1eOHVtnFnAx2Mfdp/Xtxfe7SfA+VYWGQ6xWHebZQfR6933BW7JEqLRdDfLCpaPWRMlPeseTO5RnuLg4enXIcWChCs+Y7nle8xKtCcRwzFkj51C0CV+CvAiKc+pb037uOnjR+oP3C3wU6TlIhtuU4bT8nWOqn0t+8mSCosZklfjy1vtx8yL0B84b/nMCaVOtoBRwwopqDO2P6uBglQspJZCwZ7B1v8bjIu7bZCtr/YE9qff1K1QErwuK5w8/8QNz1fSVX4BHrKE7Hho8kSyAODV/XV4CCRp040lMDjGKG5LYINskx2xAi9jvY1v0bvvt6W+ZCZP4hQEZNzkYrk5l6Fnau6sEbVSSOZqBPn88V0pXvcJVlN8OI8czwuUiftyslZPPVgPTzD1PzR3YWVuqbzKRYtL1vk=
+  app: dikaeinstein-book-a-meal
+  on:
+    repo: Dikaeinstein/book-a-meal
+    branch: ch-integrate-test-coverage-reporting-157145129
