@@ -77,7 +77,7 @@ API is deployed at [here](https://dikaeinstein-book-a-meal.herokuapp.com/) on he
 	<tr>
 		<td>POST</td>
 		<td>/api/v1/auth/signup</td> 
-		<td>/Create user account</td>
+		<td>Create user account</td>
 	</tr>
 	<tr>
 		<td>POST</td>
