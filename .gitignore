@@ -7,6 +7,9 @@ node_modules
 # build folder
 server/dist
 
+# nyc
+.nyc_output
+
 # vscode
 .vscode
 

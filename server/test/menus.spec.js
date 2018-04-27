@@ -12,12 +12,14 @@ const meals = [
     name: 'Spaghetti with meat balls',
     description: 'Some dummy description',
     imageUrl: 'https://mydummyimgurl.com',
+    price: '2000',
   },
   {
     id: 2,
     name: 'Vegetable Soup',
     description: 'Made with vegetable and palm oil',
     imageUrl: 'http://img.com/vegetable.jpg',
+    price: '2000',
   },
 ];
 

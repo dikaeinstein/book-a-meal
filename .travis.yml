@@ -15,4 +15,5 @@ before_install:
 before_script:
 - yarn install
 script:
-- yarn run test-single
+- yarn test-single
+after_success: yarn coverage
