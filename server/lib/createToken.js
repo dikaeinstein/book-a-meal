@@ -3,15 +3,15 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const { SECRET } = process.env;
+const secret = process.env.SECRET;
 
 // const secret = 'dikababa1111111111111111111111';
 
 const createToken = (id) => {
-  console.log(SECRET);
+  console.log(secret);
   return jwt.sign(
     { id },
-    SECRET,
+    secret,
     { expiresIn: '1 day' },
   );
 };
