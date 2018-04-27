@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const secret = process.env.SECRET;
-// const secret = 'dikababa1111111111111111111111';
 
 const isLoggedIn = (req, res, next) => {
   const token = req.get('Authorization') ?
