@@ -14,7 +14,7 @@
     "prestart": "yarn run build",
     "test": "nyc mocha server/test/**.spec.js --require babel-core/register --exit -w",
 		"test-single": "nyc mocha server/test/**.spec.js --require babel-core/register --exit",
-    "coverage": "yarn test-single && nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
