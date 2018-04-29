@@ -5,7 +5,7 @@ Book-A-Meal is an application that allows customers to make food orders and help
 [![Coverage Status](https://coveralls.io/repos/github/Dikaeinstein/book-a-meal/badge.svg?branch=ch-integrate-test-coverage-reporting-157145129)](https://coveralls.io/github/Dikaeinstein/book-a-meal?branch=ch-integrate-test-coverage-reporting-157145129)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1104abe96a3ded2f2b39/maintainability)](https://codeclimate.com/github/Dikaeinstein/book-a-meal/maintainability)
 
-**View UI template:** [Click](https://dikaeinstein.github.io/book-a-meal/UI/index.html)
+**View UI template:** [Click](https://dikaeinstein.github.io/book-a-meal/)
 
 ## Features
 
@@ -152,7 +152,7 @@ API is deployed at [here](https://dikaeinstein-book-a-meal.herokuapp.com/) on he
 	<tr>
 		<td>GET</td>
 		<td>/api/v1/orders/total</td> 
-		<td>GET total amount from orders of current day</td>
+		<td>Get total amount from orders of current day</td>
 	</tr>
 	<tr>
 		<td>GET</td>
