@@ -19,7 +19,7 @@ class OrderController {
     return res.status(200).json({
       message: 'Orders succesfully retrieved',
       status: 'success',
-      matchedOrders,
+      orders: matchedOrders,
     });
   }
 
@@ -65,6 +65,7 @@ class OrderController {
     }
 
     return res.status(200).json({
+      message: 'Orders total amount successfully retrieved',
       status: 'success',
       total,
     });
@@ -111,7 +112,11 @@ class OrderController {
 
     if (!matchedOrder) {
       error.id = 'Order id does not exist';
-      return res.status(404).json({ error });
+      return res.status(404).json({
+        message: error.id,
+        status: 'error',
+        error,
+      });
     }
 
     // Merge changes

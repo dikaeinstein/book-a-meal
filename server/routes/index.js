@@ -48,7 +48,7 @@ router.delete('/meals/:mealId', authenticate, authorize, validateUpdateMeal, Mea
 // Setup menu
 router.post('/menu', authenticate, authorize, validateMenu, MenuController.setupMenu);
 // Get menu
-router.get('/menu', authenticate, MenuController.getMenu);
+router.get('/menu', MenuController.getMenu);
 
 
 // Get all orders

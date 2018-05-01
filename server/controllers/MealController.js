@@ -13,16 +13,16 @@ class MealController {
   // Get a meal
   static getMeal(req, res) {
     const error = {};
-    const mealResponse = meals.filter(meal => (
+    const matchedMeal = meals.filter(meal => (
       meal.id === parseInt(req.params.mealId, 10)
     ));
-    if (!mealResponse[0]) {
+    if (!matchedMeal[0]) {
       error.id = 'Meal does not exist';
       return res.status(404).json({ error });
     }
 
     return res.status(200).json({
-      meal: mealResponse[0],
+      meal: matchedMeal[0],
       status: 'success',
       message: 'Meal found',
     });
@@ -77,16 +77,17 @@ class MealController {
   // Delete meal
   static deleteMeal(req, res) {
     const error = {};
-    // Delete meal by return a new filtered array without the meal
     const filteredMeals = meals.filter(meal => (
       meal.id !== parseInt(req.params.mealId, 10)
     ));
 
     if ((meals.length - filteredMeals.length) === 1) {
+      const deletedMeal = meals[req.params.mealId];
       meals = filteredMeals;
       return res.status(201).json({
         message: 'Meal successfully deleted',
         status: 'success',
+        meal: deletedMeal,
       });
     }
 

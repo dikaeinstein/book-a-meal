@@ -33,7 +33,11 @@ class MenuController {
 
     if (!todayMenu) {
       error.message = 'Menu for today have not been set';
-      return res.status(404).json({ error });
+      return res.status(404).json({
+        message: error.message,
+        status: 'error',
+        error,
+      });
     }
 
     return res.status(200).json({

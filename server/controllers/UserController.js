@@ -22,7 +22,11 @@ class UserController {
     // Check if user already exist
     if (matchedUser) {
       error.email = 'Email already exists';
-      return res.status(400).json({ error });
+      return res.status(400).json({
+        message: error.email,
+        status: 'error',
+        error,
+      });
     }
 
     // Hash user password and initialize new user
@@ -63,7 +67,11 @@ class UserController {
 
     if (!matchedUser) {
       error.email = 'User does not exist';
-      return res.status(404).json({ error });
+      return res.status(404).json({
+        message: error.email,
+        status: 'error',
+        error,
+      });
     }
 
     return checkPassword(password, matchedUser.password)
@@ -86,7 +94,11 @@ class UserController {
             });
         }
         error.password = 'You entered a wrong password';
-        return res.status(401).json({ error });
+        return res.status(401).json({
+          message: error.password,
+          status: 'error',
+          error,
+        });
       });
   }
 }
