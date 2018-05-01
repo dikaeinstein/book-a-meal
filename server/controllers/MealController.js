@@ -34,6 +34,7 @@ class MealController {
       name,
       description,
       imageUrl,
+      price,
     } = req.body;
 
     meals.push({
@@ -41,6 +42,7 @@ class MealController {
       name,
       description,
       imageUrl,
+      price,
     });
 
     return res.status(201).json({

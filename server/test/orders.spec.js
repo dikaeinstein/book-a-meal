@@ -85,8 +85,8 @@ describe('Orders', () => {
       const res = await chai.request(app).put(`${orderUrl}/1`)
         .set('Authorization', `Bearer ${token}`)
         .send({
-          quantity: 2,
-          total: 4000,
+          quantity: '2',
+          total: '4000',
         });
       expect(res.status).to.equal(200);
       expect(res.body).to.be.an('object');

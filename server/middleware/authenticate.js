@@ -12,7 +12,11 @@ const isLoggedIn = (req, res, next) => {
 
   if (!token) {
     error.token = 'No token provided';
-    return res.status(401).json({ error });
+    return res.status(401).json({
+      message: error.token,
+      status: 'error',
+      error,
+    });
   }
 
   try {
@@ -21,7 +25,11 @@ const isLoggedIn = (req, res, next) => {
     return next();
   } catch (err) {
     error.message = 'Unauthorized';
-    return res.status(401).json({ error });
+    return res.status(401).json({
+      status: 'error',
+      message: error.message,
+      error,
+    });
   }
 };
 

@@ -9,12 +9,12 @@ const validateMenu = (req, res, next) => {
     error.name = 'Menu name is required';
   }
 
-  if (name && validator.isEmpty(name)) {
+  if (name && validator.isEmpty(name.trim())) {
     error.name = 'Menu name is required';
   }
 
   if (!meals) {
-    error.meals = 'Menu must have atleast a meal';
+    error.meals = 'Menu must have at least one meal';
   }
 
   if (meals && isEmpty(meals)) {

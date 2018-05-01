@@ -19,8 +19,8 @@ export const validateAddMeal = (req, res, next) => {
     error.price = 'Meal price is required';
   }
 
-  if (price && validator.isEmpty(price.trim())) {
-    error.price = 'Meal price is required';
+  if (price && (validator.isEmpty(price.trim()) || !validator.isNumeric(price.trim()))) {
+    error.price = 'Meal price must be numbers';
   }
 
   if (!description) {
@@ -35,15 +35,18 @@ export const validateAddMeal = (req, res, next) => {
     error.imageUrl = 'Meal image url is required';
   }
 
-  if (imageUrl && validator.isEmpty(imageUrl.trim())) {
-    error.imageUrl = 'Meal image url is required';
+  if (imageUrl && (validator.isEmpty(imageUrl.trim() || !validator.isURL(imageUrl.trim())))) {
+    error.imageUrl = 'Meal image url must be a url';
   }
 
   if (isEmpty(error)) {
     return next();
   }
 
-  return res.status(400).json({ error });
+  return res.status(400).json({
+    status: 'error',
+    error,
+  });
 };
 
 export const validateUpdateMeal = (req, res, next) => {
@@ -52,7 +55,7 @@ export const validateUpdateMeal = (req, res, next) => {
   const validatedMeal = {};
   const error = {};
 
-  if (mealId && !validator.isNumeric(mealId)) {
+  if (mealId && (validator.isEmpty(mealId.trim()) || !validator.isNumeric(mealId))) {
     error.id = 'Meal id must be a number';
   }
 
@@ -73,14 +76,17 @@ export const validateUpdateMeal = (req, res, next) => {
     return next();
   }
 
-  return res.status(400).json({ error });
+  return res.status(400).json({
+    status: 'error',
+    error,
+  });
 };
 
 export const validateGetMeal = (req, res, next) => {
   const { mealId } = req.params;
   const error = {};
 
-  if (mealId && !validator.isNumeric(mealId)) {
+  if (mealId && (validator.isEmpty(mealId.trim()) || !validator.isNumeric(mealId))) {
     error.id = 'Meal id must be a number';
   }
 
@@ -88,5 +94,8 @@ export const validateGetMeal = (req, res, next) => {
     return next();
   }
 
-  return res.status(400).json({ error });
+  return res.status(400).json({
+    status: 'error',
+    error,
+  });
 };
