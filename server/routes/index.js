@@ -1,8 +1,8 @@
 import express from 'express';
-import MealController from '../controllers/mealController';
-import UserController from '../controllers/userController';
-import MenuController from '../controllers/menuController';
-import OrderController from '../controllers/orderController';
+import MealController from '../controllers/MealController';
+import UserController from '../controllers/UserController';
+import MenuController from '../controllers/MenuController';
+import OrderController from '../controllers/OrderController';
 import authenticate from '../middleware/authenticate';
 import authorize from '../middleware/authorize';
 
