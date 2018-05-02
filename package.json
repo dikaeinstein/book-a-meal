@@ -9,18 +9,20 @@
   "private": true,
   "scripts": {
     "start": "node server/dist/app.js",
-		"build": "babel server -d server/dist",
+    "build": "babel server -d server/dist",
     "start-dev": "nodemon --exec babel-node server/app.js",
     "prestart": "yarn run build",
     "test": "nyc --require babel-core/register mocha server/test/**.spec.js --exit -w",
-		"test-single": "nyc --require babel-core/register mocha server/test/**.spec.js --exit",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "test-single": "nyc --require babel-core/register mocha server/test/**.spec.js --exit",
+		"coverage": "nyc report --reporter=text-lcov | coveralls",
+		"deploy": "gh-pages -d UI"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "gh-pages": "^1.1.0",
     "jsonwebtoken": "^8.2.1",
     "lodash.isempty": "^4.4.0",
     "morgan": "^1.9.0",
@@ -45,8 +47,8 @@
     "ghooks": {
       "pre-commit": "yarn test-single"
     }
-	},
-	"engines": {
+  },
+  "engines": {
     "yarn": "1.6.0"
   }
 }
