@@ -3,6 +3,13 @@ let meals = [];
 class MealController {
   // Get all meals
   static getAllMeals(req, res) {
+    if (meals.length === 0) {
+      return res.status(200).json({
+        status: 'success',
+        message: 'There is currently no meal!',
+        meals,
+      });
+    }
     return res.status(200).json({
       meals,
       status: 'success',
@@ -30,6 +37,7 @@ class MealController {
 
   // Add meal
   static addMeal(req, res) {
+    const error = {};
     const {
       name,
       description,
@@ -37,6 +45,18 @@ class MealController {
       price,
     } = req.body;
 
+    const matchedMeal = meals
+      .map(meal => meal.name)
+      .filter(mealName => mealName === name)[0];
+
+    if (matchedMeal) {
+      error.name = 'Meal name already exist';
+      return res.status(422).json({
+        message: error.name,
+        status: 'error',
+        error,
+      });
+    }
     meals.push({
       id: meals.length + 1,
       name,

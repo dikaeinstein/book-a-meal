@@ -22,7 +22,7 @@ class UserController {
     // Check if user already exist
     if (matchedUser) {
       error.email = 'Email already exists';
-      return res.status(400).json({
+      return res.status(422).json({
         message: error.email,
         status: 'error',
         error,

@@ -56,6 +56,14 @@ describe('Orders', () => {
       expect(res.status).to.equal(200);
       expect(res.body.orders).to.be.an('array');
     });
+    it('should return a custom message when array of orders is empty', async () => {
+      const res = await chai.request(app).get(orderUrl)
+        .set('Authorization', `Bearer ${token}`);
+      expect(res.status).to.equal(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body.message).to
+        .include('No order have been placed');
+    });
   });
 
   // Test Post an order

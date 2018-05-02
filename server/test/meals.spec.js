@@ -9,13 +9,20 @@ const mealUrl = '/api/v1/meals';
 const signUpUrl = '/api/v1/auth/signup';
 const catererSignUpUrl = '/api/v1/caterer/auth/signup';
 
-const meal = {
-  id: 1,
-  name: 'Spaghetti with meat balls',
-  description: 'Some dummy description',
-  imageUrl: 'https://mydummyimgurl.com',
-  price: '2000',
-};
+const meals = [
+  {
+    name: 'Spaghetti with meat balls',
+    description: 'Some dummy description',
+    imageUrl: 'https://mydummyimgurl.com',
+    price: '2000',
+  },
+  {
+    name: 'Efo riro and cow head',
+    description: 'Some dummy description',
+    imageUrl: 'https://mydummyimgurl.com',
+    price: '2000',
+  },
+];
 
 const admin = {
   name: 'Walter Okwa',
@@ -50,22 +57,21 @@ describe('Meals', () => {
 
   // Test Get All Meals
   describe('Get All Meals', () => {
-    it('should return status 200', async () => {
+    it('should return a custom message when array of meals is empty', async () => {
       const res = await chai.request(app).get(mealUrl);
-      expect(res).to.have.status(200);
+      expect(res.status).to.equal(200);
+      expect(res.body.message).to.include('There is currently no meal!');
     });
     it('should return an array', async () => {
       const res = await chai.request(app).get(mealUrl);
+      expect(res.status).to.equal(200);
+      expect(res.body).to.be.an('object');
       expect(res.body.meals).to.be.an('array');
-    });
-    it('should return an empty array on start', async () => {
-      const res = await chai.request(app).get(mealUrl);
-      expect(res.body.meals).to.have.length(0);
     });
     it('should return an array of meals', async () => {
       await chai.request(app).post(mealUrl)
         .set('Authorization', `Bearer ${adminToken}`)
-        .send(meal);
+        .send(meals[1]);
       const res = await chai.request(app).get(mealUrl);
       expect(res.status).to.equal(200);
       expect(res.body.meals.length).to.be.greaterThan(0);
@@ -92,7 +98,7 @@ describe('Meals', () => {
     it('should add meal with complete fields', async () => {
       const res = await chai.request(app).post(mealUrl)
         .set('Authorization', `Bearer ${adminToken}`)
-        .send(meal);
+        .send(meals[0]);
       expect(res).to.have.status(201);
       expect(res.body.meal).to.be.an('object');
       expect(res.body.message).to
@@ -101,7 +107,7 @@ describe('Meals', () => {
     it('should not allow non auth admin to add meal', async () => {
       const res = await chai.request(app).post(mealUrl)
         .set('Authorization', 'Bearer sdkjsdkjskdjfskdjf')
-        .send(meal);
+        .send(meals[0]);
       expect(res).to.have.status(401);
       expect(res.body).to.be.an('object');
       expect(res.body.error.message).to
@@ -193,6 +199,20 @@ describe('Meals', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.error.price).to
         .include('Meal price is required');
+    });
+    it('should not add meal with a name that already exists', async () => {
+      const requester = chai.request(app).keepOpen();
+      await requester.post(mealUrl)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(meals[1]);
+      const res = await requester.post(mealUrl)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(meals[1]);
+      expect(res.status).to.equal(422);
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('error');
+      expect(res.body.message).to
+        .include('Meal name already exist');
     });
   });
 

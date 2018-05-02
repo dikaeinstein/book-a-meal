@@ -3,6 +3,14 @@ const orders = [];
 class OrderController {
   // Get All Orders
   static getAllOrders(req, res) {
+    if (orders.length === 0) {
+      return res.status(200).json({
+        status: 'success',
+        message: 'No order have been placed',
+        orders,
+      });
+    }
+
     return res.status(200).json({
       message: 'Orders succesfully retrieved',
       status: 'success',

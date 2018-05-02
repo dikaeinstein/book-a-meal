@@ -92,7 +92,7 @@ describe('User Sign Up', () => {
   it('should not create user with an already existing email', async () => {
     const res = await chai.request(app).post(signUpUrl)
       .send(users[0]);
-    expect(res.status).to.equal(400);
+    expect(res.status).to.equal(422);
     expect(res.body).to.be.an('object');
     expect(res.body.error.email).to.include('Email already exist');
   });
