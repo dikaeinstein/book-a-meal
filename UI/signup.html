@@ -15,7 +15,7 @@
   <main class="flex-container">
 
     <!-- Left side -->
-    <section class="col-3-4 hero text-center">
+    <section class="col-3-4 hero text-center" id="signUp">
       <h1>Sign In</h1>
       <div class="lead">
         <h4>TO BOOK</h4>
@@ -63,7 +63,14 @@
           </label>
           <input type="password" placeholder="Enter password"
             id="confirmPassword" required />
-        </div>
+				</div>
+				<div>
+					<label class="label label-block" for="customer">Sign up as:</label>
+					<select name="role" id="role" required>
+						<option value="customer">Customer</option>
+						<option value="caterer">Caterer</option>
+					</select>
+				</div>
         <button type="submit"
           class="btn btn-default btn-default-lg font-weight-bold"
         >
