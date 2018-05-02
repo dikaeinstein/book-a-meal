@@ -528,14 +528,19 @@ td[title] {
     width: 15rem;
 }
 
-.add-section select {
+form select {
     width: 100%;
-    height: 3rem;
-    font-size: 1.125rem; /* 18px */
+    font-size: 1rem; /* 18px */
     padding: 0.5rem;
-    border-radius: 5px;
-    margin-top: 1rem;
+		border-radius: 5px;
+		margin-top: 0.3125rem;
     margin-bottom: 1rem;
+}
+
+.add-section select {
+	font-size: 1.125rem; /* 18px */
+	height: 3rem;
+	margin-top: 1rem;
 }
 
 
@@ -664,6 +669,16 @@ input[type="date"] {
     border: 1px solid #9e9e9e;
     border-radius: 5px;
     padding: 0.5rem;
+}
+
+.user-menu-item:hover,
+.user-menu-item:focus {
+    border-color: #f00;
+		box-shadow: 0 4px 8px 7px rgba(0,0,0,0.14);
+    color: #3ac189;
+    -webkit-transform: translateY(-2px);
+    -ms-transform: translateY(-2px);
+    transform: translateY(-2px);
 }
 
 .user-menu-item .amount {
@@ -796,9 +811,9 @@ hr {
         padding: 0 60px;
     }
 
-    footer {
+    #signUP footer {
         padding-top: 1.75rem;
-        padding-bottom: 1.75rem;
+        padding-bottom: 0;
     }
 
     .add-section form {
@@ -944,6 +959,11 @@ hr {
 
 
 @media screen and (min-width: 1024px) {
+
+		#signUp img {
+			height: 500px;
+		}
+
     /*
      ===================================
      Grid: flexbox
