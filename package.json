@@ -14,8 +14,8 @@
     "prestart": "yarn run build",
     "test": "nyc --require babel-core/register mocha server/test/**.spec.js --exit -w",
     "test-single": "nyc --require babel-core/register mocha server/test/**.spec.js --exit",
-		"coverage": "nyc report --reporter=text-lcov | coveralls",
-		"deploy": "gh-pages -d UI"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "deploy": "gh-pages -d UI"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
@@ -26,6 +26,8 @@
     "jsonwebtoken": "^8.2.1",
     "lodash.isempty": "^4.4.0",
     "morgan": "^1.9.0",
+    "sequelize": "^4.37.6",
+    "sequelize-cli": "^4.0.0",
     "validator": "^9.4.1"
   },
   "devDependencies": {
