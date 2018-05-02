@@ -671,6 +671,16 @@ input[type="date"] {
     padding: 0.5rem;
 }
 
+.user-menu-item:hover,
+.user-menu-item:focus {
+    border-color: #f00;
+		box-shadow: 0 4px 8px 7px rgba(0,0,0,0.14);
+    color: #3ac189;
+    -webkit-transform: translateY(-2px);
+    -ms-transform: translateY(-2px);
+    transform: translateY(-2px);
+}
+
 .user-menu-item .amount {
     color: #f00;
 }
@@ -801,7 +811,7 @@ hr {
         padding: 0 60px;
     }
 
-    footer {
+    #signUP footer {
         padding-top: 1.75rem;
         padding-bottom: 0;
     }
