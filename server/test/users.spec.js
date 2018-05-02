@@ -15,11 +15,13 @@ const users = [
     email: 'solozyokwa@gmail.com',
     password: '1234567890',
     confirmPassword: '1234567890',
+    role: 'caterer',
   },
   {
     name: 'Walter Ifeanyi',
     email: 'walterify@3d.com',
     password: '1234567890',
+    role: 'customer',
   },
 ];
 
@@ -44,6 +46,7 @@ describe('User Sign Up', () => {
         email: 'sarada.uchiha.com',
         password: '1234567890',
         confirmPassword: '1234567890',
+        role: 'customer',
       });
     expect(res).to.have.status(400);
     expect(res.body).to.be.an('object');

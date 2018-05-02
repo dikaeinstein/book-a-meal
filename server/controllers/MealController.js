@@ -25,7 +25,11 @@ class MealController {
     ));
     if (!matchedMeal[0]) {
       error.id = 'Meal does not exist';
-      return res.status(404).json({ error });
+      return res.status(404).json({
+        message: error.id,
+        status: 'error',
+        error,
+      });
     }
 
     return res.status(200).json({

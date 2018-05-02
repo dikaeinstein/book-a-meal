@@ -4,7 +4,7 @@ const authorize = (req, res, next) => {
   const { userId } = req;
   const error = {};
   const matchedUser = users.filter(user => (
-    user.id === parseInt(userId, 10) && user.role === 'admin'
+    user.id === parseInt(userId, 10) && user.role === 'caterer'
   ))[0];
 
   if (!matchedUser) {

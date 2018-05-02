@@ -25,13 +25,9 @@ import {
 // Setup express router
 const router = express.Router();
 
-// Customer sign in and sign up
+// User sign in and sign up
 router.post('/auth/signup', validateSignup, UserController.createUser);
 router.post('/auth/signin', validateSignin, UserController.signinUser);
-
-// Caterer(Admin) sign in and sign up
-router.post('/caterer/auth/signup', validateSignup, UserController.createUser);
-router.post('/caterer/auth/signin', validateSignin, UserController.signinUser);
 
 
 // Get all meals

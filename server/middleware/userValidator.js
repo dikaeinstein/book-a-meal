@@ -23,6 +23,7 @@ export const validateSignup = (req, res, next) => {
     email,
     password,
     confirmPassword,
+    role,
   } = req.body;
   const error = {};
 
@@ -62,6 +63,18 @@ export const validateSignup = (req, res, next) => {
 
   if (email && !validator.isEmail(email.trim())) {
     error.email = 'Email address is invalid or empty';
+  }
+
+  if (!role) {
+    error.role = 'User role is required';
+  }
+
+  if (role && validator.isEmpty(role.trim())) {
+    error.role = 'User role is required';
+  }
+
+  if (role && !validator.matches(role, /(customer|caterer)/)) {
+    error.role = 'User role can either be customer or caterer';
   }
 
   if (isEmpty(error)) {

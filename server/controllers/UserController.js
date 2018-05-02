@@ -1,6 +1,5 @@
 import { hashPassword, checkPassword } from '../lib/encrypt';
 import createToken from '../lib/createToken';
-import isAdminRoute from '../lib/isAdminRoute';
 import users from '../test/usersTestData';
 
 
@@ -13,6 +12,7 @@ class UserController {
       name,
       email,
       password,
+      role,
     } = req.body;
 
     const matchedUser = users.filter(user => (
@@ -32,7 +32,6 @@ class UserController {
     // Hash user password and initialize new user
     return hashPassword(password).then((hashedPassword) => {
       // Determine role to assign user
-      const role = isAdminRoute(req.path) ? 'admin' : 'customer';
       newUser.id = users.length + 1;
       newUser.name = name;
       newUser.email = email.toLowerCase();

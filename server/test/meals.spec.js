@@ -7,7 +7,6 @@ chai.use(chaiHttp);
 
 const mealUrl = '/api/v1/meals';
 const signUpUrl = '/api/v1/auth/signup';
-const catererSignUpUrl = '/api/v1/caterer/auth/signup';
 
 const meals = [
   {
@@ -29,6 +28,7 @@ const admin = {
   email: 'walter@gmail.com',
   password: '1234567890',
   confirmPassword: '1234567890',
+  role: 'caterer',
 };
 
 const user = {
@@ -36,6 +36,7 @@ const user = {
   email: 'annihe@gmail.com',
   password: '1234567890',
   confirmPassword: '1234567890',
+  role: 'customer',
 };
 
 let token;
@@ -44,7 +45,7 @@ let adminToken;
 describe('Meals', () => {
   // Setup user(admin)
   before(async () => {
-    const res = await chai.request(app).post(catererSignUpUrl)
+    const res = await chai.request(app).post(signUpUrl)
       .send(admin);
     adminToken = res.body.token;
   });
