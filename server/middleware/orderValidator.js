@@ -134,6 +134,7 @@ export const validateUpdateOrder = (req, res, next) => {
 
   if (isEmpty(error)) {
     req.body.validatedOrder = validatedOrder;
+    console.log(req.body.validatedOrder);
     return next();
   }
 

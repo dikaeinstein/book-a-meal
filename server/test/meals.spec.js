@@ -101,6 +101,10 @@ describe('Meals', () => {
         .send(meals[0]);
       expect(res).to.have.status(201);
       expect(res.body.meal).to.be.an('object');
+      expect(res.body.meal.name).to.equal(meals[0].name);
+      expect(res.body.meal.description).to.equal(meals[0].description);
+      expect(res.body.meal.imageUrl).to.equal(meals[0].imageUrl);
+      expect(res.body.meal.price).to.equal(meals[0].price);
       expect(res.body.message).to
         .include('Successfully added meal');
     });

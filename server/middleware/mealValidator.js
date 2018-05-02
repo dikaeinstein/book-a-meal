@@ -59,12 +59,28 @@ export const validateUpdateMeal = (req, res, next) => {
     error.id = 'Meal id must be a number';
   }
 
+  if (name && validator.isEmpty(name.trim())) {
+    error.name = 'Meal name is required';
+  }
+
   if (name) {
     validatedMeal.name = name;
   }
 
+  if (description && validator.isEmpty(description.trim())) {
+    error.description = 'Meal description is required';
+  }
+
   if (description) {
     validatedMeal.description = description;
+  }
+
+  if (imageUrl && validator.isEmpty(imageUrl.trim())) {
+    error.imageUrl = 'Meal image url is required';
+  }
+
+  if (imageUrl && validator.isURL(imageUrl.trim())) {
+    error.imageUrl = 'Meal image url must be a valid url';
   }
 
   if (imageUrl) {

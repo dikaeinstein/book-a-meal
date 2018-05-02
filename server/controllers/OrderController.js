@@ -129,8 +129,7 @@ class OrderController {
 
     // Merge changes
     const updatedOrder = Object
-      .assign(matchedOrder, req.body.validatedMeal);
-
+      .assign({}, matchedOrder, req.body.validatedOrder);
     return res.status(200).json({
       order: updatedOrder,
       status: 'success',

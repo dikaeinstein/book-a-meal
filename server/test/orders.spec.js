@@ -76,6 +76,11 @@ describe('Orders', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('success');
       expect(res.body.order).to.be.an('object');
+      expect(res.body.order.amount).to.equal(order.amount);
+      expect(res.body.order.total).to.equal(order.total);
+      expect(res.body.order.quantity).to.equal(order.quantity);
+      expect(res.body.order.userId).to.equal(order.userId);
+      expect(res.body.order.mealId).to.equal(order.mealId);
     });
     it('should not allow non auth customers to post an order', async () => {
       const res = await chai.request(app).post(orderUrl)
@@ -100,6 +105,8 @@ describe('Orders', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('success');
       expect(res.body.order).to.be.an('object');
+      expect(res.body.order.quantity).to.equal('2');
+      expect(res.body.order.total).to.equal('4000');
     });
     it('should not allow non auth customers update their order', async () => {
       const res = await chai.request(app).put(`${orderUrl}/1`)

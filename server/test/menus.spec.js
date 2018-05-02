@@ -87,6 +87,7 @@ describe('Menu', () => {
       expect(res.body.status).to.equal('success');
       expect(res.body.menu).to.be.an('object');
       expect(res.body.menu.name).to.equal(menu.name);
+      expect(res.body.menu.meals).to.eql(meals);
     });
     it('should not allow non auth admin to setup menu', async () => {
       const res = await chai.request(app).post(menuUrl)
