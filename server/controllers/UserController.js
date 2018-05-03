@@ -1,12 +1,12 @@
 import { hashPassword, checkPassword } from '../lib/encrypt';
 import createToken from '../lib/createToken';
-import users from '../test/usersTestData';
+import { User } from '../models';
+// import users from '../test/usersTestData';
 
 
 class UserController {
   // Create user account
-  static createUser(req, res) {
-    const newUser = {};
+  static async createUser(req, res) {
     const error = {};
     const {
       name,
@@ -15,9 +15,12 @@ class UserController {
       role,
     } = req.body;
 
-    const matchedUser = users.filter(user => (
-      user.email === email.toLowerCase()
-    ))[0];
+    // const matchedUser = users.filter(user => (
+    //   user.email === email.toLowerCase()
+    // ))[0];
+    const matchedUser = await User.findOne({
+      where: { email: email.toLowerCase() },
+    });
 
     // Check if user already exist
     if (matchedUser) {
@@ -30,39 +33,44 @@ class UserController {
     }
 
     // Hash user password and initialize new user
-    return hashPassword(password).then((hashedPassword) => {
+    const hashedPassword = await hashPassword(password);
       // Determine role to assign user
-      newUser.id = users.length + 1;
-      newUser.name = name;
-      newUser.email = email.toLowerCase();
-      newUser.password = hashedPassword;
-      newUser.role = role;
-
-      users.push(newUser);
-      // Create token for new created user
-      const token = createToken(newUser.id);
-      return res.status(201)
-        .header('Authorization', `Bearer ${token}`)
-        .json({
-          message: 'User successfully created',
-          user: {
-            id: newUser.id,
-            name: newUser.name,
-            email: newUser.email,
-          },
-          token,
-          status: 'success',
-        });
+      // newUser.id = users.length + 1;
+      // newUser.name = name;
+      // newUser.email = email.toLowerCase();
+      // newUser.password = hashedPassword;
+      // newUser.role = role;
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      role,
     });
+      // users.push(newUser);
+      // Create token for new created user
+    const token = createToken(newUser.id);
+    return res.status(201)
+      .header('Authorization', `Bearer ${token}`)
+      .json({
+        message: 'User successfully created',
+        user: {
+          id: newUser.id,
+          name: newUser.name,
+          email: newUser.email,
+          role: newUser.role,
+        },
+        token,
+        status: 'success',
+      });
   }
 
   // Sign In to account
-  static signinUser(req, res) {
+  static async signinUser(req, res) {
     const { email, password } = req.body;
     const error = {};
-    const matchedUser = users.filter(user => (
-      user.email === email.toLowerCase()
-    ))[0];
+    const matchedUser = await User.findOne({
+      where: { email: email.toLowerCase() },
+    });
 
     if (!matchedUser) {
       error.email = 'User does not exist';
@@ -73,32 +81,31 @@ class UserController {
       });
     }
 
-    return checkPassword(password, matchedUser.password)
-      .then((match) => {
-        if (match) {
-          // Create token for user
-          const token = createToken(matchedUser.id);
+    const match = await checkPassword(password, matchedUser.password);
+    if (match) {
+      // Create token for user
+      const token = createToken(matchedUser.id);
 
-          return res.status(200)
-            .header('Authorization', `Bearer ${token}`)
-            .json({
-              message: 'User successfully signed in.',
-              user: {
-                id: matchedUser.id,
-                name: matchedUser.name,
-                email: matchedUser.email,
-              },
-              token,
-              status: 'success',
-            });
-        }
-        error.password = 'You entered a wrong password';
-        return res.status(401).json({
-          message: error.password,
-          status: 'error',
-          error,
+      return res.status(200)
+        .header('Authorization', `Bearer ${token}`)
+        .json({
+          message: 'User successfully signed in.',
+          user: {
+            id: matchedUser.id,
+            name: matchedUser.name,
+            email: matchedUser.email,
+            role: matchedUser.role,
+          },
+          token,
+          status: 'success',
         });
-      });
+    }
+    error.password = 'You entered a wrong password';
+    return res.status(401).json({
+      message: error.password,
+      status: 'error',
+      error,
+    });
   }
 }
 

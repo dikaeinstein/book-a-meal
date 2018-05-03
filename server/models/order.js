@@ -17,20 +17,20 @@ module.exports = (sequelize, DataTypes) => {
     underscoredAll: true,
   });
 
-  Order.associate = (models) => {
-    // associations can be defined here
-    Order.belongsTo(models.User, {
-      foreignKey: 'user_id',
-      onDelete: 'CASCADE',
-    });
-    Order.belongsTo(models.Meal, {
-      foreignKey: 'meal_id',
-      onDelete: 'CASCADE',
-    });
-    Order.belongsTo(models.OrderStatus, {
-      foreignKey: 'order_status_id',
-      onDelete: 'CASCADE',
-    });
-  };
+  // Order.associate = (models) => {
+  //   // associations can be defined here
+  //   Order.belongsTo(models.User, {
+  //     foreignKey: 'user_id',
+  //     onDelete: 'CASCADE',
+  //   });
+  //   Order.belongsTo(models.Meal, {
+  //     foreignKey: 'meal_id',
+  //     onDelete: 'CASCADE',
+  //   });
+  //   Order.belongsTo(models.OrderStatus, {
+  //     foreignKey: 'order_status_id',
+  //     onDelete: 'CASCADE',
+  //   });
+  // };
   return Order;
 };

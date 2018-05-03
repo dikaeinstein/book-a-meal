@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
     underscoredAll: true,
   });
 
-  Menu.associate = (models) => {
-    // associations can be defined here
-    Menu.belongsToMany(models.Meal, {
-      through: 'meal_menus',
-      foreignKey: 'menu_id',
-    });
-  };
+  // Menu.associate = (models) => {
+  //   // associations can be defined here
+  //   Menu.belongsToMany(models.Meal, {
+  //     through: 'meal_menus',
+  //     foreignKey: 'menu_id',
+  //   });
+  // };
   return Menu;
 };

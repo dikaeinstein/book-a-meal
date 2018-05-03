@@ -40,20 +40,7 @@ module.exports = {
           },
         )
       ))
-      .then(() => (
-        queryInterface.addColumn(
-          'users',
-          'role_id',
-          {
-            type: Sequelize.INTEGER,
-            references: {
-              model: 'roles', // name of Target model
-              key: 'id', // key in Target model that we're referencing
-            },
-            onDelete: 'CASCADE',
-          },
-        )
-      ))
+      .catch(err => console.log(err))
   ),
 
   down: (queryInterface, Sequelize) => (
@@ -73,11 +60,6 @@ module.exports = {
           'order_status_id',
         )
       ))
-      .then(() => (
-        queryInterface.removeColumn(
-          'users',
-          'role_id',
-        )
-      ))
+      .catch(err => console.log(err))
   ),
 };

@@ -21,16 +21,16 @@ module.exports = (sequelize, DataTypes) => {
     underscoredAll: true,
   });
 
-  Meal.associate = (models) => {
-    // associations can be defined here
-    Meal.hasMany(models.Order, {
-      foreignKey: 'user_id',
-      onDelete: 'CASCADE',
-    });
-    Meal.belongsToMany(models.Menu, {
-      through: 'meal_menus',
-      foreignKey: 'meal_id',
-    });
-  };
+  // Meal.associate = (models) => {
+  //   // associations can be defined here
+  //   // Meal.hasMany(models.Order, {
+  //   //   foreignKey: 'meal_id',
+  //   //   onDelete: 'CASCADE',
+  //   // });
+  //   Meal.belongsToMany(models.Menu, {
+  //     through: 'meal_menus',
+  //     foreignKey: 'meal_id',
+  //   });
+  // };
   return Meal;
 };

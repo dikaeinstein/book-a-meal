@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
     underscoredAll: true,
   });
 
-  OrderStatus.associate = (models) => {
-    // associations can be defined here
-    OrderStatus.hasMany(models.Order, {
-      foreignKey: 'order_status_id',
-      as: 'status',
-    });
-  };
+  // OrderStatus.associate = (models) => {
+  //   // associations can be defined here
+  //   OrderStatus.hasMany(models.Order, {
+  //     foreignKey: 'order_status_id',
+  //     as: 'status',
+  //   });
+  // };
   return OrderStatus;
 };

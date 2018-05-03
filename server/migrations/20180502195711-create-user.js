@@ -26,6 +26,10 @@ module.exports = {
           min: 6,
         },
       },
+      role: {
+        type: Sequelize.ENUM('customer', 'caterer'),
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

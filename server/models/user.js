@@ -12,21 +12,21 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    role: {
+      type: DataTypes.ENUM('customer', 'caterer'),
+      allowNull: false,
+    },
   }, {
     underscored: true,
     underscoredAll: true,
   });
 
-  User.associate = (models) => {
-    // associations can be defined here
-    User.hasMany(models.Order, {
-      foreignKey: 'user_id',
-      onDelete: 'CASCADE',
-    });
-    User.belongsTo(models.Role, {
-      foreignKey: 'role_id',
-      onDelete: 'CASCADE',
-    });
-  };
+  // User.associate = (models) => {
+  //   // associations can be defined here
+  //   User.hasMany(models.Order, {
+  //     foreignKey: 'user_id',
+  //     onDelete: 'CASCADE',
+  //   });
+  // };
   return User;
 };
