@@ -9,13 +9,16 @@
   "private": true,
   "scripts": {
     "start": "node server/dist/app.js",
-    "build": "babel server -d server/dist",
+		"build": "babel server -d server/dist",
+		"db-migrate": "sequelize db:migrate",
+		"db-migrate-test": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test",		
     "start-dev": "nodemon --exec babel-node server/app.js",
     "prestart": "yarn run build",
     "test": "nyc --require babel-core/register mocha server/test/**.spec.js --exit -w",
     "test-single": "nyc --require babel-core/register mocha server/test/**.spec.js --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "deploy": "gh-pages -d UI"
+    "deploy": "gh-pages -d UI",
+    "sequelize": "sequelize"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
@@ -38,6 +41,7 @@
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "coveralls": "^3.0.0",
+    "cross-env": "^5.1.4",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.11.0",
