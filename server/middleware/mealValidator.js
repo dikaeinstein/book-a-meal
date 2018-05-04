@@ -84,7 +84,7 @@ export const validateUpdateMeal = (req, res, next) => {
     error.imageUrl = 'Meal image url is required';
   }
 
-  if (imageUrl && validator.isURL(imageUrl.trim())) {
+  if (imageUrl && !validator.isURL(imageUrl.trim())) {
     error.imageUrl = 'Meal image url must be a valid url';
   }
 

@@ -10,8 +10,8 @@
   "scripts": {
     "start": "yarn db-migrate && node server/dist/app.js",
     "build": "babel server -d server/dist",
-		"db-migrate": "sequelize db:migrate",
-		"db-migrate-dev": "yarn db-migrate --env development",
+    "db-migrate": "sequelize db:migrate",
+    "db-migrate-dev": "yarn db-migrate --env development",
     "db-migrate-test": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test",
     "start-dev": "export NODE_ENV=development || set NODE_ENV=development&& yarn db-migrate-dev && nodemon --exec babel-node server/app.js",
     "prestart": "yarn run build",
@@ -35,7 +35,9 @@
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.37.6",
     "sequelize-cli": "^4.0.0",
-    "validator": "^9.4.1"
+    "swagger-ui-express": "^3.0.8",
+    "validator": "^9.4.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
