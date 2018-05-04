@@ -59,12 +59,14 @@ describe('Meals', () => {
   // Test Get All Meals
   describe('Get All Meals', () => {
     it('should return a custom message when array of meals is empty', async () => {
-      const res = await chai.request(app).get(mealUrl);
+      const res = await chai.request(app).get(mealUrl)
+        .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.message).to.include('There is currently no meal!');
     });
     it('should return an array', async () => {
-      const res = await chai.request(app).get(mealUrl);
+      const res = await chai.request(app).get(mealUrl)
+        .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body).to.be.an('object');
       expect(res.body.meals).to.be.an('array');
@@ -73,7 +75,8 @@ describe('Meals', () => {
       await chai.request(app).post(mealUrl)
         .set('Authorization', `Bearer ${adminToken}`)
         .send(meals[1]);
-      const res = await chai.request(app).get(mealUrl);
+      const res = await chai.request(app).get(mealUrl)
+        .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.meals.length).to.be.greaterThan(0);
     });
@@ -82,12 +85,14 @@ describe('Meals', () => {
   // Test Get a meal
   describe('Get Meal', () => {
     it('should return one meal', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/1`);
+      const res = await chai.request(app).get(`${mealUrl}/1`)
+        .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body).to.be.an('object');
     });
     it('should not get meal for wrong id', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/3`);
+      const res = await chai.request(app).get(`${mealUrl}/3`)
+        .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(404);
       expect(res.body.error.id).to
         .include('Meal does not exist');

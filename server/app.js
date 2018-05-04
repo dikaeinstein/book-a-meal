@@ -24,6 +24,7 @@ app.use('/api/v1', routes);
 app.get('/', (req, res) => (
   res.status(200).json({
     message: 'Welcome to Book-A-Meal',
+    status: 'success',
   })
 ));
 
@@ -33,8 +34,8 @@ app.use((err, req, res, next) => {
     return next(err);
   }
   return res.status(500).json({
+    message: 'Something failed, we are working on it :)',
     status: 'error',
-    message: 'Something failed',
   });
 });
 

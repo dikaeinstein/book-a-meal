@@ -1,7 +1,6 @@
 import { hashPassword, checkPassword } from '../lib/encrypt';
 import createToken from '../lib/createToken';
 import { User } from '../models';
-// import users from '../test/usersTestData';
 
 
 class UserController {
@@ -15,9 +14,6 @@ class UserController {
       role,
     } = req.body;
 
-    // const matchedUser = users.filter(user => (
-    //   user.email === email.toLowerCase()
-    // ))[0];
     const matchedUser = await User.findOne({
       where: { email: email.toLowerCase() },
     });
@@ -34,20 +30,14 @@ class UserController {
 
     // Hash user password and initialize new user
     const hashedPassword = await hashPassword(password);
-      // Determine role to assign user
-      // newUser.id = users.length + 1;
-      // newUser.name = name;
-      // newUser.email = email.toLowerCase();
-      // newUser.password = hashedPassword;
-      // newUser.role = role;
+
     const newUser = await User.create({
       name,
       email,
       password: hashedPassword,
       role,
     });
-      // users.push(newUser);
-      // Create token for new created user
+
     const token = createToken(newUser.id);
     return res.status(201)
       .header('Authorization', `Bearer ${token}`)

@@ -83,7 +83,7 @@ export const validateUpdateOrder = (req, res, next) => {
   const {
     mealId, amount,
     total, quantity,
-    userId,
+    userId, status,
   } = req.body;
   const validatedOrder = {};
   const error = {};
@@ -116,11 +116,11 @@ export const validateUpdateOrder = (req, res, next) => {
     validatedOrder.quantity = quantity;
   }
 
-  if (total && !validator.isNumeric(quantity.trim())) {
+  if (total && !validator.isNumeric(total.trim())) {
     error.total = 'Order total must be a number';
   }
 
-  if (total && validator.isNumeric(quantity.trim())) {
+  if (total && validator.isNumeric(total.trim())) {
     validatedOrder.total = total;
   }
 
@@ -130,6 +130,14 @@ export const validateUpdateOrder = (req, res, next) => {
 
   if (userId && validator.isNumeric(userId.trim())) {
     validatedOrder.userId = userId;
+  }
+
+  if (status && validator.isEmpty(status.trim())) {
+    error.status = 'Order status is required';
+  }
+
+  if (status && validator.matches(status, /(pending|delivered|cancelled)/)) {
+    validatedOrder.status = status;
   }
 
   if (isEmpty(error)) {

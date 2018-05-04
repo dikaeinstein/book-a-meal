@@ -1,11 +1,11 @@
-import users from '../test/usersTestData';
+import { User } from '../models';
 
-const authorize = (req, res, next) => {
+const authorize = async (req, res, next) => {
   const { userId } = req;
   const error = {};
-  const matchedUser = users.filter(user => (
-    user.id === parseInt(userId, 10) && user.role === 'caterer'
-  ))[0];
+  const matchedUser = await User.findOne({
+    where: { id: userId, role: 'caterer' },
+  });
 
   if (!matchedUser) {
     error.message = 'Forbidden';

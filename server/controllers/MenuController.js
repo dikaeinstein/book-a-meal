@@ -1,35 +1,52 @@
-const menus = [];
+import format from 'date-fns/format';
+import { Op } from 'sequelize';
+import { Menu, Meal } from '../models';
 
 class MenuController {
   // Setup menu
-  static setupMenu(req, res) {
-    const { name, meals } = req.body;
-    const date = (new Date());
-    date.setUTCHours(0, 0, 0, 0);
+  static async setupMenu(req, res) {
+    const { name, mealIds } = req.body;
 
-    menus.push({
-      id: menus.length + 1,
+    const menu = await Menu.create({
       name,
-      meals,
-      date: date.toISOString(),
     });
-
+    // Insert into many-to-many table
+    await menu.addMeals(mealIds);
+    const returnedMenu = await Menu.findOne({
+      include: [{
+        model: Meal,
+        attributes: ['id', 'name'],
+        as: 'meals',
+        through: { attributes: [] },
+      }],
+    });
     return res.status(201).json({
       message: 'Successfully setup menu for today',
       status: 'success',
-      menu: menus[menus.length - 1],
+      menu: returnedMenu,
     });
   }
 
   // Get menu for specific day
-  static getMenu(req, res) {
+  static async getMenu(req, res) {
     const error = {};
-    const date = (new Date());
-    date.setUTCHours(0, 0, 0, 0);
+    // Use current date as default
+    const currentDate = new Date();
+    currentDate.setUTCHours(0, 0, 0, 0);
 
-    const todayMenu = menus.filter(menu => (
-      menu.date === date.toISOString()
-    ))[0];
+    const todayMenu = await Menu.findOne({
+      include: [{
+        model: Meal,
+        attributes: ['id', 'name'],
+        as: 'meals',
+        through: { attributes: [] },
+      }],
+      where: {
+        created_at: {
+          [Op.gte]: format(currentDate.toISOString()),
+        },
+      },
+    });
 
     if (!todayMenu) {
       error.message = 'Menu for today have not been set';

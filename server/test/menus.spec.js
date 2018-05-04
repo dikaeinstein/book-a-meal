@@ -22,6 +22,7 @@ const meals = [
     price: '2000',
   },
 ];
+const mealIds = meals.map(meal => meal.id);
 
 const emptyMenu = {
   name: `Menu for ${(new Date()).toDateString()}`,
@@ -30,7 +31,7 @@ const emptyMenu = {
 
 const menu = {
   name: `Menu for ${(new Date()).toDateString()}`,
-  meals,
+  mealIds,
 };
 
 const menuUrl = '/api/v1/menu';
@@ -88,7 +89,7 @@ describe('Menu', () => {
       expect(res.body.status).to.equal('success');
       expect(res.body.menu).to.be.an('object');
       expect(res.body.menu.name).to.equal(menu.name);
-      expect(res.body.menu.meals).to.eql(meals);
+      expect(res.body.menu.meals[0].name).to.eql(meals[0].name);
     });
     it('should not allow non auth admin to setup menu', async () => {
       const res = await chai.request(app).post(menuUrl)
@@ -104,7 +105,7 @@ describe('Menu', () => {
       expect(res.status).to.equal(400);
       expect(res.body).to.be.an('object');
       expect(res.body.error.meals).to
-        .include('No meal have been added to menu');
+        .include('Menu must have at least one meal');
     });
     it('should not setup menu without a name', async () => {
       const res = await chai.request(app).post(menuUrl)

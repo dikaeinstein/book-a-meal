@@ -31,8 +31,9 @@ router.post('/auth/signin', validateSignin, UserController.signinUser);
 
 
 // Get all meals
-router.get('/meals', MealController.getAllMeals);
-router.get('/meals/:mealId', validateGetMeal, MealController.getMeal);
+router.get('/meals', authenticate, authorize, MealController.getAllMeals);
+// Get meal
+router.get('/meals/:mealId', authenticate, authorize, validateGetMeal, MealController.getMeal);
 // Post meal
 router.post('/meals', authenticate, authorize, validateAddMeal, MealController.addMeal);
 // Update meal
@@ -42,13 +43,13 @@ router.delete('/meals/:mealId', authenticate, authorize, validateUpdateMeal, Mea
 
 
 // Setup menu
-router.post('/menu', authenticate, authorize, validateMenu, MenuController.setupMenu);
+router.post('/menu/', authenticate, authorize, validateMenu, MenuController.setupMenu);
 // Get menu
-router.get('/menu', MenuController.getMenu);
+router.get('/menu/', authenticate, MenuController.getMenu);
 
 
 // Get all orders
-router.get('/orders', authenticate, OrderController.getAllOrders);
+router.get('/orders', authenticate, authorize, OrderController.getAllOrders);
 // Post Order
 router.post('/orders', authenticate, validateNewOrder, OrderController.makeAnOrder);
 // Update Order
@@ -64,6 +65,7 @@ router.get('/orders/users/:userId', authenticate, validateGetOrder, OrderControl
 router.get('/', (req, res) => (
   res.status(200).json({
     message: 'Welcome to Book-A-Meal api',
+    status: 'success',
   })
 ));
 

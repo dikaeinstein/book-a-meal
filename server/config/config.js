@@ -6,8 +6,7 @@ module.exports = {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: 'book-a-meal-dev',
-    host: '127.0.0.1',
-    port: 5432,
+    host: process.env.DB_HOST,
     dialect: 'postgres',
     operatorAliases: Sequelize.Op,
     define: {
@@ -19,14 +18,16 @@ module.exports = {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: 'book-a-meal-test',
-    host: '127.0.0.1',
-    port: 5432,
+    host: process.env.DB_HOST,
     dialect: 'postgres',
     operatorAliases: Sequelize.Op,
     define: {
       underscored: true,
       underscoredAll: true,
     },
+  },
+  production: {
+    use_env_variable: 'DATABASE_URL',
   },
   heroku: {
     use_env_variable: 'DATABASE_URL',

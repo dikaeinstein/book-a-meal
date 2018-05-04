@@ -1,8 +1,9 @@
-let meals = [];
+import { Meal } from '../models';
 
 class MealController {
   // Get all meals
-  static getAllMeals(req, res) {
+  static async getAllMeals(req, res) {
+    const meals = await Meal.findAll();
     if (meals.length === 0) {
       return res.status(200).json({
         status: 'success',
@@ -18,12 +19,12 @@ class MealController {
   }
 
   // Get a meal
-  static getMeal(req, res) {
+  static async getMeal(req, res) {
     const error = {};
-    const matchedMeal = meals.filter(meal => (
-      meal.id === parseInt(req.params.mealId, 10)
-    ));
-    if (!matchedMeal[0]) {
+    const matchedMeal = await Meal.findOne({
+      where: { id: req.params.mealId },
+    });
+    if (!matchedMeal) {
       error.id = 'Meal does not exist';
       return res.status(404).json({
         message: error.id,
@@ -33,14 +34,14 @@ class MealController {
     }
 
     return res.status(200).json({
-      meal: matchedMeal[0],
+      meal: matchedMeal,
       status: 'success',
       message: 'Meal found',
     });
   }
 
   // Add meal
-  static addMeal(req, res) {
+  static async addMeal(req, res) {
     const error = {};
     const {
       name,
@@ -49,9 +50,9 @@ class MealController {
       price,
     } = req.body;
 
-    const matchedMeal = meals
-      .map(meal => meal.name)
-      .filter(mealName => mealName === name)[0];
+    const matchedMeal = await Meal.findOne({
+      where: { name },
+    });
 
     if (matchedMeal) {
       error.name = 'Meal name already exist';
@@ -61,8 +62,7 @@ class MealController {
         error,
       });
     }
-    meals.push({
-      id: meals.length + 1,
+    const meal = await Meal.create({
       name,
       description,
       imageUrl,
@@ -71,27 +71,30 @@ class MealController {
 
     return res.status(201).json({
       message: 'Successfully added meal',
-      meal: meals[meals.length - 1],
+      meal,
       status: 'success',
     });
   }
 
   // Update meal
-  static updateMeal(req, res) {
+  static async updateMeal(req, res) {
     const error = {};
-    // Filter meals
-    const matchedMeal = meals.filter(meal => (
-      meal.id === parseInt(req.params.mealId, 10)
-    ))[0];
+    // Find meal
+    const matchedMeal = await Meal.findOne({
+      where: { id: req.params.mealId },
+    });
 
     if (!matchedMeal) {
       error.id = 'Meal id does not exist';
-      return res.status(404).json({ error });
+      return res.status(404).json({
+        message: error.id,
+        status: 'error',
+        error,
+      });
     }
 
-    // Merge changes
-    const updatedMeal = Object
-      .assign(matchedMeal, req.body.validatedMeal);
+    // Update meal
+    const updatedMeal = await matchedMeal.update(req.body.validatedMeal);
 
     return res.status(200).json({
       meal: updatedMeal,
@@ -101,24 +104,25 @@ class MealController {
   }
 
   // Delete meal
-  static deleteMeal(req, res) {
+  static async deleteMeal(req, res) {
     const error = {};
-    const filteredMeals = meals.filter(meal => (
-      meal.id !== parseInt(req.params.mealId, 10)
-    ));
+    // Find meal
+    const matchedMeal = await Meal.findOne({
+      where: { id: req.params.mealId },
+    });
 
-    if ((meals.length - filteredMeals.length) === 1) {
-      const deletedMeal = meals[req.params.mealId];
-      meals = filteredMeals;
+    if (matchedMeal) {
+      await matchedMeal.destroy();
       return res.status(201).json({
         message: 'Meal successfully deleted',
         status: 'success',
-        meal: deletedMeal,
       });
     }
 
     error.id = 'Meal does not exist';
     return res.status(404).json({
+      message: error.id,
+      status: 'error',
       error,
     });
   }

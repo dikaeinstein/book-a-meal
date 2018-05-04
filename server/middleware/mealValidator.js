@@ -51,7 +51,12 @@ export const validateAddMeal = (req, res, next) => {
 
 export const validateUpdateMeal = (req, res, next) => {
   const { mealId } = req.params;
-  const { name, imageUrl, description } = req.body;
+  const {
+    name,
+    imageUrl,
+    description,
+    price,
+  } = req.body;
   const validatedMeal = {};
   const error = {};
 
@@ -85,6 +90,18 @@ export const validateUpdateMeal = (req, res, next) => {
 
   if (imageUrl) {
     validatedMeal.imageUrl = imageUrl;
+  }
+
+  if (price && validator.isEmpty(price.trim())) {
+    error.price = 'Meal price is required';
+  }
+
+  if (price && !validator.isNumeric(price.trim())) {
+    error.price = 'Meal price must be a number';
+  }
+
+  if (price) {
+    validatedMeal.price = price;
   }
 
   if (isEmpty(error)) {

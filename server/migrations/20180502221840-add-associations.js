@@ -26,20 +26,6 @@ module.exports = {
           },
         )
       ))
-      .then(() => (
-        queryInterface.addColumn(
-          'orders',
-          'order_status_id',
-          {
-            type: Sequelize.INTEGER,
-            references: {
-              model: 'order_statuses', // name of Target model
-              key: 'id', // key in Target model that we're referencing
-            },
-            onDelete: 'CASCADE',
-          },
-        )
-      ))
       .catch(err => console.log(err))
   ),
 
@@ -52,12 +38,6 @@ module.exports = {
         queryInterface.removeColumn(
           'orders',
           'meal_id',
-        )
-      ))
-      .then(() => (
-        queryInterface.removeColumn(
-          'orders',
-          'order_status_id',
         )
       ))
       .catch(err => console.log(err))

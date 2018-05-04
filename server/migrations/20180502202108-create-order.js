@@ -19,6 +19,11 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
+      status: {
+        type: Sequelize.ENUM('delivered', 'cancelled', 'pending'),
+        allowNull: false,
+        defaultValue: 'pending',
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

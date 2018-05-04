@@ -25,7 +25,7 @@ const user = {
 };
 
 const order = {
-  mealId: '1',
+  mealId: '2',
   amount: '2000',
   quantity: '1',
   total: '2000',
@@ -53,13 +53,13 @@ describe('Orders', () => {
   describe('Get all Orders', () => {
     it('should return an array', async () => {
       const res = await chai.request(app).get(orderUrl)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.orders).to.be.an('array');
     });
     it('should return a custom message when array of orders is empty', async () => {
       const res = await chai.request(app).get(orderUrl)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body).to.be.an('object');
       expect(res.body.message).to
@@ -79,9 +79,10 @@ describe('Orders', () => {
       expect(res.body.order).to.be.an('object');
       expect(res.body.order.amount).to.equal(order.amount);
       expect(res.body.order.total).to.equal(order.total);
-      expect(res.body.order.quantity).to.equal(order.quantity);
-      expect(res.body.order.userId).to.equal(order.userId);
-      expect(res.body.order.mealId).to.equal(order.mealId);
+      expect(res.body.order.quantity).to.equal(parseInt(order.quantity, 10));
+      expect(res.body.order.user_id).to.equal(parseInt(order.userId, 10));
+      expect(res.body.order.meal_id).to.equal(parseInt(order.mealId, 10));
+      expect(res.body.order.status).to.equal('pending');
     });
     it('should not allow non auth customers to post an order', async () => {
       const res = await chai.request(app).post(orderUrl)
@@ -128,7 +129,7 @@ describe('Orders', () => {
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.status).to.equal('success');
-      expect(parseInt(res.body.total, 10)).to.be.a('number');
+      expect(res.body.total).to.equal('4000');
     });
     it('should not retrieve total for non admin user', async () => {
       const res = await chai.request(app).get(`${orderUrl}/total`)

@@ -2,7 +2,7 @@ import isEmpty from 'lodash.isempty';
 import validator from 'validator';
 
 const validateMenu = (req, res, next) => {
-  const { name, meals } = req.body;
+  const { name, mealIds } = req.body;
   const error = {};
 
   if (!name) {
@@ -13,12 +13,12 @@ const validateMenu = (req, res, next) => {
     error.name = 'Menu name is required';
   }
 
-  if (!meals) {
+  if (!mealIds) {
     error.meals = 'Menu must have at least one meal';
   }
 
-  if (meals && isEmpty(meals)) {
-    error.meals = 'No meal have been added to menu';
+  if (mealIds && isEmpty(mealIds)) {
+    error.meals = 'Menu must have at least one meal';
   }
 
   if (isEmpty(error)) {
