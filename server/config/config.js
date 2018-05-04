@@ -5,7 +5,7 @@ module.exports = {
   development: {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
-    database: 'book-a-meal-dev',
+    database: process.env.DB_DEV,
     host: process.env.DB_HOST,
     dialect: 'postgres',
     operatorAliases: Sequelize.Op,
@@ -17,7 +17,7 @@ module.exports = {
   test: {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
-    database: 'book-a-meal-test',
+    database: process.env.DB_TEST,
     host: process.env.DB_HOST,
     dialect: 'postgres',
     operatorAliases: Sequelize.Op,
