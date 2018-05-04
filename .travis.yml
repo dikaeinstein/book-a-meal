@@ -13,7 +13,7 @@ before_install:
 - export PATH="$HOME/.yarn/bin:$PATH"
 before_script:
 - yarn install
-- psql -c 'create database book-a-meal-test;' -U postgres
+- psql -c 'create database travis;' -U postgres
 script:
 - yarn test-single
 after_success: yarn coverage
