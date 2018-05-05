@@ -17,7 +17,18 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       field: 'image_url',
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: sequelize.literal('NOW()'),
+      field: 'created_at',
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: sequelize.literal('NOW()'),
+      field: 'updated_at',
+    },
   }, {
+    timestamps: false,
     underscored: true,
     underscoredAll: true,
   });

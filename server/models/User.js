@@ -16,9 +16,20 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('customer', 'caterer'),
       allowNull: false,
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: sequelize.literal('NOW()'),
+      field: 'created_at',
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: sequelize.literal('NOW()'),
+      field: 'updated_at',
+    },
   }, {
     underscored: true,
     underscoredAll: true,
+    timestamps: false,
   });
 
   User.associate = (models) => {

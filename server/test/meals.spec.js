@@ -61,15 +61,16 @@ describe('Meals', () => {
     it('should return a custom message when array of meals is empty', async () => {
       const res = await chai.request(app).get(mealUrl)
         .set('Authorization', `Bearer ${adminToken}`);
-      expect(res.status).to.equal(200);
+      expect(res.status).to.equal(404);
       expect(res.body.message).to.include('There is currently no meal!');
     });
-    it('should return an array', async () => {
+    it('should return an empty array', async () => {
       const res = await chai.request(app).get(mealUrl)
         .set('Authorization', `Bearer ${adminToken}`);
-      expect(res.status).to.equal(200);
+      expect(res.status).to.equal(404);
       expect(res.body).to.be.an('object');
       expect(res.body.meals).to.be.an('array');
+      expect(res.body.meals).to.eqls([]);
     });
     it('should return an array of meals', async () => {
       await chai.request(app).post(mealUrl)

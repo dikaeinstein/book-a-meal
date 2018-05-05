@@ -17,19 +17,32 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'pending',
       allowNull: false,
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: sequelize.literal('NOW()'),
+      field: 'created_at',
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: sequelize.literal('NOW()'),
+      field: 'updated_at',
+    },
   }, {
     underscored: true,
     underscoredAll: true,
+    timestamps: false,
   });
 
   Order.associate = (models) => {
     // associations can be defined here
     Order.belongsTo(models.User, {
       foreignKey: 'user_id',
+      as: 'userId',
       onDelete: 'CASCADE',
     });
     Order.belongsTo(models.Meal, {
       foreignKey: 'meal_id',
+      as: 'mealId',
       onDelete: 'CASCADE',
     });
   };

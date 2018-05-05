@@ -1,6 +1,6 @@
 import format from 'date-fns/format';
 import { Op } from 'sequelize';
-import { Order } from '../models';
+import { Order, User, Meal } from '../models';
 
 /**
  * @class OrderController
@@ -186,6 +186,7 @@ class OrderController {
       total,
       userId,
     } = req.body;
+    const error = {};
     const date = new Date();
     date.setUTCHours(0, 0, 0, 0);
 
@@ -197,6 +198,24 @@ class OrderController {
       user_id: userId,
     };
 
+    const user = await User.findById(userId);
+    const meal = await Meal.findById(mealId);
+    if (!user) {
+      error.user = 'User does not exits';
+      return res.status(404).json({
+        message: error.user,
+        status: 'error',
+        error,
+      });
+    }
+    if (!meal) {
+      error.meal = 'Meal does not exists';
+      return res.status(404).json({
+        message: error.meal,
+        status: 'error',
+        error,
+      });
+    }
     const newOrder = await Order.create(order);
     return res.status(201).json({
       message: 'Order placed',
