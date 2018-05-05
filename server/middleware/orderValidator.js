@@ -1,6 +1,15 @@
 import validator from 'validator';
 import isEmpty from 'lodash.isempty';
 
+/**
+ * @description - Validates input when making a new order
+ *
+ * @param {object} req - HTTP Request
+ * @param {object} res - HTTP Response
+ * @param {function} next - Callback function
+ *
+ * @returns {object}
+ */
 export const validateNewOrder = (req, res, next) => {
   const {
     mealId, amount,
@@ -78,6 +87,15 @@ export const validateNewOrder = (req, res, next) => {
   });
 };
 
+/**
+ * @description - Validates input when updating an existing order
+ *
+ * @param {object} req - HTTP Request
+ * @param {object} res - HTTP Response
+ * @param {function} next - Callback function
+ *
+ * @returns {object}
+ */
 export const validateUpdateOrder = (req, res, next) => {
   const { orderId } = req.params;
   const {
@@ -152,6 +170,15 @@ export const validateUpdateOrder = (req, res, next) => {
   });
 };
 
+/**
+ * @description - Validates request parameter: orderId
+ *
+ * @param {object} req - HTTP Request
+ * @param {object} res - HTTP Response
+ * @param {function} next - Callback function
+ *
+ * @returns {object}
+ */
 export const validateGetOrder = (req, res, next) => {
   const { orderId } = req.params;
   const error = {};

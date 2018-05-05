@@ -1,3 +1,6 @@
+/**
+ * @module authenticate
+ */
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
@@ -5,7 +8,16 @@ dotenv.config();
 
 const secret = process.env.SECRET;
 
-const isLoggedIn = (req, res, next) => {
+/**
+ * @description - Checks if signed in user has valid token
+ *
+ * @param {object} req - HTTP Request
+ * @param {object} res - HTTP Response
+ * @param {function} next - Callback function
+ *
+ * @returns {null} - null
+ */
+const authenticate = (req, res, next) => {
   const token = req.get('Authorization') ?
     req.get('Authorization').slice(7) : req.body.token;
   const error = {};
@@ -33,4 +45,4 @@ const isLoggedIn = (req, res, next) => {
   }
 };
 
-export default isLoggedIn;
+export default authenticate;

@@ -2,9 +2,24 @@ import format from 'date-fns/format';
 import { Op } from 'sequelize';
 import { Order } from '../models';
 
-
+/**
+ * @class OrderController
+ *
+ * @export
+ */
 class OrderController {
-  // Get All Orders
+  /**
+  * @description - Order a meal
+  * @static
+  * @async
+  *
+  * @param {object} req - HTTP Request
+  * @param {object} res - HTTP Response
+  *
+  * @memberof - OrderController
+  *
+  * @returns {Promise<object>}
+  */
   static async getAllOrders(req, res) {
     const orders = await Order.findAll();
     if (orders.length === 0) {
@@ -22,7 +37,19 @@ class OrderController {
     });
   }
 
-  // Get All Orders for specific day
+
+  /**
+   * @description - Get all orders for specific date
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof OrderController
+   *
+   * @returns {Promis<object>}
+   */
   static async getAllOrdersForSpecificDate(req, res) {
     const { date } = req.params;
     // Filter orders by date
@@ -45,7 +72,19 @@ class OrderController {
     });
   }
 
-  // Get order history for specific user
+
+  /**
+   * @description - Get order history for specific user
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof OrderController
+   *
+   * @returns {Promise<object>}
+   */
   static async getUserOrderHistory(req, res) {
     const userId = req.params.userId || req.userId;
 
@@ -69,7 +108,19 @@ class OrderController {
     });
   }
 
-  // Get Total amount made
+
+  /**
+   * @description - Get Total amount made
+   * @static
+   * @async
+   *
+   * @param {object} req HTTP Request
+   * @param {object} res HTTP Response
+   *
+   * @memberof OrderController
+   *
+   * @returns {Promise<object>}
+   */
   static async getTotalAmount(req, res) {
     const { date } = req.params;
     let total;
@@ -115,7 +166,18 @@ class OrderController {
     });
   }
 
-  // Make an order
+  /**
+   * @description - Make an order
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof OrderController
+   *
+   * @returns {Promise<object>}
+   */
   static async makeAnOrder(req, res) {
     const {
       mealId,
@@ -143,7 +205,18 @@ class OrderController {
     });
   }
 
-  // Update an order
+  /**
+   * @description - Update an order
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof OrderController
+   *
+   * @returns {Promise<object>}
+   */
   static async updateOrder(req, res) {
     const error = {};
 
@@ -170,7 +243,18 @@ class OrderController {
     });
   }
 
-  // Delete Order
+  /**
+   * @description - Delete a specific order
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof OrderController
+   *
+   * @returns {Promise<object>}
+   */
   static async deleteOrder(req, res) {
     const error = {};
     // Find Order

@@ -1,6 +1,15 @@
 import validator from 'validator';
 import isEmpty from 'lodash.isempty';
 
+/**
+ * @description - Validates input when making a new meal
+ *
+ * @param {object} req - HTTP Request
+ * @param {object} res - HTTP Response
+ * @param {function} next - Callback function
+ *
+ * @returns {object}
+ */
 export const validateAddMeal = (req, res, next) => {
   const error = {};
   const {
@@ -49,6 +58,15 @@ export const validateAddMeal = (req, res, next) => {
   });
 };
 
+/**
+ * @description - Validates input when updating an existing meal
+ *
+ * @param {object} req - HTTP Request
+ * @param {object} res - HTTP Response
+ * @param {function} next - Callback function
+ *
+ * @returns {object}
+ */
 export const validateUpdateMeal = (req, res, next) => {
   const { mealId } = req.params;
   const {
@@ -115,6 +133,15 @@ export const validateUpdateMeal = (req, res, next) => {
   });
 };
 
+/**
+ * @description - Validates request parameter: mealId
+ *
+ * @param {object} req - HTTP Request
+ * @param {object} res - HTTP Response
+ * @param {function} next - Callback function
+ *
+ * @returns {object}
+ */
 export const validateGetMeal = (req, res, next) => {
   const { mealId } = req.params;
   const error = {};

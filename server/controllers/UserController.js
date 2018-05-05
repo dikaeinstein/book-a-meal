@@ -3,8 +3,25 @@ import createToken from '../lib/createToken';
 import { User } from '../models';
 
 
+/**
+ * @class UserController
+ *
+ * @export
+ *
+ */
 class UserController {
-  // Create user account
+  /**
+   * @description - Creates a new user
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof UserController
+   *
+   * @returns {Promise<object>}
+   */
   static async createUser(req, res) {
     const error = {};
     const {
@@ -54,7 +71,18 @@ class UserController {
       });
   }
 
-  // Sign In to account
+  /**
+   * @description - Sign in a user
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof UserController
+   *
+   * @returns {Promise<object>}
+   */
   static async signinUser(req, res) {
     const { email, password } = req.body;
     const error = {};

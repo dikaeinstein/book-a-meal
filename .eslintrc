@@ -10,6 +10,6 @@
 				"no-unused-vars": ["error", { "argsIgnorePattern": "(next|match|err|Sequelize)" }],
 				"prefer-destructuring": 0,
 				"no-console": ["error", { "allow": ["log"] }],
-				"import/first": 0
+				"import/no-dynamic-require": 0
     }
 }

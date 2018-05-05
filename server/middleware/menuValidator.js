@@ -1,7 +1,16 @@
 import isEmpty from 'lodash.isempty';
 import validator from 'validator';
 
-const validateMenu = (req, res, next) => {
+/**
+ * @description - Validates input when setting up a menu
+ *
+ * @param {object} req - HTTP Request
+ * @param {object} res - HTTP Response
+ * @param {function} next - Callback function
+ *
+ * @returns {object}
+ */
+const menuValidator = (req, res, next) => {
   const { name, mealIds } = req.body;
   const error = {};
 
@@ -27,4 +36,4 @@ const validateMenu = (req, res, next) => {
   return res.status(400).json({ error });
 };
 
-export default validateMenu;
+export default menuValidator;

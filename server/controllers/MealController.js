@@ -1,7 +1,24 @@
 import { Meal } from '../models';
 
+/**
+ * @class MealController
+ *
+ * @export
+ *
+ */
 class MealController {
-  // Get all meals
+  /**
+   * @description - Get all meals
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof MenuController
+   *
+   * @return {Promise<object>}
+   */
   static async getAllMeals(req, res) {
     const meals = await Meal.findAll();
     if (meals.length === 0) {
@@ -18,7 +35,19 @@ class MealController {
     });
   }
 
-  // Get a meal
+
+  /**
+   * @description - Get a single meal
+   * @async
+   * @static
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof MealController
+   *
+   * @returns {Promise<object>}
+   */
   static async getMeal(req, res) {
     const error = {};
     const matchedMeal = await Meal.findOne({
@@ -40,7 +69,18 @@ class MealController {
     });
   }
 
-  // Add meal
+  /**
+   * @description - Add new meal
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof - MealController
+   *
+   * @returns {Promise<object>}
+   */
   static async addMeal(req, res) {
     const error = {};
     const {
@@ -76,7 +116,18 @@ class MealController {
     });
   }
 
-  // Update meal
+  /**
+   * @description - Update an existing meal
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof - MealController
+   *
+   * @returns {Promise<object>}
+   */
   static async updateMeal(req, res) {
     const error = {};
     // Find meal
@@ -103,7 +154,18 @@ class MealController {
     });
   }
 
-  // Delete meal
+  /**
+   * @description - Delete meal
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof - MealController
+   *
+   * @returns {Promise<object>}
+   */
   static async deleteMeal(req, res) {
     const error = {};
     // Find meal

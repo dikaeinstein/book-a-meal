@@ -2,8 +2,26 @@ import format from 'date-fns/format';
 import { Op } from 'sequelize';
 import { Menu, Meal } from '../models';
 
+/**
+ * @class MenuController
+ *
+ * @export
+ *
+ */
+
 class MenuController {
-  // Setup menu
+  /**
+   * @description - Setup menu for specific day
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof MenuController
+   *
+   * @returns {Promise<object>}
+   */
   static async setupMenu(req, res) {
     const { name, mealIds } = req.body;
 
@@ -27,7 +45,18 @@ class MenuController {
     });
   }
 
-  // Get menu for specific day
+  /**
+   * @description - Get menu for specific day
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof MenuController
+   *
+   * @returns {Promise<object>}
+   */
   static async getMenu(req, res) {
     const error = {};
     // Use current date as default
