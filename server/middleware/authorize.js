@@ -21,7 +21,7 @@ const authorize = async (req, res, next) => {
   });
 
   if (!matchedUser) {
-    error.message = 'Forbidden';
+    error.message = "Forbidden, you don't have the priviledge to perform this operation";
     return res.status(403).json({
       message: error.message,
       status: 'error',

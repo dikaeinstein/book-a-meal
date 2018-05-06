@@ -96,7 +96,8 @@ describe('Menu', () => {
         .set('Authorization', `Bearer ${token}`)
         .send(menu);
       expect(res.status).to.equal(403);
-      expect(res.body.error.message).to.equal('Forbidden');
+      expect(res.body.error.message).to
+        .equal("Forbidden, you don't have the priviledge to perform this operation");
     });
     it('should not setup menu without meals', async () => {
       const res = await chai.request(app).post(menuUrl)

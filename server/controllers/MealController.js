@@ -155,7 +155,7 @@ class MealController {
   }
 
   /**
-   * @description - Delete meal
+   * @description - Delete a meal
    * @static
    * @async
    *

@@ -51,19 +51,22 @@ describe('Orders', () => {
 
   // Test Get all orders
   describe('Get all Orders', () => {
+    it('should return an error when array of orders is empty', async () => {
+      const res = await chai.request(app).get(orderUrl)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(404);
+      expect(res.body).to.be.an('object');
+      expect(res.body.message).to
+        .include('No order have been placed');
+    });
     it('should return an array', async () => {
+      await chai.request(app).post(orderUrl)
+        .set('Authorization', `Bearer ${token}`)
+        .send(order);
       const res = await chai.request(app).get(orderUrl)
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.orders).to.be.an('array');
-    });
-    it('should return a custom message when array of orders is empty', async () => {
-      const res = await chai.request(app).get(orderUrl)
-        .set('Authorization', `Bearer ${adminToken}`);
-      expect(res.status).to.equal(200);
-      expect(res.body).to.be.an('object');
-      expect(res.body.message).to
-        .include('No order have been placed');
     });
   });
 
@@ -129,28 +132,20 @@ describe('Orders', () => {
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.status).to.equal('success');
-      expect(res.body.total).to.equal('4000');
+      expect(res.body.total).to.equal(6000);
     });
     it('should not retrieve total for non admin user', async () => {
       const res = await chai.request(app).get(`${orderUrl}/total`)
         .set('Authorization', `Bearer ${token}`);
       expect(res.status).to.equal(403);
       expect(res.body).to.be.an('object');
-      expect(res.body.error.message).to.equal('Forbidden');
+      expect(res.body.error.message).to
+        .equal("Forbidden, you don't have the priviledge to perform this operation");
     });
   });
 
   // Test Get order history for specific user
   describe('Get orders for specific user', () => {
-    // authenticated customer can see order history
-    it('should get orders for specific auth user without userId', async () => {
-      const res = await chai.request(app).get(`${orderUrl}/users`)
-        .set('Authorization', `Bearer ${token}`);
-      expect(res.status).to.equal(200);
-      expect(res.body).to.be.an('object');
-      expect(res.body.status).to.equal('success');
-      expect(res.body.orders).to.be.an('array');
-    });
     // Admin can get order history for specific user
     it('should get orders for specific auth user with userId', async () => {
       const res = await chai.request(app).get(`${orderUrl}/users/1`)

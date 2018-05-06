@@ -36,7 +36,7 @@ const authenticate = (req, res, next) => {
     req.userId = verifiedToken.id;
     return next();
   } catch (err) {
-    error.message = 'Unauthorized';
+    error.message = 'Unauthorized, invalid token or session have expired';
     return res.status(401).json({
       status: 'error',
       message: error.message,

@@ -9,7 +9,7 @@ import { Order, User, Meal } from '../models';
  */
 class OrderController {
   /**
-  * @description - Order a meal
+  * @description - Get all orders
   * @static
   * @async
   *
@@ -21,12 +21,14 @@ class OrderController {
   * @returns {Promise<object>}
   */
   static async getAllOrders(req, res) {
+    const error = {};
     const orders = await Order.findAll();
     if (orders.length === 0) {
-      return res.status(200).json({
-        status: 'success',
-        message: 'No order have been placed',
-        orders,
+      error.message = 'No order have been placed';
+      return res.status(404).json({
+        status: 'error',
+        message: error.message,
+        error,
       });
     }
 
@@ -52,15 +54,17 @@ class OrderController {
    */
   static async getAllOrdersForSpecificDate(req, res) {
     const { date } = req.params;
+    const error = {};
     // Filter orders by date
     const matchedOrders = await Order.findAll({
       where: { created_at: date },
     });
 
     if (matchedOrders.length === 0) {
-      return res.status(200).json({
+      error.order = 'No order have been placed';
+      return res.status(404).json({
         status: 'success',
-        message: 'No order have been placed',
+        message: error.order,
         orders: matchedOrders,
       });
     }
@@ -87,17 +91,18 @@ class OrderController {
    */
   static async getUserOrderHistory(req, res) {
     const userId = req.params.userId || req.userId;
-
+    const error = {};
     // Filter by orders userId
     const matchedOrders = await Order.findAll({
       where: { id: userId },
     });
 
     if (matchedOrders.length === 0) {
-      return res.status(200).json({
-        status: 'success',
-        message: 'No order have been placed',
-        orders: matchedOrders,
+      error.order = 'User have no placed an order';
+      return res.status(404).json({
+        status: 'error',
+        message: error.order,
+        error,
       });
     }
 
@@ -149,7 +154,7 @@ class OrderController {
       if (matchedOrders.length > 0) {
         total = matchedOrders
           .map(matchedOrder => (
-            matchedOrder.total
+            parseInt(matchedOrder.total, 10)
           ))
           .reduce((start, current) => (
             start + current
@@ -201,7 +206,7 @@ class OrderController {
     const user = await User.findById(userId);
     const meal = await Meal.findById(mealId);
     if (!user) {
-      error.user = 'User does not exits';
+      error.user = 'User does not exist';
       return res.status(404).json({
         message: error.user,
         status: 'error',
@@ -209,7 +214,7 @@ class OrderController {
       });
     }
     if (!meal) {
-      error.meal = 'Meal does not exists';
+      error.meal = 'Meal does not exist';
       return res.status(404).json({
         message: error.meal,
         status: 'error',

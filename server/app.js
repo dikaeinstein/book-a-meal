@@ -2,12 +2,16 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
 import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
 import routes from './routes';
 
 dotenv.config();
 
 // Set up express app
 const app = express();
+// API documentation
+const swaggerDocument = YAML.load('swagger.yml');
 
 const port = process.env.PORT || 5000;
 
@@ -19,6 +23,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/v1', routes);
+// Serve API docs
+app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Root handler
 app.get('/', (req, res) => (

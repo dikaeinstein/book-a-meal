@@ -55,6 +55,12 @@
     "nodemon": "^1.17.3",
     "nyc": "^11.7.1"
 	},
+	"nyc": {
+		"exclude": [
+			"**/index.js",
+			"build"
+		]
+	},
 	"config": {
 		"ghooks": {
 			"pre-commit": "yarn test-single"

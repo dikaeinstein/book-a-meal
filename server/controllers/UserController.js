@@ -107,7 +107,7 @@ class UserController {
       return res.status(200)
         .header('Authorization', `Bearer ${token}`)
         .json({
-          message: 'User successfully signed in.',
+          message: 'User successfully signed in',
           user: {
             id: matchedUser.id,
             name: matchedUser.name,

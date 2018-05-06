@@ -271,7 +271,8 @@ describe('Meals', () => {
         });
       expect(res.status).to.equal(403);
       expect(res.body).to.be.an('object');
-      expect(res.body.error.message).to.equal('Forbidden');
+      expect(res.body.error.message).to
+        .equal("Forbidden, you don't have the priviledge to perform this operation");
     });
   });
 
@@ -297,7 +298,8 @@ describe('Meals', () => {
         .set('Authorization', `Bearer ${token}`);
       expect(res.status).to.equal(403);
       expect(res.body).to.be.an('object');
-      expect(res.body.error.message).to.equal('Forbidden');
+      expect(res.body.error.message).to
+        .equal("Forbidden, you don't have the priviledge to perform this operation");
     });
   });
 });
