@@ -339,7 +339,7 @@ footer a:hover {
 }
 
 .btn-danger:hover {
-    background: rgba(​220, ​53, 69, 0.85)
+    background-color: rgb(209, 17, 17);
 }
 
 .btn-light {
@@ -538,9 +538,9 @@ form select {
 }
 
 .add-section select {
-	font-size: 1.125rem; /* 18px */
-	height: 3rem;
-	margin-top: 1rem;
+		font-size: 1.125rem; /* 18px */
+		height: 3rem;
+		margin-top: 1rem;
 }
 
 
