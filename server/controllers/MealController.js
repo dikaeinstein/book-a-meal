@@ -175,7 +175,7 @@ class MealController {
 
     if (matchedMeal) {
       await matchedMeal.destroy();
-      return res.status(201).json({
+      return res.status(200).json({
         message: 'Meal successfully deleted',
         status: 'success',
       });

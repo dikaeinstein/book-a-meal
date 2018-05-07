@@ -281,8 +281,7 @@ describe('Meals', () => {
     it('should delete meal if it exitst', async () => {
       const res = await chai.request(app).del(`${mealUrl}/1`)
         .set('Authorization', `Bearer ${adminToken}`);
-      expect(res.status).to.equal(201);
-      expect(res.body).to.be.an('object');
+      expect(res.status).to.equal(200);
       expect(res.body.message).to
         .include('Meal successfully deleted');
     });

@@ -8,6 +8,7 @@ chai.use(chaiHttp);
 
 const signUpUrl = '/api/v1/auth/signup';
 const signInUrl = '/api/v1/auth/signin';
+const userUrl = '/api/v1/users'
 
 const users = [
   {
