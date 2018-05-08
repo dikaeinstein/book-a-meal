@@ -65,8 +65,11 @@ describe('Orders', () => {
         .send(order);
       const res = await chai.request(app).get(orderUrl)
         .set('Authorization', `Bearer ${adminToken}`);
+      const expectedOrder = res.body.orders[0];
       expect(res.status).to.equal(200);
       expect(res.body.orders).to.be.an('array');
+      expect(expectedOrder.amount).to.equal('2000');
+      expect(expectedOrder.total).to.equal('2000');
     });
   });
 
@@ -122,6 +125,24 @@ describe('Orders', () => {
       expect(res.status).to.equal(401);
       expect(res.body).to.be.an('object');
       expect(res.body.error.token).to.include('No token provided');
+    });
+    describe('Modify an expired order', () => {
+      before((done) => {
+        setTimeout(() => {
+          done();
+        }, 3000);
+      });
+      it('should not modify an order after 2 secs', async () => {
+        const res = await chai.request(app).put(`${orderUrl}/1`)
+          .set('Authorization', `Bearer ${token}`)
+          .send({
+            quantity: '1',
+            total: '2000',
+          });
+        expect(res.status).to.equal(405);
+        expect(res.body.error.message).to
+          .include('You can no longer update this order');
+      });
     });
   });
 

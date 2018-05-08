@@ -1,6 +1,11 @@
+import dotenv from 'dotenv';
 import format from 'date-fns/format';
+import differenceInHour from 'date-fns/difference_in_hours';
+import differenceInMilliseconds from 'date-fns/difference_in_milliseconds';
 import { Op } from 'sequelize';
 import { Order, User, Meal } from '../models';
+
+dotenv.config();
 
 /**
  * @class OrderController
@@ -39,7 +44,6 @@ class OrderController {
     });
   }
 
-
   /**
    * @description - Get all orders for specific date
    * @static
@@ -76,7 +80,6 @@ class OrderController {
     });
   }
 
-
   /**
    * @description - Get order history for specific user
    * @static
@@ -112,7 +115,6 @@ class OrderController {
       orders: matchedOrders,
     });
   }
-
 
   /**
    * @description - Get Total amount made
@@ -258,12 +260,45 @@ class OrderController {
       });
     }
 
-    // Merge changes
-    const updatedOrder = await matchedOrder.update(req.body.validatedOrder);
-    return res.status(200).json({
+    if (matchedOrder && !matchedOrder.expired) {
+      if (process.env.NODE_ENV === 'test') {
+        if (differenceInMilliseconds(Date.now(), matchedOrder.createdAt) >= 2000) {
+          const updatedOrder = matchedOrder.update({ expired: true });
+          error.message = 'You can no longer update this order';
+          return res.status(405).json({
+            message: error.message,
+            status: 'error',
+            error,
+            order: updatedOrder,
+          });
+        }
+      }
+      if (differenceInHour(matchedOrder.createdAt, Date.now()) >= 2) {
+        error.message = 'You are can no longer update this order';
+        const updatedOrder = matchedOrder.update({ expired: true });
+        return res.status(405).json({
+          message: error.message,
+          status: 'error',
+          error,
+          order: updatedOrder,
+        });
+      }
+      // Merge changes
+      const updatedOrder = await matchedOrder.update(req.body.validatedOrder);
+      return res.status(200).json({
+        order: updatedOrder,
+        status: 'success',
+        message: 'Successfully updated order',
+      });
+    }
+
+    error.message = 'You can no longer update this order';
+    const updatedOrder = await matchedOrder.update({ expired: true });
+    return res.status(405).json({
+      message: error.message,
+      status: 'error',
+      error,
       order: updatedOrder,
-      status: 'success',
-      message: 'Successfully updated order',
     });
   }
 
