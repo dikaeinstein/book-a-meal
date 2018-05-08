@@ -125,6 +125,40 @@ class UserController {
       error,
     });
   }
+
+  /**
+   * @description - Deletes a user account
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof - UserController
+   *
+   * @returns {Promise<object>}
+   */
+  static async deleteUserAccount(req, res) {
+    const { userId } = req.params;
+    const error = {};
+
+    const matchedUser = await User.findById(userId);
+
+    if (!matchedUser) {
+      error.message = 'User not found';
+      return res.status(404).json({
+        message: error.message,
+        status: 'error',
+        error,
+      });
+    }
+
+    await matchedUser.destroy();
+    return res.status(204).json({
+      message: 'Your account have been deleted',
+      status: 'success',
+    });
+  }
 }
 
 export default UserController;

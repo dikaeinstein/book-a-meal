@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 
 const signUpUrl = '/api/v1/auth/signup';
 const signInUrl = '/api/v1/auth/signin';
-const userUrl = '/api/v1/users'
+const userUrl = '/api/v1/users';
 
 const users = [
   {
@@ -25,6 +25,8 @@ const users = [
     role: 'customer',
   },
 ];
+
+let token;
 
 // Test User Sign Up
 describe('User Sign Up', () => {
@@ -159,6 +161,7 @@ describe('User Sign In', () => {
   it('should signin user with correct details', async () => {
     const res = await chai.request(app).post(signInUrl)
       .send(users[0]);
+    token = res.body.token;
     expect(res.status).to.equal(200);
     expect(res.body).to.be.an('object');
     expect(res.body.user.email).to.equal(users[0].email);
@@ -207,5 +210,11 @@ describe('User Sign In', () => {
     expect(res.body).to.be.an('object');
     expect(res.body.error.email)
       .to.equal('User does not exist');
+  });
+  it('should allow auth user delete their account', async () => {
+    const res = await chai.request(app).del(`${userUrl}/1`)
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.status).to.equal(204);
+    expect(res.body).to.be.an('object');
   });
 });

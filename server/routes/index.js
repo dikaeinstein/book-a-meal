@@ -14,6 +14,7 @@ import {
 import {
   validateSignin,
   validateSignup,
+  validateDeleteUser,
 } from '../middleware/userValidator';
 import validateMenu from '../middleware/menuValidator';
 import {
@@ -28,6 +29,8 @@ const router = express.Router();
 // User sign in and sign up
 router.post('/auth/signup', validateSignup, UserController.createUser);
 router.post('/auth/signin', validateSignin, UserController.signinUser);
+// Delete User account
+router.delete('/users/:userId', validateDeleteUser, UserController.deleteUserAccount);
 
 
 // Get all meals

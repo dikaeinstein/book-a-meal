@@ -142,3 +142,31 @@ export const validateSignin = (req, res, next) => {
   if (isEmpty(error)) return next();
   return res.status(400).json({ error });
 };
+
+/**
+ * @description - Validates request parameter: userId
+ *
+ * @param {object} req - HTTP Request
+ * @param {object} res - HTTP Response
+ * @param {function} next - Callback function
+ *
+ * @returns {object}
+ */
+export const validateDeleteUser = (req, res, next) => {
+  const { userId } = req.params;
+  const error = {};
+
+  if (userId && (validator.isEmpty(userId.trim()) || !validator.isNumeric(userId))) {
+    error.id = 'User id must be a number';
+  }
+
+  if (isEmpty(error)) {
+    return next();
+  }
+
+  return res.status(400).json({
+    status: 'error',
+    error,
+  });
+};
+

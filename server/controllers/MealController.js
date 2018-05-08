@@ -173,19 +173,19 @@ class MealController {
       where: { id: req.params.mealId },
     });
 
-    if (matchedMeal) {
-      await matchedMeal.destroy();
-      return res.status(200).json({
-        message: 'Meal successfully deleted',
-        status: 'success',
+    if (!matchedMeal) {
+      error.id = 'Meal does not exist';
+      return res.status(404).json({
+        message: error.id,
+        status: 'error',
+        error,
       });
     }
 
-    error.id = 'Meal does not exist';
-    return res.status(404).json({
-      message: error.id,
-      status: 'error',
-      error,
+    await matchedMeal.destroy();
+    return res.status(204).json({
+      message: 'Meal successfully deleted',
+      status: 'success',
     });
   }
 }

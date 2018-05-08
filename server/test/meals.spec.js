@@ -281,9 +281,7 @@ describe('Meals', () => {
     it('should delete meal if it exitst', async () => {
       const res = await chai.request(app).del(`${mealUrl}/1`)
         .set('Authorization', `Bearer ${adminToken}`);
-      expect(res.status).to.equal(200);
-      expect(res.body.message).to
-        .include('Meal successfully deleted');
+      expect(res.status).to.equal(204);
     });
     it('should not delete meal if it does not exist', async () => {
       const res = await chai.request(app).del(`${mealUrl}/3`)
