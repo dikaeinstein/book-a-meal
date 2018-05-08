@@ -15,19 +15,37 @@
       <div class="toggle-show">&#9776;</div>
       <nav class="col-3-4">
         <ul class="nav-container text-center">
-          <li><a href="caterer_dashboard.html">Home</a></li>
+          <li><a href="user_menus.html">Menu</a></li>
           <li><a href="user_order_history.html">Orders</a></li>
           <li class="user"><a href="#">Dikaeinstein</a></li>
           <li><a href="index.html">Logout</a></li>
         </ul>
       </nav>
   </header>
-  <main></main>
+  <main class="bg-light order-details-main">
+		<section class="card order-details text-center">
+			<h2>Order Details</h2>
+			<div class="meal-details text-center">
+				<p>Vegetable Soup</p>
+				<p>x1</p>
+				<p>&#x20a6 2000</p>
+			</div>
+			<hr />
+			<div class="meal-details">
+				<p>Total</p>
+				<p id="total">&#x20a6 2000</p>
+			</div>
+			<div>
+				<button class="btn btn-danger btn-intro-lg">Confirm Order</button>
+			</div>
+		</section>
+	</main>
   <footer class="text-center">
     <p>&copy; Book-A-Meal <span id="year"></span>.
       Developed with &#10084; by 
       <a href="https://dikaeinstein.github.io">Dikaeinstein</a>
     </p>
-  </footer>
+	</footer>
+	<script src="js/main.js"></script>
 </body>
 </html>
