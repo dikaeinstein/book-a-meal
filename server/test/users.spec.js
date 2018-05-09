@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
+import users from './usersTestData';
 
 const { expect } = chai;
 
@@ -10,35 +11,19 @@ const signUpUrl = '/api/v1/auth/signup';
 const signInUrl = '/api/v1/auth/signin';
 const userUrl = '/api/v1/users';
 
-const users = [
-  {
-    name: 'Solomon Okwa',
-    email: 'solozyokwa@gmail.com',
-    password: '1234567890',
-    confirmPassword: '1234567890',
-    role: 'caterer',
-  },
-  {
-    name: 'Walter Ifeanyi',
-    email: 'walterify@3d.com',
-    password: '1234567890',
-    role: 'customer',
-  },
-];
-
 let token;
 
 // Test User Sign Up
 describe('User Sign Up', () => {
   it('should create user with right credentials', async () => {
     const res = await chai.request(app).post(signUpUrl)
-      .send(users[0]);
+      .send(users[6]);
     expect(res.status).to.equal(201);
     expect(res.body).to.be.an('object');
     expect(res).to.have.header('Authorization');
     expect(res.body.user.name).to.be.a('string');
-    expect(res.body.user.name).to.equal(users[0].name);
-    expect(res.body.user.email).to.equal(users[0].email);
+    expect(res.body.user.name).to.equal(users[6].name);
+    expect(res.body.user.email).to.equal(users[6].email);
     expect(res.body.user.email).to.be.a('string');
     expect(res.body).not.to.have.property('password');
   });

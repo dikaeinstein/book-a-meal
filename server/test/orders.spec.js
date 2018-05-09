@@ -1,28 +1,13 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
+import users from './usersTestData';
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
 const orderUrl = '/api/v1/orders';
 const signUpUrl = '/api/v1/auth/signup';
-
-const admin = {
-  name: 'Walter Okwa',
-  email: 'walterorder@gmail.com',
-  password: '1234567890',
-  confirmPassword: '1234567890',
-  role: 'caterer',
-};
-
-const user = {
-  name: 'Ann Ihe',
-  email: 'anniheorder@gmail.com',
-  password: '1234567890',
-  confirmPassword: '1234567890',
-  role: 'customer',
-};
 
 const order = {
   mealId: '2',
@@ -31,6 +16,9 @@ const order = {
   total: '2000',
   userId: '1',
 };
+
+const admin = users[4];
+const user = users[5];
 
 let token;
 let adminToken;

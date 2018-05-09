@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
+import users from './usersTestData';
 
 const { expect } = chai;
 chai.use(chaiHttp);
@@ -23,21 +24,8 @@ const meals = [
   },
 ];
 
-const admin = {
-  name: 'Walter Okwa',
-  email: 'walter@gmail.com',
-  password: '1234567890',
-  confirmPassword: '1234567890',
-  role: 'caterer',
-};
-
-const user = {
-  name: 'Ann Ihe',
-  email: 'annihe@gmail.com',
-  password: '1234567890',
-  confirmPassword: '1234567890',
-  role: 'customer',
-};
+const admin = users[0];
+const user = users[1];
 
 let token;
 let adminToken;

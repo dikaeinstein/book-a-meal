@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
+import users from './usersTestData';
 
 chai.use(chaiHttp);
 
@@ -37,21 +38,8 @@ const menu = {
 const menuUrl = '/api/v1/menu';
 const signUpUrl = '/api/v1/auth/signup';
 
-const admin = {
-  name: 'Walter Okwa',
-  email: 'waltermenu@gmail.com',
-  password: '1234567890',
-  confirmPassword: '1234567890',
-  role: 'caterer',
-};
-
-const user = {
-  name: 'Ann Ihe',
-  email: 'annihemenu@gmail.com',
-  password: '1234567890',
-  confirmPassword: '1234567890',
-  role: 'customer',
-};
+const admin = users[2];
+const user = users[3];
 
 let token;
 let adminToken;
