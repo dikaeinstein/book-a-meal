@@ -64,8 +64,7 @@ describe('Orders', () => {
     it('should allow auth customers place an order', async () => {
       const res = await chai.request(app).post(orderUrl)
         .set('Authorization', `Bearer ${token}`)
-				.send(order);
-			console.log(res.body.error);
+        .send(order);
       expect(res.status).to.equal(201);
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('success');
