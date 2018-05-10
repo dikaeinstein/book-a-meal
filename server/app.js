@@ -35,15 +35,15 @@ app.get('/', (req, res) => (
 ));
 
 // Catch all error handler
-app.use((err, req, res, next) => {
-  if (res.headersSent) {
-    return next(err);
-  }
-  return res.status(500).json({
-    message: 'Something failed, we are working on it :)',
-    status: 'error',
-  });
-});
+// app.use((err, req, res, next) => {
+//   if (res.headersSent) {
+//     return next(err);
+//   }
+//   return res.status(500).json({
+//     message: 'Something failed, we are working on it :)',
+//     status: 'error',
+//   });
+// });
 
 // Start server
 app.listen(port, () => {

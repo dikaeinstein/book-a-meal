@@ -1,9 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const Order = sequelize.define('Order', {
-    amount: {
-      type: DataTypes.DECIMAL,
-      allowNull: false,
-    },
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -34,6 +30,22 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true,
     underscoredAll: true,
     timestamps: false,
+    getterMethods: {
+      userId() {
+        return this.user_id;
+      },
+      mealId() {
+        return this.meal_id;
+      },
+    },
+    setterMethods: {
+      userId(value) {
+        this.setDataValue('user_id', value);
+      },
+      mealId(value) {
+        this.setDataValue('meal_id', value);
+      },
+    },
   });
 
   Order.associate = (models) => {

@@ -12,9 +12,9 @@ import isEmpty from 'lodash.isempty';
  */
 export const validateNewOrder = (req, res, next) => {
   const {
-    mealId, amount,
-    total, quantity,
-    userId,
+    mealId,
+    total,
+    quantity,
   } = req.body;
   const error = {};
 
@@ -30,40 +30,32 @@ export const validateNewOrder = (req, res, next) => {
     error.mealId = 'Meal id must be a number';
   }
 
-  if (!userId) {
-    error.userId = 'User id is required';
+  if (mealId && /^[-+][0-9]*\.?/.test(mealId.trim())) {
+    error.mealId = 'Meal id cannot be less than zero';
   }
 
-  if (userId && validator.isEmpty(userId)) {
-    error.userId = 'User id is required';
-  }
-
-  if (userId && !validator.isNumeric(userId)) {
-    error.userId = 'User id must be a number';
-  }
-
-  if (!amount) {
-    error.amount = 'Order amount is required';
-  }
-
-  if (amount && validator.isEmpty(amount)) {
-    error.amount = 'Order amount is required';
-  }
-
-  if (amount && !validator.isNumeric(amount)) {
-    error.amount = 'Order amount must be a number';
+  if (mealId && /^[0-9]*\.[0-9]+$/.test(mealId.trim())) {
+    error.mealId = 'Meal id must be whole numbers';
   }
 
   if (!total) {
-    error.amount = 'Order total is required';
+    error.total = 'Order total is required';
   }
 
-  if (total && validator.isEmpty(total)) {
-    error.amount = 'Order total is required';
+  if (total && validator.isEmpty(total.trim())) {
+    error.total = 'Order total is required';
   }
 
-  if (total && !validator.isNumeric(total)) {
-    error.amount = 'Order total must be a number';
+  if (total && !validator.isNumeric(total.trim())) {
+    error.total = 'Order total must be a number';
+  }
+
+  if (total && /^[-+][0-9]*\.?/.test(total.trim())) {
+    error.total = 'Order total cannot be less than zero';
+  }
+
+  if (total && /^[0-9]*\.[0-9]+$/.test(total.trim())) {
+    error.total = 'Order total must be whole numbers';
   }
 
   if (!quantity) {
@@ -76,6 +68,14 @@ export const validateNewOrder = (req, res, next) => {
 
   if (quantity && !validator.isNumeric(quantity)) {
     error.quantity = 'Order quantity must be a number';
+  }
+
+  if (quantity && /^[-+][0-9]*\.?/.test(quantity.trim())) {
+    error.quantity = 'Order quantity cannot be less than zero';
+  }
+
+  if (quantity && /^[0-9]*\.[0-9]+$/.test(quantity.trim())) {
+    error.quantity = 'Order quantity must be whole numbers';
   }
 
   if (isEmpty(error)) {
@@ -99,9 +99,10 @@ export const validateNewOrder = (req, res, next) => {
 export const validateUpdateOrder = (req, res, next) => {
   const { orderId } = req.params;
   const {
-    mealId, amount,
-    total, quantity,
-    userId, status,
+    mealId,
+    total,
+    quantity,
+    status,
   } = req.body;
   const validatedOrder = {};
   const error = {};
@@ -110,24 +111,40 @@ export const validateUpdateOrder = (req, res, next) => {
     error.orderId = 'Order id must be a number';
   }
 
+  if (orderId && /^[-+][0-9]*\.?/.test(orderId.trim())) {
+    error.orderId = 'Order id cannot be less than zero';
+  }
+
+  if (orderId && /^[0-9]*\.[0-9]+$/.test(orderId.trim())) {
+    error.orderId = 'Order id must be whole numbers';
+  }
+
   if (mealId && !validator.isNumeric(mealId.trim())) {
     error.mealId = 'Meal id must be a number';
+  }
+
+  if (mealId && /^[-+][0-9]*\.?/.test(mealId.trim())) {
+    error.mealId = 'Meal id cannot be less than zero';
+  }
+
+  if (mealId && /^[0-9]*\.[0-9]+$/.test(mealId.trim())) {
+    error.mealId = 'Meal id must be whole numbers';
   }
 
   if (mealId && validator.isNumeric(mealId.trim())) {
     validatedOrder.mealId = mealId;
   }
 
-  if (amount && !validator.isNumeric(amount.trim())) {
-    error.amount = 'Order amount must be a number';
-  }
-
-  if (amount && validator.isNumeric(amount.trim())) {
-    validatedOrder.description = amount;
-  }
-
   if (quantity && !validator.isNumeric(quantity.trim())) {
     error.quantity = 'Order quantity must be a number';
+  }
+
+  if (quantity && /^[-+][0-9]*\.?/.test(quantity.trim())) {
+    error.quantity = 'Order quantity cannot be less than zero';
+  }
+
+  if (quantity && /^[0-9]*\.[0-9]+$/.test(quantity.trim())) {
+    error.quantity = 'Order quantity must be whole numbers';
   }
 
   if (quantity && validator.isNumeric(quantity.trim())) {
@@ -138,23 +155,23 @@ export const validateUpdateOrder = (req, res, next) => {
     error.total = 'Order total must be a number';
   }
 
+  if (total && /^[-+][0-9]*\.?/.test(total.trim())) {
+    error.total = 'Order total cannot be less than zero';
+  }
+
+  if (total && /^[0-9]*\.[0-9]+$/.test(total.trim())) {
+    error.total = 'Order total must be whole numbers';
+  }
+
   if (total && validator.isNumeric(total.trim())) {
     validatedOrder.total = total;
-  }
-
-  if (userId && !validator.isNumeric(userId.trim())) {
-    error.userId = 'User id must be a nunber';
-  }
-
-  if (userId && validator.isNumeric(userId.trim())) {
-    validatedOrder.userId = userId;
   }
 
   if (status && validator.isEmpty(status.trim())) {
     error.status = 'Order status is required';
   }
 
-  if (status && validator.matches(status, /(pending|delivered|cancelled)/)) {
+  if (status && validator.matches(status, /^(pending|delivered|cancelled)$/)) {
     validatedOrder.status = status;
   }
 
@@ -185,6 +202,14 @@ export const validateGetOrder = (req, res, next) => {
 
   if (orderId && !validator.isNumeric(orderId)) {
     error.id = 'Order id must be a number';
+  }
+
+  if (orderId && /^[-+][0-9]*\.?/.test(orderId.trim())) {
+    error.orderId = 'Order id cannot be less than zero';
+  }
+
+  if (orderId && /^[0-9]*\.[0-9]+$/.test(orderId.trim())) {
+    error.orderId = 'Order id must be whole numbers';
   }
 
   if (isEmpty(error)) {

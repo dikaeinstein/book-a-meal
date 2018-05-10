@@ -24,6 +24,8 @@ const meals = [
   },
 ];
 
+const defaultImageUrl = 'http://res.cloudinary.com/dikaeinstein/image/upload/c_scale,q_auto:low,w_1029/v1525566673/book-a-meal/avocado-cooked-delicious-262959.jpg';
+
 const admin = users[0];
 const user = users[1];
 
@@ -141,6 +143,7 @@ describe('Meals', () => {
         .send({
           name: 'Meal without description',
           imageUrl: 'https://mydummyimgurl.com',
+          price: '2000',
         });
       expect(res).to.have.status(400);
       expect(res.body).to.be.an('object');
@@ -154,24 +157,28 @@ describe('Meals', () => {
           name: 'Meal with empty description',
           description: '',
           imageUrl: 'https://mydummyimgurl.com',
+          price: '2000',
         });
       expect(res).to.have.status(400);
       expect(res.body).to.be.an('object');
       expect(res.body.error.description)
         .to.include('Meal description is required');
     });
-    it('should not add meal without image url', async () => {
+    it('should add meal without image url', async () => {
       const res = await chai.request(app).post(mealUrl)
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          name: 'Meal with empty image url',
+          name: 'Meal without image url',
           description: 'I am the description for the meal without image url',
-          imageUrl: '',
+          price: '2000',
         });
-      expect(res).to.have.status(400);
+      expect(res).to.have.status(201);
       expect(res.body).to.be.an('object');
-      expect(res.body.error.imageUrl)
-        .to.include('Meal image url is required');
+      expect(res.body.meal).to.be.an('object');
+      expect(res.body.meal.imageUrl).to
+        .equal(defaultImageUrl);
+      expect(res.body.message)
+        .to.include('Successfully added meal');
     });
     it('should not add meal with empty image url', async () => {
       const res = await chai.request(app).post(mealUrl)
@@ -180,11 +187,26 @@ describe('Meals', () => {
           name: 'Meal with empty image url',
           description: 'I am the description for the meal without image url',
           imageUrl: '',
+          price: '3000',
         });
+      console.log(res.body);
       expect(res).to.have.status(400);
       expect(res.body).to.be.an('object');
       expect(res.body.error.imageUrl)
         .to.include('Meal image url is required');
+    });
+    it('should not add meal with invalid image url', async () => {
+      const res = await chai.request(app).post(mealUrl)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          name: 'Meal with invalid image url',
+          description: 'I am the description for the meal without image url',
+          imageUrl: 'htt-seiq',
+        });
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.imageUrl)
+        .to.include('Meal image url must be a url');
     });
     it('should not add meal without price', async () => {
       const res = await chai.request(app).post(mealUrl)
@@ -229,7 +251,7 @@ describe('Meals', () => {
         .include('super sumptious');
     });
     it('should not update meal with incorrect id', async () => {
-      const res = await chai.request(app).put(`${mealUrl}/3`)
+      const res = await chai.request(app).put(`${mealUrl}/6`)
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
           description: 'meal with wrong id',
@@ -245,10 +267,9 @@ describe('Meals', () => {
         .send({
           description: 'meal with wrong id',
         });
-
       expect(res.status).to.equal(400);
       expect(res.body).to.be.an('object');
-      expect(res.body.error.id).to
+      expect(res.body.error.mealId).to
         .include('Meal id must be a number');
     });
     it('should not allow non auth admin to update meal', async () => {
@@ -272,7 +293,7 @@ describe('Meals', () => {
       expect(res.status).to.equal(204);
     });
     it('should not delete meal if it does not exist', async () => {
-      const res = await chai.request(app).del(`${mealUrl}/3`)
+      const res = await chai.request(app).del(`${mealUrl}/6`)
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(404);
       expect(res.body.error.id).to

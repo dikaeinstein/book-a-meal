@@ -154,8 +154,8 @@ class UserController {
     }
 
     await matchedUser.destroy();
-    return res.status(204).json({
-      message: 'Your account have been deleted',
+    return res.status(200).json({
+      message: 'User account deleted successfully',
       status: 'success',
     });
   }

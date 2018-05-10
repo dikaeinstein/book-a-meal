@@ -72,4 +72,16 @@ router.get('/', (req, res) => (
   })
 ));
 
+
+router.all('*', (req, res) => {
+  const error = {
+    message: "I'm pretty sure this is not what you are looking for, please enter a valid route",
+  };
+  return res.status(404).json({
+    message: error.message,
+    status: 'error',
+    error,
+  });
+});
+
 export default router;

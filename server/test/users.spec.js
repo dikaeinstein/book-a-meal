@@ -124,7 +124,7 @@ describe('User Sign Up', () => {
     expect(res.status).to.equal(400);
     expect(res.body).to.be.an('object');
     expect(res.body.error.password)
-      .to.include('Passwords empty or do not match');
+      .to.include('Password is required');
   });
   it('should return error if password do not match', async () => {
     const res = await chai.request(app).post(signUpUrl)
@@ -137,7 +137,7 @@ describe('User Sign Up', () => {
     expect(res.status).to.equal(400);
     expect(res.body).to.be.an('object');
     expect(res.body.error.password).to
-      .include('Passwords empty or do not match');
+      .include('Passwords do not match');
   });
 });
 
@@ -199,7 +199,9 @@ describe('User Sign In', () => {
   it('should allow auth user delete their account', async () => {
     const res = await chai.request(app).del(`${userUrl}/1`)
       .set('Authorization', `Bearer ${token}`);
-    expect(res.status).to.equal(204);
+    expect(res.status).to.equal(200);
     expect(res.body).to.be.an('object');
+    expect(res.body.message).to.equal('User account deleted successfully');
+    expect(res.body.status).to.equal('success');
   });
 });

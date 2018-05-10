@@ -37,10 +37,24 @@ class OrderController {
       });
     }
 
+    const filteredOrders = orders.map(order => (
+      {
+        id: order.id,
+        quantity: order.quantity,
+        total: order.total,
+        status: order.status,
+        expired: order.expired,
+        userId: order.userId,
+        mealId: order.mealId,
+        createdAt: order.createdAt,
+        updatedAt: order.updatedAt,
+      }
+    ));
+
     return res.status(200).json({
       message: 'Orders succesfully retrieved',
       status: 'success',
-      orders,
+      orders: filteredOrders,
     });
   }
 
@@ -191,8 +205,8 @@ class OrderController {
       amount,
       quantity,
       total,
-      userId,
     } = req.body;
+    const { userId } = req;
     const error = {};
     const date = new Date();
     date.setUTCHours(0, 0, 0, 0);
@@ -227,7 +241,16 @@ class OrderController {
     return res.status(201).json({
       message: 'Order placed',
       status: 'success',
-      order: newOrder,
+      order: {
+        mealName: meal.name,
+        customerName: user.name,
+        quantity: newOrder.quantity,
+        total: newOrder.total,
+        status: newOrder.status,
+        expired: newOrder.expired,
+        createdAt: newOrder.createdAt,
+        updatedAt: newOrder.updatedAt,
+      },
     });
   }
 
@@ -285,10 +308,21 @@ class OrderController {
       }
       // Merge changes
       const updatedOrder = await matchedOrder.update(req.body.validatedOrder);
+      const filteredOrder = {
+        id: updatedOrder.id,
+        quantity: updatedOrder.quantity,
+        total: updatedOrder.total,
+        status: updatedOrder.status,
+        expired: updatedOrder.expired,
+        userId: updatedOrder.userId,
+        mealId: updatedOrder.mealId,
+        createdAt: updatedOrder.createdAt,
+        updatedAt: updatedOrder.updatedAt,
+      };
       return res.status(200).json({
-        order: updatedOrder,
-        status: 'success',
         message: 'Successfully updated order',
+        status: 'success',
+        order: filteredOrder,
       });
     }
 

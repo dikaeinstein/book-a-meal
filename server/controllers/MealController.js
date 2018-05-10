@@ -83,6 +83,7 @@ class MealController {
    */
   static async addMeal(req, res) {
     const error = {};
+    let meal;
     const {
       name,
       description,
@@ -102,12 +103,20 @@ class MealController {
         error,
       });
     }
-    const meal = await Meal.create({
-      name,
-      description,
-      imageUrl,
-      price,
-    });
+    if (imageUrl) {
+      meal = await Meal.create({
+        name,
+        description,
+        imageUrl,
+        price,
+      });
+    } else {
+      meal = await Meal.create({
+        name,
+        description,
+        price,
+      });
+    }
 
     return res.status(201).json({
       message: 'Successfully added meal',

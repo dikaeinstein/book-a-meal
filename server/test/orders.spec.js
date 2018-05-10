@@ -14,7 +14,6 @@ const order = {
   amount: '2000',
   quantity: '1',
   total: '2000',
-  userId: '1',
 };
 
 const admin = users[4];
@@ -56,7 +55,6 @@ describe('Orders', () => {
       const expectedOrder = res.body.orders[0];
       expect(res.status).to.equal(200);
       expect(res.body.orders).to.be.an('array');
-      expect(expectedOrder.amount).to.equal('2000');
       expect(expectedOrder.total).to.equal('2000');
     });
   });
@@ -71,11 +69,8 @@ describe('Orders', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('success');
       expect(res.body.order).to.be.an('object');
-      expect(res.body.order.amount).to.equal(order.amount);
       expect(res.body.order.total).to.equal(order.total);
       expect(res.body.order.quantity).to.equal(parseInt(order.quantity, 10));
-      expect(res.body.order.user_id).to.equal(parseInt(order.userId, 10));
-      expect(res.body.order.meal_id).to.equal(parseInt(order.mealId, 10));
       expect(res.body.order.status).to.equal('pending');
     });
     it('should not allow non auth customers to post an order', async () => {
@@ -85,6 +80,28 @@ describe('Orders', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.error.token).to
         .include('No token provided');
+    });
+    it('should post an order without userId in request body', async () => {
+      const res = await chai.request(app).post(orderUrl)
+        .set('Authorization', `Bearer ${token}`)
+        .send(order);
+      expect(res.status).to.equal(201);
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('success');
+      expect(res.body.message).to.equal('Order placed');
+    });
+    it('should not post an order with an invalid quantity', async () => {
+      const res = await chai.request(app).post(orderUrl)
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          mealId: '2',
+          amount: '2000',
+          quantity: '-3',
+          total: '2000',
+        });
+      expect(res.status).to.equal(400);
+      expect(res.body.error.quantity).to
+        .include('Order quantity cannot be less than zero');
     });
   });
 
@@ -141,7 +158,7 @@ describe('Orders', () => {
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.status).to.equal('success');
-      expect(res.body.total).to.equal(6000);
+      expect(res.body.total).to.equal(8000);
     });
     it('should not retrieve total for non admin user', async () => {
       const res = await chai.request(app).get(`${orderUrl}/total`)

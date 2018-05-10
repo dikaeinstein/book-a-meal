@@ -58,7 +58,15 @@ export const validateSignup = (req, res, next) => {
     error.name = 'Name is required';
   }
 
-  if (name && !isValidNameLength(name)) {
+  if (name && /\d/.test(name.trim())) {
+    error.name = 'Please enter a valid name';
+  }
+
+  if (name && !/(?:[a-zA-Z]+(?: [a-zA-Z]+)*){3,30}/.test(name.trim())) {
+    error.name = 'Please enter a valid name';
+  }
+
+  if (name && !isValidNameLength(name.trim())) {
     error.name = 'Name can only be from 3 to 30 characters';
   }
 
@@ -70,13 +78,17 @@ export const validateSignup = (req, res, next) => {
     error.password = 'Please confirm your password';
   }
 
-  if (validator.isEmpty(password) ||
-    validator.isEmpty(confirmPassword) ||
-    (confirmPassword.trim() !== password.trim())) {
-    error.password = 'Passwords empty or do not match';
+  if (password && validator.isEmpty(password.trim())) {
+    error.password = 'Password is required';
+  }
+  if (confirmPassword && validator.isEmpty(confirmPassword.trim())) {
+    error.password = 'Please confirm your password';
+  }
+  if ((confirmPassword && password) && confirmPassword.trim() !== password.trim()) {
+    error.password = 'Passwords do not match';
   }
 
-  if (password && !isValidPasswordLength(password)) {
+  if (password && !isValidPasswordLength(password.trim())) {
     error.password = 'Password can only be from 6 to 30 characters';
   }
 
@@ -96,7 +108,7 @@ export const validateSignup = (req, res, next) => {
     error.role = 'User role is required';
   }
 
-  if (role && !validator.matches(role, /(customer|caterer)/)) {
+  if (role && !validator.matches(role.trim(), /^(customer|caterer)$/)) {
     error.role = 'User role can either be customer or caterer';
   }
 
@@ -127,7 +139,7 @@ export const validateSignin = (req, res, next) => {
     error.password = 'Password is required';
   }
 
-  if (password && !isValidPasswordLength(password)) {
+  if (password && !isValidPasswordLength(password.trim())) {
     error.password = 'Password can only be from 6 to 30 characters';
   }
 
@@ -156,7 +168,7 @@ export const validateDeleteUser = (req, res, next) => {
   const { userId } = req.params;
   const error = {};
 
-  if (userId && (validator.isEmpty(userId.trim()) || !validator.isNumeric(userId))) {
+  if (userId && (validator.isEmpty(userId.trim()) || !validator.isNumeric(userId.trim()))) {
     error.id = 'User id must be a number';
   }
 

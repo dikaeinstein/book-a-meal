@@ -286,7 +286,7 @@ footer a:hover {
     border-radius: 5px;/*0.3125rem;*/ /* 5px */
     color: #fff;
     cursor: pointer;
-    display: inline-block;
+    display: block;
     letter-spacing: .5px;
     margin: 0;
     text-transform: uppercase;
@@ -308,7 +308,8 @@ footer a:hover {
 
 .btn-alt {
     border: 1px solid #f00;
-    background: #fff;
+		background: #fff;
+		display: inline-block;
     color: #f00;
     padding: 0.625rem 0.625rem; /* 10px 10px */
     font-size: 0.75rem;
@@ -321,15 +322,17 @@ footer a:hover {
 }
 
 .btn-default-lg {
-    width: 100%;
+		width: 100%;
 }
 
 .btn-intro-lg {
-    font-size: 1.5rem;
+		font-size: 1.5rem;
+		margin: 0 auto;
 }
 
 .intro-banner .btn-intro-lg:hover {
-    background: #ffa100;
+		box-shadow: 0 4px 8px 7px rgba(0,0,0,0.14);
+		transform: translateY(-8px);
 }
 
 .btn-danger {
@@ -407,6 +410,10 @@ a.active:hover {
  =====================================
 */
 
+.add-section {
+	padding-top: 2rem;
+}
+
 .add-section > h2 {
     margin-top: 0;
     margin-bottom: 0;
@@ -418,8 +425,12 @@ a.active:hover {
     padding-top: 0.875rem; /* 14px */
 }
 
+.add-section .btn {
+		margin: 0 auto;
+}
+
 .meals {
-    padding-bottom: 2rem;
+    padding-bottom: 4rem;
 }
 
 .meals h2 {
@@ -673,12 +684,11 @@ input[type="date"] {
 
 .user-menu-item:hover,
 .user-menu-item:focus {
-    border-color: #f00;
+    border: 2px solid #f00;
 		box-shadow: 0 4px 8px 7px rgba(0,0,0,0.14);
-    color: #3ac189;
-    -webkit-transform: translateY(-2px);
-    -ms-transform: translateY(-2px);
-    transform: translateY(-2px);
+    -webkit-transform: translateY(-8px);
+    -ms-transform: translateY(-8px);
+    transform: translateY(-8px);
 }
 
 .user-menu-item .amount {
@@ -696,10 +706,6 @@ input[type="date"] {
     font-size: 1rem;
 }
 
-.user-menu-item .btn {
-    position: relative;
-    left: 18%;
-}
 li.user {
     color: #fff;
     font-family: 'Varela Round', sans-serif;
@@ -759,7 +765,11 @@ li.user {
 
 .intro-banner .btn {
     border: 0;
-    background: yellow;
+    background: #f00;
+}
+
+.intro-banner a {
+	color: #fff;
 }
 
 

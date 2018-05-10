@@ -24,12 +24,28 @@ export const validateAddMeal = (req, res, next) => {
     error.name = 'Meal name is required';
   }
 
+  if (name && /\d/.test(name.trim())) {
+    error.name = 'Please enter a valid meal name';
+  }
+
+  if (name && !/(?:[a-zA-Z]+(?: [a-zA-Z]+)*){3,}/.test(name.trim())) {
+    error.name = 'Please enter a valid meal name or meal name is short';
+  }
+
   if (!price) {
     error.price = 'Meal price is required';
   }
 
   if (price && (validator.isEmpty(price.trim()) || !validator.isNumeric(price.trim()))) {
     error.price = 'Meal price must be numbers';
+  }
+
+  if (price && /^[-+][0-9]*\.?/.test(price.trim())) {
+    error.price = 'Meal price cannot be less than zero';
+  }
+
+  if (price && /^[0-9]*\.[0-9]+$/.test(price.trim())) {
+    error.price = 'Meal price must be whole numbers';
   }
 
   if (!description) {
@@ -40,11 +56,19 @@ export const validateAddMeal = (req, res, next) => {
     error.description = 'Meal description is required';
   }
 
-  if (!imageUrl) {
+  if (description && /\d/.test(description.trim())) {
+    error.name = 'Please enter a valid meal description';
+  }
+
+  if (description && !/(?:[a-zA-Z]+(?: [a-zA-Z]+)*){3,}/.test(description.trim())) {
+    error.description = 'Please enter a valid description';
+  }
+
+  if (imageUrl !== undefined && validator.isEmpty(imageUrl)) {
     error.imageUrl = 'Meal image url is required';
   }
 
-  if (imageUrl && (validator.isEmpty(imageUrl.trim() || !validator.isURL(imageUrl.trim())))) {
+  if (imageUrl && !validator.isURL(imageUrl.trim())) {
     error.imageUrl = 'Meal image url must be a url';
   }
 
@@ -79,11 +103,27 @@ export const validateUpdateMeal = (req, res, next) => {
   const error = {};
 
   if (mealId && (validator.isEmpty(mealId.trim()) || !validator.isNumeric(mealId))) {
-    error.id = 'Meal id must be a number';
+    error.mealId = 'Meal id must be a number';
+  }
+
+  if (mealId && /^[-+][0-9]*\.?/.test(mealId.trim())) {
+    error.mealId = 'Meal id cannot be less than zero';
+  }
+
+  if (mealId && /^[0-9]*\.[0-9]+$/.test(mealId.trim())) {
+    error.mealId = 'Meal id must be whole numbers';
   }
 
   if (name && validator.isEmpty(name.trim())) {
     error.name = 'Meal name is required';
+  }
+
+  if (name && /\d/.test(name.trim())) {
+    error.name = 'Please enter a valid meal name';
+  }
+
+  if (name && !(/(?:[a-zA-Z]+(?: [a-zA-Z]+)*){3,}/.test(name.trim()))) {
+    error.name = 'Please enter a valid meal name';
   }
 
   if (name) {
@@ -92,6 +132,14 @@ export const validateUpdateMeal = (req, res, next) => {
 
   if (description && validator.isEmpty(description.trim())) {
     error.description = 'Meal description is required';
+  }
+
+  if (description && /\d/.test(description.trim())) {
+    error.name = 'Please enter a valid meal description';
+  }
+
+  if (description && !/(?:[a-zA-Z]+(?: [a-zA-Z]+)*){3,}/.test(description.trim())) {
+    error.description = 'Please enter a valid meal description';
   }
 
   if (description) {
@@ -116,6 +164,14 @@ export const validateUpdateMeal = (req, res, next) => {
 
   if (price && !validator.isNumeric(price.trim())) {
     error.price = 'Meal price must be a number';
+  }
+
+  if (price && /^[-+][0-9]*\.?/.test(price.trim())) {
+    error.price = 'Meal price cannot be less than zero';
+  }
+
+  if (price && /^[0-9]*\.[0-9]+$/.test(price.trim())) {
+    error.price = 'Meal price must be whole numbers';
   }
 
   if (price) {
@@ -148,6 +204,14 @@ export const validateGetMeal = (req, res, next) => {
 
   if (mealId && (validator.isEmpty(mealId.trim()) || !validator.isNumeric(mealId))) {
     error.id = 'Meal id must be a number';
+  }
+
+  if (mealId && /^[-+][0-9]*\.?/.test(mealId.trim())) {
+    error.mealId = 'Meal id cannot be less than zero';
+  }
+
+  if (mealId && /^[0-9]*\.[0-9]+$/.test(mealId.trim())) {
+    error.mealId = 'Meal id must be whole numbers';
   }
 
   if (isEmpty(error)) {
