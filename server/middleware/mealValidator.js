@@ -114,6 +114,10 @@ export const validateUpdateMeal = (req, res, next) => {
     error.mealId = 'Meal id must be whole numbers';
   }
 
+  if (mealId && (mealId > Number.MAX_SAFE_INTEGER)) {
+    error.mealId = 'Meal id is not a valid integer';
+  }
+
   if (name && validator.isEmpty(name.trim())) {
     error.name = 'Meal name is required';
   }
@@ -212,6 +216,10 @@ export const validateGetMeal = (req, res, next) => {
 
   if (mealId && /^[0-9]*\.[0-9]+$/.test(mealId.trim())) {
     error.mealId = 'Meal id must be whole numbers';
+  }
+
+  if (mealId && (mealId > Number.MAX_SAFE_INTEGER)) {
+    error.mealId = 'Meal id is not a valid integer';
   }
 
   if (isEmpty(error)) {

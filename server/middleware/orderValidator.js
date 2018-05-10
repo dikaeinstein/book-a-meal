@@ -38,6 +38,10 @@ export const validateNewOrder = (req, res, next) => {
     error.mealId = 'Meal id must be whole numbers';
   }
 
+  if (mealId && (mealId > Number.MAX_SAFE_INTEGER)) {
+    error.mealId = 'Meal id is not a valid integer';
+  }
+
   if (!total) {
     error.total = 'Order total is required';
   }
@@ -119,6 +123,10 @@ export const validateUpdateOrder = (req, res, next) => {
     error.orderId = 'Order id must be whole numbers';
   }
 
+  if (orderId && (orderId > Number.MAX_SAFE_INTEGER)) {
+    error.orderId = 'Order id is not a valid integer';
+  }
+
   if (mealId && !validator.isNumeric(mealId.trim())) {
     error.mealId = 'Meal id must be a number';
   }
@@ -133,6 +141,10 @@ export const validateUpdateOrder = (req, res, next) => {
 
   if (mealId && validator.isNumeric(mealId.trim())) {
     validatedOrder.mealId = mealId;
+  }
+
+  if (mealId && (mealId > Number.MAX_SAFE_INTEGER)) {
+    error.mealId = 'Meal id is not a valid integer';
   }
 
   if (quantity && !validator.isNumeric(quantity.trim())) {
@@ -177,7 +189,6 @@ export const validateUpdateOrder = (req, res, next) => {
 
   if (isEmpty(error)) {
     req.body.validatedOrder = validatedOrder;
-    console.log(req.body.validatedOrder);
     return next();
   }
 
@@ -210,6 +221,10 @@ export const validateGetOrder = (req, res, next) => {
 
   if (orderId && /^[0-9]*\.[0-9]+$/.test(orderId.trim())) {
     error.orderId = 'Order id must be whole numbers';
+  }
+
+  if (orderId && (orderId > Number.MAX_SAFE_INTEGER)) {
+    error.orderId = 'Order id is not a valid integer';
   }
 
   if (isEmpty(error)) {

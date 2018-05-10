@@ -62,6 +62,8 @@ router.get('/orders/total', authenticate, authorize, OrderController.getTotalAmo
 // Get orders for specific user
 router.get('/orders/users', authenticate, OrderController.getUserOrderHistory);
 router.get('/orders/users/:userId', authenticate, validateGetOrder, OrderController.getUserOrderHistory);
+// Delete specific order
+router.delete('/orders/:orderId', authenticate, authorize, validateGetOrder, OrderController.deleteOrder);
 
 
 // Root path

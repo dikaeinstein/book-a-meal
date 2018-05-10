@@ -172,6 +172,18 @@ export const validateDeleteUser = (req, res, next) => {
     error.id = 'User id must be a number';
   }
 
+  if (userId && /^[-+][0-9]*\.?/.test(userId.trim())) {
+    error.userId = 'Order id cannot be less than zero';
+  }
+
+  if (userId && /^[0-9]*\.[0-9]+$/.test(userId.trim())) {
+    error.userId = 'Order id must be whole numbers';
+  }
+
+  if (userId && (userId > Number.MAX_SAFE_INTEGER)) {
+    error.userId = 'User id is not a valid integer';
+  }
+
   if (isEmpty(error)) {
     return next();
   }

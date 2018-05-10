@@ -30,35 +30,23 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true,
     underscoredAll: true,
     timestamps: false,
-    getterMethods: {
-      userId() {
-        return this.user_id;
-      },
-      mealId() {
-        return this.meal_id;
-      },
-    },
-    setterMethods: {
-      userId(value) {
-        this.setDataValue('user_id', value);
-      },
-      mealId(value) {
-        this.setDataValue('meal_id', value);
-      },
-    },
   });
 
   Order.associate = (models) => {
     // associations can be defined here
     Order.belongsTo(models.User, {
-      foreignKey: 'user_id',
-      as: 'userId',
-      onDelete: 'CASCADE',
+      foreignKey: {
+        name: 'userId',
+        field: 'user_id',
+        onDelete: 'CASCADE',
+      },
     });
     Order.belongsTo(models.Meal, {
-      foreignKey: 'meal_id',
-      as: 'mealId',
-      onDelete: 'CASCADE',
+      foreignKey: {
+        name: 'mealId',
+        field: 'meal_id',
+        onDelete: 'CASCADE',
+      },
     });
   };
   return Order;

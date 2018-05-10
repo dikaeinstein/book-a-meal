@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import format from 'date-fns/format';
-import differenceInHour from 'date-fns/difference_in_hours';
+import differenceInMinutes from 'date-fns/difference_in_minutes';
 import differenceInMilliseconds from 'date-fns/difference_in_milliseconds';
 import { Op } from 'sequelize';
 import { Order, User, Meal } from '../models';
@@ -37,24 +37,10 @@ class OrderController {
       });
     }
 
-    const filteredOrders = orders.map(order => (
-      {
-        id: order.id,
-        quantity: order.quantity,
-        total: order.total,
-        status: order.status,
-        expired: order.expired,
-        userId: order.userId,
-        mealId: order.mealId,
-        createdAt: order.createdAt,
-        updatedAt: order.updatedAt,
-      }
-    ));
-
     return res.status(200).json({
       message: 'Orders succesfully retrieved',
       status: 'success',
-      orders: filteredOrders,
+      orders,
     });
   }
 
@@ -241,16 +227,7 @@ class OrderController {
     return res.status(201).json({
       message: 'Order placed',
       status: 'success',
-      order: {
-        mealName: meal.name,
-        customerName: user.name,
-        quantity: newOrder.quantity,
-        total: newOrder.total,
-        status: newOrder.status,
-        expired: newOrder.expired,
-        createdAt: newOrder.createdAt,
-        updatedAt: newOrder.updatedAt,
-      },
+      order: newOrder,
     });
   }
 
@@ -286,53 +263,40 @@ class OrderController {
     if (matchedOrder && !matchedOrder.expired) {
       if (process.env.NODE_ENV === 'test') {
         if (differenceInMilliseconds(Date.now(), matchedOrder.createdAt) >= 2000) {
-          const updatedOrder = matchedOrder.update({ expired: true });
+          await matchedOrder.update({ expired: true });
           error.message = 'You can no longer update this order';
           return res.status(405).json({
             message: error.message,
             status: 'error',
             error,
-            order: updatedOrder,
           });
         }
       }
-      if (differenceInHour(matchedOrder.createdAt, Date.now()) >= 2) {
+      if (differenceInMinutes(Date.now(), matchedOrder.createdAt) >= 30) {
         error.message = 'You are can no longer update this order';
-        const updatedOrder = matchedOrder.update({ expired: true });
+        await matchedOrder.update({ expired: true });
         return res.status(405).json({
           message: error.message,
           status: 'error',
           error,
-          order: updatedOrder,
         });
       }
       // Merge changes
       const updatedOrder = await matchedOrder.update(req.body.validatedOrder);
-      const filteredOrder = {
-        id: updatedOrder.id,
-        quantity: updatedOrder.quantity,
-        total: updatedOrder.total,
-        status: updatedOrder.status,
-        expired: updatedOrder.expired,
-        userId: updatedOrder.userId,
-        mealId: updatedOrder.mealId,
-        createdAt: updatedOrder.createdAt,
-        updatedAt: updatedOrder.updatedAt,
-      };
+
       return res.status(200).json({
         message: 'Successfully updated order',
         status: 'success',
-        order: filteredOrder,
+        order: updatedOrder,
       });
     }
 
     error.message = 'You can no longer update this order';
-    const updatedOrder = await matchedOrder.update({ expired: true });
+    await matchedOrder.update({ expired: true });
     return res.status(405).json({
       message: error.message,
       status: 'error',
       error,
-      order: updatedOrder,
     });
   }
 
@@ -352,15 +316,14 @@ class OrderController {
     const error = {};
     // Find Order
     const matchedOrder = await Order.findOne({
-      where: { id: req.params.OrderId },
+      where: { id: req.params.orderId },
     });
 
     if (matchedOrder) {
-      const deletedOrder = await matchedOrder.destroy();
+      await matchedOrder.destroy();
       return res.status(201).json({
         message: 'Order successfully deleted',
         status: 'success',
-        order: deletedOrder,
       });
     }
 
