@@ -24,13 +24,32 @@ class MenuController {
    */
   static async setupMenu(req, res) {
     const { name, mealIds } = req.body;
+    const error = {};
+    // Use current date as default
+    const currentDate = new Date();
+    currentDate.setUTCHours(0, 0, 0, 0);
 
-    const menu = await Menu.create({
-      name,
+    const matchedMenu = await Menu.findOne({
+      where: {
+        created_at: {
+          [Op.gte]: format(currentDate),
+        },
+      },
     });
+
+    if (matchedMenu) {
+      error.message = 'Menu for the day have been set';
+      return res.status(422).json({
+        message: error.message,
+        status: 'error',
+        error,
+      });
+    }
+
+    const menu = await Menu.create({ name });
     // Insert into many-to-many table
-    await menu.addMeals(mealIds);
-    const returnedMenu = await Menu.findOne({
+    await menu.setMeals(mealIds);
+    const returnedMenu = await Menu.findById(menu.id, {
       include: [{
         model: Meal,
         attributes: ['id', 'name'],
@@ -72,7 +91,7 @@ class MenuController {
       }],
       where: {
         created_at: {
-          [Op.gte]: format(currentDate.toISOString()),
+          [Op.gte]: format(currentDate),
         },
       },
     });

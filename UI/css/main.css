@@ -788,7 +788,10 @@ li.user {
     padding-bottom: 1rem;
     color: #4e4a4a;
 }
-.order-details .btn { margin-top: 1rem; }
+.order-details .btn {
+		margin-top: 1rem;
+		margin-bottom: 2rem;
+}
 .order-details h2 {
     color: #f00;
 }
@@ -892,7 +895,7 @@ hr {
         font-size: 40px;
         line-height: 1rem;
         cursor: default;
-        color: yellow;
+        color: #fff;
     }
 
     

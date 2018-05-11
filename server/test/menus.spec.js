@@ -31,11 +31,11 @@ const emptyMenu = {
 };
 
 const menu = {
-  name: `Menu for ${(new Date()).toDateString()}`,
+  name: 'Menu for today',
   mealIds,
 };
 
-const menuUrl = '/api/v1/menu';
+const menuUrl = '/api/v1/menu/';
 const signUpUrl = '/api/v1/auth/signup';
 
 const admin = users[2];
@@ -93,7 +93,7 @@ describe('Menu', () => {
         .send(emptyMenu);
       expect(res.status).to.equal(400);
       expect(res.body).to.be.an('object');
-      expect(res.body.error.meals).to
+      expect(res.body.error.mealIds).to
         .include('Menu must have at least one meal');
     });
     it('should not setup menu without a name', async () => {
