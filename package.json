@@ -8,23 +8,36 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "node server/dist/app.js",
-		"build": "babel server -d server/dist",
-    "start-dev": "nodemon --exec babel-node server/app.js",
+    "start": "export NODE_ENV=production || set NODE_ENV=production&& yarn db-migrate && node server/dist/app.js",
+    "build": "babel server -d server/dist",
+    "db-migrate": "sequelize db:migrate --env production",
+    "db-migrate-dev": "sequelize db:migrate --env development",
+    "db-migrate-test": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test",
+    "start-dev": "export NODE_ENV=development || set NODE_ENV=development&& yarn db-migrate-dev && nodemon --exec babel-node server/app.js",
     "prestart": "yarn run build",
-    "test": "nyc --require babel-core/register mocha server/test/**.spec.js --exit -w",
-		"test-single": "nyc --require babel-core/register mocha server/test/**.spec.js --exit",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "test": "export NODE_ENV=test || set NODE_ENV=test&& yarn db-migrate-test && nyc --require babel-core/register mocha server/test/users.spec.js --exit -w",
+    "test-single": "export NODE_ENV=test || set NODE_ENV=test&& yarn db-migrate-test && nyc --require babel-core/register mocha server/test/**.spec.js -t 5000 --exit",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "deploy": "gh-pages -d UI",
+    "sequelize": "sequelize"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
+    "date-fns": "^1.29.0",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "gh-pages": "^1.1.0",
     "jsonwebtoken": "^8.2.1",
     "lodash.isempty": "^4.4.0",
     "morgan": "^1.9.0",
-    "validator": "^9.4.1"
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.37.6",
+    "sequelize-cli": "^4.0.0",
+    "swagger-ui-express": "^3.0.8",
+    "validator": "^9.4.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -41,12 +54,18 @@
     "nodemon": "^1.17.3",
     "nyc": "^11.7.1"
   },
+  "nyc": {
+    "exclude": [
+      "**/index.js",
+			"**/app.js"
+    ]
+  },
   "config": {
     "ghooks": {
       "pre-commit": "yarn test-single"
     }
-	},
-	"engines": {
+  },
+  "engines": {
     "yarn": "1.6.0"
   }
 }

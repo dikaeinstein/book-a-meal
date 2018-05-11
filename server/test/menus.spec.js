@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
+import users from './usersTestData';
 
 chai.use(chaiHttp);
 
@@ -22,6 +23,7 @@ const meals = [
     price: '2000',
   },
 ];
+const mealIds = meals.map(meal => meal.id);
 
 const emptyMenu = {
   name: `Menu for ${(new Date()).toDateString()}`,
@@ -29,27 +31,15 @@ const emptyMenu = {
 };
 
 const menu = {
-  name: `Menu for ${(new Date()).toDateString()}`,
-  meals,
+  name: 'Menu for today',
+  mealIds,
 };
 
-const menuUrl = '/api/v1/menu';
+const menuUrl = '/api/v1/menu/';
 const signUpUrl = '/api/v1/auth/signup';
-const catererSignUpUrl = '/api/v1/caterer/auth/signup';
 
-const admin = {
-  name: 'Walter Okwa',
-  email: 'waltermenu@gmail.com',
-  password: '1234567890',
-  confirmPassword: '1234567890',
-};
-
-const user = {
-  name: 'Ann Ihe',
-  email: 'annihemenu@gmail.com',
-  password: '1234567890',
-  confirmPassword: '1234567890',
-};
+const admin = users[2];
+const user = users[3];
 
 let token;
 let adminToken;
@@ -57,7 +47,7 @@ let adminToken;
 describe('Menu', () => {
   // Setup user(admin)
   before(async () => {
-    const res = await chai.request(app).post(catererSignUpUrl)
+    const res = await chai.request(app).post(signUpUrl)
       .send(admin);
     adminToken = res.body.token;
   });
@@ -87,13 +77,15 @@ describe('Menu', () => {
       expect(res.body.status).to.equal('success');
       expect(res.body.menu).to.be.an('object');
       expect(res.body.menu.name).to.equal(menu.name);
+      expect(res.body.menu.meals[0].name).to.eql(meals[0].name);
     });
     it('should not allow non auth admin to setup menu', async () => {
       const res = await chai.request(app).post(menuUrl)
         .set('Authorization', `Bearer ${token}`)
         .send(menu);
       expect(res.status).to.equal(403);
-      expect(res.body.error.message).to.equal('Forbidden');
+      expect(res.body.error.message).to
+        .equal("Forbidden, you don't have the priviledge to perform this operation");
     });
     it('should not setup menu without meals', async () => {
       const res = await chai.request(app).post(menuUrl)
@@ -101,8 +93,8 @@ describe('Menu', () => {
         .send(emptyMenu);
       expect(res.status).to.equal(400);
       expect(res.body).to.be.an('object');
-      expect(res.body.error.meals).to
-        .include('No meal have been added to menu');
+      expect(res.body.error.mealIds).to
+        .include('Menu must have at least one meal');
     });
     it('should not setup menu without a name', async () => {
       const res = await chai.request(app).post(menuUrl)

@@ -7,8 +7,8 @@
     "extends": "airbnb-base",
     "rules": {
 				"linebreak-style": 0,
-				"no-unused-vars": ["error", { "argsIgnorePattern": "(next|match|err)" }],
+				"no-unused-vars": ["error", { "argsIgnorePattern": "(next|match|err|Sequelize)" }],
 				"prefer-destructuring": 0,
-				"no-console": ["error", { "allow": ["log"] }]
+				"import/no-dynamic-require": 0
     }
 }

@@ -1,15 +1,32 @@
-import users from '../test/usersTestData';
+/**
+ * @module authorize
+ */
+import { User } from '../models';
 
-const authorize = (req, res, next) => {
+/**
+ * @description - Checks if user has priviledge role access
+ * @async
+ *
+ * @param {object} req - HTTP Request
+ * @param {object} res - HTTP Response
+ * @param {function} next - Callback function
+ *
+ * @returns {object}
+ */
+const authorize = async (req, res, next) => {
   const { userId } = req;
   const error = {};
-  const matchedUser = users.filter(user => (
-    user.id === parseInt(userId, 10) && user.role === 'admin'
-  ))[0];
+  const matchedUser = await User.findOne({
+    where: { id: userId, role: 'caterer' },
+  });
 
   if (!matchedUser) {
-    error.message = 'Forbidden';
-    return res.status(403).json({ error });
+    error.message = "Forbidden, you don't have the priviledge to perform this operation";
+    return res.status(403).json({
+      message: error.message,
+      status: 'error',
+      error,
+    });
   }
   return next();
 };

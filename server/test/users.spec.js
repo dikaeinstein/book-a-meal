@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
+import users from './usersTestData';
 
 const { expect } = chai;
 
@@ -8,32 +9,21 @@ chai.use(chaiHttp);
 
 const signUpUrl = '/api/v1/auth/signup';
 const signInUrl = '/api/v1/auth/signin';
+const userUrl = '/api/v1/users';
 
-const users = [
-  {
-    name: 'Solomon Okwa',
-    email: 'solozyokwa@gmail.com',
-    password: '1234567890',
-    confirmPassword: '1234567890',
-  },
-  {
-    name: 'Walter Ifeanyi',
-    email: 'walterify@3d.com',
-    password: '1234567890',
-  },
-];
+let token;
 
 // Test User Sign Up
 describe('User Sign Up', () => {
   it('should create user with right credentials', async () => {
     const res = await chai.request(app).post(signUpUrl)
-      .send(users[0]);
+      .send(users[6]);
     expect(res.status).to.equal(201);
     expect(res.body).to.be.an('object');
     expect(res).to.have.header('Authorization');
     expect(res.body.user.name).to.be.a('string');
-    expect(res.body.user.name).to.equal(users[0].name);
-    expect(res.body.user.email).to.equal(users[0].email);
+    expect(res.body.user.name).to.equal(users[6].name);
+    expect(res.body.user.email).to.equal(users[6].email);
     expect(res.body.user.email).to.be.a('string');
     expect(res.body).not.to.have.property('password');
   });
@@ -44,6 +34,7 @@ describe('User Sign Up', () => {
         email: 'sarada.uchiha.com',
         password: '1234567890',
         confirmPassword: '1234567890',
+        role: 'customer',
       });
     expect(res).to.have.status(400);
     expect(res.body).to.be.an('object');
@@ -92,7 +83,7 @@ describe('User Sign Up', () => {
   it('should not create user with an already existing email', async () => {
     const res = await chai.request(app).post(signUpUrl)
       .send(users[0]);
-    expect(res.status).to.equal(400);
+    expect(res.status).to.equal(422);
     expect(res.body).to.be.an('object');
     expect(res.body.error.email).to.include('Email already exist');
   });
@@ -133,7 +124,7 @@ describe('User Sign Up', () => {
     expect(res.status).to.equal(400);
     expect(res.body).to.be.an('object');
     expect(res.body.error.password)
-      .to.include('Passwords empty or do not match');
+      .to.include('Password is required');
   });
   it('should return error if password do not match', async () => {
     const res = await chai.request(app).post(signUpUrl)
@@ -146,7 +137,7 @@ describe('User Sign Up', () => {
     expect(res.status).to.equal(400);
     expect(res.body).to.be.an('object');
     expect(res.body.error.password).to
-      .include('Passwords empty or do not match');
+      .include('Passwords do not match');
   });
 });
 
@@ -155,6 +146,7 @@ describe('User Sign In', () => {
   it('should signin user with correct details', async () => {
     const res = await chai.request(app).post(signInUrl)
       .send(users[0]);
+    token = res.body.token;
     expect(res.status).to.equal(200);
     expect(res.body).to.be.an('object');
     expect(res.body.user.email).to.equal(users[0].email);
@@ -203,5 +195,13 @@ describe('User Sign In', () => {
     expect(res.body).to.be.an('object');
     expect(res.body.error.email)
       .to.equal('User does not exist');
+  });
+  it('should allow auth user delete their account', async () => {
+    const res = await chai.request(app).del(`${userUrl}/1`)
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.status).to.equal(200);
+    expect(res.body).to.be.an('object');
+    expect(res.body.message).to.equal('User account deleted successfully');
+    expect(res.body.status).to.equal('success');
   });
 });
