@@ -24,4 +24,4 @@ deploy:
   app: dikaeinstein-book-a-meal
   on:
     repo: Dikaeinstein/book-a-meal
-    branch: ch-move-images-to-cloudinary-157336654
+    branch: develop
