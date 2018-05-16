@@ -159,7 +159,7 @@ class MealController {
     return res.status(200).json({
       meal: updatedMeal,
       status: 'success',
-      message: 'Updated meal',
+      message: 'Sucessfully updated meal',
     });
   }
 
@@ -192,7 +192,7 @@ class MealController {
     }
 
     await matchedMeal.destroy();
-    return res.status(204).json({
+    return res.status(200).json({
       message: 'Meal successfully deleted',
       status: 'success',
     });

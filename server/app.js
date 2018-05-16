@@ -23,16 +23,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/v1', routes);
-// Serve API docs
-app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// Root handler
-app.get('/', (req, res) => (
-  res.status(200).json({
-    message: 'Welcome to Book-A-Meal',
-    status: 'success',
-  })
-));
+// Serve API docs on root path
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Catch all error handler
 app.use((err, req, res, next) => {
@@ -45,6 +38,7 @@ app.use((err, req, res, next) => {
   });
 });
 
+/* eslint no-console: 0 */
 // Start server
 app.listen(port, () => {
   console.log(`Express server listening on ${port}`);
