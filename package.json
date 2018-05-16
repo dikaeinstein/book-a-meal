@@ -57,7 +57,7 @@
   "nyc": {
     "exclude": [
       "**/index.js",
-			"**/app.js"
+      "**/app.js"
     ]
   },
   "config": {
