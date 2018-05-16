@@ -217,36 +217,42 @@ paths:
       parameters:
         - in: path
           name: mealId
-          description: 'Meal object that needs to be updated '
+          description: Meal object that needs to be updated
           required: true
           type: integer
         - in: formData
           name: name
           description: Meal name that needs to be updated
-          required: true
           type: string
         - in: formData
           name: description
           description: Meal description that needs to be updated
-          required: true
           type: string
         - in: formData
           name: price
           description: Meal price that needs to be updated
-          required: true
           type: string
         - in: formData
           name: imageUrl
           description: Meal image url that needs to be updated
-          required: true
           type: string
       responses:
         '200':
           description: Successful update operation
+          examples:
+            application/json:
+              message: Sucessfully updated meal
+              meal:
+                id: 1
+                name: Vegetable Soup
+                description: Tasty and yummy
+                price: '2000'
+                imageUrl: 'https://dummyimage.com/meal.jpg'
+              status: success
         '400':
           description: Invalid input
         '401':
-          description: 'Unauthorized, invalid token or session have expired'
+          description: 'Unauthorized, invalid token, no token provided or session have expired'
         '403':
           description: 'Forbidden, you don''t have the priviledge to perform this operation'
         '404':
@@ -274,7 +280,7 @@ paths:
         '400':
           description: Meal id is required
         '401':
-          description: 'Unauthorized, invalid token or session have expired'
+          description: 'Unauthorized, invalid token, no token provided or session have expired'
         '403':
           description: 'Forbidden, you don''t have the priviledge to perform this operation'
         '404':

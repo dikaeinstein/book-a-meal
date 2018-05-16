@@ -66,15 +66,6 @@ router.get('/orders/users/:userId', authenticate, validateGetOrder, OrderControl
 router.delete('/orders/:orderId', authenticate, authorize, validateGetOrder, OrderController.deleteOrder);
 
 
-// Root path
-router.get('/', (req, res) => (
-  res.status(200).json({
-    message: 'Welcome to Book-A-Meal api',
-    status: 'success',
-  })
-));
-
-
 router.all('*', (req, res) => {
   const error = {
     message: "I'm pretty sure this is not what you are looking for, please enter a valid route",
