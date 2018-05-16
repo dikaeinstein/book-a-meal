@@ -282,6 +282,17 @@ describe('Meals', () => {
       expect(res.body.error.message).to
         .equal("Forbidden, you don't have the priviledge to perform this operation");
     });
+    it('should not update meal if meal name already exists', async () => {
+      const res = await chai.request(app).put(`${mealUrl}/1`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          name: meals[0].name,
+        });
+      expect(res.status).to.equal(409);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.name).to
+        .include('name must be unique');
+    });
   });
 
   // Test Delete a meal

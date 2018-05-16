@@ -139,6 +139,8 @@ class MealController {
    */
   static async updateMeal(req, res) {
     const error = {};
+    const { validatedMeal } = req.body;
+
     // Find meal
     const matchedMeal = await Meal.findOne({
       where: { id: req.params.mealId },
@@ -154,13 +156,22 @@ class MealController {
     }
 
     // Update meal
-    const updatedMeal = await matchedMeal.update(req.body.validatedMeal);
+    try {
+      const updatedMeal = await matchedMeal.update(validatedMeal);
 
-    return res.status(200).json({
-      meal: updatedMeal,
-      status: 'success',
-      message: 'Sucessfully updated meal',
-    });
+      return res.status(200).json({
+        meal: updatedMeal,
+        status: 'success',
+        message: 'Sucessfully updated meal',
+      });
+    } catch (err) {
+      error.name = err.errors[0].message;
+      return res.status(409).json({
+        message: 'You cannot update meal name to an existing meal name',
+        status: 'error',
+        error,
+      });
+    }
   }
 
   /**

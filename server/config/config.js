@@ -9,7 +9,7 @@ module.exports = {
     host: process.env.DB_HOST,
     dialect: 'postgres',
     operatorAliases: Sequelize.Op,
-    logging: true,
+    logging: false,
     define: {
       underscored: true,
       underscoredAll: true,
