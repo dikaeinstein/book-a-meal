@@ -6,18 +6,21 @@ module.exports = (sequelize, DataTypes) => {
     },
     createdAt: {
       type: DataTypes.DATE,
-      defaultValue: sequelize.literal('NOW()'),
       field: 'created_at',
     },
     updatedAt: {
       type: DataTypes.DATE,
-      defaultValue: sequelize.literal('NOW()'),
       field: 'updated_at',
+    },
+    deletedAt: {
+      type: DataTypes.DATE,
+      field: 'deleted_at',
     },
   }, {
     underscored: true,
     underscoredAll: true,
-    timestamps: false,
+    timestamps: true,
+    paranoid: true,
   });
 
   Menu.associate = (models) => {

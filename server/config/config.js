@@ -13,6 +13,21 @@ module.exports = {
     define: {
       underscored: true,
       underscoredAll: true,
+      hooks: {
+        /* eslint no-param-reassign: 0 */
+        beforeFind: (options = {}) => {
+          options.attributes = options.attributes || {};
+          options.attributes.exclude = options.attributes.exclude || [];
+          options.attributes.exclude = [
+            ...options.attributes.exclude,
+            'created_at',
+            'updated_at',
+            'deleted_at',
+          ];
+
+          return options;
+        },
+      },
     },
   },
   test: {
@@ -26,6 +41,21 @@ module.exports = {
     define: {
       underscored: true,
       underscoredAll: true,
+      hooks: {
+        /* eslint no-param-reassign: 0 */
+        beforeFind: (options = {}) => {
+          options.attributes = options.attributes || {};
+          options.attributes.exclude = options.attributes.exclude || [];
+          options.attributes.exclude = [
+            ...options.attributes.exclude,
+            'created_at',
+            'updated_at',
+            'deleted_at',
+          ];
+
+          return options;
+        },
+      },
     },
   },
   production: {
