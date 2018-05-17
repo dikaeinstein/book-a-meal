@@ -85,7 +85,7 @@ class MenuController {
     const todayMenu = await Menu.findOne({
       include: [{
         model: Meal,
-        attributes: ['id', 'name'],
+        attributes: ['id', 'name', 'description', 'price', 'imageUrl'],
         as: 'meals',
         through: { attributes: [] },
       }],

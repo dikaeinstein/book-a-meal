@@ -28,6 +28,7 @@ class MealController {
         meals,
       });
     }
+
     return res.status(200).json({
       meals,
       status: 'success',
