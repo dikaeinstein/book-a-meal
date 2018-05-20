@@ -54,6 +54,7 @@ describe('Orders', () => {
         .set('Authorization', `Bearer ${adminToken}`);
       const expectedOrder = res.body.orders[0];
       expect(res.status).to.equal(200);
+      expect(res.body.status).to.equal('success');
       expect(res.body.orders).to.be.an('array');
       expect(expectedOrder.total).to.equal('2000');
     });
@@ -131,6 +132,51 @@ describe('Orders', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.error.token).to.include('No token provided');
     });
+    it('should not update an order with incorrect id', async () => {
+      const res = await chai.request(app).put(`${orderUrl}/45.564`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          quantity: '2',
+          total: '4000',
+        });
+      expect(res.status).to.equal(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.orderId).to
+        .include('Order id must be a whole number');
+    });
+    it('should not modify an order with id that is not a number', async () => {
+      const res = await chai.request(app).put(`${orderUrl}/a`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          quantity: '2',
+          total: '4000',
+        });
+      expect(res.status).to.equal(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.orderId).to
+        .include('Order id must be a number');
+    });
+    it('should not modify an order with order id that is less than zero', async () => {
+      const res = await chai.request(app).put(`${orderUrl}/-50`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          quantity: '2',
+          total: '4000',
+        });
+      expect(res.status).to.equal(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.orderId).to
+        .include('Order id cannot be less than zero');
+    });
+    it('should not update an order without order id that is a whole number', async () => {
+      const res = await chai.request(app).put(`${orderUrl}/45.555`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.orderId).to
+        .include('Order id must be a whole number');
+    });
     describe('Modify an expired order', () => {
       before((done) => {
         setTimeout(() => {
@@ -138,6 +184,17 @@ describe('Orders', () => {
         }, 3000);
       });
       it('should not modify an order after 2 secs', async () => {
+        const res = await chai.request(app).put(`${orderUrl}/1`)
+          .set('Authorization', `Bearer ${token}`)
+          .send({
+            quantity: '1',
+            total: '2000',
+          });
+        expect(res.status).to.equal(405);
+        expect(res.body.error.message).to
+          .include('You can no longer update this order');
+      });
+      it('should not modify an order if it has expired', async () => {
         const res = await chai.request(app).put(`${orderUrl}/1`)
           .set('Authorization', `Bearer ${token}`)
           .send({
@@ -180,6 +237,28 @@ describe('Orders', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('success');
       expect(res.body.orders).to.be.an('array');
+    });
+  });
+
+  // Test Delete order
+  describe('Delete an order', () => {
+    it('should allow admin delete an order', async () => {
+      const res = await chai.request(app).delete(`${orderUrl}/1`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('success');
+      expect(res.body.message).to
+        .include('Order successfully deleted');
+    });
+    it('should not delete an order if does not exist', async () => {
+      const res = await chai.request(app).delete(`${orderUrl}/500`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(404);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error).to.be.an('object');
+      expect(res.body.error.id).to
+        .include('Order does not exist');
     });
   });
 });

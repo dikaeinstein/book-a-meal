@@ -7,34 +7,6 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-const meals = [
-  {
-    id: 1,
-    name: 'Spaghetti with meat balls',
-    description: 'Some dummy description',
-    imageUrl: 'https://mydummyimgurl.com',
-    price: '2000',
-  },
-  {
-    id: 2,
-    name: 'Vegetable Soup',
-    description: 'Made with vegetable and palm oil',
-    imageUrl: 'http://img.com/vegetable.jpg',
-    price: '2000',
-  },
-];
-const mealIds = meals.map(meal => meal.id);
-
-const emptyMenu = {
-  name: `Menu for ${(new Date()).toDateString()}`,
-  meals: [],
-};
-
-const menu = {
-  name: 'Menu for today',
-  mealIds,
-};
-
 const menuUrl = '/api/v1/menu/';
 const signUpUrl = '/api/v1/auth/signup';
 
@@ -43,6 +15,9 @@ const user = users[3];
 
 let token;
 let adminToken;
+let meals;
+let mealIds;
+let menu;
 
 describe('Menu', () => {
   // Setup user(admin)
@@ -57,7 +32,17 @@ describe('Menu', () => {
       .send(user);
     token = res.body.token;
   });
-
+  // Get meals
+  before(async () => {
+    const res = await chai.request(app).get('/api/v1/meals')
+      .set('Authorization', `Bearer ${adminToken}`);
+    meals = res.body.meals;
+    mealIds = meals.map(meal => meal.id);
+    menu = {
+      name: 'Menu for today',
+      mealIds,
+    };
+  });
   // Test Setup Menu for specific day
   describe('Setup Menu', () => {
     it('should not get menu if menu is not set', async () => {
@@ -67,6 +52,18 @@ describe('Menu', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.error.message).to
         .equal('Menu for today have not been set');
+    });
+    it('should not update menu if menu is not set', async () => {
+      const res = await chai.request(app).put(menuUrl)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          mealIds: [2],
+        });
+      expect(res.status).to.equal(404);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error).to.be.an('object');
+      expect(res.body.error.message).to
+        .equal('Menu not found or have not been setup');
     });
     it('should only allow admin setup menu', async () => {
       const res = await chai.request(app).post(menuUrl)
@@ -90,7 +87,10 @@ describe('Menu', () => {
     it('should not setup menu without meals', async () => {
       const res = await chai.request(app).post(menuUrl)
         .set('Authorization', `Bearer ${adminToken}`)
-        .send(emptyMenu);
+        .send({
+          name: 'empty menu',
+          mealIds: [],
+        });
       expect(res.status).to.equal(400);
       expect(res.body).to.be.an('object');
       expect(res.body.error.mealIds).to
@@ -104,6 +104,17 @@ describe('Menu', () => {
       expect(res.body.error.name).to
         .include('Menu name is required');
     });
+    it('should not setup menu more than once', async () => {
+      const res = await chai.request(app).post(menuUrl)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(menu);
+      expect(res.status).to.equal(409);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error).to.be.an('object');
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.message).to
+        .include('Menu for the day have been set');
+    });
   });
 
   // Test Get Menu for specific day
@@ -115,6 +126,51 @@ describe('Menu', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('success');
       expect(res.body.menu).to.be.an('object');
+      expect(res.body.menu.meals).to.be.an('array');
     });
+  });
+});
+
+// Test Update Menu
+describe('Update Menu', () => {
+  it('should update menu', async () => {
+    const res = await chai.request(app).put(`${menuUrl}1`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        mealIds: [2],
+      });
+    expect(res.status).to.equal(200);
+    expect(res.body).to.be.an('object');
+    expect(res.body.status).to.equal('success');
+    expect(res.body.menu).to.be.an('object');
+    expect(res.body.menu.meals).to.be.an('array');
+    expect(res.body.menu.meals[0].name).to
+      .include(meals[0].name);
+  });
+  it('should update menu for current day when no menuId is passed', async () => {
+    const res = await chai.request(app).put(menuUrl)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        mealIds: [2],
+      });
+    expect(res.status).to.equal(200);
+    expect(res.body).to.be.an('object');
+    expect(res.body.status).to.equal('success');
+    expect(res.body.menu).to.be.an('object');
+    expect(res.body.menu.meals).to.be.an('array');
+    expect(res.body.menu.meals[0].name).to
+      .include(meals[0].name);
+  });
+  it('should not update menu without meals', async () => {
+    const res = await chai.request(app).put(`${menuUrl}1`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: 'empty menu',
+        mealIds: [],
+      });
+    expect(res.status).to.equal(400);
+    expect(res.body).to.be.an('object');
+    expect(res.body.error.mealIds).to
+      .include('Menu must have at least one meal');
   });
 });
