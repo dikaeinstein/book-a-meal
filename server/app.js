@@ -4,6 +4,7 @@ import logger from 'morgan';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
+import cors from 'cors';
 import routes from './routes';
 
 dotenv.config();
@@ -14,6 +15,9 @@ const app = express();
 const swaggerDocument = YAML.load('swagger.yml');
 
 const port = process.env.PORT || 5000;
+
+// Enable CORS Pre-Flight on all routes
+app.options('*', cors());
 
 // Log incoming requests
 app.use(logger('combined'));
