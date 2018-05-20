@@ -16,7 +16,10 @@ import {
   validateSignup,
   validateDeleteUser,
 } from '../middleware/userValidator';
-import validateMenu from '../middleware/menuValidator';
+import {
+  validateSetupMenu,
+  validateUpateMenu,
+} from '../middleware/menuValidator';
 import {
   validateNewOrder,
   validateUpdateOrder,
@@ -46,9 +49,11 @@ router.delete('/meals/:mealId', authenticate, authorize, validateUpdateMeal, Mea
 
 
 // Setup menu
-router.post('/menu/', authenticate, authorize, validateMenu, MenuController.setupMenu);
+router.post('/menu/', authenticate, authorize, validateSetupMenu, MenuController.setupMenu);
 // Get menu
 router.get('/menu/', authenticate, MenuController.getMenu);
+// Update menu
+router.put('/menu/:menuId', authenticate, authorize, validateUpateMenu, MenuController.updateMenu);
 
 
 // Get all orders

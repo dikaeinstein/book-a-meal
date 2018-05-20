@@ -48,11 +48,11 @@ class MenuController {
 
     const menu = await Menu.create({ name });
     // Insert into many-to-many table
-    await menu.setMeals(mealIds);
+    await menu.addMeals(mealIds);
     const returnedMenu = await Menu.findById(menu.id, {
       include: [{
         model: Meal,
-        attributes: ['id', 'name'],
+        attributes: ['id', 'name', 'description', 'price', 'imageUrl'],
         as: 'meals',
         through: { attributes: [] },
       }],
@@ -109,6 +109,65 @@ class MenuController {
       message: 'Successfully retrieved menu',
       status: 'success',
       menu: todayMenu,
+    });
+  }
+
+  /**
+   * @description - Setup menu for specific day
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof MenuController
+   *
+   * @returns {Promise<object>}
+   */
+  static async updateMenu(req, res) {
+    const { mealIds } = req.body.validatedMenu;
+    const { menuId } = req.params;
+    const error = {};
+    // Use current date as default
+    const currentDate = new Date();
+    currentDate.setUTCHours(0, 0, 0, 0);
+
+    let matchedMenu;
+    if (!menuId) {
+      matchedMenu = await Menu.findOne({
+        where: {
+          created_at: {
+            [Op.gte]: format(currentDate),
+          },
+        },
+      });
+    } else {
+      matchedMenu = await Menu.findById(menuId);
+    }
+
+    if (!matchedMenu) {
+      error.message = 'Menu not found or have not been setup';
+      return res.status(404).json({
+        message: error.message,
+        status: 'error',
+        error,
+      });
+    }
+
+    // Insert into many-to-many table
+    await matchedMenu.setMeals(mealIds);
+    const returnedMenu = await Menu.findById(matchedMenu.id, {
+      include: [{
+        model: Meal,
+        attributes: ['id', 'name', 'description', 'price', 'imageUrl'],
+        as: 'meals',
+        through: { attributes: [] },
+      }],
+    });
+    return res.status(200).json({
+      message: 'Successfully updated menu',
+      status: 'success',
+      menu: returnedMenu,
     });
   }
 }
