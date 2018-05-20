@@ -120,7 +120,7 @@ export const validateUpdateOrder = (req, res, next) => {
   }
 
   if (orderId && /^[0-9]*\.[0-9]+$/.test(orderId.trim())) {
-    error.orderId = 'Order id must be whole numbers';
+    error.orderId = 'Order id must be a whole number';
   }
 
   if (orderId && (orderId > Number.MAX_SAFE_INTEGER)) {
@@ -220,7 +220,7 @@ export const validateGetOrder = (req, res, next) => {
   }
 
   if (orderId && /^[0-9]*\.[0-9]+$/.test(orderId.trim())) {
-    error.orderId = 'Order id must be whole numbers';
+    error.orderId = 'Order id must be a whole number';
   }
 
   if (orderId && (orderId > Number.MAX_SAFE_INTEGER)) {

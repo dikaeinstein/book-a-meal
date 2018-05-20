@@ -88,6 +88,28 @@ describe('Meals', () => {
       expect(res.body.error.id).to
         .include('Meal does not exist');
     });
+    it('should not get meal for meal id that is not an integer', async () => {
+      const res = await chai.request(app).get(`${mealUrl}/6.66`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.error.mealId).to
+        .include('Meal id must be whole numbers');
+    });
+    it('should not get meal for meal id that is greater than max integer value', async () => {
+      const res = await chai.request(app).get(`${mealUrl}/999007199254740991`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.error.mealId).to
+        .include('Meal id is not a valid integer');
+    });
+    it('should not get meal with meal id that is less than zero', async () => {
+      const res = await chai.request(app).get(`${mealUrl}/-5`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.mealId).to
+        .include('Meal id cannot be less than zero');
+    });
   });
 
   // Test Adding a meal
@@ -205,7 +227,7 @@ describe('Meals', () => {
       expect(res).to.have.status(400);
       expect(res.body).to.be.an('object');
       expect(res.body.error.imageUrl)
-        .to.include('Meal image url must be a url');
+        .to.include('Meal image url must be a valid url');
     });
     it('should not add meal without price', async () => {
       const res = await chai.request(app).post(mealUrl)
@@ -292,6 +314,57 @@ describe('Meals', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.error.name).to
         .include('name must be unique');
+    });
+    it('should not update meal without price that is a whole number', async () => {
+      const res = await chai.request(app).put(`${mealUrl}/1`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          price: '250.999',
+        });
+      expect(res.status).to.equal(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.price).to
+        .include('Meal price must be whole numbers');
+    });
+    it('should not update meal with price that is less than zero', async () => {
+      const res = await chai.request(app).put(`${mealUrl}/1`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          price: '-500',
+        });
+      expect(res.status).to.equal(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.price).to
+        .include('Meal price cannot be less than zero');
+    });
+    it('should not update meal with invalid image url', async () => {
+      const res = await chai.request(app).put(`${mealUrl}/1`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          name: 'Meal with invalid image url',
+          description: 'I am the description for the meal without image url',
+          imageUrl: 'htt-seiq',
+        });
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.imageUrl)
+        .to.include('Meal image url must be a valid url');
+    });
+    it('should not update meal with empty description', async () => {
+      const res = await chai.request(app).put(`${mealUrl}/1`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          name: 'Meal with empty description',
+          description: '    ',
+          imageUrl: 'https://mydummyimgurl.com',
+          price: '2000',
+        });
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.description)
+        .to.include('Please enter a valid meal description');
     });
   });
 

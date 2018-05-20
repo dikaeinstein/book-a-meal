@@ -39,7 +39,7 @@ class MenuController {
 
     if (matchedMenu) {
       error.message = 'Menu for the day have been set';
-      return res.status(422).json({
+      return res.status(409).json({
         message: error.message,
         status: 'error',
         error,

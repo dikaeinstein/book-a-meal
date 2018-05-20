@@ -321,7 +321,7 @@ class OrderController {
 
     if (matchedOrder) {
       await matchedOrder.destroy();
-      return res.status(201).json({
+      return res.status(200).json({
         message: 'Order successfully deleted',
         status: 'success',
       });

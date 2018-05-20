@@ -53,6 +53,7 @@ router.post('/menu/', authenticate, authorize, validateSetupMenu, MenuController
 // Get menu
 router.get('/menu/', authenticate, MenuController.getMenu);
 // Update menu
+router.put('/menu/', authenticate, authorize, validateUpateMenu, MenuController.updateMenu);
 router.put('/menu/:menuId', authenticate, authorize, validateUpateMenu, MenuController.updateMenu);
 
 

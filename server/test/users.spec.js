@@ -196,6 +196,10 @@ describe('User Sign In', () => {
     expect(res.body.error.email)
       .to.equal('User does not exist');
   });
+});
+
+// Test Delete User account
+describe('Delete user account', () => {
   it('should allow auth user delete their account', async () => {
     const res = await chai.request(app).del(`${userUrl}/1`)
       .set('Authorization', `Bearer ${token}`);
@@ -203,5 +207,14 @@ describe('User Sign In', () => {
     expect(res.body).to.be.an('object');
     expect(res.body.message).to.equal('User account deleted successfully');
     expect(res.body.status).to.equal('success');
+  });
+  it('should not delete user account if doesn\'t exist', async () => {
+    const res = await chai.request(app).del(`${userUrl}/500`)
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.status).to.equal(404);
+    expect(res.body).to.be.an('object');
+    expect(res.body.status).to.equal('error');
+    expect(res.body.error).to.be.an('object');
+    expect(res.body.error.message).to.equal('User not found');
   });
 });

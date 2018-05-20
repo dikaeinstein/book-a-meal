@@ -69,7 +69,7 @@ export const validateAddMeal = (req, res, next) => {
   }
 
   if (imageUrl && !validator.isURL(imageUrl.trim())) {
-    error.imageUrl = 'Meal image url must be a url';
+    error.imageUrl = 'Meal image url must be a valid url';
   }
 
   if (isEmpty(error)) {
