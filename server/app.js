@@ -17,7 +17,7 @@ const swaggerDocument = YAML.load('swagger.yml');
 const port = process.env.PORT || 5000;
 
 // Enable CORS Pre-Flight on all routes
-app.options('*', cors());
+app.use(cors());
 
 // Log incoming requests
 app.use(logger('combined'));
