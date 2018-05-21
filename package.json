@@ -14,7 +14,7 @@
     "db-migrate-dev": "sequelize db:migrate --env development",
     "db-migrate-test": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test",
     "start-dev": "export NODE_ENV=development || set NODE_ENV=development&& yarn db-migrate-dev && nodemon --exec babel-node server/app.js",
-    "postinstall": "yarn build",
+    "heroku-postbuild": "yarn build",
     "test": "export NODE_ENV=test || set NODE_ENV=test&& yarn db-migrate-test && nyc --require babel-core/register mocha server/test/users.spec.js --exit -w",
     "test-single": "export NODE_ENV=test || set NODE_ENV=test&& yarn db-migrate-test && nyc --require babel-core/register mocha server/test/**.spec.js -t 5000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
