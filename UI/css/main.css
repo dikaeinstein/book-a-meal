@@ -205,7 +205,7 @@ footer a:hover {
 
 .label {
     text-align: left;
-    color: #f00;
+    color: #201e1e;
     display: inline;
 }
 
@@ -222,7 +222,7 @@ footer a:hover {
 
 .form input,
 .form textarea {
-    border: 0.0625rem solid #f00; /* 1px */
+    border: 0.0625rem solid #4e4a4a; /* 1px */
     border-radius: 0.1875rem; /* 3px */
     color: #4e4a4a;
     display: block;
@@ -331,8 +331,7 @@ footer a:hover {
 }
 
 .intro-banner .btn-intro-lg:hover {
-		box-shadow: 0 4px 8px 7px rgba(0,0,0,0.14);
-		transform: translateY(-8px);
+		background: #ffd000;
 }
 
 .btn-danger {
@@ -440,13 +439,13 @@ a.active:hover {
 }
 
 .meals .btn {
-    text-transform: capitalize;
+		text-transform: capitalize;
+		display: inline;
 }
 
 table {
     width: 75%;
     margin: 0 auto;
-    margin: 1rem;
     border-collapse: collapse;
     color: #4e4a4a;
 }
@@ -614,8 +613,8 @@ form select {
 }
 
 .filter .btn {
-    font-size: .875rem;
-    margin-bottom: 0;
+		font-size: .875rem;
+		margin: .5rem auto 1.5rem auto;
 }
 
 input[type="date"] {
@@ -765,11 +764,11 @@ li.user {
 
 .intro-banner .btn {
     border: 0;
-    background: #f00;
+    background: #ffe600;
 }
 
 .intro-banner a {
-	color: #fff;
+	color: rgb(250, 28, 28);
 }
 
 
