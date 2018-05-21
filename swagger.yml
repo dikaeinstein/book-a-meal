@@ -33,33 +33,30 @@ paths:
       produces:
         - application/json
       parameters:
-        - in: formData
-          name: name
-          description: Full name of user
-          required: true
-          type: string
-        - in: formData
-          name: email
-          description: Email of user
-          required: true
-          type: string
-        - in: formData
-          name: password
-          description: User password
-          required: true
-          type: string
-        - in: formData
-          name: confirmPassword
-          description: Must match with password
-          required: true
-          type: string
-        - in: formData
-          name: role
-          description: User role
-          required: true
-          type: string
+        - name: user
+          in: body
+          description: user to sign up
+          schema:
+            type: object
+            required:
+              - name
+              - email
+              - password
+              - confirmPassword
+              - role
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              confirmPassword:
+                type: string
+              role:
+                type: string
       responses:
-        '201':
+        201:
           description: User successfully created
           examples:
             application/json:
@@ -72,9 +69,8 @@ paths:
               token: >-
                 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTI1NTI5MjU3LCJleHAiOjE1MjU2MTU2NTd9.WqI-bayENIvde4UIkUWqVW3ZdMHtyVyY4RwOVx2gP4Y
               status: success
-        '400':
+        400:
           description: Invalid input
-
   /auth/signin:
     post:
       tags:
@@ -87,18 +83,21 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: email
-          in: formData
-          description: email of the user
-          type: string
-          required: true
-        - name: password
-          in: formData
-          description: password of the user
-          type: string
-          required: true
+        - name: user
+          in: body
+          description: user to sign in
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+              password:
+                type: string
       responses:
-        '200':
+        200:
           description: User signed in
           examples:
             application/json:
@@ -111,9 +110,8 @@ paths:
               token: >-
                 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTI1NTI5MjU3LCJleHAiOjE1MjU2MTU2NTd9.WqI-bayENIvde4UIkUWqVW3ZdMHtyVyY4RwOVx2gP4Y
               status: success
-        '400':
+        400:
           description: Invalid Input
-
   /meals:
     get:
       tags:
@@ -122,8 +120,14 @@ paths:
       description: List all meals in the application
       produces:
         - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: an authorization header
+          required: true
+          type: string
       responses:
-        '200':
+        200:
           description: Meals found
           examples:
             application/json:
@@ -131,16 +135,16 @@ paths:
                 - id: 1
                   name: Efo riro with cow head
                   description: Very tasty and yummy
-                  imageUrl: 'https://testimage.com/meal.jpg'
-                  price: '2000'
+                  imageUrl: https://testimage.com/meal.jpg
+                  price: 2000
                 - id: 2
                   name: Vegetable soup
                   description: Very tasty and yummy
-                  imageUrl: 'https://testimage.com/meal.jpg'
-                  price: '2000'
+                  imageUrl: https://testimage.com/meal.jpg
+                  price: 2000
               message: Meals found
               status: success
-        '404':
+        404:
           description: No meal found
           examples:
             application/json:
@@ -158,6 +162,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: Authorization
+          in: header
+          description: an authorization header
+          required: true
+          type: string
         - name: name
           in: formData
           description: Name of meal to post
@@ -176,10 +185,9 @@ paths:
         - name: imageUrl
           in: formData
           description: Url to image of the meal
-          required: true
           type: string
       responses:
-        '201':
+        201:
           description: Meal was added successfully
           examples:
             application/json:
@@ -188,22 +196,21 @@ paths:
                 id: 1
                 name: Vegetable Soup
                 description: Tasty and yummy
-                price: '2000'
-                imageUrl: 'https://dummyimage.com/meal.jpg'
+                price: 2000
+                imageUrl: https://dummyimage.com/meal.jpg
               status: success
-        '400':
+        400:
           description: Invalid input
           examples:
             application/json:
               error: true
               message: Meal name is required
               status: error
-        '401':
-          description: 'Unauthorized, invalid token or session have expired'
-        '403':
-          description: 'Forbidden, you don''t have the priviledge to perform this operation'
-  
-  /meals/:mealId:
+        401:
+          description: Unauthorized, invalid token or session have expired
+        403:
+          description: Forbidden, you don't have the priviledge to perform this operation
+  /meals/{mealId}:
     put:
       tags:
         - meal
@@ -215,11 +222,16 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: Authorization
+          in: header
+          description: an authorization header
+          required: true
+          type: string
         - in: path
           name: mealId
           description: Meal object that needs to be updated
           required: true
-          type: integer
+          type: string
         - in: formData
           name: name
           description: Meal name that needs to be updated
@@ -237,7 +249,7 @@ paths:
           description: Meal image url that needs to be updated
           type: string
       responses:
-        '200':
+        200:
           description: Successful update operation
           examples:
             application/json:
@@ -246,16 +258,18 @@ paths:
                 id: 1
                 name: Vegetable Soup
                 description: Tasty and yummy
-                price: '2000'
-                imageUrl: 'https://dummyimage.com/meal.jpg'
+                price: 2000
+                imageUrl: https://dummyimage.com/meal.jpg
               status: success
-        '400':
+        400:
           description: Invalid input
-        '401':
-          description: 'Unauthorized, invalid token, no token provided or session have expired'
-        '403':
-          description: 'Forbidden, you don''t have the priviledge to perform this operation'
-        '404':
+        401:
+          description: >-
+            Unauthorized, invalid token, no token provided or session have
+            expired
+        403:
+          description: Forbidden, you don't have the priviledge to perform this operation
+        404:
           description: Meal not found
     delete:
       tags:
@@ -275,17 +289,18 @@ paths:
           required: true
           type: integer
       responses:
-        '200':
+        200:
           description: Meal successfully deleted
-        '400':
+        400:
           description: Meal id is required
-        '401':
-          description: 'Unauthorized, invalid token, no token provided or session have expired'
-        '403':
-          description: 'Forbidden, you don''t have the priviledge to perform this operation'
-        '404':
+        401:
+          description: >-
+            Unauthorized, invalid token, no token provided or session have
+            expired
+        403:
+          description: Forbidden, you don't have the priviledge to perform this operation
+        404:
           description: Meal does not exists
-
   /menu/:
     get:
       tags:
@@ -294,8 +309,14 @@ paths:
       description: Get menu for specific day
       produces:
         - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: an authorization header
+          required: true
+          type: string
       responses:
-        '200':
+        200:
           description: Successfully retrieved menu
           examples:
             application/json:
@@ -306,13 +327,13 @@ paths:
                   - id: 1
                     name: Vegetable Soup
                     description: Yummy and tasty
-                    price: '2000'
-                    imageUrl: 'https://imageurl.com/meals.jpg'
+                    price: 2000
+                    imageUrl: https://imageurl.com/meals.jpg
                   - id: 2
                     name: Efo riro with cow head
                     description: Yummy and tasty
-                    price: '2000'
-                    imageUrl: 'https://imageurl.com/meals.jpg'
+                    price: 2000
+                    imageUrl: https://imageurl.com/meals.jpg
               status: success
               message: Successfully retrieved menu
     post:
@@ -322,9 +343,15 @@ paths:
       description: Setup menu for specific day
       consumes:
         - application/x-www-form-urlencoded
+        - application/json
       produces:
         - application/json
       parameters:
+        - name: Authorization
+          in: header
+          description: an authorization header
+          required: true
+          type: string
         - name: name
           in: formData
           description: Name of menu
@@ -336,9 +363,9 @@ paths:
           required: true
           type: array
           items:
-            type: integer
+            type: string
       responses:
-        '201':
+        201:
           description: Successfully setup menu
           examples:
             application/json:
@@ -349,26 +376,92 @@ paths:
                   - id: 1
                     name: Vegetable Soup
                     description: Yummy and tasty
-                    price: '2000'
-                    imageUrl: 'https://imageurl.com/meal.jpg'
+                    price: 2000
+                    imageUrl: https://imageurl.com/meal.jpg
                   - id: 2
                     name: Vegetable Soup
                     description: Yummy and tasty
-                    price: '2000'
-                    imageUrl: 'https://imageurl.com/meal.jpg'
+                    price: 2000
+                    imageUrl: https://imageurl.com/meal.jpg
               status: success
-        '400':
+        400:
           description: Invalid input
           examples:
             application/json:
               error: true
               message: Meal name is required
               status: error
-        '401':
-          description: 'Unauthorized, invalid token or session have expired'
-        '403':
-          description: 'Forbidden, you don''t have the priviledge to perform this operation'
-
+        401:
+          description: Unauthorized, invalid token or session have expired
+        403:
+          description: Forbidden, you don't have the priviledge to perform this operation
+  /menu/{menuId}:
+    put:
+      tags:
+        - menu
+      summary: Update menu
+      description: Update menu for current day or a specific menu
+      consumes:
+        - application/x-www-form-urlencoded
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: an authorization header
+          required: true
+          type: string
+        - name: menuId
+          in: path
+          description: Menu id used to identify menu to update
+          required: true
+          type: number
+        - name: name
+          in: formData
+          description: Name of menu
+          required: true
+          type: string
+        - name: mealIds
+          in: formData
+          description: Array of meal ids
+          required: true
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: Successfully update menu
+          examples:
+            application/json:
+              message: Successfully update menu for today
+              menu:
+                name: Menu for today
+                meals:
+                  - id: 1
+                    name: Vegetable Soup
+                    description: Yummy and tasty
+                    price: 2000
+                    imageUrl: https://imageurl.com/meal.jpg
+                  - id: 2
+                    name: Vegetable Soup
+                    description: Yummy and tasty
+                    price: 2000
+                    imageUrl: https://imageurl.com/meal.jpg
+              status: success
+        400:
+          description: Invalid input
+          examples:
+            application/json:
+              error: true
+              message: Meal name is required
+              status: error
+        401:
+          description: Unauthorized, invalid token or session have expired
+        403:
+          description: Forbidden, you don't have the priviledge to perform this operation
+        404:
+          description: Menu not found or have not been setup
   /orders:
     get:
       tags:
@@ -377,27 +470,44 @@ paths:
       description: Get all orders made
       produces:
         - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: an authorization header
+          required: true
+          type: string
       responses:
-        '200':
+        200:
           description: Orders succesfully retrieved
           examples:
             application/json:
               message: Orders succesfully retrieved
               orders:
                 - id: 1
-                  name: Vegetable Soup
-                  amount: '2000'
-                  quantity: '1'
-                  total: '2000'
-                  customer: Mr Walter Abraham
+                  mealId: 1
+                  amount: 2000
+                  quantity: 1
+                  total: 2000
+                  userId: 1
                 - id: 2
-                  name: Vegetable Soup
-                  amount: '2000'
-                  quantity: '1'
-                  total: '2000'
-                  customer: Mr Walter Abraham
+                  mealId: 1
+                  amount: 2000
+                  quantity: 1
+                  total: 2000
+                  userId: 1
               status: success
-        '404':
+        400:
+          description: Invalid input
+          examples:
+            application/json:
+              error: true
+              message: Meal name is required
+              status: error
+        401:
+          description: Unauthorized, invalid token or session have expired
+        403:
+          description: Forbidden, you don't have the priviledge to perform this operation
+        404:
           description: No order have been placed
     post:
       tags:
@@ -410,6 +520,10 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
         - name: userId
           in: formData
           description: User id of customer
@@ -436,33 +550,32 @@ paths:
           required: true
           type: number
       responses:
-        '201':
+        201:
           description: Order placed
           examples:
             application/json:
               message: Order placed
               order:
                 id: 1
-                name: Vegetable Soup
-                customer: Chinenye Fashola
-                amount: '2000'
-                quantity: '2'
-                total: '4000'
+                mealId: Vegetable Soup
+                userId: 1
                 status: pending
+                amount: 2000
+                quantity: 2
+                total: 4000
               status: success
-        '400':
+        400:
           description: Invalid input
           examples:
             application/json:
               error: true
               message: Meal name is required
               status: error
-        '401':
-          description: 'Unauthorized, invalid token or session have expired'
-        '403':
-          description: 'Forbidden, you don''t have the priviledge to perform this operation'
-
-  /orders/:orderId:
+        401:
+          description: Unauthorized, invalid token or session have expired
+        403:
+          description: Forbidden, you dont have the priviledge to perform this operation
+  /orders/{orderId}:
     put:
       tags:
         - order
@@ -474,6 +587,15 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: orderId
+          in: path
+          description: Order id used to identify order to update
+          required: true
+          type: number
         - name: userId
           in: formData
           description: User id of customer
@@ -500,16 +622,33 @@ paths:
           required: true
           type: number
       responses:
-        '200':
-          description: Successful update operation
-        '400':
+        200:
+          description: Order Updated
+          examples:
+            application/json:
+              message: Successfully updated order
+              order:
+                id: 1
+                mealId: Vegetable Soup
+                userId: 1
+                amount: 2000
+                status: pending
+                quantity: 2
+                total: 4000
+              status: success
+        400:
           description: Invalid input
-        '401':
-          description: 'Unauthorized, invalid token or session have expired'
-        '403':
-          description: 'Forbidden, you don''t have the priviledge to perform this operation'
-        '404':
-          description: Meal not found
+          examples:
+            application/json:
+              error: true
+              message: Order id is required
+              status: error
+        401:
+          description: Unauthorized, invalid token or session have expired
+        403:
+          description: Forbidden, you don't have the priviledge to perform this operation
+        404:
+          description: Order does not exist
     delete:
       tags:
         - order
@@ -526,15 +665,15 @@ paths:
           in: path
           description: Order id used to identify order to delete
           required: true
-          type: integer
+          type: number
       responses:
-        '200':
+        200:
           description: Order successfully deleted
-        '400':
+        400:
           description: Order id is required
-        '401':
-          description: 'Unauthorized, invalid token or session have expired'
-        '403':
-          description: 'Forbidden, you don''t have the priviledge to perform this operation'
-        '404':
+        401:
+          description: Unauthorized, invalid token or session have expired
+        403:
+          description: Forbidden, you don't have the priviledge to perform this operation
+        404:
           description: Order does not exist
