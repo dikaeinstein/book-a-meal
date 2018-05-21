@@ -16,11 +16,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       field: 'deleted_at',
     },
-  }, {
-    underscored: true,
-    underscoredAll: true,
-    timestamps: true,
-    paranoid: true,
   });
 
   Menu.associate = (models) => {

@@ -13,8 +13,20 @@ module.exports = {
     define: {
       underscored: true,
       underscoredAll: true,
+      timestamps: true,
+      paranoid: true,
       hooks: {
         /* eslint no-param-reassign: 0 */
+        afterCreate: async (instance) => {
+          /* eslint camelcase: 0 */
+          /* eslint no-unused-vars: 0 */
+          const {
+            created_at,
+            updated_at,
+            ...dataValues
+          } = instance.dataValues;
+          instance.dataValues = dataValues;
+        },
         beforeFind: (options = {}) => {
           options.attributes = options.attributes || {};
           options.attributes.exclude = options.attributes.exclude || [];
@@ -26,6 +38,15 @@ module.exports = {
           ];
 
           return options;
+        },
+        afterUpdate: (instance) => {
+          /* eslint camelcase: 0 */
+          /* eslint no-unused-vars: 0 */
+          const {
+            updated_at,
+            ...dataValues
+          } = instance.dataValues;
+          instance.dataValues = dataValues;
         },
       },
     },
@@ -41,8 +62,20 @@ module.exports = {
     define: {
       underscored: true,
       underscoredAll: true,
+      timestamps: true,
+      paranoid: true,
       hooks: {
         /* eslint no-param-reassign: 0 */
+        afterCreate: async (instance) => {
+          /* eslint camelcase: 0 */
+          /* eslint no-unused-vars: 0 */
+          const {
+            created_at,
+            updated_at,
+            ...dataValues
+          } = instance.dataValues;
+          instance.dataValues = dataValues;
+        },
         beforeFind: (options = {}) => {
           options.attributes = options.attributes || {};
           options.attributes.exclude = options.attributes.exclude || [];
@@ -55,11 +88,60 @@ module.exports = {
 
           return options;
         },
+        afterUpdate: (instance) => {
+          /* eslint camelcase: 0 */
+          /* eslint no-unused-vars: 0 */
+          const {
+            updated_at,
+            ...dataValues
+          } = instance.dataValues;
+          instance.dataValues = dataValues;
+        },
       },
     },
   },
   production: {
     use_env_variable: 'DATABASE_URL',
+    define: {
+      underscored: true,
+      underscoredAll: true,
+      timestamps: true,
+      paranoid: true,
+      hooks: {
+        /* eslint no-param-reassign: 0 */
+        afterCreate: async (instance) => {
+          /* eslint camelcase: 0 */
+          /* eslint no-unused-vars: 0 */
+          const {
+            created_at,
+            updated_at,
+            ...dataValues
+          } = instance.dataValues;
+          instance.dataValues = dataValues;
+        },
+        beforeFind: (options = {}) => {
+          options.attributes = options.attributes || {};
+          options.attributes.exclude = options.attributes.exclude || [];
+          options.attributes.exclude = [
+            ...options.attributes.exclude,
+            'created_at',
+            'updated_at',
+            'deleted_at',
+          ];
+
+          return options;
+        },
+        afterUpdate: (instance) => {
+          /* eslint camelcase: 0 */
+          /* eslint no-unused-vars: 0 */
+          const {
+            updated_at,
+            ...dataValues
+          } = instance.dataValues;
+          instance.dataValues = dataValues;
+        },
+      },
+    },
   },
   heroku: {
     use_env_variable: 'DATABASE_URL',
@@ -68,6 +150,46 @@ module.exports = {
     dialectOptions: {
       ssl: {
         require: true,
+      },
+    },
+    define: {
+      underscored: true,
+      underscoredAll: true,
+      timestamps: true,
+      paranoid: true,
+      hooks: {
+        /* eslint no-param-reassign: 0 */
+        afterCreate: async (instance) => {
+          /* eslint camelcase: 0 */
+          /* eslint no-unused-vars: 0 */
+          const {
+            created_at,
+            updated_at,
+            ...dataValues
+          } = instance.dataValues;
+          instance.dataValues = dataValues;
+        },
+        beforeFind: (options = {}) => {
+          options.attributes = options.attributes || {};
+          options.attributes.exclude = options.attributes.exclude || [];
+          options.attributes.exclude = [
+            ...options.attributes.exclude,
+            'created_at',
+            'updated_at',
+            'deleted_at',
+          ];
+
+          return options;
+        },
+        afterUpdate: (instance) => {
+          /* eslint camelcase: 0 */
+          /* eslint no-unused-vars: 0 */
+          const {
+            updated_at,
+            ...dataValues
+          } = instance.dataValues;
+          instance.dataValues = dataValues;
+        },
       },
     },
   },

@@ -19,9 +19,12 @@
     "test-single": "export NODE_ENV=test || set NODE_ENV=test&& yarn db-migrate-test && nyc --require babel-core/register mocha server/test/**.spec.js -t 5000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "deploy": "gh-pages -d UI",
-    "sequelize": "sequelize"
+		"sequelize": "sequelize",
+		"heroku-postbuild": "yarn build"
   },
   "dependencies": {
+    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",

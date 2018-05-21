@@ -198,11 +198,11 @@ class OrderController {
     date.setUTCHours(0, 0, 0, 0);
 
     const order = {
-      meal_id: mealId,
+      mealId,
       amount,
       quantity,
       total,
-      user_id: userId,
+      userId,
     };
 
     const user = await User.findById(userId);
@@ -252,7 +252,7 @@ class OrderController {
     });
 
     if (!matchedOrder) {
-      error.id = 'Order id does not exist';
+      error.id = 'Order does not exist';
       return res.status(404).json({
         message: error.id,
         status: 'error',

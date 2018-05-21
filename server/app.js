@@ -32,15 +32,15 @@ app.use('/api/v1', routes);
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Catch all error handler
-// app.use((err, req, res, next) => {
-//   if (res.headersSent) {
-//     return next(err);
-//   }
-//   return res.status(500).json({
-//     message: 'Something failed, we are working on it :)',
-//     status: 'error',
-//   });
-// });
+app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
+  return res.status(500).json({
+    message: 'Something failed, we are working on it :)',
+    status: 'error',
+  });
+});
 
 /* eslint no-console: 0 */
 // Start server
