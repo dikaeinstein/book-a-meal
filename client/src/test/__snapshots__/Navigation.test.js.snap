@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MockNavigation /> should match snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(ConnectedNavigation)
+    urls={
+      Array [
+        Object {
+          "id": 1,
+          "link": "signin",
+          "name": "Sign in",
+        },
+        Object {
+          "id": 2,
+          "link": "signup",
+          "name": "Sign up",
+        },
+      ]
+    }
+  >
+    <ConnectedNavigation
+      dispatch={[Function]}
+      urls={
+        Array [
+          Object {
+            "id": 1,
+            "link": "signin",
+            "name": "Sign in",
+          },
+          Object {
+            "id": 2,
+            "link": "signup",
+            "name": "Sign up",
+          },
+        ]
+      }
+    >
+      <nav
+        className="col-3-4"
+      >
+        <ul
+          className="nav-container text-center"
+        >
+          <li
+            key="1"
+          >
+            <a
+              href="signin"
+            >
+              Sign in
+            </a>
+          </li>
+          <li
+            key="2"
+          >
+            <a
+              href="signup"
+            >
+              Sign up
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </ConnectedNavigation>
+  </Connect(ConnectedNavigation)>
+</Provider>
+`;

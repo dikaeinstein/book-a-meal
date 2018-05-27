@@ -1,14 +1,18 @@
 {
     "root": true,
     "env": {
-        "node": true,
-        "mocha": true
+				"node": true,
+				"browser": true,
+				"mocha": true,
+				"jest": true
     },
-    "extends": "airbnb-base",
+    "extends": ["airbnb-base", "airbnb"],
     "rules": {
 				"linebreak-style": 0,
 				"no-unused-vars": ["error", { "argsIgnorePattern": "(next|match|err|Sequelize)" }],
 				"prefer-destructuring": 0,
-				"import/no-dynamic-require": 0
+				"import/no-dynamic-require": 0,
+				"react/jsx-filename-extension": 0,
+				"import/no-extraneous-dependencies": 0
     }
 }

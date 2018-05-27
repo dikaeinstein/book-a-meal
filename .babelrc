@@ -1,9 +1,13 @@
 {
     "presets": [
+				"react",
         ["env", {
             "targets": {
               "node": "current"
-            }
+						},
+						"test": {
+							"presets": ["env", { "modules": "commonjs" }]
+						}
         }]
 		],
 		"plugins": ["transform-object-rest-spread"]
