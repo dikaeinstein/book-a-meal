@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Button = ({ value, className }) => (
-  <button className={className}>
+const Button = ({ value, ...otherProps }) => (
+  <button {...otherProps}>
     {value}
   </button>
 );

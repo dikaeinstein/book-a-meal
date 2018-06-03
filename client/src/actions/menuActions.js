@@ -1,5 +1,4 @@
-import axios from 'axios';
-
+import menuService from '../helpers/menuService';
 import config from '../config';
 import {
   FETCH_MENU_SUCCESS,
@@ -17,9 +16,12 @@ export const fetchMenuError = error => ({
   payload: { error },
 });
 
-export const fetchMenu = () => (dispatch) => {
-  dispatch({ type: FETCH_MENU_REQUEST });
-  return axios.get(`${config.API_BASE_URL}/api/v1/menu/`)
-    .then(response => dispatch(fetchMenuSuccess(response.data.menu)))
-    .catch(error => dispatch(fetchMenuError(error)));
+export const fetchMenu = () => async (dispatch) => {
+  try {
+    dispatch({ type: FETCH_MENU_REQUEST });
+    const menu = await menuService.getMenu(`${config.API_BASE_URL}/api/v1/menu/`);
+    dispatch(fetchMenuSuccess(menu));
+  } catch (error) {
+    dispatch(fetchMenuError(error));
+  }
 };

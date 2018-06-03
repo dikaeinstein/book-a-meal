@@ -1,11 +1,15 @@
-import { USER_SIGNED_IN, ADMIN_SIGNED_IN } from '../constants/actionTypes';
+import {
+  USER_SIGN_IN_SUCCESS,
+  ADMIN_SIGN_IN_SUCCESS,
+}
+  from '../constants/actionTypes';
 
 export const userSignedIn = urls => ({
-  type: USER_SIGNED_IN,
+  type: USER_SIGN_IN_SUCCESS,
   urls,
 });
 
-export const userSignedUp = urls => ({
-  type: ADMIN_SIGNED_IN,
+export const adminSignedIn = urls => ({
+  type: ADMIN_SIGN_IN_SUCCESS,
   urls,
 });

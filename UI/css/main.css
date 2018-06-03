@@ -6,7 +6,7 @@
 
 header, div, footer, table,
 body, ul, li, tr, th, td,
-tbody, thead, img, nav {
+tbody, thead, img, nav, section {
     margin: 0;
     padding: 0;
     border: 0;
@@ -41,12 +41,12 @@ body {
 img {
     width: 850px;
     max-width: 100%;
-    height: auto;
-    max-height: 100%;
+		height: auto;
+		max-height: 100%
 }
 
 .hero img {
-    height: 400px;
+	 height: 520px;
 }
 
 .user-menu img {
@@ -179,7 +179,7 @@ footer a:hover {
 }
 
 .aside {
-    padding-bottom: 30px;
+    /* padding-bottom: 30px; */
     order: 2;
     background: #fff;
 }
@@ -258,7 +258,8 @@ footer a:hover {
     margin-bottom: 30px;
 }
 
-#signIn h2 {
+#signIn h2,
+#signUp h2 {
     margin-bottom: 0;
 }
 
@@ -377,7 +378,8 @@ footer a:hover {
     font-weight: 500;
 }
 .nav-container > li:hover,
-a.active:hover {
+a.active:hover,
+.logo:hover {
     color: yellow;
 }
 
@@ -822,7 +824,22 @@ hr {
 @media screen and (min-width: 768px) {
     header {
         padding: 0 60px;
-    }
+		}
+		
+		img {
+				width: 850px;
+				max-width: 100%;
+				height: auto;
+				max-height: 100%
+		}
+
+		.hero img {
+				height: 520px;
+		 }
+		 
+		 #signUp img {
+				height: 722px;
+		}
 
     #signUP footer {
         padding-top: 1.75rem;
@@ -973,8 +990,19 @@ hr {
 
 @media screen and (min-width: 1024px) {
 
+		img {
+				width: 850px;
+				max-width: 100%;
+				height: auto;
+				max-height: 100%
+		}
+
+		.hero img {
+			height: 540px;
+		}
+
 		#signUp img {
-			height: 500px;
+				height: 722px;
 		}
 
     /*
@@ -1038,6 +1066,6 @@ hr {
     }
 
     .aside {
-        padding: 0;
+        padding: 0.625rem 0;
     }
 }

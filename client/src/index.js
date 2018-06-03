@@ -1,18 +1,18 @@
 import React from 'react';
 import { render } from 'react-dom';
-
-import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import initialState from './reducers/initialState';
-
-import App from './components/App';
+import Root from './routes';
+import { getUser } from './helpers/persistUser';
+import { USER_SIGN_IN_SUCCESS } from './constants/actionTypes';
 import './index.css';
 
 const store = configureStore(initialState);
 
-render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root'),
-);
+// const user = getUser();
+
+// if(user) {
+//   store.dispatch({ type: USER_SIGN_IN_SUCCESS, payload: { user } });
+// }
+
+render(<Root store={store} />, document.getElementById('root'));

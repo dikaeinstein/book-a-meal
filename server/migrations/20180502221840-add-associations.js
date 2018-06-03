@@ -26,6 +26,7 @@ module.exports = {
           },
         )
       ))
+      /* eslint no-console: 0 */
       .catch(err => console.log(err))
   ),
 

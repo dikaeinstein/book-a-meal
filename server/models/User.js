@@ -39,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
         field: 'user_id',
         onDelete: 'CASCADE',
       },
+      as: 'user',
     });
   };
   return User;

@@ -2,6 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import Navigation from '../components/Navigation';
 import configureStore from '../store/configureStore';
 import initialState from '../reducers/initialState';
@@ -21,7 +22,9 @@ describe('<Header />', () => {
     /* eslint function-paren-newline: 0 */
     wrapper = mount(
       <Provider store={store}>
-        <Header className="test" />
+        <MemoryRouter>
+          <Header className="test" />
+        </MemoryRouter>
       </Provider>);
   });
   it('should render a header element', () => {

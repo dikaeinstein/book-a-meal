@@ -38,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         field: 'user_id',
         onDelete: 'CASCADE',
       },
+      as: 'user',
     });
     Order.belongsTo(models.Meal, {
       foreignKey: {
@@ -45,6 +46,7 @@ module.exports = (sequelize, DataTypes) => {
         field: 'meal_id',
         onDelete: 'CASCADE',
       },
+      as: 'meal',
     });
   };
   return Order;

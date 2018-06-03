@@ -1,23 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
-const ConnectedMealList = ({ meals }) => {
+const ConnectedMealList = ({ meals, link }) => {
   const mealList = meals.map(meal => (
     <div key={meal.id} className="card user-menu-item">
-      <a href="signin.html">
-        <img
-          src={meal.imageUrl}
-          alt="Eba with efo riro and cow head"
-        />
-        <p className="amount">
-          {meal.name}
-        </p>
-        <p className="amount">&#x20a6 {meal.amount}</p>
-        <button className="btn btn-default">
-          <a href="signin.html">Order Now</a>
-        </button>
-      </a>
+      <NavLink to={link}>
+        <div>
+          <img
+            src={meal.imageUrl}
+            alt="Eba with efo riro and cow head"
+          />
+          <p className="amount">
+            {meal.name}
+          </p>
+          <p className="amount">&#x20a6;{meal.price}</p>
+          <button className="btn btn-default">
+            <NavLink to={link}>Order Now</NavLink>
+          </button>
+        </div>
+      </NavLink>
     </div>
   ));
 
@@ -30,6 +33,7 @@ const ConnectedMealList = ({ meals }) => {
 
 ConnectedMealList.propTypes = {
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
+  link: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({

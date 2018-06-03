@@ -5,8 +5,8 @@
 */
 
 header, div, footer, table,
-body, ul, li, tr, th, td,
-tbody, thead, img, nav {
+body, ul, li, tr, th, td, h1,
+tbody, thead, img, nav, section {
     margin: 0;
     padding: 0;
     border: 0;
@@ -41,16 +41,37 @@ body {
 img {
     width: 850px;
     max-width: 100%;
-    height: auto;
-    max-height: 100%;
+		height: auto;
+		max-height: 100%
 }
 
 .hero img {
-    height: 400px;
+	 height: 520px;
 }
 
 .user-menu img {
     height: 160px;
+}
+
+.loader-container {
+	background: #fff;
+	display: block;
+}
+
+.loader {
+	margin: 4rem auto;
+}
+
+.error-container {
+	background: #fff;
+	display: block;
+	padding: 3rem;
+	color: #4e4a4a;
+}
+
+.error {
+		color: #f00;
+		margin-bottom: 1rem;
 }
 
 
@@ -179,7 +200,7 @@ footer a:hover {
 }
 
 .aside {
-    padding-bottom: 30px;
+    /* padding-bottom: 30px; */
     order: 2;
     background: #fff;
 }
@@ -220,6 +241,10 @@ footer a:hover {
     margin: 0.3125rem auto 1.6875rem auto; /* 5px 0 27px 0; */
 }
 
+.input-error {
+		margin-bottom: 0.25rem !important;
+}
+
 .form input,
 .form textarea {
     border: 0.0625rem solid #4e4a4a; /* 1px */
@@ -258,7 +283,8 @@ footer a:hover {
     margin-bottom: 30px;
 }
 
-#signIn h2 {
+#signIn h2,
+#signUp h2 {
     margin-bottom: 0;
 }
 
@@ -374,17 +400,20 @@ footer a:hover {
     list-style-type: none;
     padding: 0.5rem;
     flex-direction: column;
-    font-weight: 500;
+		font-weight: 500;
 }
 .nav-container > li:hover,
-a.active:hover {
+a.active:hover,
+.logo:hover {
     color: yellow;
 }
 
 .logo {
-    font-size: 2rem;
-    cursor: default;
-    padding: 0;
+		font-size: 2rem;
+		color: #fff;
+		cursor: pointer;
+		padding: 1.67rem;
+    line-height: 1.67rem;
     font-family: 'Varela Round', sans-serif;
 }
 
@@ -822,7 +851,22 @@ hr {
 @media screen and (min-width: 768px) {
     header {
         padding: 0 60px;
-    }
+		}
+		
+		img {
+				width: 850px;
+				max-width: 100%;
+				height: auto;
+				max-height: 100%
+		}
+
+		.hero img {
+				height: 520px;
+		 }
+		 
+		 #signUp img {
+				height: 722px;
+		}
 
     #signUP footer {
         padding-top: 1.75rem;
@@ -891,11 +935,7 @@ hr {
     }
     
     .logo {
-        padding-bottom: 1rem; /* 16px */
         font-size: 40px;
-        line-height: 1rem;
-        cursor: default;
-        color: #fff;
     }
 
     
@@ -973,8 +1013,19 @@ hr {
 
 @media screen and (min-width: 1024px) {
 
+		img {
+				width: 850px;
+				max-width: 100%;
+				height: auto;
+				max-height: 100%
+		}
+
+		.hero img {
+			height: 540px;
+		}
+
 		#signUp img {
-			height: 500px;
+				height: 722px;
 		}
 
     /*
@@ -1038,6 +1089,6 @@ hr {
     }
 
     .aside {
-        padding: 0;
+        padding: 0.625rem 0;
     }
 }

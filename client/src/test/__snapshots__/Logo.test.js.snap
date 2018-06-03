@@ -1,9 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Logo /> should match snapshot 1`] = `
-<h1
-  className="col-1-4 logo text-left"
+<NavLink
+  activeClassName="active"
+  ariaCurrent="true"
+  to="/"
 >
-  Book-A-Meal
-</h1>
+  <h1
+    className="col-1-4 logo text-left"
+  >
+    Book-A-Meal
+  </h1>
+</NavLink>
 `;

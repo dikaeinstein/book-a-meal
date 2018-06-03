@@ -40,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         field: 'meal_id',
         onDelete: 'CASCADE',
       },
+      as: 'meal',
     });
     Meal.belongsToMany(models.Menu, {
       through: 'meal_menus',

@@ -12,7 +12,7 @@ const menuReducer = (state = initialState.menu, action) => {
     case FETCH_MENU_ERROR:
       return { ...state, isFetching: false, error: action.payload.error };
     case FETCH_MENU_SUCCESS:
-      return { ...state, isFetching: false, data: action.payload.response };
+      return { ...state, isFetching: false, data: action.payload.menu };
     default:
       return state;
   }

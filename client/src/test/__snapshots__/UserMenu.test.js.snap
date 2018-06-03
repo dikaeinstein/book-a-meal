@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<UserMenu /> should match snapshot 1`] = `
+<Connect(ConnectedMenuCard)
+  link="/order-confirmation"
+/>
+`;

@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { Provider } from 'react-redux';
+import { MemoryRouter, NavLink } from 'react-router-dom';
 import Navigation from '../components/Navigation';
 import configureStore from '../store/configureStore';
 import initialState from '../reducers/initialState';
@@ -26,12 +27,14 @@ const urls = [
   },
 ];
 
-describe('<MockNavigation />', () => {
+describe('<Navigation />', () => {
   beforeAll(() => {
     /* eslint function-paren-newline: 0 */
     wrapper = mount(
       <Provider store={store}>
-        <Navigation urls={urls} />
+        <MemoryRouter>
+          <Navigation urls={urls} />
+        </MemoryRouter>
       </Provider>);
   });
   it('should render a Navigation element', () => {
@@ -43,16 +46,16 @@ describe('<MockNavigation />', () => {
   it('should render correct number of li elements', () => {
     expect(wrapper.find('li').length).toEqual(urls.length);
   });
-  it('should render a tag elements with correct hrefs', () => {
-    expect(wrapper.find('a').first().props().href)
-      .toEqual(urls[0].link);
-    expect(wrapper.find('a').last().props().href)
-      .toEqual(urls[1].link);
+  it('should render NavLink with correct props', () => {
+    expect(wrapper.find(NavLink).length).toEqual(2);
+    expect(wrapper.find(NavLink).first().props().to).toEqual(`/${urls[0].link}`);
   });
   it('should match snapshot', () => {
     const tree = mount(
       <Provider store={store}>
-        <Navigation urls={urls} />
+        <MemoryRouter>
+          <Navigation urls={urls} />
+        </MemoryRouter>
       </Provider>);
     expect(toJson(tree)).toMatchSnapshot();
   });

@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
 const Logo = ({ text, className }) => (
-  <h1 className={className}>{text}</h1>
+  <NavLink to="/">
+    <h1 className={className}>{text}</h1>
+  </NavLink>
 );
 
 Logo.propTypes = {

@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { hot } from 'react-hot-loader';
 import Header from './Header';
 import IntroBanner from './IntroBanner';
 import MenuCard from './MenuCard';
@@ -8,9 +9,9 @@ const App = () => (
   <div>
     <Header className="navbar" />
     <IntroBanner />
-		<MenuCard />
+    <MenuCard />
     <Footer />
   </div>
 );
 
-export default App;
+export default hot(module)(App);

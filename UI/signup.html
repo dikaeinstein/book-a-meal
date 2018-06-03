@@ -12,16 +12,27 @@
 </head>
 
 <body>
+	<!-- Navigation -->
+	<header class="navbar">
+		<h1 class="col-1-4 logo text-left">Book-A-Meal</h1>
+		<div class="toggle-show">&#9776;</div>
+		<nav class="col-3-4">
+			<ul class="nav-container text-center">
+				<li><a href="signin.html">Sign In</a></li>
+				<li><a href="signup.html">Sign Up</a></li>
+			</ul>
+		</nav>
+	</header>
   <main class="flex-container">
 
     <!-- Left side -->
     <section class="col-3-4 hero text-center" id="signUp">
-      <h1>Sign Up</h1>
+      <!-- <h1>Sign Up</h1>
       <div class="lead">
         <h4>TO BOOK</h4>
         <h4>A</h4>
         <h4>MEAL NOW <span>&raquo;</span></h4>
-      </div>
+      </div> -->
       <div>
         <img src="http://res.cloudinary.com/dikaeinstein/image/upload/c_scale,q_auto:low,w_1029/v1525566673/book-a-meal/avocado-cooked-delicious-262959.jpg"
           alt="meal image" />
@@ -33,7 +44,8 @@
 
       <!-- Sign up form -->
       <form class="form card" action="caterer_dashboard.html">
-        <h2 class="text-center">Sign Up</h2>
+				<h2 class="text-center">Sign Up</h2>
+				<p class="text-center font-weight-bold">Sign up to book a meal now.</p>
         <div>
           <label class="label label-block" for="name">
             Full name
@@ -78,17 +90,16 @@
         </button>
       </form>
 
-      <!-- Footer -->
-      <footer class="text-center">
-        <p>&copy; Book-A-Meal <span id="year"></span>.
-          Developed with &#10084; by 
-          <a href="https://dikaeinstein.github.io">Dikaeinstein</a>
-        </p>
-      </footer>
-
     </section>
   
-  </main>
+	</main>	
+	<footer class="text-center">
+		<p>&copy; Book-A-Meal <span id="year"></span>.
+			Developed with &#10084; by 
+			<a href="https://dikaeinstein.github.io">Dikaeinstein</a>
+		</p>
+	</footer>
+	
   <script src="js/main.js"></script>
 </body>
 

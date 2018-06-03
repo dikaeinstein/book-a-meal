@@ -6,8 +6,10 @@ exports[`<Footer /> should match snapshot 1`] = `
 >
   <p>
     © Book-A-Meal
+     
     2018
     . Developed with ❤ by
+     
     <a
       href="https://dikaeinstein.github.io"
     >
