@@ -7,9 +7,9 @@ import SideImage from './SideImage';
 import userSchema from '../helpers/userSchema';
 import { userSignIn } from '../actions/userActions';
 
-const ConnectedSignIn = ({ signIn }) => {
+const ConnectedSignIn = ({ signIn, location }) => {
   const handleSubmit = (values, actions) => {
-    signIn(values, actions);
+    signIn(values, actions, location);
   };
   return (
     <main className="flex-container">
@@ -28,6 +28,8 @@ const ConnectedSignIn = ({ signIn }) => {
 
 ConnectedSignIn.propTypes = {
   signIn: PropTypes.func.isRequired,
+  /* eslint react/forbid-prop-types: 0 */
+  location: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({

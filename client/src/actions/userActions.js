@@ -19,9 +19,19 @@ export const userSignInError = error => ({
   payload: { error },
 });
 
+export const autoNavigate = (user, location) => {
+  if (location && location.pathname !== '/') {
+    history.push(location);
+  } else if (user.role === 'customer') {
+    history.push('/user-menu');
+  } else {
+    history.push('/dashboard');
+  }
+};
+
 export const userSignOut = () => ({ type: USER_SIGN_OUT });
 
-export const userSignIn = (values, actions) => async (dispatch) => {
+export const userSignIn = (values, actions, location) => async (dispatch) => {
   const { setSubmitting } = actions;
   try {
     dispatch({ type: USER_SIGN_IN_REQUEST });
@@ -30,18 +40,14 @@ export const userSignIn = (values, actions) => async (dispatch) => {
       .signIn(`${config.API_BASE_URL}/api/v1/auth/signin`, values);
     setSubmitting(false);
     dispatch(userSignInSuccess(user));
-    if (user.role === 'customer') {
-      history.push('/user-menu');
-    } else {
-      history.push('/dashboard');
-    }
+    autoNavigate(user, location);
   } catch (error) {
     setSubmitting(false);
     dispatch(userSignInError(error));
   }
 };
 
-export const userSignUp = (values, actions) => async (dispatch) => {
+export const userSignUp = (values, actions, location) => async (dispatch) => {
   const { setSubmitting } = actions;
   try {
     dispatch({ type: USER_SIGN_IN_REQUEST });
@@ -50,11 +56,7 @@ export const userSignUp = (values, actions) => async (dispatch) => {
       .signIn(`${config.API_BASE_URL}/api/v1/auth/signup`, values);
     setSubmitting(false);
     dispatch(userSignInSuccess(user));
-    if (user.role === 'customer') {
-      history.push('/user-menu');
-    } else {
-      history.push('/dashboard');
-    }
+    autoNavigate(user, location);
   } catch (error) {
     setSubmitting(false);
     dispatch(userSignInError(error));

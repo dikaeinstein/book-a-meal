@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CircleLoader } from 'react-spinners';
+import { SyncLoader } from 'react-spinners';
 import { fetchMenu } from '../actions/menuActions';
 import MealList from './MealList';
 
@@ -13,7 +13,14 @@ class ConnectedMenuCard extends Component {
   render() {
     const { isFetching, error, link } = this.props;
     if (isFetching) {
-      return <CircleLoader loading={isFetching} />;
+      return (
+        <div className="loader-container">
+          <SyncLoader
+            loading={isFetching}
+            color="#575454"
+          />
+        </div>
+      );
     }
     if (error) {
       return (

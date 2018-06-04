@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import {
   Router,
@@ -17,6 +17,8 @@ import SignUp from './components/SignUp';
 import UserMenu from './components/UserMenu';
 import UserOrderHistory from './components/UserOrderHistory';
 import PrivateRoute from './components/PrivateRoute';
+import NotFound from './components/NotFound';
+
 
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -38,6 +40,7 @@ const Root = ({ store }) => (
             path="/user-order-history"
             component={UserOrderHistory}
           />
+          <Route component={NotFound} />
         </Switch>
         <Footer />
       </div>

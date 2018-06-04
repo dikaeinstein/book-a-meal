@@ -159,6 +159,23 @@ class UserController {
       status: 'success',
     });
   }
+
+  /**
+   * @description - Authenticates a user
+   * @static
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof - UserController
+   *
+   * @returns {Promise<object>}
+   */
+  static async authenticateUser(req, res) {
+    const userId = req.params.userId || req.userId;
+
+    return userId ? res.status(204) : res.status(404);
+  }
 }
 
 export default UserController;

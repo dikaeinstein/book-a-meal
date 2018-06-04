@@ -21,6 +21,7 @@ const user = users[5];
 
 let token;
 let adminToken;
+let userId;
 
 describe('Orders', () => {
   // Setup user(admin)
@@ -33,7 +34,8 @@ describe('Orders', () => {
   before(async () => {
     const res = await chai.request(app).post(signUpUrl)
       .send(user);
-    token = res.body.token;
+		token = res.body.token;
+		userId = res.body.user.id;
   });
 
   // Test Get all orders
@@ -82,7 +84,7 @@ describe('Orders', () => {
       expect(res.body.error.token).to
         .include('No token provided');
     });
-    it('should post an order without userId in request body', async () => {
+    it('should post an order without userId in request params', async () => {
       const res = await chai.request(app).post(orderUrl)
         .set('Authorization', `Bearer ${token}`)
         .send(order);
@@ -231,7 +233,7 @@ describe('Orders', () => {
   describe('Get orders for specific user', () => {
     // Admin can get order history for specific user
     it('should get orders for specific auth user with userId', async () => {
-      const res = await chai.request(app).get(`${orderUrl}/users/1`)
+      const res = await chai.request(app).get(`${orderUrl}/users/${userId}`)
         .set('Authorization', `Bearer ${token}`);
       expect(res.status).to.equal(200);
       expect(res.body).to.be.an('object');

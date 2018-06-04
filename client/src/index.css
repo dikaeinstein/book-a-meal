@@ -56,10 +56,7 @@ img {
 .loader-container {
 	background: #fff;
 	display: block;
-}
-
-.loader {
-	margin: 4rem auto;
+	padding: 3rem;
 }
 
 .error-container {
@@ -72,6 +69,14 @@ img {
 .error {
 		color: #f00;
 		margin-bottom: 1rem;
+}
+
+.not-found {
+		padding: 4rem;
+		color: #4e4a4a;
+}
+.not-found h1 {
+		font-size: 4rem;
 }
 
 
@@ -326,6 +331,12 @@ footer a:hover {
     border: 0;
     background: #f00;
     background-image: linear-gradient(to right, #f00, #f00);
+}
+
+.btn-notfound {
+		border: 0;
+		margin: 0 auto;
+		background: rgb(163, 16, 16);
 }
 
 .btn-default:hover {

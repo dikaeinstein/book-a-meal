@@ -47,6 +47,7 @@ const mapDispatchToProps = dispatch => ({
 
 ConnectedNavigation.propTypes = {
   urls: PropTypes.arrayOf(PropTypes.object).isRequired,
+  signout: PropTypes.func.isRequired,
 };
 
 const Navigation = connect(mapStateToProps, mapDispatchToProps)(ConnectedNavigation);

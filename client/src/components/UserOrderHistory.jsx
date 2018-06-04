@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CircleLoader } from 'react-spinners';
+import { SyncLoader } from 'react-spinners';
 import OrderHistory from './OrderHistory';
 import { fetchUserOrders } from '../actions/orderActions';
 
@@ -15,11 +15,9 @@ class ConnectedUserOrderHistory extends Component {
     if (isFetching) {
       return (
         <div className="loader-container">
-          <CircleLoader
+          <SyncLoader
             loading={isFetching}
             color="#575454"
-            size={100}
-            className="loader"
           />
         </div>
       );

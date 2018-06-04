@@ -32,6 +32,8 @@ const router = express.Router();
 // User sign in and sign up
 router.post('/auth/signup', validateSignup, UserController.createUser);
 router.post('/auth/signin', validateSignin, UserController.signinUser);
+// Authenticate token
+router.get('/auth', authenticate, UserController.authenticateUser);
 // Delete User account
 router.delete('/users/:userId', validateDeleteUser, UserController.deleteUserAccount);
 

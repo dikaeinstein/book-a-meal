@@ -3,16 +3,23 @@ import { render } from 'react-dom';
 import configureStore from './store/configureStore';
 import initialState from './reducers/initialState';
 import Root from './routes';
+
+import authenticateToken from './helpers/authentcateToken';
 import { getUser } from './helpers/persistUser';
-import { USER_SIGN_IN_SUCCESS } from './constants/actionTypes';
+import { autoNavigate, userSignInSuccess } from './actions/userActions';
 import './index.css';
 
 const store = configureStore(initialState);
 
-// const user = getUser();
+const user = getUser();
 
-// if(user) {
-//   store.dispatch({ type: USER_SIGN_IN_SUCCESS, payload: { user } });
-// }
+if (user) {
+  const { token } = user;
+  const authenticated = authenticateToken(token);
+  if (authenticated) {
+    store.dispatch(userSignInSuccess(user));
+    autoNavigate(user, window.location);
+  }
+}
 
 render(<Root store={store} />, document.getElementById('root'));
