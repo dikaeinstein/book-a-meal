@@ -7,11 +7,11 @@ import rootReducer from '../reducers';
 
 const getMiddleware = () => {
   const logger = createLogger();
-  let middleware = applyMiddleware(thunk);
 
-  if (process.ENV !== 'production') {
-    middleware = applyMiddleware(thunk, logger);
-  }
+  const middleware = process.ENV !== 'production'
+    ? applyMiddleware(thunk, logger)
+    : applyMiddleware(thunk);
+
   return middleware;
 };
 

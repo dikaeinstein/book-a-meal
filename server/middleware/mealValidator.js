@@ -13,8 +13,9 @@ import isEmpty from 'lodash.isempty';
 export const validateAddMeal = (req, res, next) => {
   const error = {};
   const {
-    name, description, imageUrl, price,
+    name, description, imageUrl,
   } = req.body;
+  const price = String(req.body.price);
 
   if (!name) {
     error.name = 'Meal name is required';
@@ -97,8 +98,8 @@ export const validateUpdateMeal = (req, res, next) => {
     name,
     imageUrl,
     description,
-    price,
   } = req.body;
+  const price = String(req.body.price);
   const validatedMeal = {};
   const error = {};
 

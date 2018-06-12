@@ -34,6 +34,12 @@ const initialState = {
     data: [],
     error: null,
   },
+  meals: {
+    isFetching: false,
+    isSaving: false,
+    data: [],
+    error: null,
+  },
 };
 
 export default initialState;

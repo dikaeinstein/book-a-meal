@@ -1,0 +1,1114 @@
+/*
+ ================================
+ Reset Base Styles
+ ================================
+*/
+
+header, div, footer, table,
+body, ul, li, tr, th, td, h1,
+tbody, thead, img, nav, section {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+
+/*
+ ===================================
+ Utility
+ ===================================
+*/
+
+body {
+    background: #a50b5e;
+    font-family: 'Varela Round', sans-serif;
+    color: #fff;
+}
+
+.bg-light {
+    background: #f8f8ff;
+}
+
+.bg-light-blue {
+    background: #F3F7FA;
+}
+
+.card {
+    border-radius: 5px;
+    box-shadow: 2px 2px 8px 4px#ccc;
+}
+
+img {
+    width: 100%;;
+    height: 100%;
+    max-height: 100%;
+}
+
+.user-menu img {
+    height: 160px;
+}
+
+.loader-container {
+	background: #fff;
+	display: block;
+	padding: 3rem;
+}
+
+.error-container {
+	background: #fff;
+	display: block;
+	padding: 3rem;
+	color: #4e4a4a;
+}
+
+.error {
+    color: #f00;
+    margin-bottom: 1rem;
+}
+
+.not-found {
+    padding: 4rem;
+    color: #4e4a4a;
+}
+.not-found h1 {
+    font-size: 4rem;
+}
+
+.close {
+    display: block;
+    font-size: 1.5rem;
+    border: none;
+    cursor: pointer;
+    margin: 0 0 0 auto;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+/*
+ ===================================
+ Header, footer
+ ===================================
+*/
+
+header {
+    background: #a50b5e;
+}
+
+header, footer {
+    color: rgba(255,255,255,.85);
+}
+
+footer {
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
+}
+
+footer p {
+    margin: 0;
+    font-size: 1.125rem;
+}
+
+
+/*
+ ===================================
+ Typography
+ ===================================
+*/
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-dark {
+    color: #a50b5e;
+}
+
+.text-success {
+    color: #4CAF50;
+}
+
+.text-danger {
+    color: #f00;
+}
+
+.text-warning {
+    color: #ffa100;
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.hero {
+    font-size: 2.0rem;
+    line-height: 1rem;
+    order: 1;
+    color: yellow;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.lead {
+    line-height: 0.875rem;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.aside h2 {
+    color: #a50b5e;
+}
+
+small {
+    font-size: 75%;
+}
+
+
+/*
+ ===================================
+ Links
+ ===================================
+*/
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+// .nav-container a.active {
+//     color: #fff;
+// }
+
+.active {
+    color: #fff;
+}
+
+footer a {
+    color: #4e4a4a;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+
+/*
+ ===================================
+ Grid: flexbox
+ ===================================
+*/
+
+.flex-container {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.col-3-4 {
+    flex: 100%;
+}
+
+.col-1-4 {
+    flex: 100%;
+}
+
+.aside {
+    /* padding-bottom: 30px; */
+    order: 2;
+    background: #fff;
+}
+
+
+/*
+ ===================================
+ forms
+ ===================================
+*/
+
+.form {
+    width: 20.1875rem; /* 275px */
+    background: #fff;
+    padding: 30px;
+    margin: 2rem auto;
+}
+
+.form h2 {
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+
+.label {
+    text-align: left;
+    color: #201e1e;
+    display: inline;
+}
+
+.label-block {
+    display: block;
+    padding-bottom: 5px;
+}
+
+.form input,
+.form .btn,
+.form textarea {
+    margin: 0.3125rem auto 1.6875rem auto; /* 5px 0 27px 0; */
+}
+
+.input-error {
+		margin-bottom: 0.25rem !important;
+}
+
+.form input,
+.form textarea {
+    border: 0.0625rem solid #4e4a4a; /* 1px */
+    border-radius: 0.1875rem; /* 3px */
+    color: #4e4a4a;
+    display: block;
+    padding: 0.3125rem 0.5rem; /* 5px 8px */
+    width: 100%;
+    font-size: 1rem; /* 16px */
+    font-family: 'Varela Round', sans-serif;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    font-size: 0.75rem;
+    font-family: 'Varela Round', sans-serif;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    font-size: 0.75rem;
+    font-family: 'Varela Round', sans-serif;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    font-size: 0.75rem;
+    font-family: 'Varela Round', sans-serif;
+}
+:-moz-placeholder { /* Firefox 18- */
+    font-size: 0.75rem;
+    font-family: 'Varela Round', sans-serif;
+}
+
+#signIn p,
+.aside p {
+    color: #a50b5e;
+}
+
+.aside p:first-of-type {
+    margin-bottom: 30px;
+}
+
+#signIn h2,
+#signUp h2 {
+    margin-bottom: 0;
+}
+
+#signUp .btn {
+    margin-bottom: 0;
+}
+
+.form-footer {
+    color: #a50b5e;
+    font-size: 1rem;
+}
+
+.form-footer .btn-alt {
+    margin-bottom: 0;
+}
+
+
+/*
+  ========================================
+  Buttons
+  ========================================
+*/
+
+.btn {
+    border-radius: 5px;/*0.3125rem;*/ /* 5px */
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    letter-spacing: .5px;
+    margin: 0;
+    text-transform: uppercase;
+    padding: 0.6875rem 1.875rem; /* 11px 30px */
+    margin-bottom: 1.375rem; /* 22px */ 
+    font-size: 0.875rem; /* 14px */
+    font-family: 'Varela Round', sans-serif;
+}
+
+.btn-default {
+    border: 0;
+    background: #a50b5e;
+    background-image: linear-gradient(to right, #a50b5e, #a50b5e);
+}
+
+.btn-notfound {
+    border: 0;
+    margin: 0 auto;
+    background: darkgreen;
+}
+
+.btn-default:hover {
+    background: rgb(209, 17, 17);
+}
+
+.btn-alt {
+    border: 1px solid #a50b5e;
+		background: #fff;
+		display: inline-block;
+    color: #a50b5e;
+    padding: 0.625rem 0.625rem; /* 10px 10px */
+    font-size: 0.75rem;
+    margin-bottom: 1.375rem; /* 22px */
+}
+
+.btn-alt:hover {
+    color: #fff;
+    background: #a50b5e;
+}
+
+.btn-default-lg {
+		width: 100%;
+}
+
+.btn-intro-lg {
+		font-size: 1.5rem;
+		margin: 0 auto;
+}
+
+.intro-banner .btn-intro-lg:hover {
+		background: #ffd000;
+}
+
+.btn-danger {
+    color: #fff;
+    background: #d9534f;
+    border: 0;
+}
+
+.btn-danger:hover {
+    background-color: rgb(209, 17, 17);
+}
+
+.btn-light {
+    background: #dae0e5;
+    color: #a50b5e;
+    border: 0;
+}
+
+.btn-success {
+    background-color: #4CAF50;
+}
+
+/*
+ ===================================
+ Navigation
+ ===================================
+*/
+
+.navbar {
+    display: flex;
+    padding: 1rem;
+}
+
+.navbar, .nav-container {
+    flex-direction: column;
+}
+
+.nav-container {
+    display: none;
+}
+
+.nav-container > li {
+    list-style-type: none;
+    padding: 0.5rem;
+    flex-direction: column;
+    font-weight: 500;
+}
+.nav-container > li:hover,
+a.active:hover,
+.logo:hover {
+    color: yellow;
+}
+
+.logo {
+    font-size: 2rem;
+    color: inherit;
+    cursor: pointer;
+    padding: 1.67rem;
+    line-height: 1.67rem;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.toggle-show {
+    align-self: flex-end;
+    display: initial;
+    font-size: 2rem;
+    position: absolute;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 15px;
+}
+
+.navbar-toggle-show {
+    display: flex;
+}
+
+
+/*
+ =====================================
+ Meals
+ =====================================
+*/
+
+/* .add-section {
+	padding-top: 2rem;
+} */
+
+.meal-preview {
+    display: block;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 50%;
+    height: 50%;
+}
+
+.uploading {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+.add-section > h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.add-section .form {
+    padding-top: 0.875rem; /* 14px */
+}
+
+.add-section .btn {
+	margin: 0 auto;
+}
+
+.meals {
+    padding-bottom: 4rem;
+}
+
+.meals h2 {
+    margin: 0;
+    margin-top: 3rem;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.meals .btn {
+    text-transform: capitalize;
+    display: inline;
+}
+
+table {
+    width: 75%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    color: #4e4a4a;
+}
+
+table, th, td,
+tbody, thead, tr, {
+    border-radius: 10px;
+}
+
+table, th, td, caption {
+    border: 1px solid #9e9e9e;
+}
+
+td,
+th {
+    padding: 15px;
+}
+
+th {
+    font-weight: 400;
+    font-size: 1.125rem;
+}
+
+td {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+td[title] {
+    color: #a50b5e;
+    cursor: pointer;
+}
+
+.table-scroll {
+    overflow-x: auto;
+}
+
+.actions button:first-of-type {
+    margin: 1rem;
+}
+
+
+/*
+ ================================
+ Menus
+ ================================
+*/
+
+.menu {
+    padding: 2rem;
+}
+
+.menu h2,
+.user-menu-main h2 {
+    margin: 0;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.set-menu a {
+    color: #fff;
+}
+
+.menu .btn {
+    margin: 2rem auto;
+}
+
+.menu-card {
+    width: 75%;
+    margin: 1rem auto;
+    padding: 2rem;
+    background: #fff;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.menu-card table,
+.menu-card th,
+.menu-card td {
+    border: 0;
+}
+
+.menu-card table {
+    margin-top: 0;
+}
+
+.menu-card td {
+    font-size: 1.5rem;
+}
+
+.add-section form {
+    width: 15rem;
+}
+
+form select {
+    width: 100%;
+    font-size: 1rem; /* 18px */
+    padding: 0.5rem;
+		border-radius: 5px;
+		margin-top: 0.3125rem;
+    margin-bottom: 1rem;
+}
+
+.add-section select {
+		font-size: 1.125rem; /* 18px */
+		height: 3rem;
+		margin-top: 1rem;
+}
+
+
+/*
+ ===================================
+ Dashboard
+ ===================================
+*/
+
+.dashbord,
+.user-menu,
+.order-history {
+    margin: 2rem auto;
+    width: 950px;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background: #fff;
+    color: #2c2c2c;
+}
+
+.dash-main,
+.user-menu-main,
+.order-history-main,
+.landing-main,
+.order-details-main {
+    padding: 1.5rem;
+}
+
+.dash-main h2,
+.user-order-history h2 {
+    font-family: 'Varela Round', sans-serif;
+}
+
+.dashbord-item {
+    min-width: 0;
+    margin: 2rem auto;
+    width: 15rem;
+    max-width: 85%; 
+    max-height: 450px;
+    color: #4e4a4a;
+    border: 1px solid #9e9e9e;
+    border-radius: 5px;
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+
+.dashbord-item h2 {
+    margin-top: .5rem;
+    font-size: 2rem;
+}
+
+.dashbord-item p {
+    margin-bottom: .5rem;
+}
+
+.filter {
+    font-size: .875rem;
+}
+
+.filter .btn {
+		font-size: .875rem;
+		margin: .5rem auto 1.5rem auto;
+}
+
+input[type="date"] {
+    font-family: 'Varela Round', sans-serif;
+    font-size: 1rem;
+    margin: .5rem;
+    margin-top: .5rem;
+    padding: .5rem .875rem;
+    border: .5px solid #9e9e9e;
+    border-radius: 5px;
+    width: 85%;
+}
+
+.bar { display: none; }
+
+.amount {
+    color: #a50b5e;
+}
+
+.orders {
+    overflow-x: auto;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.orders table {
+    width: 50rem;
+    max-width: 100%;
+    margin: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 0;
+    color: #4e4a4a;
+}
+
+.orders table > caption,
+.meals table > caption {
+    border-bottom: 0;
+    padding: .5rem;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 1.125rem;
+}
+
+
+/*
+ ==================================
+ User menu
+ ==================================
+*/
+
+.user-menu-main section.card {
+    box-shadow: 2px 2px 2px 4px#ccc;
+}
+
+.user-menu-item {
+    min-width: 0;
+    margin: 2rem auto;
+    width: 15rem;
+    max-width: 85%; 
+    max-height: 450px;
+    color: #9e9e9e;
+    border: 1px solid #9e9e9e;
+    border-radius: 5px;
+    padding: 0.5rem;
+}
+
+.user-menu-item:hover,
+.user-menu-item:focus {
+    border: 2px solid #a50b5e;
+		box-shadow: 0 4px 8px 7px rgba(0,0,0,0.14);
+    -webkit-transform: translateY(-8px);
+    -ms-transform: translateY(-8px);
+    transform: translateY(-8px);
+}
+
+.user-menu-item .amount {
+    color: #a50b5e;
+}
+
+.user-menu-item p {
+    margin: 0;
+    margin-top: .5rem;
+    font-size: .875rem;
+    position: relative;
+    text-align: center;
+}
+.user-menu-item p:last-of-type {
+    font-size: 1rem;
+}
+
+li.user {
+    color: #fff;
+    font-family: 'Varela Round', sans-serif;
+}
+
+/*
+ ===================================
+ Order History
+ ===================================
+*/
+
+.order-history .orders {
+    margin-top: 2rem;
+}
+
+/*
+ ====================================
+ Landing Page
+ ====================================
+*/
+
+.image-overlay {
+    width: 100%;
+    background:  linear-gradient(rgba(255,0,0,0.4), rgba(255,0,0,0.4)),
+        url('http://res.cloudinary.com/dikaeinstein/image/upload/c_scale,q_auto:low,w_1077/v1525566660/book-a-meal/close-up-cooking-dinner-46239.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.intro-banner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+}
+
+.intro-banner h1 {
+    font-size: 4.5rem;
+    margin-top: 0;
+}
+
+.intro-banner p {
+    font-size: 2.5rem;
+}
+
+.landing-main a,
+.user-menu-main a {
+    color: #fff;
+}
+
+.landing-main .btn,
+.user-menu-main .btn {
+    margin: 1rem auto;
+}
+
+.intro-banner .btn {
+    border: 0;
+		background: #ffe600;
+		color: #a50b5e
+}
+
+.intro-banner a {
+	color: rgb(250, 28, 28);
+}
+
+
+/*
+ ===================================
+ Order Details
+ ==================================
+*/
+
+.order-details {
+    margin: 2rem auto;
+    width: 30rem;
+    max-width: 75%;
+    padding: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    color: #4e4a4a;
+}
+.order-details .btn {
+		margin-top: 1rem;
+		margin-bottom: 2rem;
+}
+.order-details h2 {
+    color: #a50b5e;
+}
+.meal-details {
+    display: flex;
+    justify-content: space-around;
+    align-items: center
+}
+.order-details p {
+    font-size: 1.5rem;
+    margin: 1.125rem;
+}
+hr {
+   margin: 0 0.75rem;
+}
+#total {
+  font-size: 3rem;
+  align-self: flex-end;
+}
+
+
+/*
+ ===================================
+ Media Queries
+ ===================================
+*/
+
+@media screen and (min-width: 768px) {
+    header {
+        padding: 0 60px;
+    }
+
+    img {
+        height: 550px;
+    }
+
+    #signUp img {
+        height: 770px;
+    }
+
+    #signUP footer {
+        padding-top: 1.75rem;
+        padding-bottom: 0;
+    }
+
+    .add-section form {
+        width: 20rem;
+    }
+
+
+    /*
+     ===================================
+     Grid: flexbox
+     ===================================
+    */
+
+    .flex-container, .container {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+    }
+
+    .col-3-4 {
+        flex: 50%;
+    }
+
+    .col-1-4 {
+        flex: 50%;
+    }
+
+
+    /*
+     ===================================
+     Navigation
+     ===================================
+    */
+
+    .navbar {
+        display: flex;
+        padding: 0 4rem;
+    }
+    
+    .navbar, .nav-container {
+        flex-direction: row;
+    }
+    
+    .nav-container {
+        display: flex;
+        padding: 1.6875rem 0; /* 27px 0 */
+    }
+    
+    .nav-container > li {
+        list-style-type: none;
+        font-size: 1.125rem; /* 18px */
+        margin-left: 1rem;
+        padding: 0;
+    }
+    
+    .nav-container > li:first-of-type {
+        margin-left: auto;
+    }
+    
+    .toggle-show {
+        display: none;
+    }
+    
+    .logo {
+        font-size: 40px;
+    }
+
+    
+    /*
+     ====================================
+     Meals
+     ====================================
+    */
+
+    table {
+        max-width: 100%;
+        margin: 0 auto;
+        margin-top: 1rem;
+    }
+
+    
+    /*
+     ===================================
+     Dashboard
+     ===================================
+    */
+
+    .dashbord,
+    .user-menu,
+    .order-history {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .dashbord-item {
+        margin: 2rem;
+        max-width: 100%; 
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    
+    input[type="date"] {
+        margin-right: .5rem;
+        padding: .5rem .875rem;
+        width: inherit;
+        margin-top: 1.5rem;
+    }
+
+
+    /*
+     ==============================
+     User menu
+     ==============================
+    */
+
+    .user-menu-item {
+        margin-right: 0;
+    }
+
+    .user-menu-item:nth-of-type(2n) {
+        margin-right: auto;
+    }
+
+    .user-menu-item:last-of-type:not(even) {
+        margin-right: auto;
+    }
+
+    .meal-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    hr {
+        margin: 0 1.125rem;
+     }
+}
+
+
+@media screen and (min-width: 1024px) {
+
+    /*
+     ===================================
+     Grid: flexbox
+     ===================================
+    */
+
+    .col-3-4 {
+        flex: 60%;
+    }
+
+    .col-1-4 {
+        flex: 40%;
+    }
+
+    .aside {
+        padding: 0;
+    }
+
+
+    /*
+     ===================================
+     Navigation
+     ===================================
+    */
+
+    .nav-container > li {
+        margin-left: 2rem;
+    }
+
+    /*
+     ====================================
+     User menu
+     ====================================
+    */
+
+    .user-menu-item:nth-of-type(2n) {
+        margin-right: 0;
+    }
+
+    .user-menu-item:nth-of-type(3n) {
+        margin-right: auto;
+    }
+}
+
+
+@media screen and (min-width: 1200px) {
+    /*
+     ===================================
+     Grid: flexbox
+     ===================================
+    */
+
+    .col-3-4 {
+        flex: 60%;
+    }
+
+    .col-1-4 {
+        flex: 40%;
+    }
+
+    .aside {
+        padding: 0.625rem 0;
+    }
+}

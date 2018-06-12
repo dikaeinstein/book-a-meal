@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import {
   Router,
@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import history from './helpers/history';
 
 import Header from './components/Header';
-import Footer from './components/Footer';
 import HomePage from './components/HomePage';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
@@ -18,6 +17,8 @@ import UserMenu from './components/UserMenu';
 import UserOrderHistory from './components/UserOrderHistory';
 import PrivateRoute from './components/PrivateRoute';
 import NotFound from './components/NotFound';
+import Dashboard from './components/Dashboard';
+import Meals from './components/Meals';
 
 
 const Root = ({ store }) => (
@@ -40,9 +41,10 @@ const Root = ({ store }) => (
             path="/user-order-history"
             component={UserOrderHistory}
           />
+          <PrivateRoute path="/caterer-dashboard" component={Dashboard} />
+          <PrivateRoute path="/meals" component={Meals} />
           <Route component={NotFound} />
         </Switch>
-        <Footer />
       </div>
     </Router>
   </Provider>

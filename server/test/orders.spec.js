@@ -34,8 +34,8 @@ describe('Orders', () => {
   before(async () => {
     const res = await chai.request(app).post(signUpUrl)
       .send(user);
-		token = res.body.token;
-		userId = res.body.user.id;
+    token = res.body.token;
+    userId = res.body.user.id;
   });
 
   // Test Get all orders

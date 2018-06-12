@@ -10,7 +10,7 @@ const devMode = process.env.NODE_ENV;
 module.exports = {
   entry: './client/src/index.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist/client'),
     filename: '[name].bundle.js',
     publicPath: '/',
   },
@@ -33,10 +33,11 @@ module.exports = {
         ],
       },
       {
-        test: /\.css$/,
+        test: /\.(s*)css$/,
+        exclude: ['node_modules', 'dist'],
         use: [
           devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
+          'css-loader', 'sass-loader',
         ],
       },
     ],

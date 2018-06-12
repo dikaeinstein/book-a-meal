@@ -5,20 +5,26 @@ import initialState from './reducers/initialState';
 import Root from './routes';
 
 import authenticateToken from './helpers/authentcateToken';
+import history from './helpers/history';
 import { getUser } from './helpers/persistUser';
-import { autoNavigate, userSignInSuccess } from './actions/userActions';
-import './index.css';
+import { autoNavigate, userSignInSuccess, userSignInError } from './actions/userActions';
+import './static/index.scss';
 
 const store = configureStore(initialState);
 
 const user = getUser();
 
 if (user) {
-  const { token } = user;
-  const authenticated = authenticateToken(token);
-  if (authenticated) {
-    store.dispatch(userSignInSuccess(user));
-    autoNavigate(user, window.location);
+  try {
+    const { token } = user;
+    const authenticated = authenticateToken(token);
+    if (authenticated) {
+      store.dispatch(userSignInSuccess(user));
+      autoNavigate(user, window.location);
+    }
+  } catch (error) {
+    store.dispatch(userSignInError(error));
+    history.push('/signin');
   }
 }
 

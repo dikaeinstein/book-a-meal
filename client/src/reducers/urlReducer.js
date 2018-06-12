@@ -1,6 +1,7 @@
 import {
   USER_SIGN_IN_SUCCESS,
   USER_SIGN_OUT,
+  USER_SIGN_IN_ERROR,
 } from '../constants/actionTypes';
 import initialState from '../reducers/initialState';
 
@@ -58,8 +59,10 @@ const adminUrls = [
 const urlReducer = (state = initialState.urls, action) => {
   switch (action.type) {
     case USER_SIGN_IN_SUCCESS:
-      return initialState.user.data.role === 'caterer' ?
+      return action.payload.user.role === 'caterer' ?
         adminUrls : customerUrls;
+    case USER_SIGN_IN_ERROR:
+      return initialState.urls;
     case USER_SIGN_OUT:
       return initialState.urls;
     default:

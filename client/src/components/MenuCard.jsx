@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SyncLoader } from 'react-spinners';
+import { Preloader } from 'react-materialize';
 import { fetchMenu } from '../actions/menuActions';
 import MealList from './MealList';
+import Loading from './util/Loading';
 
 class ConnectedMenuCard extends Component {
   componentDidMount() {
@@ -15,10 +16,9 @@ class ConnectedMenuCard extends Component {
     if (isFetching) {
       return (
         <div className="loader-container">
-          <SyncLoader
-            loading={isFetching}
-            color="#575454"
-          />
+          <Loading text="Loading...">
+            <Preloader flashing size="big" />
+          </Loading>
         </div>
       );
     }

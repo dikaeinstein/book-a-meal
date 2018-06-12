@@ -1,6 +1,5 @@
 import axios from 'axios';
 import config from '../config';
-import axiosErrorWrapper from './axiosErrorWrapper';
 
 /* eslint consistent-return: 0 */
 const authenticateToken = async (token) => {
@@ -14,7 +13,7 @@ const authenticateToken = async (token) => {
       return true;
     }
   } catch (error) {
-    axiosErrorWrapper(error);
+    throw error;
   }
 };
 

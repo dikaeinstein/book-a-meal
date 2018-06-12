@@ -10,7 +10,7 @@ const ConnectedMealList = ({ meals, link }) => {
         <div>
           <img
             src={meal.imageUrl}
-            alt="Eba with efo riro and cow head"
+            alt={meal.name}
           />
           <p className="amount">
             {meal.name}
