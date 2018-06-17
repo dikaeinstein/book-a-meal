@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import IntroBanner from './IntroBanner';
 import MenuCard from '../MenuCard';
 import errorHandler from '../util/errorHandler';
-import Footer from '../Footer';
+import Footer from '../util/Footer';
 
 const ConnectedHomePage = ({ error }) => {
   const MenuCardWithErrorHandling =

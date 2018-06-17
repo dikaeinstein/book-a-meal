@@ -60,6 +60,9 @@ const mapDispatchToProps = dispatch => ({
   fetchMeals: () => dispatch(fetchMeals()),
 });
 
-const CatererMeals = connect(mapStateToProps, mapDispatchToProps)(ConnectedCatererMeals);
+const CatererMeals = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConnectedCatererMeals);
 
 export default CatererMeals;

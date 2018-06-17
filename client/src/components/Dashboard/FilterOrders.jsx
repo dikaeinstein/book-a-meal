@@ -7,7 +7,7 @@ const FilterOrders = () => (
     <span className="bar">&ThinSpace;|&ThinSpace;</span>
     To: <input type="date" />
     <Button
-      className="btn btn-default font-weight-bold"
+      className="btn btn-default"
       value="Filter Orders"
     />
   </div>

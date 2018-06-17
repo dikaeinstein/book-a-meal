@@ -23,7 +23,7 @@ exports[`<Navigation /> should match snapshot 1`] = `
           "entries": Array [
             Object {
               "hash": "",
-              "key": "fl2w0i",
+              "key": "mrvk0r",
               "pathname": "/",
               "search": "",
               "state": undefined,
@@ -37,7 +37,7 @@ exports[`<Navigation /> should match snapshot 1`] = `
           "listen": [Function],
           "location": Object {
             "hash": "",
-            "key": "fl2w0i",
+            "key": "mrvk0r",
             "pathname": "/",
             "search": "",
             "state": undefined,

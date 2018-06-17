@@ -1,6 +1,6 @@
 import React from 'react';
 import OrderHistory from './DashboardOrderHistory';
-import Footer from '../Footer';
+import Footer from '../util/Footer';
 import FilterOrders from './FilterOrders';
 import TotalOrders from './TotalOrders';
 import TotalSales from './TotalSales';

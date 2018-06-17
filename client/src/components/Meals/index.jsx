@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import CatererMeals from './CatererMeals';
 import AddMeal from './AddMeal';
 import UpdateMeal from './UpdateMeal';
-import Footer from '../Footer';
+import Footer from '../util/Footer';
 import Button from '../util/Button';
 
 Modal.setAppElement('#root');
@@ -41,7 +41,7 @@ class Meals extends Component {
   }
 
   render() {
-    const style = {
+    const modalStyle = {
       overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.25)',
       },
@@ -62,7 +62,7 @@ class Meals extends Component {
           <Modal
             isOpen={this.state.isOpen}
             contentLabel="Meal"
-            style={style}
+            style={modalStyle}
           >
             <Button
               value="&times;"

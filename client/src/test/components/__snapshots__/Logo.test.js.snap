@@ -12,7 +12,7 @@ exports[`<Logo /> should match snapshot 1`] = `
         "entries": Array [
           Object {
             "hash": "",
-            "key": "oidat6",
+            "key": "f729l0",
             "pathname": "/",
             "search": "",
             "state": undefined,
@@ -26,7 +26,7 @@ exports[`<Logo /> should match snapshot 1`] = `
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "oidat6",
+          "key": "f729l0",
           "pathname": "/",
           "search": "",
           "state": undefined,
