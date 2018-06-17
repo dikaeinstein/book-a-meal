@@ -10,8 +10,8 @@ const ConnectedNavigation = ({ urls, signout }) => {
   const handleSignout = (event) => {
     event.preventDefault();
     signout();
-    history.push('/');
     removeUser();
+    history.push('/');
   };
   const urlList = urls.map(url => (
     url.link === 'signout'

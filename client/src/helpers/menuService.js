@@ -8,7 +8,7 @@ const menuService = {
       const response = await axios.get(url);
       return response.data.menu;
     } catch (error) {
-      axiosErrorWrapper(error);
+      throw axiosErrorWrapper(error);
     }
   },
 };

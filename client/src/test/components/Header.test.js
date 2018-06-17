@@ -3,11 +3,11 @@ import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import Navigation from '../../components/Navigation';
+import Navigation from '../../components/Header/Navigation';
 import configureStore from '../../store/configureStore';
 import initialState from '../../reducers/initialState';
 import Header from '../../components/Header';
-import Logo from '../../components/Logo';
+import Logo from '../../components/Header/Logo';
 import setup from '../setup';
 
 // Setup tests
@@ -35,5 +35,14 @@ describe('<Header />', () => {
   });
   it('should render a Navigation component', () => {
     expect(wrapper.find(Navigation).length).toEqual(1);
+  });
+  it('shold match snapshot', () => {
+    const tree = mount(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Header className="test" />
+        </MemoryRouter>
+      </Provider>);
+    expect(toJson(tree)).toMatchSnapshot();
   });
 });

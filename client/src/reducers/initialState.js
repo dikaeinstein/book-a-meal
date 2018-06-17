@@ -36,9 +36,14 @@ const initialState = {
   },
   meals: {
     isFetching: false,
+    isUpdating: false,
     isSaving: false,
+    isDeleting: false,
     data: [],
-    error: null,
+    fetchError: null,
+    saveError: null,
+    deleteError: null,
+    updateError: null,
   },
 };
 

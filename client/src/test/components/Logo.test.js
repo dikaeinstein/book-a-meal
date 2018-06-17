@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { NavLink, MemoryRouter } from 'react-router-dom';
-import Logo from '../../components/Logo';
+import Logo from '../../components/Header/Logo';
 import configureStore from '../../store/configureStore';
 import initialState from '../../reducers/initialState';
 import setup from '../setup';

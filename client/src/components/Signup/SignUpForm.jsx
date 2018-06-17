@@ -113,6 +113,9 @@ const SignUpForm = (props) => {
           <ProgressBar />
         </Loading>
         : null}
+      {!isSubmitting && errors.signUp ?
+        <div className="error">{errors.signIn}</div>
+        : null}
     </Form>
   );
 };

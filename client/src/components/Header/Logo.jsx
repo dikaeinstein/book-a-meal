@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { removeUser } from '../../helpers/persistUser';
 import { userSignOut } from '../../actions/userActions';
 
 const ConnectedLogo = ({ text, className, goHome }) => {
   const handleClick = () => {
     goHome();
+    removeUser();
   };
   return (
     <NavLink

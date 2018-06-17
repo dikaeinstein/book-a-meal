@@ -8,6 +8,7 @@ import {
 }
   from '../constants/actionTypes';
 import userService from '../helpers/userService';
+import transformError from '../helpers/transformError';
 
 export const userSignInSuccess = user => ({
   type: USER_SIGN_IN_SUCCESS,
@@ -32,7 +33,7 @@ export const autoNavigate = (user, location) => {
 export const userSignOut = () => ({ type: USER_SIGN_OUT });
 
 export const userSignIn = (values, actions, location) => async (dispatch) => {
-  const { setSubmitting } = actions;
+  const { setSubmitting, setErrors } = actions;
   try {
     dispatch({ type: USER_SIGN_IN_REQUEST });
     setSubmitting(true);
@@ -43,12 +44,18 @@ export const userSignIn = (values, actions, location) => async (dispatch) => {
     autoNavigate(user, location);
   } catch (error) {
     setSubmitting(false);
+    setErrors({
+      signIn: transformError(
+        error,
+        'Error signing in, Please try again',
+      ),
+    });
     dispatch(userSignInError(error));
   }
 };
 
-export const userSignUp = (values, actions, location) => async (dispatch) => {
-  const { setSubmitting } = actions;
+export const userSignUp = (values, actions) => async (dispatch) => {
+  const { setSubmitting, setErrors } = actions;
   try {
     dispatch({ type: USER_SIGN_IN_REQUEST });
     setSubmitting(true);
@@ -56,9 +63,15 @@ export const userSignUp = (values, actions, location) => async (dispatch) => {
       .signIn(`${config.API_BASE_URL}/api/v1/auth/signup`, values);
     setSubmitting(false);
     dispatch(userSignInSuccess(user));
-    autoNavigate(user, location);
+    autoNavigate(user);
   } catch (error) {
     setSubmitting(false);
+    setErrors({
+      signUp: transformError(
+        error,
+        'Error signing up, Please try again',
+      ),
+    });
     dispatch(userSignInError(error));
   }
 };

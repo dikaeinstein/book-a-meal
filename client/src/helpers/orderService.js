@@ -1,6 +1,6 @@
 import axios from 'axios';
 import axiosErrorWrapper from './axiosErrorWrapper';
-import setAuthorization from './setAuthorization';
+import setAuthorization from './setAuthorizationToken';
 
 const orderService = {
   getUserOrderHistory: async (url) => {
@@ -10,7 +10,7 @@ const orderService = {
       const response = await axios.get(url, { headers });
       return response.data.orders;
     } catch (error) {
-      axiosErrorWrapper(error);
+      throw axiosErrorWrapper(error);
     }
   },
 };

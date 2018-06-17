@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Meal from './Meal';
 
-const ConnectedCatererMealList = ({ meals }) => {
+const ConnectedCatererMealList = ({ meals, handleMealUpdate }) => {
   const mealList = meals.map(meal => (
-    <Meal meal={meal} />
+    <Meal key={meal.id} meal={meal} handleMealUpdate={handleMealUpdate} />
   ));
 
   return (
@@ -17,6 +17,7 @@ const ConnectedCatererMealList = ({ meals }) => {
 
 ConnectedCatererMealList.propType = {
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleMealUpdate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

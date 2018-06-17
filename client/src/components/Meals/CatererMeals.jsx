@@ -12,7 +12,7 @@ class ConnectedCatererMeals extends Component {
   }
 
   render() {
-    const { isFetching, error } = this.props;
+    const { isFetching, error, handleMealUpdate } = this.props;
     if (isFetching) {
       return (
         <div className="loader-container">
@@ -34,7 +34,7 @@ class ConnectedCatererMeals extends Component {
         <h1 className="text-center text-dark">
           Meals
         </h1>
-        <CatererMealList />
+        <CatererMealList handleMealUpdate={handleMealUpdate} />
       </section>
     );
   }
@@ -48,11 +48,12 @@ ConnectedCatererMeals.propTypes = {
     PropTypes.objectOf(PropTypes.string),
   ]),
   fetchMeals: PropTypes.func.isRequired,
+  handleMealUpdate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   isFetching: state.meals.isFetching,
-  error: state.meals.error,
+  error: state.meals.fetchError,
 });
 
 const mapDispatchToProps = dispatch => ({

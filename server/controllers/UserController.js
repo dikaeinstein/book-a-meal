@@ -173,8 +173,7 @@ class UserController {
    */
   static async authenticateUser(req, res) {
     const userId = req.params.userId || req.userId;
-
-    return userId ? res.status(204) : res.status(404);
+    return userId ? res.sendStatus(204) : res.sendStatus(404);
   }
 }
 

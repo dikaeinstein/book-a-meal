@@ -12,7 +12,7 @@ const userService = {
       setUser(user);
       return response.data.user;
     } catch (error) {
-      axiosErrorWrapper(error);
+      throw axiosErrorWrapper(error);
     }
   },
   signUp: async (url, data) => {
@@ -23,7 +23,7 @@ const userService = {
       setUser(user);
       return response.data.user;
     } catch (error) {
-      axiosErrorWrapper(error);
+      throw axiosErrorWrapper(error);
     }
   },
   signout: () => {

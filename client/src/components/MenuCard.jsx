@@ -12,7 +12,7 @@ class ConnectedMenuCard extends Component {
   }
 
   render() {
-    const { isFetching, error, link } = this.props;
+    const { isFetching, link } = this.props;
     if (isFetching) {
       return (
         <div className="loader-container">
@@ -22,13 +22,7 @@ class ConnectedMenuCard extends Component {
         </div>
       );
     }
-    if (error) {
-      return (
-        <h1 className="error-container text-center">
-          {error} ):
-        </h1>
-      );
-    }
+
     return (
       <section className="bg-light landing-main" id="menu">
         <h2 className="text-center amount">
@@ -42,11 +36,6 @@ class ConnectedMenuCard extends Component {
 
 ConnectedMenuCard.propTypes = {
   isFetching: PropTypes.bool.isRequired,
-  /* eslint react/require-default-props: 0 */
-  error: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.objectOf(PropTypes.string),
-  ]),
   fetchMenu: PropTypes.func.isRequired,
   link: PropTypes.string.isRequired,
 };

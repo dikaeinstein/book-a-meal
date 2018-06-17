@@ -8,7 +8,7 @@ exports[`<SideImage /> should match snapshot 1`] = `
   <div>
     <img
       alt="meal"
-      src="http://res.cloudinary.com/dikaeinstein/image/upload/c_scale,q_auto:eco,w_1029/v1525566673/book-a-meal/avocado-cooked-delicious-262959.jpg"
+      src="http://res.cloudinary.com/dikaeinstein/image/upload/c_scale,q_auto:low,w_1077/v1525566660/book-a-meal/close-up-cooking-dinner-46239.jpg"
     />
   </div>
 </section>

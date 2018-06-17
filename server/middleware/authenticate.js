@@ -21,7 +21,6 @@ const authenticate = (req, res, next) => {
   const token = req.get('Authorization') ?
     req.get('Authorization').slice(7) : req.body.token;
   const error = {};
-
   if (!token) {
     error.token = 'No token provided';
     return res.status(401).json({

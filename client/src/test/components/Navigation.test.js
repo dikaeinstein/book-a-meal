@@ -1,9 +1,9 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { Provider } from 'react-redux';
 import { MemoryRouter, NavLink } from 'react-router-dom';
-import Navigation from '../../components/Navigation';
+import Navigation from '../../components/Header/Navigation';
 import configureStore from '../../store/configureStore';
 import initialState from '../../reducers/initialState';
 import setup from '../setup';

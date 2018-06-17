@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import IntroBanner from '../../components/IntroBanner';
+import IntroBanner from '../../components/HomePage/IntroBanner';
 import setup from '../setup';
 
 // Setup tests

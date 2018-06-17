@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Form, Field } from 'formik';
 import { ProgressBar } from 'react-materialize';
 import Label from '../util/Label';
@@ -68,6 +67,10 @@ const SignInForm = (props) => {
           <ProgressBar />
         </Loading>
         : null}
+      {!isSubmitting && errors.signIn ?
+        <div className="error">{errors.signIn}</div>
+        : null
+      }
       <p className="form-footer text-right">
         Don&apos;t have an account?
         {' '}

@@ -6,7 +6,7 @@ import Navigation from './Navigation';
 const Header = ({ className }) => (
   <header className={className}>
     <Logo
-      text="Book-A-meal"
+      text="Book-A-Meal"
       className="col-1-4 logo text-left"
     />
     <div className="toggle-show">&#9776;</div>

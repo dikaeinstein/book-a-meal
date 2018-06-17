@@ -11,7 +11,6 @@ const allConfig = {
     API_BASE_URL: `http://localhost:${PORT}`,
   },
 };
-
 const config = allConfig[process.env.NODE_ENV];
 
 export default config;

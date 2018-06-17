@@ -7,7 +7,7 @@ import mealSchema from '../../validation/mealSchema';
 import { addMeal } from '../../actions/mealActions';
 
 
-const ConnectedAddMeal = ({ saveMeal }) => {
+const ConnectedAddMeal = ({ saveMeal, closeModal }) => {
   const handleSubmit = (values, actions) => {
     saveMeal(values, actions);
   };
@@ -31,6 +31,7 @@ const ConnectedAddMeal = ({ saveMeal }) => {
 
 ConnectedAddMeal.propTypes = {
   saveMeal: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({

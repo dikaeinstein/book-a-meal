@@ -8,7 +8,7 @@ import Button from '../util/Button';
 import Loading from '../util/Loading';
 import cloudinaryImageUpload from '../../helpers/cloudinaryImageUpload';
 
-class ConnectedAddMealForm extends Component {
+class ConnectedUpdateMealForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,7 +46,7 @@ class ConnectedAddMealForm extends Component {
     const {
       errors,
       touched,
-      isSaving,
+      isUpdating,
     } = this.props;
 
     return (
@@ -157,19 +157,19 @@ class ConnectedAddMealForm extends Component {
           />
         </div>
         <Button
-          value="Add meal"
+          value="update meal"
           type="submit"
           className="btn btn-default font-weight-bold"
-          disabled={isSaving}
+          disabled={isUpdating}
         />
-        {isSaving ?
+        {isUpdating ?
           <Loading text="Saving Meal . . .">
             <ProgressBar />
           </Loading>
           : null}
-        {!isSaving && errors.addMeal ?
+        {!isUpdating && errors.updateMeal ?
           <div className="error text-center">
-            <small>{errors.addMeal}</small>
+            {errors.updateMeal}
           </div>
           : null}
       </Form>
@@ -177,18 +177,18 @@ class ConnectedAddMealForm extends Component {
   }
 }
 
-ConnectedAddMealForm.propTypes = {
+ConnectedUpdateMealForm.propTypes = {
   errors: PropTypes.objectOf(PropTypes.string).isRequired,
   touched: PropTypes.objectOf(PropTypes.bool).isRequired,
-  isSaving: PropTypes.bool.isRequired,
+  isUpdating: PropTypes.bool.isRequired,
   /* eslint react/forbid-prop-types: 0 */
   values: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isSaving: state.meals.isSaving,
+  isUpdating: state.meals.isUpdating,
 });
 
-const AddMealForm = connect(mapStateToProps)(ConnectedAddMealForm);
+const updateMealForm = connect(mapStateToProps)(ConnectedUpdateMealForm);
 
-export default AddMealForm;
+export default updateMealForm;
