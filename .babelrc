@@ -1,10 +1,14 @@
 {
     "presets": [
+				"react",
         ["env", {
             "targets": {
               "node": "current"
-            }
+						},
+						"test": {
+							"presets": ["env", { "modules": "commonjs" }]
+						}
         }]
 		],
-		"plugins": ["transform-object-rest-spread"]
+		"plugins": ["transform-object-rest-spread", "react-hot-loader/babel", "emotion"]
 }

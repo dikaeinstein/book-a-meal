@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Logo /> should match snapshot 1`] = `
+<MemoryRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "f729l0",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "f729l0",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Connect(ConnectedLogo)
+      className="col-1-4 logo text-left"
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+      text="Book-A-Meal"
+    >
+      <ConnectedLogo
+        className="col-1-4 logo text-left"
+        goHome={[Function]}
+        store={
+          Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(observable): [Function],
+          }
+        }
+        text="Book-A-Meal"
+      >
+        <NavLink
+          activeClassName="active"
+          ariaCurrent="true"
+          onClick={[Function]}
+          to="/"
+        >
+          <Route
+            path="/"
+          >
+            <Link
+              aria-current="true"
+              className="active"
+              onClick={[Function]}
+              replace={false}
+              style={Object {}}
+              to="/"
+            >
+              <a
+                aria-current="true"
+                className="active"
+                href="/"
+                onClick={[Function]}
+                style={Object {}}
+              >
+                <h1
+                  className="col-1-4 logo text-left"
+                >
+                  Book-A-Meal
+                </h1>
+              </a>
+            </Link>
+          </Route>
+        </NavLink>
+      </ConnectedLogo>
+    </Connect(ConnectedLogo)>
+  </Router>
+</MemoryRouter>
+`;

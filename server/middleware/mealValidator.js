@@ -36,15 +36,15 @@ export const validateAddMeal = (req, res, next) => {
     error.price = 'Meal price is required';
   }
 
-  if (price && (validator.isEmpty(price.trim()) || !validator.isNumeric(price.trim()))) {
+  if (price && (validator.isEmpty(String(price).trim()) || !validator.isNumeric(String(price).trim()))) {
     error.price = 'Meal price must be numbers';
   }
 
-  if (price && /^[-+][0-9]*\.?/.test(price.trim())) {
+  if (price && /^[-+][0-9]*\.?/.test(String(price).trim())) {
     error.price = 'Meal price cannot be less than zero';
   }
 
-  if (price && /^[0-9]*\.[0-9]+$/.test(price.trim())) {
+  if (price && /^[0-9]*\.[0-9]+$/.test(String(price).trim())) {
     error.price = 'Meal price must be whole numbers';
   }
 
@@ -54,10 +54,6 @@ export const validateAddMeal = (req, res, next) => {
 
   if (description && validator.isEmpty(description.trim())) {
     error.description = 'Meal description is required';
-  }
-
-  if (description && /\d/.test(description.trim())) {
-    error.name = 'Please enter a valid meal description';
   }
 
   if (description && !/(?:[a-zA-Z]+(?: [a-zA-Z]+)*){3,}/.test(description.trim())) {
@@ -138,10 +134,6 @@ export const validateUpdateMeal = (req, res, next) => {
     error.description = 'Meal description is required';
   }
 
-  if (description && /\d/.test(description.trim())) {
-    error.name = 'Please enter a valid meal description';
-  }
-
   if (description && !/(?:[a-zA-Z]+(?: [a-zA-Z]+)*){3,}/.test(description.trim())) {
     error.description = 'Please enter a valid meal description';
   }
@@ -162,19 +154,19 @@ export const validateUpdateMeal = (req, res, next) => {
     validatedMeal.imageUrl = imageUrl;
   }
 
-  if (price && validator.isEmpty(price.trim())) {
+  if (price && validator.isEmpty(String(price).trim())) {
     error.price = 'Meal price is required';
   }
 
-  if (price && !validator.isNumeric(price.trim())) {
+  if (price && !validator.isNumeric(String(price).trim())) {
     error.price = 'Meal price must be a number';
   }
 
-  if (price && /^[-+][0-9]*\.?/.test(price.trim())) {
+  if (price && /^[-+][0-9]*\.?/.test(String(price).trim())) {
     error.price = 'Meal price cannot be less than zero';
   }
 
-  if (price && /^[0-9]*\.[0-9]+$/.test(price.trim())) {
+  if (price && /^[0-9]*\.[0-9]+$/.test(String(price).trim())) {
     error.price = 'Meal price must be whole numbers';
   }
 

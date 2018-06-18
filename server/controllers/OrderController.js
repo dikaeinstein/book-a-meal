@@ -27,7 +27,18 @@ class OrderController {
   */
   static async getAllOrders(req, res) {
     const error = {};
-    const orders = await Order.findAll();
+    const orders = await Order.findAll({
+      include: [{
+        model: Meal,
+        as: 'meal',
+        attributes: ['name', 'price'],
+      }, {
+        model: User,
+        as: 'user',
+        attributes: ['name'],
+      }],
+    });
+
     if (orders.length === 0) {
       error.message = 'No order have been placed';
       return res.status(404).json({
@@ -61,6 +72,15 @@ class OrderController {
     const error = {};
     // Filter orders by date
     const matchedOrders = await Order.findAll({
+      include: [{
+        model: Meal,
+        as: 'meal',
+        attributes: ['name', 'price'],
+      }, {
+        model: User,
+        as: 'user',
+        attributes: ['name'],
+      }],
       where: { created_at: date },
     });
 
@@ -97,11 +117,20 @@ class OrderController {
     const error = {};
     // Filter by orders userId
     const matchedOrders = await Order.findAll({
-      where: { id: userId },
+      include: [{
+        model: Meal,
+        as: 'meal',
+        attributes: ['name', 'price'],
+      }, {
+        model: User,
+        as: 'user',
+        attributes: ['name'],
+      }],
+      where: { user_id: userId },
     });
 
     if (matchedOrders.length === 0) {
-      error.order = 'User have no placed an order';
+      error.order = 'User have not placed an order';
       return res.status(404).json({
         status: 'error',
         message: error.order,
