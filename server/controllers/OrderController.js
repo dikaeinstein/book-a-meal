@@ -311,7 +311,7 @@ class OrderController {
         });
       }
       // Merge changes
-      const updatedOrder = await matchedOrder.update(req.body.validatedOrder);
+      const updatedOrder = await matchedOrder.update(req.body);
 
       return res.status(200).json({
         message: 'Successfully updated order',

@@ -1,150 +1,104 @@
-import isEmpty from 'lodash.isempty';
-import validator from 'validator';
+import { body } from 'express-validator/check';
+
+
+/**
+ * Validate menu name
+ *
+ * @param {Object} options - Options object with key optional
+ *
+ * @returns {ValidationChain}
+ */
+const menuNameValidator = ({ optional = false } = {}) => {
+  /* eslint newline-per-chained-call: 0 */
+  if (optional) {
+    return body('name')
+      .optional().trim()
+      .not().isEmpty().withMessage('Menu name is required')
+      .isLength({ min: 3 })
+      .withMessage('Please enter a valid menu name or menu name is short')
+      .not().isNumeric()
+      .withMessage('Please enter a valid menu name or menu name is short');
+  }
+  return body('name')
+    .trim()
+    .exists().withMessage('Menu name is required')
+    .not().isEmpty().withMessage('Menu name is required')
+    .isLength({ min: 3 })
+    .withMessage('Please enter a valid menu name or menu name is short')
+    .not().isNumeric()
+    .withMessage('Please enter a valid menu name or menu name is short');
+};
+
+
+/**
+ * Validate menu mealIds
+ *
+ * @param {Object} options - Options object with key optional
+ *
+ * @returns {ValidationChain}
+ */
+const mealIdsValidator = ({ optional = false } = {}) => {
+  if (optional) {
+    return body('mealIds')
+      .optional()
+      .isArray().withMessage('Menu must have at least one meal')
+      .custom((mealIds) => {
+        if (mealIds.length <= 0) {
+          throw new Error('Menu must have at least one meal');
+        }
+        return true;
+      })
+      .custom((mealIds) => {
+        const invalidMealIds =
+          mealIds.filter(mealId => (
+            !Number.isInteger(mealId)
+            || mealId > Number.MAX_SAFE_INTEGER));
+
+        if (invalidMealIds.length > 0) {
+          throw new Error('mealIds can only be integer values');
+        }
+        return true;
+      });
+  }
+  return body('mealIds')
+    .exists().withMessage('Menu must have at least one meal')
+    .isArray().withMessage('Menu must have at least one meal')
+    .custom((mealIds) => {
+      if (mealIds.length <= 0) {
+        throw new Error('Menu must have at least one meal');
+      }
+      return true;
+    })
+    .custom((mealIds) => {
+      const invalidMealIds =
+        mealIds.filter(mealId => (
+          !Number.isInteger(mealId)
+          || mealId > Number.MAX_SAFE_INTEGER));
+
+      if (invalidMealIds.length > 0) {
+        throw new Error('mealIds can only be integer values');
+      }
+      return true;
+    });
+};
+
 
 /**
  * @description - Validates input when setting up a menu
  *
- * @param {object} req - HTTP Request
- * @param {object} res - HTTP Response
- * @param {function} next - Callback function
- *
- * @returns {object}
+ * @returns {Array} - Array of validation middlewares
  */
-export const validateSetupMenu = (req, res, next) => {
-  const { name, mealIds } = req.body;
-  const error = {};
-  let validMealIds;
-  let inValidMealIds;
+export const validateSetupMenu = () => ([
+  menuNameValidator(), mealIdsValidator(),
+]);
 
-  if (!name) {
-    error.name = 'Menu name is required';
-  }
-
-  if (name && validator.isEmpty(name.trim())) {
-    error.name = 'Menu name is required';
-  }
-
-  if (name && /\d/.test(name.trim())) {
-    error.name = 'Please enter a valid menu name';
-  }
-
-  if (name && !(/(?:[a-zA-Z]+(?: [a-zA-Z]+)*){3,}/.test(name.trim()))) {
-    error.name = 'Please enter a valid menu name';
-  }
-
-  if (!mealIds) {
-    error.mealIds = 'Menu must have at least one meal';
-  }
-
-  if (mealIds && (!Array.isArray(mealIds) || (mealIds.length <= 0))) {
-    error.mealIds = 'Menu must have at least one meal';
-  }
-
-  if (mealIds && Array.isArray(mealIds)) {
-    inValidMealIds = mealIds.filter(mealId => (
-      !(validator.isNumeric(String(mealId))) || !(mealId < Number.MAX_SAFE_INTEGER)
-    ));
-    if (inValidMealIds.length > 0) {
-      error.mealIds = 'mealIds can only be integer values';
-    }
-  }
-
-  if (mealIds && Array.isArray(mealIds)) {
-    validMealIds = mealIds.filter(mealId => (
-      validator.isNumeric(String(mealId)) && mealId < Number.MAX_SAFE_INTEGER
-    ));
-  }
-
-  if (isEmpty(error)) {
-    req.body.mealIds = validMealIds;
-    return next();
-  }
-  return res.status(400).json({ error });
-};
 
 /**
  * @description - Validates input when updating up a menu
  *
- * @param {object} req - HTTP Request
- * @param {object} res - HTTP Response
- * @param {function} next - Callback function
- *
- * @returns {object}
+ * @returns {Array} - Array of validation middlewares
  */
-export const validateUpateMenu = (req, res, next) => {
-  const { menuId } = req.params;
-  const { name, mealIds } = req.body;
-  const validatedMenu = {};
-  const error = {};
-  let validMealIds;
-  let inValidMealIds;
-
-  if (menuId && (validator.isEmpty(menuId.trim()) || !validator.isNumeric(menuId))) {
-    error.menuId = 'Menu id must be a number';
-  }
-
-  if (menuId && /^[-+][0-9]*\.?/.test(menuId.trim())) {
-    error.menuId = 'Menu id cannot be less than zero';
-  }
-
-  if (menuId && /^[0-9]*\.[0-9]+$/.test(menuId.trim())) {
-    error.menuId = 'Menu id must be whole numbers';
-  }
-
-  if (menuId && (menuId > Number.MAX_SAFE_INTEGER)) {
-    error.menuId = 'Menu id is not a valid integer';
-  }
-
-  if (name && validator.isEmpty(name.trim())) {
-    error.name = 'Meal name is required';
-  }
-
-  if (name && /\d/.test(name.trim())) {
-    error.name = 'Please enter a valid meal name';
-  }
-
-  if (name && !(/(?:[a-zA-Z]+(?: [a-zA-Z]+)*){3,}/.test(name.trim()))) {
-    error.name = 'Please enter a valid meal name';
-  }
-
-  if (name) {
-    validatedMenu.name = name;
-  }
-
-  if (!mealIds) {
-    error.mealIds = 'Menu must have at least one meal';
-  }
-
-  if (mealIds && (!Array.isArray(mealIds) || (mealIds.length <= 0))) {
-    error.mealIds = 'Menu must have at least one meal';
-  }
-
-  if (mealIds && Array.isArray(mealIds)) {
-    inValidMealIds = mealIds.filter(mealId => (
-      !(validator.isNumeric(String(mealId))) || !(mealId < Number.MAX_SAFE_INTEGER)
-    ));
-    if (inValidMealIds.length > 0) {
-      error.mealIds = 'mealIds can only be integer values';
-    }
-  }
-
-  if (mealIds && Array.isArray(mealIds)) {
-    validMealIds = mealIds.filter(mealId => (
-      validator.isNumeric(String(mealId)) && mealId < Number.MAX_SAFE_INTEGER
-    ));
-  }
-
-  if (mealIds) {
-    validatedMenu.mealIds = validMealIds;
-  }
-
-  if (isEmpty(error)) {
-    req.body.validatedMenu = validatedMenu;
-    return next();
-  }
-
-  return res.status(400).json({
-    status: 'error',
-    error,
-  });
-};
+export const validateUpateMenu = () => ([
+  menuNameValidator({ optional: true }),
+  mealIdsValidator({ optional: true }),
+]);

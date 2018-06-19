@@ -93,7 +93,7 @@ describe('Meals', () => {
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.error.mealId).to
-        .include('Meal id must be whole numbers');
+        .include('Meal id must be a whole number');
     });
     it('should not get meal for meal id that is greater than max integer value', async () => {
       const res = await chai.request(app).get(`${mealUrl}/999007199254740991`)
@@ -185,6 +185,20 @@ describe('Meals', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.error.description)
         .to.include('Meal description is required');
+    });
+    it('should not add meal with description less than 3 characters', async () => {
+      const res = await chai.request(app).post(mealUrl)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          name: 'Meal with empty description',
+          description: 'ab',
+          imageUrl: 'https://mydummyimgurl.com',
+          price: '2000',
+        });
+      expect(res).to.have.status(400);
+      expect(res.body.error).to.be.an('object');
+      expect(res.body.error.description).to
+        .include('Meal description cannot be less than 3 characters');
     });
     it('should add meal without image url', async () => {
       const res = await chai.request(app).post(mealUrl)
@@ -315,18 +329,6 @@ describe('Meals', () => {
       expect(res.body.error.name).to
         .include('name must be unique');
     });
-    it('should not update meal without price that is a whole number', async () => {
-      const res = await chai.request(app).put(`${mealUrl}/1`)
-        .set('Authorization', `Bearer ${adminToken}`)
-        .send({
-          price: '250.999',
-        });
-      expect(res.status).to.equal(400);
-      expect(res.body).to.be.an('object');
-      expect(res.body.status).to.equal('error');
-      expect(res.body.error.price).to
-        .include('Meal price must be whole numbers');
-    });
     it('should not update meal with price that is less than zero', async () => {
       const res = await chai.request(app).put(`${mealUrl}/1`)
         .set('Authorization', `Bearer ${adminToken}`)
@@ -338,6 +340,20 @@ describe('Meals', () => {
       expect(res.body.status).to.equal('error');
       expect(res.body.error.price).to
         .include('Meal price cannot be less than zero');
+    });
+    it('should not update meal with empty image url', async () => {
+      const res = await chai.request(app).put(`${mealUrl}/1`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          name: 'Meal with empty image url',
+          description: 'I am the description for the meal without image url',
+          imageUrl: '',
+          price: '3000',
+        });
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.imageUrl)
+        .to.include('Meal image url is required');
     });
     it('should not update meal with invalid image url', async () => {
       const res = await chai.request(app).put(`${mealUrl}/1`)
@@ -364,13 +380,27 @@ describe('Meals', () => {
       expect(res).to.have.status(400);
       expect(res.body).to.be.an('object');
       expect(res.body.error.description)
-        .to.include('Please enter a valid meal description');
+        .to.include('Meal description is required');
+    });
+    it('should not update meal with description less than 3 characters', async () => {
+      const res = await chai.request(app).put(`${mealUrl}/1`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          name: 'Meal with empty description',
+          description: 'ab',
+          imageUrl: 'https://mydummyimgurl.com',
+          price: '2000',
+        });
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.description).to
+        .include('Meal description cannot be less than 3 characters');
     });
   });
 
   // Test Delete a meal
   describe('Delete Meal', () => {
-    it('should delete meal if it exitst', async () => {
+    it('should delete meal if it exist', async () => {
       const res = await chai.request(app).del(`${mealUrl}/1`)
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
@@ -379,7 +409,7 @@ describe('Meals', () => {
       const res = await chai.request(app).del(`${mealUrl}/6`)
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(404);
-      expect(res.body.error.id).to
+      expect(res.body.error.mealId).to
         .include('Meal does not exist');
     });
     it('should not allow non auth admin to delete meal', async () => {

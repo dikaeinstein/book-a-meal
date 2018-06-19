@@ -17,7 +17,7 @@
     "heroku-postbuild": "yarn build",
     "test-client:watch": "jest --watchAll",
     "test-client": "jest",
-    "test-single": "export NODE_ENV=test || set NODE_ENV=test&& yarn db-migrate-test && nyc --require babel-core/register mocha server/test/**.spec.js -t 5000 --exit",
+    "test": "export NODE_ENV=test || set NODE_ENV=test&& yarn db-migrate-test && nyc --require babel-core/register mocha server/test/**.spec.js -t 5000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "deploy": "gh-pages -d UI",
     "sequelize": "sequelize",
@@ -33,6 +33,7 @@
     "date-fns": "^1.29.0",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "express-validator": "^5.2.0",
     "formik": "^0.11.11",
     "gh-pages": "^1.1.0",
     "history": "^4.7.2",
@@ -111,7 +112,7 @@
   },
   "config": {
     "ghooks": {
-      "pre-commit": "yarn test-single"
+      "pre-commit": "yarn test"
     }
   },
   "engines": {

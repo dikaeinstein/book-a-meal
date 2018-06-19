@@ -5,16 +5,16 @@ import MenuController from '../controllers/MenuController';
 import OrderController from '../controllers/OrderController';
 import authenticate from '../middleware/authenticate';
 import authorize from '../middleware/authorize';
+import validationErrorHandler from '../middleware/validationErrorHandler';
+import idValidator from '../middleware/idValidator';
 
 import {
   validateAddMeal,
   validateUpdateMeal,
-  validateGetMeal,
 } from '../middleware/mealValidator';
 import {
   validateSignin,
   validateSignup,
-  validateDeleteUser,
 } from '../middleware/userValidator';
 import {
   validateSetupMenu,
@@ -23,55 +23,136 @@ import {
 import {
   validateNewOrder,
   validateUpdateOrder,
-  validateGetOrder,
 } from '../middleware/orderValidator';
 
 // Setup express router
 const router = express.Router();
 
 // User sign in and sign up
-router.post('/auth/signup', validateSignup, UserController.createUser);
-router.post('/auth/signin', validateSignin, UserController.signinUser);
-// Authenticate token
-router.get('/auth', authenticate, UserController.authenticateUser);
+router.post(
+  '/auth/signup', validateSignup(),
+  validationErrorHandler, UserController.createUser,
+);
+router.post(
+  '/auth/signin', validateSignin(),
+  validationErrorHandler, UserController.signinUser,
+);
+
+
 // Delete User account
-router.delete('/users/:userId', validateDeleteUser, UserController.deleteUserAccount);
+router.delete(
+  '/users/:userId', idValidator('userId', 'User'),
+  UserController.deleteUserAccount,
+);
 
 
 // Get all meals
-router.get('/meals', authenticate, authorize, MealController.getAllMeals);
+router.get(
+  '/meals', authenticate, authorize,
+  MealController.getAllMeals,
+);
+
 // Get meal
-router.get('/meals/:mealId', authenticate, authorize, validateGetMeal, MealController.getMeal);
+router.get(
+  '/meals/:mealId', authenticate, authorize,
+  idValidator('mealId', 'Meal'),
+  validationErrorHandler, MealController.getMeal,
+);
+
 // Post meal
-router.post('/meals', authenticate, authorize, validateAddMeal, MealController.addMeal);
+router.post(
+  '/meals', authenticate, authorize,
+  validateAddMeal(), validationErrorHandler,
+  MealController.addMeal,
+);
+
 // Update meal
-router.put('/meals/:mealId', authenticate, authorize, validateUpdateMeal, MealController.updateMeal);
+router.put(
+  '/meals/:mealId', authenticate, authorize,
+  validateUpdateMeal(), validationErrorHandler,
+  MealController.updateMeal,
+);
+
 // Delete meal
-router.delete('/meals/:mealId', authenticate, authorize, validateUpdateMeal, MealController.deleteMeal);
+router.delete(
+  '/meals/:mealId', authenticate, authorize,
+  idValidator('mealId', 'Meal'), validationErrorHandler,
+  MealController.deleteMeal,
+);
 
 
 // Setup menu
-router.post('/menu/', authenticate, authorize, validateSetupMenu, MenuController.setupMenu);
+router.post(
+  '/menu/', authenticate, authorize,
+  validateSetupMenu(), validationErrorHandler,
+  MenuController.setupMenu,
+);
+
 // Get menu
 router.get('/menu/', MenuController.getMenu);
+
 // Update menu
-router.put('/menu/', authenticate, authorize, validateUpateMenu, MenuController.updateMenu);
-router.put('/menu/:menuId', authenticate, authorize, validateUpateMenu, MenuController.updateMenu);
+router.put(
+  '/menu/', authenticate, authorize,
+  idValidator('menuId', 'Menu', { optional: true }),
+  validateUpateMenu(), validationErrorHandler,
+  MenuController.updateMenu,
+);
+router.put(
+  '/menu/:menuId',
+  authenticate, authorize,
+  idValidator('menuId', 'Menu'),
+  validateUpateMenu(), validationErrorHandler,
+  MenuController.updateMenu,
+);
 
 
 // Get all orders
-router.get('/orders', authenticate, authorize, OrderController.getAllOrders);
+router.get(
+  '/orders', authenticate, authorize,
+  OrderController.getAllOrders,
+);
+
 // Post Order
-router.post('/orders', authenticate, validateNewOrder, OrderController.makeAnOrder);
+router.post(
+  '/orders', authenticate,
+  validateNewOrder(), validationErrorHandler,
+  OrderController.makeAnOrder,
+);
+
 // Update Order
-router.put('/orders/:orderId', authenticate, validateUpdateOrder, OrderController.updateOrder);
+router.put(
+  '/orders/:orderId', authenticate,
+  validateUpdateOrder(), validationErrorHandler,
+  OrderController.updateOrder,
+);
+
 // Get Total amount made
-router.get('/orders/total', authenticate, authorize, OrderController.getTotalAmount);
+router.get(
+  '/orders/total',
+  authenticate, authorize,
+  OrderController.getTotalAmount,
+);
+
 // Get orders for specific user
-router.get('/orders/users', authenticate, OrderController.getUserOrderHistory);
-router.get('/orders/users/:userId', authenticate, validateGetOrder, OrderController.getUserOrderHistory);
+router.get(
+  '/orders/users',
+  authenticate,
+  OrderController.getUserOrderHistory,
+);
+router.get(
+  '/orders/users/:userId',
+  authenticate, idValidator('userId', 'User'),
+  validationErrorHandler,
+  OrderController.getUserOrderHistory,
+);
+
 // Delete specific order
-router.delete('/orders/:orderId', authenticate, authorize, validateGetOrder, OrderController.deleteOrder);
+router.delete(
+  '/orders/:orderId', authenticate, authorize,
+  idValidator('orderId', 'Order'), validationErrorHandler,
+  OrderController.deleteOrder,
+);
 
 
 router.all('*', (req, res) => {
