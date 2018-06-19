@@ -125,7 +125,7 @@ class MenuController {
    * @returns {Promise<object>}
    */
   static async updateMenu(req, res) {
-    const { mealIds } = req.body.validatedMenu;
+    const { mealIds } = req.body;
     const { menuId } = req.params;
     const error = {};
     // Use current date as default
