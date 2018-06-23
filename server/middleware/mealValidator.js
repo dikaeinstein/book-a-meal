@@ -1,225 +1,103 @@
-import validator from 'validator';
-import isEmpty from 'lodash.isempty';
+import {
+  body,
+  /* eslint no-unused-vars: 0 */
+  ValidationChain,
+} from 'express-validator/check';
+import idValidator from './idValidator';
+import numberValidator from './numberValidator';
+
 
 /**
- * @description - Validates input when making a new meal
+ * Validate meal name
  *
- * @param {object} req - HTTP Request
- * @param {object} res - HTTP Response
- * @param {function} next - Callback function
+ * @param {Object} options - Options object with key optional
  *
- * @returns {object}
+ * @returns {ValidationChain} - ValidationChain middleware
  */
-export const validateAddMeal = (req, res, next) => {
-  const error = {};
-  const {
-    name, description, imageUrl, price,
-  } = req.body;
-
-  if (!name) {
-    error.name = 'Meal name is required';
+const mealNameValidator = ({ optional = false } = {}) => {
+  if (optional) {
+    /* eslint newline-per-chained-call: 0 */
+    return body('name')
+      .optional().trim()
+      .not().isEmpty().withMessage('Meal name is required')
+      .isLength({ min: 3 })
+      .withMessage('Please enter a valid meal name or meal name is short')
+      .not().isNumeric()
+      .withMessage('Please enter a valid meal name or meal name is short');
   }
-
-  if (name && validator.isEmpty(name.trim())) {
-    error.name = 'Meal name is required';
-  }
-
-  if (name && /\d/.test(name.trim())) {
-    error.name = 'Please enter a valid meal name';
-  }
-
-  if (name && !/(?:[a-zA-Z]+(?: [a-zA-Z]+)*){3,}/.test(name.trim())) {
-    error.name = 'Please enter a valid meal name or meal name is short';
-  }
-
-  if (!price) {
-    error.price = 'Meal price is required';
-  }
-
-  if (price && (validator.isEmpty(String(price).trim()) || !validator.isNumeric(String(price).trim()))) {
-    error.price = 'Meal price must be numbers';
-  }
-
-  if (price && /^[-+][0-9]*\.?/.test(String(price).trim())) {
-    error.price = 'Meal price cannot be less than zero';
-  }
-
-  if (price && /^[0-9]*\.[0-9]+$/.test(String(price).trim())) {
-    error.price = 'Meal price must be whole numbers';
-  }
-
-  if (!description) {
-    error.description = 'Meal description is required';
-  }
-
-  if (description && validator.isEmpty(description.trim())) {
-    error.description = 'Meal description is required';
-  }
-
-  if (description && !/(?:[a-zA-Z]+(?: [a-zA-Z]+)*){3,}/.test(description.trim())) {
-    error.description = 'Please enter a valid description';
-  }
-
-  if (imageUrl !== undefined && validator.isEmpty(imageUrl)) {
-    error.imageUrl = 'Meal image url is required';
-  }
-
-  if (imageUrl && !validator.isURL(imageUrl.trim())) {
-    error.imageUrl = 'Meal image url must be a valid url';
-  }
-
-  if (isEmpty(error)) {
-    return next();
-  }
-
-  return res.status(400).json({
-    status: 'error',
-    error,
-  });
+  return body('name')
+    .trim()
+    .exists().withMessage('Meal name is required')
+    .not().isEmpty().withMessage('Meal name is required')
+    .isLength({ min: 3 })
+    .withMessage('Please enter a valid meal name or meal name is short')
+    .not().isNumeric()
+    .withMessage('Please enter a valid meal name or meal name is short');
 };
+
+
+/**
+ * Validate meal description
+ *
+ * @param {Object} options - Options object with key optional
+ *
+ * @returns {ValidationChain} - ValidationChain middleware
+ */
+const mealDescriptionValidator = ({ optional = false } = {}) => {
+  if (optional) {
+    return body('description')
+      .optional().trim()
+      .not().isEmpty().withMessage('Meal description is required')
+      .not().isNumeric().withMessage('Please enter a valid description')
+      .isLength({ min: 3 })
+      .withMessage('Meal description cannot be less than 3 characters');
+  }
+  return body('description')
+    .trim()
+    .exists().withMessage('Meal description is required')
+    .not().isEmpty().withMessage('Meal description is required')
+    .not().isNumeric().withMessage('Please enter a valid description')
+    .isLength({ min: 3 })
+    .withMessage('Meal description cannot be less than 3 characters');
+};
+
+
+/**
+ * Validate meal image url
+ *
+ * @param {Object} options - Options object with key optional
+ *
+ * @returns {ValidationChain} - ValidationChain middleware
+ */
+const mealImageUrlValidator = () =>
+  body('imageUrl')
+    .optional().trim()
+    .not().isEmpty().withMessage('Meal image url is required')
+    .isURL().withMessage('Meal image url must be a valid url');
+
+
+/**
+ * @description - Validates input when adding a new meal
+ *
+ * @returns {Array} - Array of validation middlewares
+ */
+export const validateAddMeal = () => ([
+  mealNameValidator(),
+  numberValidator('price', 'Meal'),
+  mealDescriptionValidator(),
+  mealImageUrlValidator(),
+]);
+
 
 /**
  * @description - Validates input when updating an existing meal
  *
- * @param {object} req - HTTP Request
- * @param {object} res - HTTP Response
- * @param {function} next - Callback function
- *
- * @returns {object}
+ * @returns {Array} - Array of validation middlewares
  */
-export const validateUpdateMeal = (req, res, next) => {
-  const { mealId } = req.params;
-  const {
-    name,
-    imageUrl,
-    description,
-    price,
-  } = req.body;
-  const validatedMeal = {};
-  const error = {};
-
-  if (mealId && (validator.isEmpty(mealId.trim()) || !validator.isNumeric(mealId))) {
-    error.mealId = 'Meal id must be a number';
-  }
-
-  if (mealId && /^[-+][0-9]*\.?/.test(mealId.trim())) {
-    error.mealId = 'Meal id cannot be less than zero';
-  }
-
-  if (mealId && /^[0-9]*\.[0-9]+$/.test(mealId.trim())) {
-    error.mealId = 'Meal id must be whole numbers';
-  }
-
-  if (mealId && (mealId > Number.MAX_SAFE_INTEGER)) {
-    error.mealId = 'Meal id is not a valid integer';
-  }
-
-  if (name && validator.isEmpty(name.trim())) {
-    error.name = 'Meal name is required';
-  }
-
-  if (name && /\d/.test(name.trim())) {
-    error.name = 'Please enter a valid meal name';
-  }
-
-  if (name && !(/(?:[a-zA-Z]+(?: [a-zA-Z]+)*){3,}/.test(name.trim()))) {
-    error.name = 'Please enter a valid meal name';
-  }
-
-  if (name) {
-    validatedMeal.name = name;
-  }
-
-  if (description && validator.isEmpty(description.trim())) {
-    error.description = 'Meal description is required';
-  }
-
-  if (description && !/(?:[a-zA-Z]+(?: [a-zA-Z]+)*){3,}/.test(description.trim())) {
-    error.description = 'Please enter a valid meal description';
-  }
-
-  if (description) {
-    validatedMeal.description = description;
-  }
-
-  if (imageUrl && validator.isEmpty(imageUrl.trim())) {
-    error.imageUrl = 'Meal image url is required';
-  }
-
-  if (imageUrl && !validator.isURL(imageUrl.trim())) {
-    error.imageUrl = 'Meal image url must be a valid url';
-  }
-
-  if (imageUrl) {
-    validatedMeal.imageUrl = imageUrl;
-  }
-
-  if (price && validator.isEmpty(String(price).trim())) {
-    error.price = 'Meal price is required';
-  }
-
-  if (price && !validator.isNumeric(String(price).trim())) {
-    error.price = 'Meal price must be a number';
-  }
-
-  if (price && /^[-+][0-9]*\.?/.test(String(price).trim())) {
-    error.price = 'Meal price cannot be less than zero';
-  }
-
-  if (price && /^[0-9]*\.[0-9]+$/.test(String(price).trim())) {
-    error.price = 'Meal price must be whole numbers';
-  }
-
-  if (price) {
-    validatedMeal.price = price;
-  }
-
-  if (isEmpty(error)) {
-    req.body.validatedMeal = validatedMeal;
-    return next();
-  }
-
-  return res.status(400).json({
-    status: 'error',
-    error,
-  });
-};
-
-/**
- * @description - Validates request parameter: mealId
- *
- * @param {object} req - HTTP Request
- * @param {object} res - HTTP Response
- * @param {function} next - Callback function
- *
- * @returns {object}
- */
-export const validateGetMeal = (req, res, next) => {
-  const { mealId } = req.params;
-  const error = {};
-
-  if (mealId && (validator.isEmpty(mealId.trim()) || !validator.isNumeric(mealId))) {
-    error.id = 'Meal id must be a number';
-  }
-
-  if (mealId && /^[-+][0-9]*\.?/.test(mealId.trim())) {
-    error.mealId = 'Meal id cannot be less than zero';
-  }
-
-  if (mealId && /^[0-9]*\.[0-9]+$/.test(mealId.trim())) {
-    error.mealId = 'Meal id must be whole numbers';
-  }
-
-  if (mealId && (mealId > Number.MAX_SAFE_INTEGER)) {
-    error.mealId = 'Meal id is not a valid integer';
-  }
-
-  if (isEmpty(error)) {
-    return next();
-  }
-
-  return res.status(400).json({
-    status: 'error',
-    error,
-  });
-};
+export const validateUpdateMeal = () => ([
+  idValidator('mealId', 'Meal'),
+  mealNameValidator({ optional: true }),
+  numberValidator('price', 'Meal', { optional: true }),
+  mealDescriptionValidator({ optional: true }),
+  mealImageUrlValidator(),
+]);

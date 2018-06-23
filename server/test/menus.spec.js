@@ -104,6 +104,19 @@ describe('Menu', () => {
       expect(res.body.error.name).to
         .include('Menu name is required');
     });
+    it('should not setup menu with invalid meal ids', async () => {
+      const res = await chai.request(app).post(menuUrl)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          name: 'menu for today',
+          mealIds: [1, 2, 'a'],
+        });
+      expect(res.status).to.equal(400);
+      expect(res.body.error).to.be.an('object');
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.mealIds).to
+        .include('mealIds can only be integer values');
+    });
     it('should not setup menu more than once', async () => {
       const res = await chai.request(app).post(menuUrl)
         .set('Authorization', `Bearer ${adminToken}`)
@@ -172,5 +185,18 @@ describe('Update Menu', () => {
     expect(res.body).to.be.an('object');
     expect(res.body.error.mealIds).to
       .include('Menu must have at least one meal');
+  });
+  it('should not update menu with invalid meal ids', async () => {
+    const res = await chai.request(app).put(`${menuUrl}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: 'menu for today',
+        mealIds: [1, 2, 'a'],
+      });
+    expect(res.status).to.equal(400);
+    expect(res.body.error).to.be.an('object');
+    expect(res.body.status).to.equal('error');
+    expect(res.body.error.mealIds).to
+      .include('mealIds can only be integer values');
   });
 });

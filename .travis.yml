@@ -15,7 +15,7 @@ before_script:
 - yarn install
 - psql -c 'create database travis;' -U postgres
 script:
-- yarn test-single
+- yarn test
 after_success: yarn coverage
 deploy:
   provider: heroku

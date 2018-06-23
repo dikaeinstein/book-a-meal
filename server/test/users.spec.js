@@ -48,32 +48,35 @@ describe('User Sign Up', () => {
         email: 'dikaeinstein@andela.com',
         password: '1234567890',
         confirmPassword: '1234567890',
+        role: 'customer',
       });
     expect(res).to.have.status(400);
     expect(res.body).to.be.an('object');
     expect(res.body.error.name)
       .to.include('Name is required');
   });
-  it('should not create user with less than 3 characters', async () => {
+  it('should not create user with name less than 3 characters', async () => {
     const res = await chai.request(app).post(`${signUpUrl}`)
       .send({
         name: 'dd',
         email: 'dikaeinstein@andela.com',
         password: '1234567890',
         confirmPassword: '1234567890',
+        role: 'customer',
       });
     expect(res).to.have.status(400);
     expect(res.body).to.be.an('object');
     expect(res.body.error.name)
       .to.include('Name can only be from 3 to 30 characters');
   });
-  it('should not create user with more than 30 characters', async () => {
+  it('should not create user with name more than 30 characters', async () => {
     const res = await chai.request(app).post(signUpUrl)
       .send({
         name: 'extemely lllllloooooooonnnnnnnnnngggggggggggg',
         email: 'kinshiki@momoki.com',
         password: '1234567890',
         confirmPassword: '1234567890',
+        role: 'customer',
       });
     expect(res).to.have.status(400);
     expect(res.body).to.be.an('object');
@@ -94,6 +97,7 @@ describe('User Sign Up', () => {
         email: 'nara.shika@leaf.com',
         password: '123',
         confirmPassword: '123',
+        role: 'customer',
       });
     expect(res.status).to.equal(400);
     expect(res.body).to.be.an('object');
@@ -107,6 +111,7 @@ describe('User Sign Up', () => {
         email: '',
         password: '1234567890',
         confirmPassword: '1234567890',
+        role: 'customer',
       });
     expect(res.status).to.equal(400);
     expect(res.body).to.be.an('object');
@@ -120,24 +125,40 @@ describe('User Sign Up', () => {
         email: 'saku.ra@gg.com',
         password: '',
         confirmPassword: '1234567890',
+        role: 'customer',
       });
     expect(res.status).to.equal(400);
     expect(res.body).to.be.an('object');
     expect(res.body.error.password)
       .to.include('Password is required');
   });
-  it('should return error if password do not match', async () => {
+  it('should not create user if passwords do not match', async () => {
     const res = await chai.request(app).post(signUpUrl)
       .send({
         name: 'Rock Lee',
         email: 'lee.rock@email.com',
         password: '1234567890',
         confirmPassword: '0987654321',
+        role: 'customer',
       });
     expect(res.status).to.equal(400);
     expect(res.body).to.be.an('object');
-    expect(res.body.error.password).to
+    expect(res.body.error.confirmPassword).to
       .include('Passwords do not match');
+  });
+  it('should not create user if role does not match allowed values', async () => {
+    const res = await chai.request(app).post(signUpUrl)
+      .send({
+        name: 'Rock Lee',
+        email: 'lee.rock@email.com',
+        password: '1234567890',
+        confirmPassword: '1234567890',
+        role: 'customer1',
+      });
+    expect(res.status).to.equal(400);
+    expect(res.body.error).to.be.an('object');
+    expect(res.body.error.role).to
+      .include('User role must be either customer or caterer');
   });
 });
 

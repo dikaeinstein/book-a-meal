@@ -140,7 +140,6 @@ class MealController {
    */
   static async updateMeal(req, res) {
     const error = {};
-    const { validatedMeal } = req.body;
 
     // Find meal
     const matchedMeal = await Meal.findOne({
@@ -158,7 +157,7 @@ class MealController {
 
     // Update meal
     try {
-      const updatedMeal = await matchedMeal.update(validatedMeal);
+      const updatedMeal = await matchedMeal.update(req.body);
 
       return res.status(200).json({
         meal: updatedMeal,
@@ -195,9 +194,9 @@ class MealController {
     });
 
     if (!matchedMeal) {
-      error.id = 'Meal does not exist';
+      error.mealId = 'Meal does not exist';
       return res.status(404).json({
-        message: error.id,
+        message: error.mealId,
         status: 'error',
         error,
       });
