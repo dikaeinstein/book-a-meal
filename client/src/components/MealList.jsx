@@ -37,7 +37,7 @@ ConnectedMealList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  meals: state.menu.data.meals,
+  meals: state.menus.data.menu.meals,
 });
 
 const MealList = connect(mapStateToProps)(ConnectedMealList);

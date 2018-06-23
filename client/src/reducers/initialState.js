@@ -11,12 +11,18 @@ const initialState = {
       link: 'signup',
     },
   ],
-  menu: {
+  menus: {
     isFetching: false,
     data: {
-      meals: [],
+      menu: {
+        name: 'Menu for today',
+        meals: [],
+      },
+      menus: [],
     },
-    error: null,
+    isSaving: false,
+    fetchError: null,
+    saveError: null,
   },
   user: {
     isSubmitting: false,

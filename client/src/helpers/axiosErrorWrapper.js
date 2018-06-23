@@ -16,8 +16,8 @@ const axiosErrorWrapper = (error) => {
     if (response.status === 401 || response.status === 403) {
       const store = configureStore(initialState);
       removeUser();
-      store.dispatch(userSignInError(response.data.error));
       history.push('/signin');
+      store.dispatch(userSignInError(response.data.error));
       return response.data.error;
     }
     return response.data.message;

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import Menu from './Menu';
 import Button from '../util/Button';
 import Footer from '../util/Footer';
+import SetupMenu from './SetupMenu';
 
 class Menus extends Component {
   constructor(props) {
@@ -32,11 +35,12 @@ class Menus extends Component {
         margin: '4rem auto',
       },
     };
+
     return (
       <div>
         <main className="bg-light text-dark" style={{ padding: '2rem' }}>
           <Button
-            className="btn btn-default"
+            className="btn btn-alt"
             style={{ margin: '2rem 2rem 0 2rem' }}
             value="Set Up Menu"
             onClick={this.handleOpenModal}
@@ -51,6 +55,7 @@ class Menus extends Component {
               onClick={this.handleCloseModal}
               className="close"
             />
+            <SetupMenu />
           </Modal>
           <Menu />
         </main>

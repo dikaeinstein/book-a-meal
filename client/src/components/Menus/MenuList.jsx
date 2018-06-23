@@ -3,20 +3,32 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMeals } from '../../actions/mealActions';
 
-class ConnectedMenuMeals extends Component {
-  componentDidMount() {
-    this.props.fetchMeals();
+class ConnectedMenuList extends Component {
+
+  renderMenuMealList() {
+    return this.props.meals.map(meal => (
+      <li>{meal.name}</li>
+    ));
   }
 
   render() {
-    const { isFetching } = this.props;
-    return (
+    const { isFetching, menus } = this.props;
+    const menuList = menus.map(menu => (
+      <div>
+        <p>{menu.name}</p>
+        <ul>
+          {this.renderMenuMealList()}
+        </ul>
+      </div>
+    ));
 
+    return (
+      <div>{menuList}</div>
     );
   }
 }
 
-ConnectedMenuMeals.propTypes = {
+ConnectedMenuList.propTypes = {
   fetchMeals: PropTypes.func.isRequired,
   /* eslint react/require-default-props: 0 */
   error: PropTypes.oneOfType([
@@ -28,16 +40,16 @@ ConnectedMenuMeals.propTypes = {
 
 const mapStateToProps = state => ({
   isFetching: state.meals.isFetching,
-  error: state.meals.fetchError,
+  error: state.menus.fetchError,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchMeals: () => dispatch(fetchMeals()),
+  fetchMenus: () => dispatch(fetchMenus()),
 });
 
-const MenuMeals = connect(
+const MenuList = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ConnectedMenuMeals);
+)(ConnectedMenuList);
 
-export default MenuMeals;
+export default MenuList;

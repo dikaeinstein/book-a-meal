@@ -31,7 +31,7 @@ ConnectedHomePage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  error: state.menu.error,
+  error: state.menus.fetchError,
 });
 
 const HomePage = connect(mapStateToProps)(ConnectedHomePage);
