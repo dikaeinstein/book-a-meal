@@ -38,9 +38,8 @@ const menuService = {
   setMenu: async (url, values) => {
     try {
       const headers = setAuthorizationToken();
-      console.log(values, headers);
-      const response = await axios.post(url, values, headers);
-      return values;
+      const response = await axios.post(url, values, { headers });
+      return response.data.menu;
     } catch (error) {
       throw axiosErrorWrapper(error);
     }

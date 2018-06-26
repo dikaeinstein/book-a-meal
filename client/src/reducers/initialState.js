@@ -20,6 +20,7 @@ const initialState = {
       },
       menus: [],
     },
+    isSet: false,
     isSaving: false,
     fetchError: null,
     saveError: null,

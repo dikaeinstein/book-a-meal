@@ -51,7 +51,7 @@ const mealIdsValidator = ({ optional = false } = {}) => {
       .custom((mealIds) => {
         const invalidMealIds =
           mealIds.filter(mealId => (
-            !Number.isInteger(mealId)
+            !Number.isInteger(Number(mealId))
             || mealId > Number.MAX_SAFE_INTEGER));
 
         if (invalidMealIds.length > 0) {
@@ -72,7 +72,7 @@ const mealIdsValidator = ({ optional = false } = {}) => {
     .custom((mealIds) => {
       const invalidMealIds =
         mealIds.filter(mealId => (
-          !Number.isInteger(mealId)
+          !Number.isInteger(Number(mealId))
           || mealId > Number.MAX_SAFE_INTEGER));
 
       if (invalidMealIds.length > 0) {

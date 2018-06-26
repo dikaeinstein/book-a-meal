@@ -12,7 +12,7 @@ class ConnectedDashboardOrderHistory extends Component {
   }
 
   render() {
-    const { isFetching, error } = this.props;
+    const { isFetching } = this.props;
     if (isFetching) {
       return (
         <div className="-lader-container">
@@ -22,13 +22,7 @@ class ConnectedDashboardOrderHistory extends Component {
         </div>
       );
     }
-    if (error) {
-      return (
-        <h1 className="error-container text-center">
-          {error} ):
-        </h1>
-      );
-    }
+
     return (
       <main className="bg-light order-history-main text-center">
         <h2 className="text-danger">Order history</h2>
@@ -42,17 +36,11 @@ class ConnectedDashboardOrderHistory extends Component {
 
 ConnectedDashboardOrderHistory.propTypes = {
   isFetching: PropTypes.bool.isRequired,
-  /* eslint react/require-default-props: 0 */
-  error: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.objectOf(PropTypes.string),
-  ]),
   fetchUserOrders: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   isFetching: state.orders.isFetching,
-  error: state.orders.error,
 });
 
 const mapdispatchToProps = dispatch => ({

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import { Form, Field } from 'formik';
 import { ProgressBar } from 'react-materialize';
 import Label from '../util/Label';
@@ -12,6 +13,7 @@ const SignInForm = (props) => {
     touched,
     isSubmitting,
   } = props;
+
   return (
     <Form className="form card">
       <h2 className="text-center">Sign In</h2>
@@ -75,9 +77,9 @@ const SignInForm = (props) => {
         Don&apos;t have an account?
         {' '}
         <span>
-          <a href="signup.html" className="btn btn-alt font-weight-bold">
-            Sign Up
-          </a>
+          <button className="btn btn-alt">
+            <NavLink to="/signup">Sign Up</NavLink>
+          </button>
         </span>
       </p>
     </Form>

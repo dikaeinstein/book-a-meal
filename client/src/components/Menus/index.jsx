@@ -6,8 +6,9 @@ import Menu from './Menu';
 import Button from '../util/Button';
 import Footer from '../util/Footer';
 import SetupMenu from './SetupMenu';
+import errorHandler from '../util/errorHandler';
 
-class Menus extends Component {
+class ConnectedMenus extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,6 +37,8 @@ class Menus extends Component {
       },
     };
 
+    const MenuWithErrorHandling = errorHandler(Menu, 'Error fetching menu');
+
     return (
       <div>
         <main className="bg-light text-dark" style={{ padding: '2rem' }}>
@@ -44,6 +47,7 @@ class Menus extends Component {
             style={{ margin: '2rem 2rem 0 2rem' }}
             value="Set Up Menu"
             onClick={this.handleOpenModal}
+            disabled={this.props.isSet}
           />
           <Modal
             isOpen={this.state.isOpen}
@@ -57,12 +61,28 @@ class Menus extends Component {
             />
             <SetupMenu />
           </Modal>
-          <Menu />
+          <MenuWithErrorHandling error={this.props.fetchMenuError} />
         </main>
         <Footer />
       </div>
     );
   }
 }
+
+ConnectedMenus.propTypes = {
+  /* eslint react/require-default-props: 0 */
+  fetchMenuError: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.objectOf(PropTypes.string),
+  ]),
+  isSet: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = state => ({
+  fetchMenuError: state.menus.fetchError,
+  isSet: state.menus.isSet,
+});
+
+const Menus = connect(mapStateToProps)(ConnectedMenus);
 
 export default Menus;

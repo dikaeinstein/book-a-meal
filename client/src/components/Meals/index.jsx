@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import CatererMeals from './CatererMeals';
 import AddMeal from './AddMeal';
 import UpdateMeal from './UpdateMeal';
 import Footer from '../util/Footer';
 import Button from '../util/Button';
+import errorHandler from '../util/errorHandler';
 
 Modal.setAppElement('#root');
 
-class Meals extends Component {
+class ConnectedMeals extends Component {
   constructor() {
     super();
     this.state = {
@@ -50,6 +53,8 @@ class Meals extends Component {
         margin: '4rem auto',
       },
     };
+    const CatererMealsWithErrorHandling =
+      errorHandler(CatererMeals, 'Error fetching meals');
     return (
       <div>
         <main className="bg-light" style={{ padding: '2rem' }}>
@@ -73,12 +78,29 @@ class Meals extends Component {
               ? <AddMeal closeModal={this.handleCloseModal} />
               : <UpdateMeal meal={this.state.meal} />}
           </Modal>
-          <CatererMeals handleMealUpdate={this.handleMealUpdate} />
+          <CatererMealsWithErrorHandling
+            handleMealUpdate={this.handleMealUpdate}
+            error={this.props.error}
+          />
         </main>
         <Footer />
       </div>
     );
   }
 }
+
+ConnectedMeals.propTypes = {
+  /* eslint react/require-default-props: 0 */
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.objectOf(PropTypes.string),
+  ]),
+};
+
+const mapStateToProps = state => ({
+  error: state.meals.fetchError,
+});
+
+const Meals = connect(mapStateToProps)(ConnectedMeals);
 
 export default Meals;
