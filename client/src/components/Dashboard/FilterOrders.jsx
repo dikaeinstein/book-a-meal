@@ -1,16 +1,17 @@
 import React from 'react';
 import Button from '../util/Button';
 
-const FilterOrders = () => (
-  <div className="filter">
-    From: <input type="date" />
-    <span className="bar">&ThinSpace;|&ThinSpace;</span>
-    To: <input type="date" />
-    <Button
-      className="btn btn-default"
-      value="Filter Orders"
-    />
-  </div>
-);
+const FilterOrders = () => {
+  return (
+    <div className="filter">
+      From: <input type="date" className="filter-input" />
+      To: <input type="date" className="filter-input" />
+      <Button
+        className="btn btn-default"
+        value="Filter Orders"
+      />
+    </div>
+  );
+};
 
 export default FilterOrders;

@@ -89,7 +89,6 @@ const setupMenuError = error => ({
 export const setupMenu = values => async (dispatch) => {
   try {
     dispatch({ type: SETUP_MENU_REQUEST });
-    console.log(values);
     const menu = await menuService
       .setMenu(`${config.API_BASE_URL}/api/v1/menu/`, values);
     dispatch(setupMenuSuccess(menu));

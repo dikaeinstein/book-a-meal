@@ -57,7 +57,7 @@ img {
 .error-container {
 	background: #fff;
 	display: block;
-	padding: 3rem;
+	padding: 2rem;
 	color: #4e4a4a;
 }
 
@@ -680,15 +680,6 @@ form select {
     margin-bottom: .5rem;
 }
 
-.filter {
-    font-size: .875rem;
-}
-
-.filter .btn {
-		font-size: .875rem;
-		margin: .5rem auto 1.5rem auto;
-}
-
 input[type="date"] {
     font-family: 'Varela Round', sans-serif;
     font-size: 1rem;
@@ -698,6 +689,23 @@ input[type="date"] {
     border: .5px solid #9e9e9e;
     border-radius: 5px;
     width: 85%;
+}
+
+.filter {
+    width: 100%;
+    font-size: .875rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.filter > .filter-input {
+    width: 90%;
+    margin: 1rem;
+}
+
+.filter .btn {
+    font-size: .875rem;
+    margin: .5rem auto 1.5rem auto;
 }
 
 .bar { display: none; }
@@ -1012,8 +1020,12 @@ hr {
     input[type="date"] {
         margin-right: .5rem;
         padding: .5rem .875rem;
-        width: inherit;
         margin-top: 1.5rem;
+    }
+
+    .filter > .filter-input {
+        width: 35%;
+        margin: 1rem;
     }
 
 

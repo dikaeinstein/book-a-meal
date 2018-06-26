@@ -6,9 +6,11 @@ const errorHandler = (WrappedComponent, defaultMessage) => {
   const ErrorWrapper = ({ error, ...rest }) => {
     if (error) {
       return (
-        <h1 className="error-container text-center">
-          {transformError(error, defaultMessage)}
-        </h1>
+        <div>
+          <h2 className="error-container text-center">
+            {transformError(error, defaultMessage)}
+          </h2>
+        </div>
       );
     }
 

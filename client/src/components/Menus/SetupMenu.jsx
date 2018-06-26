@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import errorHandler from '../util/errorHandler';
 import MealsCheckBoxForm from './MealsCheckBoxForm';
@@ -12,7 +13,6 @@ const ConnectedSetupMenu = ({ error, setMenu }) => {
     );
 
   const handleSubmit = (values) => {
-    console.log(values);
     setMenu(values);
   };
 
@@ -25,6 +25,15 @@ const ConnectedSetupMenu = ({ error, setMenu }) => {
       />
     </section>
   );
+};
+
+ConnectedSetupMenu.propTypes = {
+  setMenu: PropTypes.func.isRequired,
+  /* eslint react/require-default-props: 0 */
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.objectOf(PropTypes.string),
+  ]),
 };
 
 const mapStateToProps = state => ({
