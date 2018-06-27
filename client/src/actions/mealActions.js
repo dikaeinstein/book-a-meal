@@ -62,7 +62,7 @@ export const fetchMeals = () => async (dispatch) => {
   // dispatch({ type: FETCH_MEALS_REQUEST });
   try {
     const meals = await mealService
-      .getMeals(`${config.API_BASE_URL}/api/v1/meals`);
+      .getMeals(`/api/v1/meals`);
     dispatch(fetchMealsSuccess(meals));
   } catch (error) {
     dispatch(fetchMealsError(error));

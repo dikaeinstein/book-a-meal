@@ -19,6 +19,7 @@ const menuReducer = (state = initialState.menus, action) => {
       return {
         ...state,
         isFetching: false,
+        isSet: true,
         data: {
           ...state.data,
           menu,

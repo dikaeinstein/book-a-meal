@@ -8,9 +8,12 @@ require('dotenv').config();
 const devMode = process.env.NODE_ENV;
 
 module.exports = {
-  entry: './client/src/index.js',
+  entry: ['./client/src/index.js',
+    devMode === 'development'
+      ? 'webpack-hot-middleware/client?path=/__webpack_hmr'
+      : null].filter(ent => ent !== null),
   output: {
-    path: path.resolve(__dirname, 'dist/client'),
+    path: path.resolve(__dirname, 'client/dist'),
     filename: '[name].bundle.js',
     publicPath: '/',
   },
