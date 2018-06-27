@@ -6,6 +6,7 @@ node_modules
 
 # build folder
 server/dist
+client/dist
 
 # nyc
 .nyc_output
