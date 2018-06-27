@@ -6,13 +6,14 @@ const { expect } = chai;
 
 chai.use(chaiHttp);
 
-const rooUrl = '/';
 const rootAPIUrl = '/api/v1';
 
-describe('Root path', () => {
-  it('should return status: 200', async () => {
-    const res = await chai.request(app).get(rooUrl);
+describe('Api docs', () => {
+  it('should return http-status: 200', async () => {
+    const res = await chai.request(app).get(`${rootAPIUrl}/api-docs`);
     expect(res).to.have.status(200);
+    expect(res).to.have
+      .header('content-type', 'text/html; charset=utf-8');
   });
 });
 
