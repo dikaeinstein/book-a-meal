@@ -16,7 +16,7 @@ if (user) {
   store.dispatch(userSignInSuccess(user));
   autoNavigate(user, window.location);
 } else {
-  history.push('/signin');
+  history.push('/');
 }
 
 render(<Root store={store} />, document.getElementById('root'));
