@@ -6,7 +6,7 @@ const Footer = () => (
       &copy; Book-A-Meal
       {' '}
       {new Date().getFullYear()}.
-      Developed with &#10084; by
+      Developed with <span className="text-dark">&#10084;</span> by
       {' '}
       <a href="https://dikaeinstein.github.io">Dikaeinstein</a>
     </p>

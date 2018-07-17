@@ -13,13 +13,19 @@ const menuReducer = (state = initialState.menus, action) => {
     case FETCH_MENU_REQUEST:
       return { ...state, isFetching: true };
     case FETCH_MENU_ERROR:
-      return { ...state, isFetching: false, fetchError: action.payload.error };
+      return {
+        ...state,
+        isFetching: false,
+        fetchError: action.payload.error,
+        isSet: false,
+      };
     case FETCH_MENU_SUCCESS: {
       const menu = action.payload.menu;
       return {
         ...state,
         isFetching: false,
         isSet: true,
+        fetchError: null,
         data: {
           ...state.data,
           menu,
@@ -27,16 +33,28 @@ const menuReducer = (state = initialState.menus, action) => {
       };
     }
     case SETUP_MENU_ERROR:
-      return { ...state, isSaving: false, saveError: action.payload.error };
+      return {
+        ...state,
+        isSaving: false,
+        saveError: action.payload.error,
+        isSet: false,
+      };
     case SETUP_MENU_REQUEST:
       return { ...state, isSaving: true };
-    case SETUP_MENU_SUCCESS:
+    case SETUP_MENU_SUCCESS: {
+      const menu = action.payload.menu;
       return {
         ...state,
         isSaving: false,
         isSet: true,
-        data: action.payload.menu,
+        saveError: null,
+        fetchError: null,
+        data: {
+          ...state.data,
+          menu,
+        },
       };
+    }
     default:
       return state;
   }

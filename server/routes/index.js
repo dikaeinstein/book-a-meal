@@ -106,6 +106,13 @@ router.put(
   MenuController.updateMenu,
 );
 
+// Delete menu
+router.delete(
+  '/menu/:menuId', authenticate, authorize,
+  idValidator('menuId', 'Menu'), validationErrorHandler,
+  MenuController.deleteMenu,
+);
+
 
 // Get all orders
 router.get(

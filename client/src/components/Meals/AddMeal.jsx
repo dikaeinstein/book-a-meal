@@ -7,13 +7,13 @@ import mealSchema from '../../validation/mealSchema';
 import { addMeal } from '../../actions/mealActions';
 
 
-const ConnectedAddMeal = ({ saveMeal, closeModal }) => {
+const ConnectedAddMeal = ({ saveMeal }) => {
   const handleSubmit = (values, actions) => {
     saveMeal(values, actions);
   };
   return (
     <section className="add-section">
-      <h2 className="text-dark text-center">Add New Meal</h2>
+      <h2 className="text-center">Add New Meal</h2>
       <Formik
         initialValues={{
           name: '',
@@ -31,7 +31,6 @@ const ConnectedAddMeal = ({ saveMeal, closeModal }) => {
 
 ConnectedAddMeal.propTypes = {
   saveMeal: PropTypes.func.isRequired,
-  closeModal: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MenuCard from './MenuCard';
-import Footer from './util/Footer';
-import errorHandler from './util/errorHandler';
+import Footer from '../util/Footer';
+import errorHandler from '../util/errorHandler';
 
 const ConnectedUserMenu = ({ fetchMenuError }) => {
   const MenuCardWithErrorHandling =
@@ -11,10 +11,14 @@ const ConnectedUserMenu = ({ fetchMenuError }) => {
 
   return (
     <div>
-      <MenuCardWithErrorHandling
-        link="/order-confirmation"
-        error={fetchMenuError}
-      />
+      <div className="bg-dark-light landing-main">
+        <main style={{ minHeight: 'calc(100vh - 151px)' }}>
+          <MenuCardWithErrorHandling
+            link="/order-confirmation"
+            error={fetchMenuError}
+          />
+        </main>
+      </div>
       <Footer />
     </div>
   );

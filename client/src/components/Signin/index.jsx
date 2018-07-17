@@ -15,7 +15,7 @@ const ConnectedSignIn = ({ signIn }) => {
   return (
     <main className="flex-container">
       <SideImage id="signIn" />
-      <section id="signIn" className="col-1-4 aside">
+      <section id="signIn" className="col-1-4 aside bg-dark">
         <Formik
           initialValues={{ email: '', password: '' }}
           validationSchema={userSigninSchema}

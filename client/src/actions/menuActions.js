@@ -7,6 +7,9 @@ import {
   SETUP_MENU_ERROR,
   SETUP_MENU_REQUEST,
   SETUP_MENU_SUCCESS,
+  UPDATE_MENU_REQUEST,
+  UPDATE_MENU_ERROR,
+  UPDATE_MENU_SUCCESS,
 } from '../constants/menuActionTypes';
 
 /**
@@ -94,5 +97,50 @@ export const setupMenu = values => async (dispatch) => {
     dispatch(setupMenuSuccess(menu));
   } catch (error) {
     dispatch(setupMenuError(error));
+  }
+};
+
+/**
+ * Update menu success action creator
+ *
+ * @export
+ * @param {object} menu
+ *
+ * @returns {object} Redux action
+ */
+const updateMenuSuccess = menu => ({
+  type: UPDATE_MENU_SUCCESS,
+  payload: { menu },
+});
+
+/**
+ * Update menu error action creator
+ *
+ * @export
+ * @param {*} error
+ *
+ * @returns {object} Redux action
+ */
+const updateMenuError = error => ({
+  type: UPDATE_MENU_ERROR,
+  payload: { error },
+});
+
+/**
+ * Update menu async action creator
+ *
+ * @export
+ * @param {Object} values
+ *
+ * @returns {Function}
+ */
+export const updateMenu = (values, menuId) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_MENU_REQUEST });
+    const menu = await menuService
+      .updateMenu(`${config.API_BASE_URL}/api/v1/menu/${menuId}`, values);
+    dispatch(updateMenuSuccess(menu));
+  } catch (error) {
+    dispatch(updateMenuError(error));
   }
 };

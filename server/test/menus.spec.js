@@ -200,3 +200,30 @@ describe('Update Menu', () => {
       .include('mealIds can only be integer values');
   });
 });
+
+// Test Delete Menu
+describe('Delete Menu', () => {
+  it('should delete menu if it exists', async () => {
+    const res = await chai.request(app).delete(`${menuUrl}1`)
+      .set('Authorization', `Bearer ${adminToken}`);
+    expect(res.status).to.equal(200);
+    expect(res.body).to.be.an('object');
+    expect(res.body.status).to.equal('success');
+    expect(res.body.message).to.equal('Menu successfully deleted');
+  });
+  it('shoule not delete menu if does not exists', async () => {
+    const res = await chai.request(app).delete(`${menuUrl}100`)
+      .set('Authorization', `Bearer ${adminToken}`);
+    expect(res.status).to.equal(404);
+    expect(res.body.status).to.equal('error');
+    expect(res.body.message).to.equal('Menu does not exist');
+  });
+  it('should not allow non auth admin to delete menu', async () => {
+    const res = await chai.request(app).del(`${menuUrl}1`)
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.status).to.equal(403);
+    expect(res.body.status).to.equal('error');
+    expect(res.body.error.message).to
+      .equal("Forbidden, you don't have the priviledge to perform this operation");
+  });
+});

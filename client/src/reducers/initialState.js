@@ -24,6 +24,8 @@ const initialState = {
     isSaving: false,
     fetchError: null,
     saveError: null,
+    updateError: null,
+    isUpdating: false,
   },
   user: {
     isSubmitting: false,

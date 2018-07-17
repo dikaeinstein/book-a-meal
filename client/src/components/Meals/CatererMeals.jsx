@@ -24,8 +24,8 @@ class ConnectedCatererMeals extends Component {
     }
 
     return (
-      <section className="bg-light landing-main" id="menu">
-        <h1 className="text-center text-dark">
+      <section className="bg-light landing-main">
+        <h1 className="text-center">
           Meals
         </h1>
         <CatererMealList handleMealUpdate={handleMealUpdate} />

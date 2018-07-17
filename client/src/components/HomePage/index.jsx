@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import IntroBanner from './IntroBanner';
-import MenuCard from '../MenuCard';
+import MenuCard from '../UserMenu/MenuCard';
 import errorHandler from '../util/errorHandler';
 import Footer from '../util/Footer';
 

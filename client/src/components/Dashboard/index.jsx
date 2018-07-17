@@ -15,9 +15,12 @@ const ConnectedDashboard = ({ fetchOrdersError }) => {
 
   return (
     <div>
-      <main className="bg-light dash-main text-center">
-        <h1 className="text-dark">Dashboard</h1>
-        <section className="card dashbord">
+      <main
+        className="dash-main text-center bg-dark-light"
+        style={{ minHeight: 'calc(100vh - 151px)' }}
+      >
+        <h1>Dashboard</h1>
+        <section className="card dashboard">
           <TotalOrders />
           <TotalSales />
           <FilterOrders />
@@ -29,6 +32,14 @@ const ConnectedDashboard = ({ fetchOrdersError }) => {
       <Footer />
     </div>
   );
+};
+
+ConnectedDashboard.propTypes = {
+  /* eslint react/require-default-props: 0 */
+  fetchOrdersError: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.objectOf(PropTypes.string),
+  ]),
 };
 
 const mapStateToProps = state => ({

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Preloader } from 'react-materialize';
-import { fetchMenu } from '../actions/menuActions';
+import { fetchMenu } from '../../actions/menuActions';
 import MealList from './MealList';
-import Loading from './util/Loading';
+import Loading from '../util/Loading';
 
 class ConnectedMenuCard extends Component {
   componentDidMount() {
@@ -24,8 +24,8 @@ class ConnectedMenuCard extends Component {
     }
 
     return (
-      <section className="bg-light landing-main" id="menu">
-        <h2 className="text-center amount">
+      <section style={{ padding: '1.5rem' }} id="menu">
+        <h2 className="text-center">
           Menu for Today {(new Date()).toDateString()}
         </h2>
         <MealList link={link} />
