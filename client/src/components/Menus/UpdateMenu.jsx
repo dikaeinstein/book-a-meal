@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Preloader } from 'react-materialize';
-import MealsCheckBoxForm from './MealsCheckBoxForm';
 import Loading from '../util/Loading';
+import MealsCheckBoxForm from './MealsCheckBoxForm';
 import { fetchMeals } from '../../actions/mealActions';
-import { setupMenu } from '../../actions/menuActions';
+import { updateMenu } from '../../actions/menuActions';
 
-class ConnectedSetupMenu extends Component {
+class ConnectedUpdateMenu extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,17 +18,17 @@ class ConnectedSetupMenu extends Component {
   }
 
   handleSubmit(values) {
-    this.props.setMenu(values);
+    this.props.modifyMenu(values, this.props.menuId);
   }
 
   render() {
     const {
-      meals, error, isSaving, isFetching,
+      meals, error, isUpdating, isFetching,
     } = this.props;
 
     return (
       <section>
-        <h2 className="text-center">Set Up Menu</h2>
+        <h2 className="text-center">Update Menu</h2>
         {isFetching
         ?
           <Loading text="Fetching meals . . .">
@@ -40,41 +40,43 @@ class ConnectedSetupMenu extends Component {
             handleSubmit={this.handleSubmit}
             meals={meals}
             action="Set"
-            isSubmitting={isSaving}
+            isSubmitting={isUpdating}
           />}
       </section>
     );
   }
 }
 
-ConnectedSetupMenu.propTypes = {
-  setMenu: PropTypes.func.isRequired,
+ConnectedUpdateMenu.propTypes = {
+  modifyMenu: PropTypes.func.isRequired,
+  fetchMeals: PropTypes.func.isRequired,
+  meals: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isUpdating: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  menuId: PropTypes.string.isRequired,
   /* eslint react/require-default-props: 0 */
   error: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.objectOf(PropTypes.string),
   ]),
-  meals: PropTypes.arrayOf(PropTypes.object).isRequired,
-  fetchMeals: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  isSaving: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   error: state.menus.saveError,
   meals: state.meals.data,
+  isUpdating: state.menus.isUpdating,
   isFetching: state.meals.isFetching,
-  isSaving: state.menus.isSaving,
+  menuId: state.menus.data.menu.id,
 });
 
 const mapDispatchToProps = dispatch => ({
-  setMenu: values => dispatch(setupMenu(values)),
+  modifyMenu: (values, menuId) => dispatch(updateMenu(values, menuId)),
   fetchMeals: () => dispatch(fetchMeals()),
 });
 
-const SetupMenu = connect(
+const UpdateMenu = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ConnectedSetupMenu);
+)(ConnectedUpdateMenu);
 
-export default SetupMenu;
+export default UpdateMenu;

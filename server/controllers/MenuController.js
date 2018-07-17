@@ -170,6 +170,38 @@ class MenuController {
       menu: returnedMenu,
     });
   }
+
+  /**
+   * @description - Delete menu
+   * @static
+   * @async
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Request
+   *
+   * @returns {Promise<object>}
+   */
+  static async deleteMenu(req, res) {
+    const { menuId } = req.params;
+    const error = {};
+
+    const matchedMenu = await Menu.findById(menuId);
+
+    if (!matchedMenu) {
+      error.message = 'Menu does not exist';
+      return res.status(404).json({
+        message: error.message,
+        status: 'error',
+        error,
+      });
+    }
+
+    await matchedMenu.destroy();
+    return res.status(200).json({
+      message: 'Menu successfully deleted',
+      status: 'success',
+    });
+  }
 }
 
 export default MenuController;

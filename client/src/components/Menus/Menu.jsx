@@ -27,10 +27,10 @@ class ConnectedMenu extends Component {
             <Preloader />
           </Loading>
         :
-          <section className="menu">
-            <h1 className="text-center">
+          <section className="menu landing-main">
+            <h2 className="text-center">
               Menu for Today {(new Date()).toDateString()}
-            </h1>
+            </h2>
             <div className="card menu-card table-scroll">
               <table className="font-weight-bold">
                 <tbody>

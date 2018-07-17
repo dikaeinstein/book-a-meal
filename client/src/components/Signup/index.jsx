@@ -14,7 +14,7 @@ const ConnectedSignUp = ({ signUp }) => {
   return (
     <main className="flex-container">
       <SideImage id="signUp" />
-      <section id="signIn" className="col-1-4 aside">
+      <section id="signIn" className="col-1-4 aside bg-dark">
         <Formik
           initialValues={{
             name: '',

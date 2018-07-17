@@ -13,7 +13,7 @@ const ConnectedUpdateMeal = ({ editMeal, meal }) => {
   };
   return (
     <section className="add-section">
-      <h2 className="text-dark text-center">Update Meal</h2>
+      <h2 className="text-center">Update Meal</h2>
       <Formik
         initialValues={meal}
         validationSchema={mealSchema}

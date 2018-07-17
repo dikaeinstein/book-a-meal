@@ -49,33 +49,43 @@ class ConnectedMeals extends Component {
         backgroundColor: 'rgba(0, 0, 0, 0.25)',
       },
       content: {
-        width: '40%',
-        margin: '4rem auto',
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        minWidth: '20rem',
+        width: '60%',
       },
     };
     const CatererMealsWithErrorHandling =
       errorHandler(CatererMeals, 'Error fetching meals');
     return (
       <div>
-        <main className="bg-light" style={{ padding: '2rem' }}>
+        <main
+          className="bg-light main"
+          style={{ minHeight: 'calc(100vh - 151px)' }}
+        >
           <Button
             value="Add meal"
             className="btn btn-default"
             onClick={this.handleAddMeal}
-            style={{ margin: '2rem 2rem 0 2rem' }}
+            style={{ margin: '1rem 1rem 0 0' }}
           />
           <Modal
             isOpen={this.state.isOpen}
             contentLabel="Meal"
             style={modalStyle}
+            closeTimeoutMS={150}
           >
             <Button
               value="&times;"
               onClick={this.handleCloseModal}
               className="close"
             />
-            { !this.state.updating
-              ? <AddMeal closeModal={this.handleCloseModal} />
+            {!this.state.updating
+              ? <AddMeal />
               : <UpdateMeal meal={this.state.meal} />}
           </Modal>
           <CatererMealsWithErrorHandling

@@ -1,56 +1,143 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import Button from '../util/Button';
+import MealDetail from './MealDetail';
 import { deleteMeal } from '../../actions/mealActions';
+import '../../static/hover_overlay.scss';
 
-const ConnectedMeal = ({ meal, ...rest }) => {
-  const { isDeleting, isUpdating, removeMeal } = rest;
-  const btnStyle = {
-    display: 'inline-block',
-    margin: '.5rem',
-  };
-  const handleDelete = () => {
-    removeMeal(meal.id);
-  };
-  const handleUpdate = () => {
-    rest.handleMealUpdate(meal);
-  };
-  return (
-    <div className="card user-menu-item">
-      <img
-        src={meal.imageUrl}
-        alt="meal.name"
-      />
-      <p className="amount">
-        {meal.name}
-      </p>
-      <p className="amount">&#x20a6;{meal.price}</p>
-      <div style={{ width: '71%', margin: '0 auto' }}>
-        <Button
-          className="btn btn-success btn-alt"
-          value="Edit"
-          style={btnStyle}
-          disabled={isUpdating}
-          onClick={handleUpdate}
-        />
-        <Button
-          className="btn btn-danger btn-alt"
-          value="Delete"
-          style={btnStyle}
-          onClick={handleDelete}
-          disabled={isDeleting}
-        />
+class ConnectedMeal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: false,
+      meal: props.meal,
+    };
+    this.handleOpenModal = this.handleOpenModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  handleOpenModal() {
+    this.setState({ isOpen: true });
+  }
+
+  handleCloseModal() {
+    this.setState({ isOpen: false });
+  }
+
+  handleDelete() {
+    this.props.removeMeal(this.props.meal.id);
+  }
+
+  handleUpdate() {
+    this.props.handleMealUpdate(this.props.meal);
+  }
+
+  render() {
+    const { isDeleting, isUpdating } = this.props;
+
+    const btnStyle = {
+      flex: '50%',
+      border: 'none',
+      margin: '.5rem',
+      padding: '.5rem',
+      cursor: 'pointer',
+      borderRadius: '3px',
+      background: '#e9ebeb',
+    };
+
+    const modalStyle = {
+      overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.25)',
+      },
+      content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        minWidth: '20rem',
+        width: '70%',
+      },
+    };
+
+    return (
+      <div className="card user-menu-item">
+        <div
+          className="overlay-container"
+          onClick={this.handleOpenModal}
+          onKeyPress={this.handleOpenModal}
+          role="button"
+          tabIndex="0"
+        >
+          <img
+            src={this.state.meal.imageUrl}
+            alt={this.state.meal.name}
+          />
+          <div className="overlay">
+            <div className="text">
+              <p>View description</p>
+            </div>
+          </div>
+        </div>
+        <Modal
+          isOpen={this.state.isOpen}
+          contentLabel="Meal Detail"
+          style={modalStyle}
+          closeTimeoutMS={150}
+        >
+          <Button
+            value="&times;"
+            onClick={this.handleCloseModal}
+            className="close"
+          />
+          <MealDetail
+            closeMealDetail={this.handleCloseModal}
+            meal={this.state.meal}
+          />
+        </Modal>
+        <p className="text-black">
+          {this.state.meal.name}
+        </p>
+        <p className="text-black">&#x20a6;{this.state.meal.price}</p>
+        <div style={{ display: 'flex', width: '75%', margin: '0 auto' }}>
+          <button
+            value="Edit"
+            disabled={isUpdating}
+            onClick={this.handleUpdate}
+            style={Object.assign({}, btnStyle, { color: 'green' })}
+            title="Edit Meal"
+          >
+            Edit
+          </button>
+          <button
+            value="Delete"
+            disabled={isDeleting}
+            onClick={this.handleUpdate}
+            style={Object.assign({}, btnStyle, { color: 'red' })}
+            title="Delete Meal"
+          >
+            Delete
+          </button>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 ConnectedMeal.propTypes = {
   meal: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ])).isRequired,
+  isDeleting: PropTypes.bool.isRequired,
+  isUpdating: PropTypes.bool.isRequired,
+  handleMealUpdate: PropTypes.func.isRequired,
+  removeMeal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

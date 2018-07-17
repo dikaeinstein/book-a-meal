@@ -7,7 +7,7 @@ const NotFound = () => {
     history.goBack();
   };
   return (
-    <div className="bg-light text-center not-found">
+    <div className="bg-dark text-center not-found">
       <h1>404</h1>
       <h2>Sorry!</h2>
       <h2>Page not found :)</h2>

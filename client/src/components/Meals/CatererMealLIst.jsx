@@ -15,7 +15,7 @@ const ConnectedCatererMealList = ({ meals, handleMealUpdate }) => {
   );
 };
 
-ConnectedCatererMealList.propType = {
+ConnectedCatererMealList.propTypes = {
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleMealUpdate: PropTypes.func.isRequired,
 };
