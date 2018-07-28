@@ -5,6 +5,7 @@ import { Preloader } from 'react-materialize';
 import OrderHistory from './OrderHistory';
 import { fetchUserOrders } from '../../actions/orderActions';
 import Loading from '../util/Loading';
+import Footer from '../util/Footer';
 
 class ConnectedUserOrderHistory extends Component {
   componentDidMount() {
@@ -25,17 +26,23 @@ class ConnectedUserOrderHistory extends Component {
     if (error) {
       return (
         <h1 className="error-container text-center">
-          {error} ):
+          {error}
         </h1>
       );
     }
     return (
-      <main className="bg-light order-history-main text-center">
-        <h2 className="text-danger">Order history</h2>
-        <section className="card order-history">
-          <OrderHistory />
-        </section>
-      </main>
+      <div>
+        <main
+          className="bg-light order-history-main text-center"
+          style={{ minHeight: 'calc(100vh - 151px)' }}
+        >
+          <h2>Order history</h2>
+          <section className="card order-history">
+            <OrderHistory />
+          </section>
+        </main>
+        <Footer />
+      </div>
     );
   }
 }
@@ -52,13 +59,14 @@ ConnectedUserOrderHistory.propTypes = {
 
 const mapStateToProps = state => ({
   isFetching: state.orders.isFetching,
-  error: state.orders.error,
+  error: state.orders.fetchError,
 });
 
 const mapdispatchToProps = dispatch => ({
   fetchUserOrders: () => dispatch(fetchUserOrders()),
 });
 
-const UserOrderHistory = connect(mapStateToProps, mapdispatchToProps)(ConnectedUserOrderHistory);
+const UserOrderHistory =
+  connect(mapStateToProps, mapdispatchToProps)(ConnectedUserOrderHistory);
 
 export default UserOrderHistory;

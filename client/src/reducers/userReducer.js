@@ -4,7 +4,7 @@ import {
   USER_SIGN_IN_ERROR,
   USER_SIGN_IN_SUCCESS,
   USER_SIGN_OUT,
-} from '../constants/actionTypes';
+} from '../constants/userActionTypes';
 
 const userReducer = (state = initialState.user, action) => {
   switch (action.type) {

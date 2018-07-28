@@ -5,11 +5,11 @@ import DashboardOrderHistory from './DashboardOrderHistory';
 import Footer from '../util/Footer';
 import FilterOrders from './FilterOrders';
 import TotalOrders from './TotalOrders';
-import TotalSales from './TotalSales';
+import TotalSales from './TotalAmount';
 import errorHandler from '../util/errorHandler';
 
 
-const ConnectedDashboard = ({ fetchOrdersError }) => {
+const ConnectedDashboard = ({ fetchAllOrdersError }) => {
   const DashboardOrderHistoryWithErrorHandling =
     errorHandler(DashboardOrderHistory, 'Error fetching orders');
 
@@ -25,7 +25,7 @@ const ConnectedDashboard = ({ fetchOrdersError }) => {
           <TotalSales />
           <FilterOrders />
           <DashboardOrderHistoryWithErrorHandling
-            error={fetchOrdersError}
+            error={fetchAllOrdersError}
           />
         </section>
       </main>
@@ -36,14 +36,14 @@ const ConnectedDashboard = ({ fetchOrdersError }) => {
 
 ConnectedDashboard.propTypes = {
   /* eslint react/require-default-props: 0 */
-  fetchOrdersError: PropTypes.oneOfType([
+  fetchAllOrdersError: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.objectOf(PropTypes.string),
   ]),
 };
 
 const mapStateToProps = state => ({
-  fetchOrdersError: state.orders.error,
+  fetchAllOrdersError: state.dashboard.fetchAllOrdersError,
 });
 
 const Dashboard = connect(mapStateToProps)(ConnectedDashboard);

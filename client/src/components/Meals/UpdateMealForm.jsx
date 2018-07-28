@@ -15,7 +15,7 @@ class ConnectedUpdateMealForm extends Component {
       imageUploading: false,
       imageUploaded: false,
       imageUploadError: false,
-      imageUrl: '',
+      imageUrl: undefined,
     };
     this.handleImageChange = this.handleImageChange.bind(this);
   }

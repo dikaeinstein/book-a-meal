@@ -19,7 +19,7 @@ const ConnectedAddMeal = ({ saveMeal }) => {
           name: '',
           description: '',
           price: '',
-          imageUrl: '',
+          imageUrl: undefined,
         }}
         validationSchema={mealSchema}
         component={AddMealForm}

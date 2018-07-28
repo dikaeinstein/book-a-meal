@@ -2,7 +2,7 @@ import {
   USER_SIGN_IN_SUCCESS,
   USER_SIGN_OUT,
   USER_SIGN_IN_ERROR,
-} from '../constants/actionTypes';
+} from '../constants/userActionTypes';
 import initialState from '../reducers/initialState';
 
 const customerUrls = [

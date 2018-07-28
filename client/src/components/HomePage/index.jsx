@@ -12,11 +12,13 @@ const ConnectedHomePage = ({ error }) => {
 
   return (
     <div>
-      <IntroBanner />
-      <MenuCardWithErrorHandling
-        link="/signIn"
-        error={error}
-      />
+      <div style={{ minHeight: 'calc(100vh - 151px)' }}>
+        <IntroBanner />
+        <MenuCardWithErrorHandling
+          link="/signIn"
+          error={error}
+        />
+      </div>
       <Footer />
     </div>
   );

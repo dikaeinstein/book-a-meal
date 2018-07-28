@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import history from '../../helpers/history';
 import Button from '../util/Button';
+import { checkoutOrder } from '../../actions/orderActions';
 
-class MealCheckout extends Component {
+class ConnectedMealCheckout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      total: props.meal.price,
-      name: props.meal.name,
+      total: parseFloat(props.meal.price),
       quantity: 1,
+      amount: parseFloat(props.meal.price),
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleCheckout = this.handleCheckout.bind(this);
@@ -17,11 +19,22 @@ class MealCheckout extends Component {
 
   handleChange(event) {
     event.preventDefault();
-    this.setState({ quantity: event.target.value });
+    const newQuantity = parseInt(event.target.value, 10);
+    this.setState({
+      quantity: newQuantity,
+      total: newQuantity * this.state.amount,
+    });
   }
 
   handleCheckout() {
     this.props.closeModal();
+    this.props.checkoutOrder({
+      mealId: this.props.meal.id,
+      quantity: this.state.quantity,
+      total: this.state.total,
+      amount: this.props.meal.price,
+    });
+    history.push('/order-confirmation');
   }
 
   render() {
@@ -46,7 +59,7 @@ class MealCheckout extends Component {
             <tbody>
               <tr>
                 <td>
-                  {this.state.name}
+                  {this.props.meal.name}
                 </td>
                 <td>
                   <select name="quantity" id="quantity" onChange={this.handleChange}>
@@ -56,7 +69,7 @@ class MealCheckout extends Component {
                   </select>
                 </td>
                 <td>
-                  &#x20a6; {this.state.total * this.state.quantity}
+                  &#x20a6; {this.state.total}
                 </td>
               </tr>
             </tbody>
@@ -73,7 +86,7 @@ class MealCheckout extends Component {
   }
 }
 
-MealCheckout.propTypes = {
+ConnectedMealCheckout.propTypes = {
   meal: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -81,6 +94,13 @@ MealCheckout.propTypes = {
   price: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
+  checkoutOrder: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = dispatch => ({
+  checkoutOrder: order => dispatch(checkoutOrder(order)),
+});
+
+const MealCheckout = connect(null, mapDispatchToProps)(ConnectedMealCheckout);
 
 export default MealCheckout;

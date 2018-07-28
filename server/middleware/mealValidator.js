@@ -72,7 +72,6 @@ const mealDescriptionValidator = ({ optional = false } = {}) => {
 const mealImageUrlValidator = () =>
   body('imageUrl')
     .optional().trim()
-    .not().isEmpty().withMessage('Meal image url is required')
     .isURL().withMessage('Meal image url must be a valid url');
 
 

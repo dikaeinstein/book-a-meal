@@ -2,7 +2,7 @@ import {
   USER_SIGN_IN_SUCCESS,
   ADMIN_SIGN_IN_SUCCESS,
 }
-  from '../constants/actionTypes';
+  from '../constants/userActionTypes';
 
 export const userSignedIn = urls => ({
   type: USER_SIGN_IN_SUCCESS,

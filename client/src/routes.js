@@ -21,6 +21,7 @@ import NotFound from './components/NotFound';
 import Dashboard from './components/Dashboard';
 import Meals from './components/Meals';
 import Menus from './components/Menus';
+import OrderConfirmation from './components/OrderConfirmation';
 
 
 const Root = ({ store }) => (
@@ -46,6 +47,10 @@ const Root = ({ store }) => (
           <PrivateRoute path="/caterer-dashboard" component={Dashboard} />
           <PrivateRoute path="/meals" component={Meals} />
           <PrivateRoute path="/menus" component={Menus} />
+          <PrivateRoute
+            path="/order-confirmation"
+            component={OrderConfirmation}
+          />
           <Route component={NotFound} />
         </Switch>
       </div>
