@@ -1,4 +1,3 @@
-import format from 'date-fns/format';
 import { Op } from 'sequelize';
 import { Menu, Meal } from '../models';
 
@@ -6,7 +5,6 @@ import { Menu, Meal } from '../models';
  * @class MenuController
  *
  * @export
- *
  */
 
 class MenuController {
@@ -32,7 +30,7 @@ class MenuController {
     const matchedMenu = await Menu.findOne({
       where: {
         created_at: {
-          [Op.gte]: format(currentDate),
+          [Op.gte]: currentDate,
         },
       },
     });
@@ -91,7 +89,7 @@ class MenuController {
       }],
       where: {
         created_at: {
-          [Op.gte]: format(currentDate),
+          [Op.gte]: currentDate,
         },
       },
     });
@@ -137,7 +135,7 @@ class MenuController {
       matchedMenu = await Menu.findOne({
         where: {
           created_at: {
-            [Op.gte]: format(currentDate),
+            [Op.gte]: currentDate,
           },
         },
       });

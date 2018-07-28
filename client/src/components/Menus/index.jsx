@@ -96,7 +96,6 @@ class ConnectedMenus extends Component {
             isOpen={this.state.isOpen}
             contentLabel="Menu"
             style={modalStyle}
-            closeTimeoutMS={150}
           >
             <Button
               value="&times;"

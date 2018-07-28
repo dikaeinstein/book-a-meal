@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import Button from '../util/Button';
 import MealDetail from './MealDetail';
+import ConfirmationDialog from '../util/ConfirmationDialog';
 import { deleteMeal } from '../../actions/mealActions';
 import '../../static/hover_overlay.scss';
 
@@ -12,12 +13,14 @@ class ConnectedMeal extends Component {
     super(props);
     this.state = {
       isOpen: false,
+      isConfirmationOpen: false,
       meal: props.meal,
     };
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleCloseConfirmation = this.handleCloseConfirmation.bind(this);
   }
 
   handleOpenModal() {
@@ -29,6 +32,11 @@ class ConnectedMeal extends Component {
   }
 
   handleDelete() {
+    this.setState({ isConfirmationOpen: true });
+  }
+
+  handleCloseConfirmation() {
+    this.setState({ isConfirmationOpen: false });
     this.props.removeMeal(this.props.meal.id);
   }
 
@@ -88,7 +96,6 @@ class ConnectedMeal extends Component {
           isOpen={this.state.isOpen}
           contentLabel="Meal Detail"
           style={modalStyle}
-          closeTimeoutMS={150}
         >
           <Button
             value="&times;"
@@ -100,11 +107,22 @@ class ConnectedMeal extends Component {
             meal={this.state.meal}
           />
         </Modal>
-        <p className="text-black">
-          {this.state.meal.name}
-        </p>
-        <p className="text-black">&#x20a6;{this.state.meal.price}</p>
-        <div style={{ display: 'flex', width: '75%', margin: '0 auto' }}>
+        <ConfirmationDialog
+          message="Are you sure you want to delete meal"
+          isOpen={this.state.isConfirmationOpen}
+          ok={this.handleCloseConfirmation}
+          cancel={this.handleCloseConfirmation}
+        />
+        <div
+          className="font-weight-bold text-black"
+          style={{ padding: '.875rem' }}
+        >
+          <p>{this.state.meal.name}</p>
+          <p style={{ fontSize: '1.25rem' }}>
+            &#x20a6;{this.state.meal.price}
+          </p>
+        </div>
+        <div style={{ display: 'flex', width: '75%', margin: '.5rem auto' }}>
           <button
             value="Edit"
             disabled={isUpdating}
@@ -117,7 +135,7 @@ class ConnectedMeal extends Component {
           <button
             value="Delete"
             disabled={isDeleting}
-            onClick={this.handleUpdate}
+            onClick={this.handleDelete}
             style={Object.assign({}, btnStyle, { color: 'red' })}
             title="Delete Meal"
           >

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import Modal from 'react-modal';
 import MealDetail from '../Meals/MealDetail';
 import MealCheckout from './MealCheckout';
@@ -14,17 +13,17 @@ class MenuMeal extends Component {
     super(props);
     this.state = {
       isMealDetailOpen: false,
-      isMealChoiceOpen: false,
+      isMealCheckoutOpen: false,
       meal: props.meal,
     };
     this.handleOpenMealDetailModal =
       this.handleOpenMealDetailModal.bind(this);
     this.handleCloseMealDetailModal =
       this.handleCloseMealDetailModal.bind(this);
-    this.handleOpenMealChoiceModal =
-      this.handleOpenMealChoiceModal.bind(this);
-    this.handleCloseMealChoiceModal =
-      this.handleCloseMealChoiceModal.bind(this);
+    this.handleOpenMealCheckoutModal =
+      this.handleOpenMealCheckoutModal.bind(this);
+    this.handleCloseMealCheckoutModal =
+      this.handleCloseMealCheckoutModal.bind(this);
   }
 
   handleOpenMealDetailModal() {
@@ -35,12 +34,12 @@ class MenuMeal extends Component {
     this.setState({ isMealDetailOpen: false });
   }
 
-  handleOpenMealChoiceModal() {
-    this.setState({ isMealChoiceOpen: true });
+  handleOpenMealCheckoutModal() {
+    this.setState({ isMealCheckoutOpen: true });
   }
 
-  handleCloseMealChoiceModal() {
-    this.setState({ isMealChoiceOpen: false });
+  handleCloseMealCheckoutModal() {
+    this.setState({ isMealCheckoutOpen: false });
   }
 
   render() {
@@ -61,7 +60,7 @@ class MenuMeal extends Component {
     };
     const mealChoiceModalStyle = {
       ...modalStyle,
-      content: { ...modalStyle.content, width: '50%' },
+      content: { ...modalStyle.content, width: '45%' },
     };
     return (
       <div key={this.state.meal.id} className="card user-menu-item">
@@ -98,34 +97,39 @@ class MenuMeal extends Component {
             meal={this.state.meal}
           />
         </Modal>
-        <p className="text-black">{this.state.meal.name}</p>
-        <p className="text-black">&#x20a6;{this.state.meal.price}</p>
+        <div
+          className="font-weight-bold text-black"
+          style={{ padding: '.875rem' }}
+        >
+          <p>{this.state.meal.name}</p>
+          <p style={{ fontSize: '1.25rem' }}>&#x20a6;{this.state.meal.price}</p>
+        </div>
         <Modal
-          isOpen={this.state.isMealChoiceOpen}
+          isOpen={this.state.isMealCheckoutOpen}
           contentLabel="Meal Choice"
           style={mealChoiceModalStyle}
           closeTimeoutMS={150}
         >
           <Button
             value="&times;"
-            onClick={this.handleCloseMealChoiceModal}
+            onClick={this.handleCloseMealCheckoutModal}
             className="close"
           />
           {this.props.loggedIn
             ?
               <MealCheckout
                 meal={this.state.meal}
-                closeModal={this.handleCloseMealChoiceModal}
+                closeModal={this.handleCloseMealCheckoutModal}
               />
             :
               <SigninSignupButtons
-                closeModal={this.handleCloseMealChoiceModal}
+                closeModal={this.handleCloseMealCheckoutModal}
               />
           }
         </Modal>
         <Button
           className="btn btn-default"
-          onClick={this.handleOpenMealChoiceModal}
+          onClick={this.handleOpenMealCheckoutModal}
           value="Order Now"
           style={{ margin: '1rem auto' }}
         />

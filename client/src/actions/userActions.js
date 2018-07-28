@@ -6,7 +6,7 @@ import {
   USER_SIGN_IN_ERROR,
   USER_SIGN_OUT,
 }
-  from '../constants/actionTypes';
+  from '../constants/userActionTypes';
 import userService from '../helpers/userService';
 import transformError from '../helpers/transformError';
 

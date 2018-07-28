@@ -1,5 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import sinon from 'sinon';
 import app from '../app';
 import users from './usersTestData';
 
@@ -106,6 +107,18 @@ describe('Orders', () => {
       expect(res.body.error.quantity).to
         .include('Order quantity cannot be less than zero');
     });
+    it('should return an error if meal does not exist', async () => {
+      const res = await chai.request(app).post(orderUrl)
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          mealId: 100,
+          amount: 2000,
+          quantity: 3,
+          total: 6000,
+        });
+      expect(res.status).to.equal(404);
+      expect(res.body.message).to.include('Meal does not exist');
+    });
   });
 
   // Test Update an order
@@ -180,12 +193,16 @@ describe('Orders', () => {
         .include('Order id must be a whole number');
     });
     describe('Modify an expired order', () => {
-      before((done) => {
-        setTimeout(() => {
-          done();
-        }, 3000);
+      let clock;
+      before(() => {
+        clock = sinon.useFakeTimers(Date.now());
+        // Tick the clock ahead by 30mins
+        clock.tick(1800000);
       });
-      it('should not modify an order after 2 secs', async () => {
+      after(() => {
+        clock.restore();
+      });
+      it('should not allow customer modify an order after 30 mins', async () => {
         const res = await chai.request(app).put(`${orderUrl}/1`)
           .set('Authorization', `Bearer ${token}`)
           .send({
@@ -196,7 +213,7 @@ describe('Orders', () => {
         expect(res.body.error.message).to
           .include('You can no longer update this order');
       });
-      it('should not modify an order if it has expired', async () => {
+      it('should not allow customer modify an order if it has expired', async () => {
         const res = await chai.request(app).put(`${orderUrl}/1`)
           .set('Authorization', `Bearer ${token}`)
           .send({
@@ -206,6 +223,28 @@ describe('Orders', () => {
         expect(res.status).to.equal(405);
         expect(res.body.error.message).to
           .include('You can no longer update this order');
+      });
+      it('should allow admin(caterer) modify expired order', async () => {
+        const res = await chai.request(app).put(`${orderUrl}/1`)
+          .set('Authorization', `Bearer ${adminToken}`)
+          .send({
+            quantity: 1,
+            total: 2000,
+          });
+        expect(res.status).to.equal(200);
+        expect(res.body.message).to.include('Successfully updated order');
+        expect(res.body.order.quantity).to.equal(1);
+        expect(res.body.order.total).to.equal(2000);
+      });
+      it("should return an error if there's no order", async () => {
+        const res = await chai.request(app).put(`${orderUrl}/100`)
+          .set('Authorization', `Bearer ${adminToken}`)
+          .send({
+            quantity: 1,
+            total: 2000,
+          });
+        expect(res.status).to.equal(404);
+        expect(res.body.message).to.include('Order does not exist');
       });
     });
   });
@@ -213,14 +252,35 @@ describe('Orders', () => {
   // Test Get order total amount for specific day
   describe('Get total amount made', () => {
     it('should return total for current day', async () => {
-      const res = await chai.request(app).get(`${orderUrl}/total`)
+      const res = await chai.request(app).get(`${orderUrl}/totalAmount`)
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.status).to.equal('success');
-      expect(res.body.total).to.equal(8000);
+      expect(res.body.totalAmount).to.equal(6000);
     });
     it('should not retrieve total for non admin user', async () => {
-      const res = await chai.request(app).get(`${orderUrl}/total`)
+      const res = await chai.request(app).get(`${orderUrl}/totalAmount`)
+        .set('Authorization', `Bearer ${token}`);
+      expect(res.status).to.equal(403);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error.message).to
+        .equal("Forbidden, you don't have the priviledge to perform this operation");
+    });
+  });
+
+  // Test Get total number of orders made
+  describe('Get total number of orders made', () => {
+    it('should return  total number of orders made', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalOrders`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.totalOrders).to.be.gt(0);
+      expect(res.body.totalOrders).to.equal(3);
+      expect(res.body.message).to
+        .include('Total number of orders made successfully retrieved');
+    });
+    it('should not retrieve total number of orders for non admin user', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalOrders`)
         .set('Authorization', `Bearer ${token}`);
       expect(res.status).to.equal(403);
       expect(res.body).to.be.an('object');

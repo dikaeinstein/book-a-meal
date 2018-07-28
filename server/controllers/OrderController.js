@@ -1,7 +1,4 @@
 import dotenv from 'dotenv';
-import format from 'date-fns/format';
-import differenceInMinutes from 'date-fns/difference_in_minutes';
-import differenceInMilliseconds from 'date-fns/difference_in_milliseconds';
 import { Op } from 'sequelize';
 import { Order, User, Meal } from '../models';
 
@@ -14,14 +11,14 @@ dotenv.config();
  */
 class OrderController {
   /**
-  * @description - Get all orders
+  * @description Get all orders
   * @static
   * @async
   *
-  * @param {object} req - HTTP Request
-  * @param {object} res - HTTP Response
+  * @param {object} req HTTP Request
+  * @param {object} res HTTP Response
   *
-  * @memberof - OrderController
+  * @memberof OrderController
   *
   * @returns {Promise<object>}
   */
@@ -56,16 +53,16 @@ class OrderController {
   }
 
   /**
-   * @description - Get all orders for specific date
+   * @description Get all orders for specific date
    * @static
    * @async
    *
-   * @param {object} req - HTTP Request
-   * @param {object} res - HTTP Response
+   * @param {object} req HTTP Request
+   * @param {object} res HTTP Response
    *
    * @memberof OrderController
    *
-   * @returns {Promis<object>}
+   * @returns {Promise<object>}
    */
   static async getAllOrdersForSpecificDate(req, res) {
     const { date } = req.params;
@@ -101,12 +98,12 @@ class OrderController {
   }
 
   /**
-   * @description - Get order history for specific user
+   * @description Get order history for specific user
    * @static
    * @async
    *
-   * @param {object} req - HTTP Request
-   * @param {object} res - HTTP Response
+   * @param {object} req HTTP Request
+   * @param {object} res HTTP Response
    *
    * @memberof OrderController
    *
@@ -146,7 +143,7 @@ class OrderController {
   }
 
   /**
-   * @description - Get Total amount made
+   * @description Get Total amount made
    * @static
    * @async
    *
@@ -159,56 +156,83 @@ class OrderController {
    */
   static async getTotalAmount(req, res) {
     const { date } = req.params;
-    let total;
-    let matchedOrders;
-    if (date) {
-      // Filter orders by date
-      matchedOrders = await Order.findAll({
-        where: {
-          created_at: {
-            [Op.gte]: format(date),
-          },
-        },
-      });
-    } else {
-      // Use current date as default
-      const currentDate = new Date();
-      currentDate.setUTCHours(0, 0, 0, 0);
+    let totalAmount = 0;
 
-      matchedOrders = await Order.findAll({
+    if (date) {
+      // Filter orders by date and return sum
+      totalAmount = await Order.sum('total', {
         where: {
           created_at: {
-            [Op.gte]: format(currentDate.toISOString()),
+            [Op.gte]: new Date(date),
           },
         },
       });
-      if (matchedOrders.length > 0) {
-        total = matchedOrders
-          .map(matchedOrder => (
-            parseInt(matchedOrder.total, 10)
-          ))
-          .reduce((start, current) => (
-            start + current
-          ));
-      } else {
-        total = 0;
-      }
+
+      return res.status(200).json({
+        message: 'Orders total amount successfully retrieved',
+        status: 'success',
+        totalAmount,
+      });
     }
+
+    totalAmount = await Order.sum('total');
 
     return res.status(200).json({
       message: 'Orders total amount successfully retrieved',
       status: 'success',
-      total,
+      totalAmount,
     });
   }
 
   /**
-   * @description - Make an order
+   * @description Get total number of orders made
    * @static
    * @async
    *
-   * @param {object} req - HTTP Request
-   * @param {object} res - HTTP Response
+   * @param {object} req HTTP Request
+   * @param {object} res HTTP Response
+   *
+   * @memberof OrderController
+   *
+   * @returns {Promise<object>}
+   */
+  static async getTotalNumberOfOrders(req, res) {
+    let totalOrders = 0;
+    const { date } = req.params;
+
+    if (date) {
+      // Filter orders by date and return count
+      totalOrders = await Order.count({
+        where: {
+          created_at: {
+            [Op.gte]: new Date(date),
+          },
+        },
+      });
+
+      return res.status(200).json({
+        message: 'Orders total amount successfully retrieved',
+        status: 'success',
+        totalOrders,
+      });
+    }
+
+    totalOrders = await Order.count();
+
+    return res.status(200).json({
+      message: 'Total number of orders made successfully retrieved',
+      status: 'success',
+      totalOrders,
+    });
+  }
+
+  /**
+   * @description Make an order
+   * @static
+   * @async
+   *
+   * @param {object} req HTTP Request
+   * @param {object} res HTTP Response
    *
    * @memberof OrderController
    *
@@ -223,8 +247,6 @@ class OrderController {
     } = req.body;
     const { userId } = req;
     const error = {};
-    const date = new Date();
-    date.setUTCHours(0, 0, 0, 0);
 
     const order = {
       mealId,
@@ -234,16 +256,8 @@ class OrderController {
       userId,
     };
 
-    const user = await User.findById(userId);
     const meal = await Meal.findById(mealId);
-    if (!user) {
-      error.user = 'User does not exist';
-      return res.status(404).json({
-        message: error.user,
-        status: 'error',
-        error,
-      });
-    }
+
     if (!meal) {
       error.meal = 'Meal does not exist';
       return res.status(404).json({
@@ -261,12 +275,12 @@ class OrderController {
   }
 
   /**
-   * @description - Update an order
+   * @description Update an order
    * @static
    * @async
    *
-   * @param {object} req - HTTP Request
-   * @param {object} res - HTTP Response
+   * @param {object} req HTTP Request
+   * @param {object} res HTTP Response
    *
    * @memberof OrderController
    *
@@ -274,8 +288,9 @@ class OrderController {
    */
   static async updateOrder(req, res) {
     const error = {};
+    const { userId } = req;
 
-    // Filter orders
+    const currentUser = await User.findById(userId);
     const matchedOrder = await Order.findOne({
       where: { id: req.params.orderId },
     });
@@ -289,20 +304,22 @@ class OrderController {
       });
     }
 
-    if (matchedOrder && !matchedOrder.expired) {
-      if (process.env.NODE_ENV === 'test') {
-        if (differenceInMilliseconds(Date.now(), matchedOrder.createdAt) >= 2000) {
-          await matchedOrder.update({ expired: true });
-          error.message = 'You can no longer update this order';
-          return res.status(405).json({
-            message: error.message,
-            status: 'error',
-            error,
-          });
-        }
+    if (currentUser.role === 'customer') {
+      // If order has expired i.e not modifiable
+      if (matchedOrder && matchedOrder.expired) {
+        error.message = 'You can no longer update this order';
+        return res.status(405).json({
+          message: error.message,
+          status: 'error',
+          error,
+        });
       }
-      if (differenceInMinutes(Date.now(), matchedOrder.createdAt) >= 30) {
-        error.message = 'You are can no longer update this order';
+
+      // If the allowed time(30mins) to modify order has elapsed
+      const differenceInMinutes =
+        Math.floor((Date.now() - matchedOrder.createdAt) / 60000);
+      if (differenceInMinutes >= 30) {
+        error.message = 'You can no longer update this order';
         await matchedOrder.update({ expired: true });
         return res.status(405).json({
           message: error.message,
@@ -320,22 +337,24 @@ class OrderController {
       });
     }
 
-    error.message = 'You can no longer update this order';
-    await matchedOrder.update({ expired: true });
-    return res.status(405).json({
-      message: error.message,
-      status: 'error',
-      error,
+    // For admin (caterer)
+    // Merge changes
+    const updatedOrder = await matchedOrder.update(req.body);
+
+    return res.status(200).json({
+      message: 'Successfully updated order',
+      status: 'success',
+      order: updatedOrder,
     });
   }
 
   /**
-   * @description - Delete a specific order
+   * @description Delete a specific order
    * @static
    * @async
    *
-   * @param {object} req - HTTP Request
-   * @param {object} res - HTTP Response
+   * @param {object} req HTTP Request
+   * @param {object} res HTTP Response
    *
    * @memberof OrderController
    *

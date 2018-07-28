@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Preloader } from 'react-materialize';
 import { fetchMeals } from '../../actions/mealActions';
-import CatererMealList from './CatererMealList';
+import CatererMealList from './CatererMealLIst';
 import Loading from '../util/Loading';
 
 class ConnectedCatererMeals extends Component {

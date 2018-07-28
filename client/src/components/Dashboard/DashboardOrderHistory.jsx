@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Preloader } from 'react-materialize';
-import OrderHistory from '../UserOrderHistory/OrderHistory';
-import { fetchUserOrders } from '../../actions/orderActions';
+import OrderList from './OrderList';
+import { fetchAllOrders } from '../../actions/dashboardActions';
 import Loading from '../util/Loading';
 
 class ConnectedDashboardOrderHistory extends Component {
   componentDidMount() {
-    this.props.fetchUserOrders();
+    this.props.getAllOrders();
   }
 
   render() {
@@ -24,27 +24,27 @@ class ConnectedDashboardOrderHistory extends Component {
     }
 
     return (
-      <main className="bg-light order-history-main text-center">
-        <h2 className="text-danger">Order history</h2>
-        <section className="card order-history">
-          <OrderHistory />
-        </section>
-      </main>
+      <section>
+        <h2>Order history</h2>
+        <OrderList orders={this.props.allOrders} />
+      </section>
     );
   }
 }
 
 ConnectedDashboardOrderHistory.propTypes = {
   isFetching: PropTypes.bool.isRequired,
-  fetchUserOrders: PropTypes.func.isRequired,
+  getAllOrders: PropTypes.func.isRequired,
+  allOrders: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = state => ({
-  isFetching: state.orders.isFetching,
+  isFetching: state.dashboard.isFetchingAllOrders,
+  allOrders: state.dashboard.allOrders,
 });
 
 const mapdispatchToProps = dispatch => ({
-  fetchUserOrders: () => dispatch(fetchUserOrders()),
+  getAllOrders: () => dispatch(fetchAllOrders()),
 });
 
 const DashboardOrderHistory = connect(

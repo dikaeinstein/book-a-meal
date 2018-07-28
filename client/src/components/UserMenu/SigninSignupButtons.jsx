@@ -12,24 +12,41 @@ const SigninSignupButtons = ({ closeModal }) => {
     closeModal();
     history.push('/signup');
   };
+
   const btnStyle = {
     margin: '1rem',
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <Button
-        className="btn btn-default"
-        value="Sign in"
-        onClick={handleSignin}
-        style={btnStyle}
-      />
-      <Button
-        className="btn btn-default"
-        value="Sign up"
-        onClick={handleSignup}
-        style={btnStyle}
-      />
+    <div>
+      <div className="m1">
+        <p
+          className="font-weight-bold"
+          style={{
+            marginBottom: '1rem',
+            fontSize: '1.25rem',
+          }}
+        >
+          You are not logged in
+        </p>
+        <p>
+          Log in or sign up to continue.
+        </p>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button
+          className="btn btn-default"
+          value="Sign in"
+          onClick={handleSignin}
+          style={btnStyle}
+        />
+        <Button
+          className="btn btn-default"
+          value="Sign up"
+          onClick={handleSignup}
+          style={btnStyle}
+        />
+      </div>
     </div>);
 };
 

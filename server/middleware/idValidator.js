@@ -3,6 +3,9 @@ import { check } from 'express-validator/check';
 /**
  * Validate param id
  *
+ * @param {String} paramName
+ * @param {String} modelName
+ *
  * @returns {ValidationChain}
  */
 const idValidator = (

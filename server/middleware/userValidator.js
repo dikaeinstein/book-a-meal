@@ -1,6 +1,6 @@
 // import isEmpty from 'lodash.isempty';
 // import validator from 'validator';
-import { body, ValidationChain } from 'express-validator/check';
+import { body } from 'express-validator/check';
 
 
 /**

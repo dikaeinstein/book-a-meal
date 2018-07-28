@@ -228,7 +228,7 @@ describe('Meals', () => {
       expect(res).to.have.status(400);
       expect(res.body).to.be.an('object');
       expect(res.body.error.imageUrl)
-        .to.include('Meal image url is required');
+        .to.include('Meal image url must be a valid url');
     });
     it('should not add meal with invalid image url', async () => {
       const res = await chai.request(app).post(mealUrl)
@@ -353,7 +353,7 @@ describe('Meals', () => {
       expect(res).to.have.status(400);
       expect(res.body).to.be.an('object');
       expect(res.body.error.imageUrl)
-        .to.include('Meal image url is required');
+        .to.include('Meal image url must be a valid url');
     });
     it('should not update meal with invalid image url', async () => {
       const res = await chai.request(app).put(`${mealUrl}/1`)

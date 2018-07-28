@@ -17,15 +17,13 @@ const getMiddleware = () => {
   return middleware;
 };
 
-const configureStore = initialState => (
-  createStore(
-    rootReducer,
-    initialState,
-    compose(
-      getMiddleware(),
-      window.devToolsExtension ? window.devToolsExtension() : empty => empty,
-    ),
-  )
+const configureStore = initialState => createStore(
+  rootReducer,
+  initialState,
+  compose(
+    getMiddleware(),
+    window.devToolsExtension ? window.devToolsExtension() : empty => empty,
+  ),
 );
 
 export default configureStore;

@@ -136,9 +136,16 @@ router.put(
 
 // Get Total amount made
 router.get(
-  '/orders/total',
+  '/orders/totalAmount',
   authenticate, authorize,
   OrderController.getTotalAmount,
+);
+
+// Get Total number of orders made
+router.get(
+  '/orders/totalOrders',
+  authenticate, authorize,
+  OrderController.getTotalNumberOfOrders,
 );
 
 // Get orders for specific user

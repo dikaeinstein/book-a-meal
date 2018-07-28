@@ -130,7 +130,8 @@ const updateMenuError = error => ({
  * Update menu async action creator
  *
  * @export
- * @param {Object} values
+ * @param {object} values
+ * @param {Number} menuId
  *
  * @returns {Function}
  */
