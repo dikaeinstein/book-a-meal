@@ -7,6 +7,7 @@ import authenticate from '../middleware/authenticate';
 import authorize from '../middleware/authorize';
 import validationErrorHandler from '../middleware/validationErrorHandler';
 import idValidator from '../middleware/idValidator';
+import queryValidator from '../middleware/queryValidator';
 
 import {
   validateAddMeal,
@@ -18,7 +19,7 @@ import {
 } from '../middleware/userValidator';
 import {
   validateSetupMenu,
-  validateUpateMenu,
+  validateUpdateMenu,
 } from '../middleware/menuValidator';
 import {
   validateNewOrder,
@@ -49,6 +50,9 @@ router.delete(
 // Get all meals
 router.get(
   '/meals', authenticate, authorize,
+  queryValidator('page'),
+  queryValidator('limit'),
+  validationErrorHandler,
   MealController.getAllMeals,
 );
 
@@ -95,14 +99,14 @@ router.get('/menu/', MenuController.getMenu);
 router.put(
   '/menu/', authenticate, authorize,
   idValidator('menuId', 'Menu', { optional: true }),
-  validateUpateMenu(), validationErrorHandler,
+  validateUpdateMenu(), validationErrorHandler,
   MenuController.updateMenu,
 );
 router.put(
   '/menu/:menuId',
   authenticate, authorize,
   idValidator('menuId', 'Menu'),
-  validateUpateMenu(), validationErrorHandler,
+  validateUpdateMenu(), validationErrorHandler,
   MenuController.updateMenu,
 );
 
@@ -117,6 +121,9 @@ router.delete(
 // Get all orders
 router.get(
   '/orders', authenticate, authorize,
+  queryValidator('limit'),
+  queryValidator('page'),
+  validationErrorHandler,
   OrderController.getAllOrders,
 );
 
@@ -152,11 +159,16 @@ router.get(
 router.get(
   '/orders/users',
   authenticate,
+  queryValidator('limit'),
+  queryValidator('page'),
+  validationErrorHandler,
   OrderController.getUserOrderHistory,
 );
 router.get(
   '/orders/users/:userId',
   authenticate, idValidator('userId', 'User'),
+  queryValidator('limit'),
+  queryValidator('page'),
   validationErrorHandler,
   OrderController.getUserOrderHistory,
 );

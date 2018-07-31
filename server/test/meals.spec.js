@@ -1,28 +1,15 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import { Meal } from '../models';
 import app from '../app';
 import users from './usersTestData';
+import meals from './mealsTestData';
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
 const mealUrl = '/api/v1/meals';
 const signUpUrl = '/api/v1/auth/signup';
-
-const meals = [
-  {
-    name: 'Spaghetti with meat balls',
-    description: 'Some dummy description',
-    imageUrl: 'https://mydummyimgurl.com',
-    price: '2000',
-  },
-  {
-    name: 'Efo riro and cow head',
-    description: 'Some dummy description',
-    imageUrl: 'https://mydummyimgurl.com',
-    price: '2000',
-  },
-];
 
 const defaultImageUrl = 'http://res.cloudinary.com/dikaeinstein/image/upload/c_scale,q_auto:low,w_1029/v1525566673/book-a-meal/avocado-cooked-delicious-262959.jpg';
 
@@ -60,16 +47,85 @@ describe('Meals', () => {
       expect(res.status).to.equal(404);
       expect(res.body).to.be.an('object');
       expect(res.body.meals).to.be.an('array');
-      expect(res.body.meals).to.eqls([]);
+      expect(res.body.meals).to.eql([]);
     });
     it('should return an array of meals', async () => {
-      await chai.request(app).post(mealUrl)
-        .set('Authorization', `Bearer ${adminToken}`)
-        .send(meals[1]);
+      await Meal.bulkCreate(meals);
       const res = await chai.request(app).get(mealUrl)
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
-      expect(res.body.meals.length).to.be.greaterThan(0);
+      expect(res.body.meals.length).to.be.lessThan(30);
+    });
+    it('should return 10 meals if limit is set', async () => {
+      const res = await chai.request(app).get(`${mealUrl}?limit=10`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.meals.length).to.be.equal(10);
+    });
+    it('should return 2 meals from page two', async () => {
+      const res = await chai.request(app).get(`${mealUrl}?limit=10&page=2`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.meals.length).to.be.equal(2);
+    });
+    it('should return links to traverse meals', async () => {
+      const res = await chai.request(app).get(`${mealUrl}?limit=10`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      const linkNames = res.body.links.map(link => link.rel);
+      expect(res.status).to.equal(200);
+      expect(linkNames.length).to.equal(3);
+      expect(linkNames).to.include('next');
+      expect(linkNames).to.include('last');
+      expect(linkNames).to.include('self');
+    });
+    it('should return link to first page', async () => {
+      const res = await chai.request(app).get(`${mealUrl}?limit=10&page=2`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      const linkNames = res.body.links.map(link => link.rel);
+      expect(res.status).to.equal(200);
+      expect(linkNames).to.include('first');
+    });
+    it('should return an error if limit is less than zero', async () => {
+      const res = await chai.request(app).get(`${mealUrl}?limit=-10`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.limit).to.equal('limit cannot be less than zero');
+    });
+    it('should return an error if limit is a fractional number', async () => {
+      const res = await chai.request(app).get(`${mealUrl}?limit=9.5`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.limit).to.equal('limit must be a whole number');
+    });
+    it('should return an error if limit is not a number', async () => {
+      const res = await chai.request(app).get(`${mealUrl}?limit=b`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.limit).to.equal('limit must be a number');
+    });
+    it('should return an error if page is less than zero', async () => {
+      const res = await chai.request(app).get(`${mealUrl}?page=-10`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.page).to.equal('page cannot be less than zero');
+    });
+    it('should return an error if page is a fractional number', async () => {
+      const res = await chai.request(app).get(`${mealUrl}?page=9.5`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.page).to.equal('page must be a whole number');
+    });
+    it('should return an error if page is not a number', async () => {
+      const res = await chai.request(app).get(`${mealUrl}?page=b`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.page).to.equal('page must be a number');
     });
   });
 
@@ -82,7 +138,7 @@ describe('Meals', () => {
       expect(res.body).to.be.an('object');
     });
     it('should not get meal for wrong id', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/3`)
+      const res = await chai.request(app).get(`${mealUrl}/100`)
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(404);
       expect(res.body.error.id).to
@@ -115,21 +171,28 @@ describe('Meals', () => {
   // Test Adding a meal
   describe('Add Meal', () => {
     it('should add meal with complete fields', async () => {
+      const meal = {
+        name: 'Semo and Abang soup',
+        description: 'Some dummy description',
+        imageUrl: 'https://mydummyimgurl.com',
+        price: '2500',
+      };
+
       const res = await chai.request(app).post(mealUrl)
         .set('Authorization', `Bearer ${adminToken}`)
-        .send(meals[0]);
+        .send(meal);
       expect(res).to.have.status(201);
       expect(res.body.meal).to.be.an('object');
-      expect(res.body.meal.name).to.equal(meals[0].name);
-      expect(res.body.meal.description).to.equal(meals[0].description);
-      expect(res.body.meal.imageUrl).to.equal(meals[0].imageUrl);
-      expect(res.body.meal.price).to.equal(meals[0].price);
+      expect(res.body.meal.name).to.equal(meal.name);
+      expect(res.body.meal.description).to.equal(meal.description);
+      expect(res.body.meal.imageUrl).to.equal(meal.imageUrl);
+      expect(res.body.meal.price).to.equal(meal.price);
       expect(res.body.message).to
         .include('Successfully added meal');
     });
     it('should not allow non auth admin to add meal', async () => {
       const res = await chai.request(app).post(mealUrl)
-        .set('Authorization', 'Bearer sdkjsdkjskdjfskdjf')
+        .set('Authorization', 'Bearer crazyTokenForTest')
         .send(meals[0]);
       expect(res).to.have.status(401);
       expect(res.body).to.be.an('object');
@@ -236,7 +299,7 @@ describe('Meals', () => {
         .send({
           name: 'Meal with invalid image url',
           description: 'I am the description for the meal without image url',
-          imageUrl: 'htt-seiq',
+          imageUrl: 'htt-s',
         });
       expect(res).to.have.status(400);
       expect(res.body).to.be.an('object');
@@ -278,15 +341,15 @@ describe('Meals', () => {
       const res = await chai.request(app).put(`${mealUrl}/1`)
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          description: 'super sumptious',
+          description: 'super sumptuous',
         });
       expect(res).to.have.status(200);
       expect(res.body).to.be.an('object');
       expect(res.body.meal.description).to
-        .include('super sumptious');
+        .include('super sumptuous');
     });
     it('should not update meal with incorrect id', async () => {
-      const res = await chai.request(app).put(`${mealUrl}/6`)
+      const res = await chai.request(app).put(`${mealUrl}/100`)
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
           description: 'meal with wrong id',
@@ -311,15 +374,15 @@ describe('Meals', () => {
       const res = await chai.request(app).put(`${mealUrl}/1`)
         .set('Authorization', `Bearer ${token}`)
         .send({
-          description: 'super sumptious',
+          description: 'super sumptuous',
         });
       expect(res.status).to.equal(403);
       expect(res.body).to.be.an('object');
       expect(res.body.error.message).to
-        .equal("Forbidden, you don't have the priviledge to perform this operation");
+        .equal("Forbidden, you don't have the privilege to perform this operation");
     });
     it('should not update meal if meal name already exists', async () => {
-      const res = await chai.request(app).put(`${mealUrl}/1`)
+      const res = await chai.request(app).put(`${mealUrl}/3`)
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
           name: meals[0].name,
@@ -361,7 +424,7 @@ describe('Meals', () => {
         .send({
           name: 'Meal with invalid image url',
           description: 'I am the description for the meal without image url',
-          imageUrl: 'htt-seiq',
+          imageUrl: 'htt-s',
         });
       expect(res).to.have.status(400);
       expect(res.body).to.be.an('object');
@@ -406,7 +469,7 @@ describe('Meals', () => {
       expect(res.status).to.equal(200);
     });
     it('should not delete meal if it does not exist', async () => {
-      const res = await chai.request(app).del(`${mealUrl}/6`)
+      const res = await chai.request(app).del(`${mealUrl}/100`)
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(404);
       expect(res.body.error.mealId).to
@@ -418,7 +481,7 @@ describe('Meals', () => {
       expect(res.status).to.equal(403);
       expect(res.body).to.be.an('object');
       expect(res.body.error.message).to
-        .equal("Forbidden, you don't have the priviledge to perform this operation");
+        .equal("Forbidden, you don't have the privilege to perform this operation");
     });
   });
 });

@@ -1,8 +1,4 @@
-import {
-  body,
-  /* eslint no-unused-vars: 0 */
-  ValidationChain,
-} from 'express-validator/check';
+import { body } from 'express-validator/check';
 import idValidator from './idValidator';
 import numberValidator from './numberValidator';
 
@@ -78,7 +74,7 @@ const mealImageUrlValidator = () =>
 /**
  * @description - Validates input when adding a new meal
  *
- * @returns {Array} - Array of validation middlewares
+ * @returns {Array} - Array of validation middleware
  */
 export const validateAddMeal = () => ([
   mealNameValidator(),
@@ -91,7 +87,7 @@ export const validateAddMeal = () => ([
 /**
  * @description - Validates input when updating an existing meal
  *
- * @returns {Array} - Array of validation middlewares
+ * @returns {Array} - Array of validation middleware
  */
 export const validateUpdateMeal = () => ([
   idValidator('mealId', 'Meal'),
