@@ -2,20 +2,15 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import sinon from 'sinon';
 import app from '../app';
+import { Order } from '../models';
 import users from './usersTestData';
+import orders from './ordersTestData';
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
 const orderUrl = '/api/v1/orders';
 const signUpUrl = '/api/v1/auth/signup';
-
-const order = {
-  mealId: '2',
-  amount: '2000',
-  quantity: '1',
-  total: '2000',
-};
 
 const admin = users[4];
 const user = users[5];
@@ -50,16 +45,86 @@ describe('Orders', () => {
         .include('No order have been placed');
     });
     it('should return an array', async () => {
-      await chai.request(app).post(orderUrl)
-        .set('Authorization', `Bearer ${token}`)
-        .send(order);
+      await Order.bulkCreate(orders);
       const res = await chai.request(app).get(orderUrl)
         .set('Authorization', `Bearer ${adminToken}`);
-      const expectedOrder = res.body.orders[0];
       expect(res.status).to.equal(200);
       expect(res.body.status).to.equal('success');
       expect(res.body.orders).to.be.an('array');
-      expect(expectedOrder.total).to.equal('2000');
+      expect(res.body.orders.length).to.equal(21);
+    });
+    it('should return 10 orders if limit is set to 10', async () => {
+      const res = await chai.request(app).get(`${orderUrl}?limit=10`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.orders.length).to.be.equal(10);
+    });
+    it('should return 1 order from page three', async () => {
+      const res = await chai.request(app).get(`${orderUrl}?limit=10&page=3`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.orders.length).to.be.equal(1);
+    });
+    it('should return links to traverse orders', async () => {
+      const res = await chai.request(app).get(`${orderUrl}?limit=10`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      const linkNames = res.body.links.map(link => link.rel);
+      expect(res.status).to.equal(200);
+      expect(linkNames.length).to.equal(3);
+      expect(linkNames).to.include('next');
+      expect(linkNames).to.include('last');
+      expect(linkNames).to.include('self');
+    });
+    it('should return link to first page', async () => {
+      const res = await chai.request(app).get(`${orderUrl}?limit=10&page=2`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      const linkNames = res.body.links.map(link => link.rel);
+      expect(res.status).to.equal(200);
+      expect(res.body.orders.length).to.equal(10);
+      expect(linkNames).to.include('first');
+      expect(linkNames.length).to.equal(5);
+    });
+    it('should return an error if limit is less than zero', async () => {
+      const res = await chai.request(app).get(`${orderUrl}?limit=-10`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.limit).to.equal('limit cannot be less than zero');
+    });
+    it('should return an error if limit is a fractional number', async () => {
+      const res = await chai.request(app).get(`${orderUrl}?limit=9.5`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.limit).to.equal('limit must be a whole number');
+    });
+    it('should return an error if limit is not a number', async () => {
+      const res = await chai.request(app).get(`${orderUrl}?limit=b`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.limit).to.equal('limit must be a number');
+    });
+    it('should return an error if page is less than zero', async () => {
+      const res = await chai.request(app).get(`${orderUrl}?page=-10`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.page).to.equal('page cannot be less than zero');
+    });
+    it('should return an error if page is a fractional number', async () => {
+      const res = await chai.request(app).get(`${orderUrl}?page=9.5`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.page).to.equal('page must be a whole number');
+    });
+    it('should return an error if page is not a number', async () => {
+      const res = await chai.request(app).get(`${orderUrl}?page=b`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.page).to.equal('page must be a number');
     });
   });
 
@@ -68,18 +133,18 @@ describe('Orders', () => {
     it('should allow auth customers place an order', async () => {
       const res = await chai.request(app).post(orderUrl)
         .set('Authorization', `Bearer ${token}`)
-        .send(order);
+        .send(orders[0]);
       expect(res.status).to.equal(201);
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('success');
       expect(res.body.order).to.be.an('object');
-      expect(res.body.order.total).to.equal(order.total);
-      expect(res.body.order.quantity).to.equal(parseInt(order.quantity, 10));
+      expect(res.body.order.total).to.equal(orders[0].total);
+      expect(res.body.order.quantity).to.equal(parseInt(orders[0].quantity, 10));
       expect(res.body.order.status).to.equal('pending');
     });
     it('should not allow non auth customers to post an order', async () => {
       const res = await chai.request(app).post(orderUrl)
-        .send(order);
+        .send(orders[0]);
       expect(res.status).to.equal(401);
       expect(res.body).to.be.an('object');
       expect(res.body.error.token).to
@@ -88,7 +153,7 @@ describe('Orders', () => {
     it('should post an order without userId in request params', async () => {
       const res = await chai.request(app).post(orderUrl)
         .set('Authorization', `Bearer ${token}`)
-        .send(order);
+        .send(orders[3]);
       expect(res.status).to.equal(201);
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('success');
@@ -256,7 +321,7 @@ describe('Orders', () => {
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.status).to.equal('success');
-      expect(res.body.totalAmount).to.equal(6000);
+      expect(res.body.totalAmount).to.equal(46000);
     });
     it('should not retrieve total for non admin user', async () => {
       const res = await chai.request(app).get(`${orderUrl}/totalAmount`)
@@ -264,18 +329,18 @@ describe('Orders', () => {
       expect(res.status).to.equal(403);
       expect(res.body).to.be.an('object');
       expect(res.body.error.message).to
-        .equal("Forbidden, you don't have the priviledge to perform this operation");
+        .equal("Forbidden, you don't have the privilege to perform this operation");
     });
   });
 
   // Test Get total number of orders made
-  describe('Get total number of orders made', () => {
+  describe('Get total number of orders', () => {
     it('should return  total number of orders made', async () => {
       const res = await chai.request(app).get(`${orderUrl}/totalOrders`)
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.totalOrders).to.be.gt(0);
-      expect(res.body.totalOrders).to.equal(3);
+      expect(res.body.totalOrders).to.equal(23);
       expect(res.body.message).to
         .include('Total number of orders made successfully retrieved');
     });
@@ -285,7 +350,7 @@ describe('Orders', () => {
       expect(res.status).to.equal(403);
       expect(res.body).to.be.an('object');
       expect(res.body.error.message).to
-        .equal("Forbidden, you don't have the priviledge to perform this operation");
+        .equal("Forbidden, you don't have the privilege to perform this operation");
     });
   });
 
@@ -293,12 +358,86 @@ describe('Orders', () => {
   describe('Get orders for specific user', () => {
     // Admin can get order history for specific user
     it('should get orders for specific auth user with userId', async () => {
-      const res = await chai.request(app).get(`${orderUrl}/users/${userId}`)
+      const res = await chai.request(app).get(`${orderUrl}/users/2`)
         .set('Authorization', `Bearer ${token}`);
       expect(res.status).to.equal(200);
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('success');
       expect(res.body.orders).to.be.an('array');
+      expect(res.body.orders.length).to.equal(21);
+    });
+    it('should return 10 orders if limit is set to 10', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/users/2?limit=10`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.orders.length).to.be.equal(10);
+    });
+    it('should return 1 order from page three', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/users/2?limit=10&page=3`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.orders.length).to.be.equal(1);
+    });
+    it('should return links to traverse orders', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/users/2?limit=10`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      const linkNames = res.body.links.map(link => link.rel);
+      expect(res.status).to.equal(200);
+      expect(linkNames.length).to.equal(3);
+      expect(linkNames).to.include('next');
+      expect(linkNames).to.include('last');
+      expect(linkNames).to.include('self');
+    });
+    it('should return link to first page', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/users/2?limit=10&page=2`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      const linkNames = res.body.links.map(link => link.rel);
+      expect(res.status).to.equal(200);
+      expect(res.body.orders.length).to.equal(10);
+      expect(linkNames).to.include('first');
+      expect(linkNames.length).to.equal(5);
+    });
+    it('should return an error if limit is less than zero', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/users/2?limit=-10`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.limit).to.equal('limit cannot be less than zero');
+    });
+    it('should return an error if limit is a fractional number', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/users/2?limit=9.5`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.limit).to.equal('limit must be a whole number');
+    });
+    it('should return an error if limit is not a number', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/users/2?limit=b`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.limit).to.equal('limit must be a number');
+    });
+    it('should return an error if page is less than zero', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/users/2?page=-10`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.page).to.equal('page cannot be less than zero');
+    });
+    it('should return an error if page is a fractional number', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/users/2?page=9.5`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.page).to.equal('page must be a whole number');
+    });
+    it('should return an error if page is not a number', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/users/2?page=b`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.page).to.equal('page must be a number');
     });
   });
 

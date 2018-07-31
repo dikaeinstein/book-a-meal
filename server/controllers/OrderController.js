@@ -1,8 +1,12 @@
 import dotenv from 'dotenv';
 import { Op } from 'sequelize';
 import { Order, User, Meal } from '../models';
+import { linksURIBuilder } from '../lib/pagination';
+import getAPIBaseUrl from '../lib/getAPIBaseUrl';
 
 dotenv.config();
+
+const API_BASE_URL = getAPIBaseUrl();
 
 /**
  * @class OrderController
@@ -24,19 +28,30 @@ class OrderController {
   */
   static async getAllOrders(req, res) {
     const error = {};
-    const orders = await Order.findAll({
-      include: [{
-        model: Meal,
-        as: 'meal',
-        attributes: ['name', 'price'],
-      }, {
-        model: User,
-        as: 'user',
-        attributes: ['name'],
-      }],
+    const limit = parseInt(req.query.limit, 10) || 30;
+    const page = parseInt(req.query.page, 10) || 1;
+    const offset = limit * (page - 1);
+
+    const resourceUrl = `${API_BASE_URL}/api/v1/orders`;
+
+    const orders = await Order.findAndCountAll({
+      include: [
+        {
+          model: Meal,
+          as: 'meal',
+          attributes: ['name', 'price'],
+        }, {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
+      limit,
+      offset,
+      order: [['created_at', 'DESC']],
     });
 
-    if (orders.length === 0) {
+    if (orders.count === 0) {
       error.message = 'No order have been placed';
       return res.status(404).json({
         status: 'error',
@@ -45,10 +60,16 @@ class OrderController {
       });
     }
 
+    const totalPages = Math.ceil(orders.count / limit);
+
+    // Array of links for traversing meals using pagination
+    const links = linksURIBuilder(resourceUrl, page, totalPages, orders.count, limit);
+
     return res.status(200).json({
-      message: 'Orders succesfully retrieved',
+      message: 'Orders successfully retrieved',
       status: 'success',
-      orders,
+      orders: orders.rows,
+      links,
     });
   }
 
@@ -91,7 +112,7 @@ class OrderController {
     }
 
     return res.status(200).json({
-      message: 'Orders succesfully retrieved',
+      message: 'Orders successfully retrieved',
       status: 'success',
       orders: matchedOrders,
     });
@@ -111,23 +132,34 @@ class OrderController {
    */
   static async getUserOrderHistory(req, res) {
     const userId = req.params.userId || req.userId;
+    const limit = parseInt(req.query.limit, 10) || 30;
+    const page = parseInt(req.query.page, 10) || 1;
+    const offset = limit * (page - 1);
     const error = {};
+
+    const resourceUrl = `${API_BASE_URL}/api/v1/orders/users/${userId}`;
+
     // Filter by orders userId
-    const matchedOrders = await Order.findAll({
-      include: [{
-        model: Meal,
-        as: 'meal',
-        attributes: ['name', 'price'],
-      }, {
-        model: User,
-        as: 'user',
-        attributes: ['name'],
-      }],
+    const userOrders = await Order.findAndCountAll({
       where: { user_id: userId },
+      include: [
+        {
+          model: Meal,
+          as: 'meal',
+          attributes: ['name', 'price'],
+        }, {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
+      limit,
+      offset,
+      order: [['created_at', 'DESC']],
     });
 
-    if (matchedOrders.length === 0) {
-      error.order = 'User have not placed an order';
+    if (userOrders.count === 0) {
+      error.order = 'No order have been placed';
       return res.status(404).json({
         status: 'error',
         message: error.order,
@@ -135,10 +167,16 @@ class OrderController {
       });
     }
 
+    const totalPages = Math.ceil(userOrders.count / limit);
+
+    // Array of links for traversing meals using pagination
+    const links = linksURIBuilder(resourceUrl, page, totalPages, userOrders.count, limit);
+
     return res.status(200).json({
-      message: 'Orders succesfully retrieved',
+      message: 'Orders successfully retrieved',
       status: 'success',
-      orders: matchedOrders,
+      orders: userOrders.rows,
+      links,
     });
   }
 

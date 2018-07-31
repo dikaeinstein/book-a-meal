@@ -1,4 +1,6 @@
 import { Meal } from '../models';
+import { linksURIBuilder } from '../lib/pagination';
+import getAPIBaseUrl from '../lib/getAPIBaseUrl';
 
 /**
  * @class MealController
@@ -20,19 +22,37 @@ class MealController {
    * @return {Promise<object>}
    */
   static async getAllMeals(req, res) {
-    const meals = await Meal.findAll();
-    if (meals.length === 0) {
+    const limit = parseInt(req.query.limit, 10) || 30;
+    const page = parseInt(req.query.page, 10) || 1;
+    const offset = limit * (page - 1);
+    const API_BASE_URL = getAPIBaseUrl();
+
+    const resourceUrl = `${API_BASE_URL}/api/v1/meals`;
+
+    const meals = await Meal.findAndCountAll({
+      limit,
+      offset,
+      order: [['created_at', 'DESC']],
+    });
+
+    if (meals.count === 0) {
       return res.status(404).json({
-        status: 'success',
+        status: 'error',
         message: 'There is currently no meal!',
-        meals,
+        meals: meals.rows,
       });
     }
 
+    const totalPages = Math.ceil(meals.count / limit);
+
+    // Array of links for traversing meals using pagination
+    const links = linksURIBuilder(resourceUrl, page, totalPages, meals.count, limit);
+
     return res.status(200).json({
-      meals,
+      meals: meals.rows,
       status: 'success',
-      message: 'Meals found',
+      message: 'Meals successfully retrieved',
+      links,
     });
   }
 
@@ -162,7 +182,7 @@ class MealController {
       return res.status(200).json({
         meal: updatedMeal,
         status: 'success',
-        message: 'Sucessfully updated meal',
+        message: 'Successfully updated meal',
       });
     } catch (err) {
       error.name = err.errors[0].message;

@@ -4,7 +4,7 @@
 import { User } from '../models';
 
 /**
- * @description - Checks if user has priviledge role access
+ * @description - Checks if user has privilege role access
  * @async
  *
  * @param {object} req - HTTP Request
@@ -21,7 +21,7 @@ const authorize = async (req, res, next) => {
   });
 
   if (!matchedUser) {
-    error.message = "Forbidden, you don't have the priviledge to perform this operation";
+    error.message = "Forbidden, you don't have the privilege to perform this operation";
     return res.status(403).json({
       message: error.message,
       status: 'error',

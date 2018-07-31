@@ -20,7 +20,7 @@ const port = process.env.PORT || 5000;
 
 // Load API documentation
 const swaggerDocument = YAML.load('swagger.yml');
-console.log(process.env.NODE_ENV);
+
 // Load webpack config
 if (process.env.NODE_ENV === 'development') {
   /* eslint global-require: 0 */

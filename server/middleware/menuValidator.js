@@ -86,7 +86,7 @@ const mealIdsValidator = ({ optional = false } = {}) => {
 /**
  * @description - Validates input when setting up a menu
  *
- * @returns {Array} - Array of validation middlewares
+ * @returns {Array} - Array of validation middleware
  */
 export const validateSetupMenu = () => ([
   menuNameValidator(), mealIdsValidator(),
@@ -96,9 +96,9 @@ export const validateSetupMenu = () => ([
 /**
  * @description - Validates input when updating up a menu
  *
- * @returns {Array} - Array of validation middlewares
+ * @returns {Array} - Array of validation middleware
  */
-export const validateUpateMenu = () => ([
+export const validateUpdateMenu = () => ([
   menuNameValidator({ optional: true }),
   mealIdsValidator({ optional: true }),
 ]);
