@@ -6,7 +6,7 @@ import numberValidator from './numberValidator';
 /**
  * @description - Validates input when making a new order
  *
- * @returns {Array} - Array of validation middlewares
+ * @returns {Array} - Array of validation middleware
  */
 export const validateNewOrder = () => [
   idValidator('mealId', 'Meal'),
@@ -18,7 +18,7 @@ export const validateNewOrder = () => [
 /**
  * @description - Validates input when updating an existing order
  *
- * @returns {Array} - Array of validation middlewares
+ * @returns {Array} - Array of validation middleware
  */
 export const validateUpdateOrder = () => [
   idValidator('orderId', 'Order'),

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Preloader } from 'react-materialize';
+import swal from 'sweetalert';
 import Loading from '../util/Loading';
 import MealsCheckBoxForm from './MealsCheckBoxForm';
 import { fetchMeals } from '../../actions/mealActions';
@@ -17,8 +18,13 @@ class ConnectedUpdateMenu extends Component {
     this.props.fetchMeals();
   }
 
-  handleSubmit(values) {
-    this.props.modifyMenu(values, this.props.menuId);
+  async handleSubmit(values) {
+    await this.props.modifyMenu(values, this.props.menuId);
+    await swal({
+      text: 'Menu successfully updated!',
+      icon: 'success',
+    });
+    return this.props.closeModal();
   }
 
   render() {
@@ -59,6 +65,7 @@ ConnectedUpdateMenu.propTypes = {
     PropTypes.string,
     PropTypes.objectOf(PropTypes.string),
   ]),
+  closeModal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

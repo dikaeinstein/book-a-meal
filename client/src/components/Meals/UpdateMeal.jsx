@@ -2,14 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
+import swal from 'sweetalert';
 import UpdateMealForm from './UpdateMealForm';
 import mealSchema from '../../validation/mealSchema';
 import { updateMeal } from '../../actions/mealActions';
 
 
-const ConnectedUpdateMeal = ({ editMeal, meal }) => {
-  const handleSubmit = (values, actions) => {
-    editMeal(values, actions, meal.id);
+const ConnectedUpdateMeal = ({ editMeal, meal, closeModal }) => {
+  const handleSubmit = async (values, actions) => {
+    await editMeal(values, actions, meal.id);
+    await swal({
+      text: 'Meal updated successfully',
+      icon: 'success',
+      className: 'swal-button--confirm',
+    });
+    return closeModal();
   };
   return (
     <section className="add-section">
@@ -28,6 +35,7 @@ ConnectedUpdateMeal.propTypes = {
   meal: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string, PropTypes.number])).isRequired,
   editMeal: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({

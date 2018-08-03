@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import Button from '../util/Button';
 import MealDetail from './MealDetail';
-import ConfirmationDialog from '../util/ConfirmationDialog';
+import ConfirmDeleteButton from '../util/ConfirmDeleteButton';
 import { deleteMeal } from '../../actions/mealActions';
 import '../../static/hover_overlay.scss';
 
@@ -13,14 +13,12 @@ class ConnectedMeal extends Component {
     super(props);
     this.state = {
       isOpen: false,
-      isConfirmationOpen: false,
       meal: props.meal,
     };
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleCloseConfirmation = this.handleCloseConfirmation.bind(this);
   }
 
   handleOpenModal() {
@@ -32,11 +30,6 @@ class ConnectedMeal extends Component {
   }
 
   handleDelete() {
-    this.setState({ isConfirmationOpen: true });
-  }
-
-  handleCloseConfirmation() {
-    this.setState({ isConfirmationOpen: false });
     this.props.removeMeal(this.props.meal.id);
   }
 
@@ -107,12 +100,6 @@ class ConnectedMeal extends Component {
             meal={this.state.meal}
           />
         </Modal>
-        <ConfirmationDialog
-          message="Are you sure you want to delete meal"
-          isOpen={this.state.isConfirmationOpen}
-          ok={this.handleCloseConfirmation}
-          cancel={this.handleCloseConfirmation}
-        />
         <div
           className="font-weight-bold text-black"
           style={{ padding: '.875rem' }}
@@ -132,15 +119,16 @@ class ConnectedMeal extends Component {
           >
             Edit
           </button>
-          <button
+          <ConfirmDeleteButton
             value="Delete"
             disabled={isDeleting}
-            onClick={this.handleDelete}
+            handleOk={this.handleDelete}
             style={Object.assign({}, btnStyle, { color: 'red' })}
             title="Delete Meal"
+            resource="meal"
           >
             Delete
-          </button>
+          </ConfirmDeleteButton>
         </div>
       </div>
     );

@@ -367,22 +367,50 @@ class OrderController {
       }
       // Merge changes
       const updatedOrder = await matchedOrder.update(req.body);
+      const returnOrder = await Order.findOne({
+        include: [
+          {
+            model: Meal,
+            as: 'meal',
+            attributes: ['name', 'price'],
+          }, {
+            model: User,
+            as: 'user',
+            attributes: ['name'],
+          },
+        ],
+        where: { id: updatedOrder.id },
+      });
 
       return res.status(200).json({
         message: 'Successfully updated order',
         status: 'success',
-        order: updatedOrder,
+        order: returnOrder,
       });
     }
 
     // For admin (caterer)
     // Merge changes
     const updatedOrder = await matchedOrder.update(req.body);
+    const returnOrder = await Order.findOne({
+      include: [
+        {
+          model: Meal,
+          as: 'meal',
+          attributes: ['name', 'price'],
+        }, {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
+      where: { id: updatedOrder.id },
+    });
 
     return res.status(200).json({
       message: 'Successfully updated order',
       status: 'success',
-      order: updatedOrder,
+      order: returnOrder,
     });
   }
 

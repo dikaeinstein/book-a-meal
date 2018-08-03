@@ -1,5 +1,8 @@
 import config from '../config';
 import history from '../helpers/history';
+import userService from '../helpers/userService';
+import transformError from '../helpers/transformError';
+import notify from '../helpers/notify';
 import {
   USER_SIGN_IN_REQUEST,
   USER_SIGN_IN_SUCCESS,
@@ -7,8 +10,6 @@ import {
   USER_SIGN_OUT,
 }
   from '../constants/userActionTypes';
-import userService from '../helpers/userService';
-import transformError from '../helpers/transformError';
 
 export const userSignInSuccess = user => ({
   type: USER_SIGN_IN_SUCCESS,
@@ -42,6 +43,7 @@ export const userSignIn = (values, actions, location) => async (dispatch) => {
     setSubmitting(false);
     dispatch(userSignInSuccess(user));
     autoNavigate(user, location);
+    notify.success(`Welcome ${user.name}`);
   } catch (error) {
     setSubmitting(false);
     setErrors({
@@ -51,6 +53,7 @@ export const userSignIn = (values, actions, location) => async (dispatch) => {
       ),
     });
     dispatch(userSignInError(error));
+    notify.error('Error signing in');
   }
 };
 

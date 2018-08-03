@@ -23,10 +23,10 @@ const OrderList = ({ orders }) => {
             <th>Order Name</th>
             <th>Customer</th>
             <th>Order Amount (&#x20a6;)</th>
-            <th>Quantity</th>
+            <th>Quantity (plate)</th>
             <th>Total (&#x20a6;)</th>
             <th>Status</th>
-            <th>Actions</th>
+            <th>Order Actions</th>
           </tr>
         </thead>
         {renderTableBody()}

@@ -15,6 +15,7 @@
     "db-migrate-dev": "sequelize db:migrate --env development",
     "db-migrate-test": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test",
     "start-dev": "export NODE_ENV=development || set NODE_ENV=development&& yarn db-migrate-dev && nodemon --exec babel-node server/app.js",
+    "start-debug": "ndb start-dev",
     "heroku-postbuild": "yarn build",
     "test-client:watch": "jest --watchAll",
     "test-client": "jest",
@@ -49,12 +50,14 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-spinners": "^0.3.2",
+    "react-toastify": "^4.1.0",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "sequelize": "^4.37.6",
     "sequelize-cli": "^4.0.0",
     "swagger-ui-express": "^3.0.8",
+    "sweetalert": "^2.1.0",
     "validator": "^9.4.1",
     "yamljs": "^0.3.0",
     "yup": "^0.25.1"
@@ -120,7 +123,7 @@
   },
   "engines": {
     "yarn": "1.7.0",
-    "node": "8.11.2"
+    "node": "8.11.3"
   },
   "nodemonConfig": {
     "ignore": [

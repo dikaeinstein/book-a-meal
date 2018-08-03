@@ -1,4 +1,7 @@
 import config from '../config';
+import mealService from '../helpers/mealService';
+import transformError from '../helpers/transformError';
+import notify from '../helpers/notify';
 import {
   ADD_MEAL_REQUEST,
   ADD_MEAL_SUCCESS,
@@ -13,8 +16,6 @@ import {
   DELETE_MEAL_REQUEST,
   DELETE_MEAL_SUCCESS,
 } from '../constants/mealActionTypes';
-import mealService from '../helpers/mealService';
-import transformError from '../helpers/transformError';
 
 
 export const addMealSuccess = meal => ({
