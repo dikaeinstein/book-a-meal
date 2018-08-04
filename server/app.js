@@ -21,6 +21,8 @@ const port = process.env.PORT || 5000;
 // Load API documentation
 const swaggerDocument = YAML.load('swagger.yml');
 
+let root = '../../client/dist';
+
 // Load webpack config
 if (process.env.NODE_ENV === 'development') {
   /* eslint global-require: 0 */
@@ -37,6 +39,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(webpackHotMiddleware(compiler, {
     path: '/__webpack_hmr',
   }));
+
+  root = '../client/dist';
 }
 
 // Enable CORS Pre-Flight on all routes
@@ -49,7 +53,7 @@ app.use(logger('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static(path.join(__dirname, root)));
 
 // Serve API docs
 app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -57,7 +61,7 @@ app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/v1', routes);
 
 app.get('*', (req, res) => (
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'))
+  res.sendFile(path.join(__dirname, `${root}/index.html`))
 ));
 
 // Catch all error handler
