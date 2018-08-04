@@ -1,4 +1,5 @@
 import config from '../config';
+import history from '../helpers/history';
 import orderService from '../helpers/orderService';
 import {
   FETCH_USER_ORDERS_REQUEST,
@@ -114,6 +115,7 @@ export const makeOrder = order => async (dispatch) => {
     const newOrder = await orderService
       .makeOrder(`${config.API_BASE_URL}/api/v1/orders`, order);
     dispatch(makeOrderSuccess(newOrder));
+    history.push('/user-order-history');
   } catch (error) {
     dispatch(makeOrderError(error));
   }

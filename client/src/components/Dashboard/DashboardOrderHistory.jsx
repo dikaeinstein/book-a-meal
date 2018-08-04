@@ -43,13 +43,13 @@ const mapStateToProps = state => ({
   allOrders: state.dashboard.allOrders,
 });
 
-const mapdispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
   getAllOrders: () => dispatch(fetchAllOrders()),
 });
 
 const DashboardOrderHistory = connect(
   mapStateToProps,
-  mapdispatchToProps,
+  mapDispatchToProps,
 )(ConnectedDashboardOrderHistory);
 
 export default DashboardOrderHistory;

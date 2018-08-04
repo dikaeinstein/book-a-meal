@@ -19,11 +19,14 @@ class ConnectedMealCheckout extends Component {
 
   handleChange(event) {
     event.preventDefault();
-    const newQuantity = parseInt(event.target.value, 10);
-    this.setState({
-      quantity: newQuantity,
-      total: newQuantity * this.state.amount,
-    });
+    const value = event.target.value;
+    if (value && value >= 1) {
+      const newQuantity = parseInt(value, 10);
+      this.setState({
+        quantity: newQuantity,
+        total: newQuantity * this.state.amount,
+      });
+    }
   }
 
   handleCheckout() {
@@ -43,13 +46,13 @@ class ConnectedMealCheckout extends Component {
         <h3>Checkout Order</h3>
         <div>
           <table>
-            <thead>
+            <thead className="text-center">
               <tr>
                 <th>
                   Meal Name
                 </th>
                 <th>
-                  Quantity
+                  Quantity (Plate)
                 </th>
                 <th>
                   Total
@@ -57,16 +60,21 @@ class ConnectedMealCheckout extends Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr className="text-center">
                 <td>
                   {this.props.meal.name}
                 </td>
                 <td>
-                  <select name="quantity" id="quantity" onChange={this.handleChange}>
-                    {Array(5).fill(null).map((value, index) => (
-                      <option key={index} value={index + 1}>{index + 1}</option>
-                    ))}
-                  </select>
+                  <input
+                    type="number"
+                    name="quantity"
+                    id="quantity"
+                    value={this.state.quantity}
+                    onChange={this.handleChange}
+                    min={1}
+                    max={Number.MAX_SAFE_INTEGER}
+                    style={{ width: '50%' }}
+                  />
                 </td>
                 <td>
                   &#x20a6; {this.state.total}

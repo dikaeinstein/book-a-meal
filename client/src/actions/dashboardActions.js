@@ -197,6 +197,7 @@ export const deleteOrder = orderId => async (dispatch) => {
       error,
       'Error deleting order, please try again',
     )));
+    throw error;
   }
 };
 
@@ -241,10 +242,12 @@ export const updateOrder = (values, orderId) => async (dispatch) => {
     const updatedOrder = await orderService
       .updateOrder(`${config.API_BASE_URL}/api/v1/orders/${orderId}`, values);
     dispatch(updateOrderSuccess(updatedOrder));
+    return;
   } catch (error) {
-    dispatch(deleteOrderError(transformError(
+    dispatch(updateOrderError(transformError(
       error,
       'Error updating order, please try again',
     )));
+    throw error;
   }
 };

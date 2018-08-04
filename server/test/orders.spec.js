@@ -192,14 +192,14 @@ describe('Orders', () => {
       const res = await chai.request(app).put(`${orderUrl}/1`)
         .set('Authorization', `Bearer ${token}`)
         .send({
-          quantity: '2',
-          total: '4000',
+          quantity: 2,
+          total: 4000,
         });
       expect(res.status).to.equal(200);
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('success');
       expect(res.body.order).to.be.an('object');
-      expect(res.body.order.quantity).to.equal('2');
+      expect(res.body.order.quantity).to.equal(2);
       expect(res.body.order.total).to.equal('4000');
     });
     it('should not allow non auth customers update their order', async () => {
@@ -283,7 +283,7 @@ describe('Orders', () => {
           .set('Authorization', `Bearer ${token}`)
           .send({
             quantity: '1',
-            total: '2000',
+            total: 2000,
           });
         expect(res.status).to.equal(405);
         expect(res.body.error.message).to
@@ -299,7 +299,7 @@ describe('Orders', () => {
         expect(res.status).to.equal(200);
         expect(res.body.message).to.include('Successfully updated order');
         expect(res.body.order.quantity).to.equal(1);
-        expect(res.body.order.total).to.equal(2000);
+        expect(res.body.order.total).to.equal('2000');
       });
       it("should return an error if there's no order", async () => {
         const res = await chai.request(app).put(`${orderUrl}/100`)

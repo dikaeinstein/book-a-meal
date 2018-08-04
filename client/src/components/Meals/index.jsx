@@ -85,8 +85,11 @@ class ConnectedMeals extends Component {
               className="close"
             />
             {!this.state.updating
-              ? <AddMeal />
-              : <UpdateMeal meal={this.state.meal} />}
+              ? <AddMeal closeModal={this.handleCloseModal} />
+              : <UpdateMeal
+                meal={this.state.meal}
+                closeModal={this.handleCloseModal}
+              />}
           </Modal>
           <CatererMealsWithErrorHandling
             handleMealUpdate={this.handleMealUpdate}

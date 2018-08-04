@@ -48,6 +48,7 @@ class ConnectedMenus extends Component {
         transform: 'translate(-50%, -50%)',
         minWidth: '20rem',
         width: '60%',
+        overflow: 'hidden',
       },
     };
 
@@ -103,8 +104,8 @@ class ConnectedMenus extends Component {
               className="close"
             />
             {!this.state.updating
-              ? <SetupMenuWithErrorHandling />
-              : <UpdateMenuWithErrorHandling />}
+              ? <SetupMenuWithErrorHandling closeModal={this.handleCloseModal} />
+              : <UpdateMenuWithErrorHandling closeModal={this.handleCloseModal} />}
           </Modal>
           <MenuWithErrorHandling error={this.props.fetchMenuError} />
         </main>
