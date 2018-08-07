@@ -103,6 +103,12 @@ module.exports = {
   production: {
     use_env_variable: 'DATABASE_URL',
     logging: false,
+    ssl: true,
+    dialectOptions: {
+      ssl: {
+        require: true,
+      },
+    },
     define: {
       underscored: true,
       underscoredAll: true,
