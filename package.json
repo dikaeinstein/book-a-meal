@@ -18,7 +18,7 @@
     "deploy": "gh-pages -d UI",
     "heroku-postbuild": "yarn build&& yarn db-migrate",
     "sequelize": "sequelize",
-    "start": "export NODE_ENV=production || set NODE_ENV=production&& node server/dist/app.js",
+    "start": "export NODE_ENV=production || set NODE_ENV=production&& node server/bin/www",
     "start-client:dev": "export NODE_ENV=development || set NODE_ENV=development&& webpack-dev-server --mode development --config webpack.dev.js --open",
     "start-debug": "ndb start-dev",
     "start-dev": "export NODE_ENV=development || set NODE_ENV=development&& yarn db-migrate-dev && nodemon --exec babel-node server/bin/www",
