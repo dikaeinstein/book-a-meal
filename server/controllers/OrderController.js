@@ -28,13 +28,13 @@ class OrderController {
   */
   static async getAllOrders(req, res) {
     const error = {};
+    const { date } = req.query;
     const limit = parseInt(req.query.limit, 10) || 30;
     const page = parseInt(req.query.page, 10) || 1;
     const offset = limit * (page - 1);
 
     const resourceUrl = `${API_BASE_URL}/api/v1/orders`;
-
-    const orders = await Order.findAndCountAll({
+    const findOptions = {
       include: [
         {
           model: Meal,
@@ -49,7 +49,21 @@ class OrderController {
       limit,
       offset,
       order: [['created_at', 'DESC']],
-    });
+    };
+
+    const validDate = new Date(date);
+
+    const orders = await Order.findAndCountAll(date
+      ? {
+        ...findOptions,
+        where: {
+          created_at: {
+            [Op.gt]: new Date(validDate - (24 * 60 * 60 * 1000)),
+            [Op.lt]: new Date(validDate.setDate(validDate.getDate() + 1)),
+          },
+        },
+      }
+      : findOptions);
 
     if (orders.count === 0) {
       error.message = 'No order have been placed';
@@ -70,51 +84,6 @@ class OrderController {
       status: 'success',
       orders: orders.rows,
       links,
-    });
-  }
-
-  /**
-   * @description Get all orders for specific date
-   * @static
-   * @async
-   *
-   * @param {object} req HTTP Request
-   * @param {object} res HTTP Response
-   *
-   * @memberof OrderController
-   *
-   * @returns {Promise<object>}
-   */
-  static async getAllOrdersForSpecificDate(req, res) {
-    const { date } = req.params;
-    const error = {};
-    // Filter orders by date
-    const matchedOrders = await Order.findAll({
-      include: [{
-        model: Meal,
-        as: 'meal',
-        attributes: ['name', 'price'],
-      }, {
-        model: User,
-        as: 'user',
-        attributes: ['name'],
-      }],
-      where: { created_at: date },
-    });
-
-    if (matchedOrders.length === 0) {
-      error.order = 'No order have been placed';
-      return res.status(404).json({
-        status: 'success',
-        message: error.order,
-        orders: matchedOrders,
-      });
-    }
-
-    return res.status(200).json({
-      message: 'Orders successfully retrieved',
-      status: 'success',
-      orders: matchedOrders,
     });
   }
 
@@ -193,7 +162,8 @@ class OrderController {
    * @returns {Promise<object>}
    */
   static async getTotalAmount(req, res) {
-    const { date } = req.params;
+    const { date } = req.query;
+    const validDate = new Date(date);
     let totalAmount = 0;
 
     if (date) {
@@ -201,15 +171,10 @@ class OrderController {
       totalAmount = await Order.sum('total', {
         where: {
           created_at: {
-            [Op.gte]: new Date(date),
+            [Op.gt]: new Date(validDate - (24 * 60 * 60 * 1000)),
+            [Op.lt]: new Date(validDate.setDate(validDate.getDate() + 1)),
           },
         },
-      });
-
-      return res.status(200).json({
-        message: 'Orders total amount successfully retrieved',
-        status: 'success',
-        totalAmount,
       });
     }
 
@@ -236,22 +201,17 @@ class OrderController {
    */
   static async getTotalNumberOfOrders(req, res) {
     let totalOrders = 0;
-    const { date } = req.params;
-
+    const { date } = req.query;
+    const validDate = new Date(date);
     if (date) {
       // Filter orders by date and return count
       totalOrders = await Order.count({
         where: {
           created_at: {
-            [Op.gte]: new Date(date),
+            [Op.gt]: new Date(validDate - (24 * 60 * 60 * 1000)),
+            [Op.lt]: new Date(validDate.setDate(validDate.getDate() + 1)),
           },
         },
-      });
-
-      return res.status(200).json({
-        message: 'Orders total amount successfully retrieved',
-        status: 'success',
-        totalOrders,
       });
     }
 

@@ -8,6 +8,7 @@ import authorize from '../middleware/authorize';
 import validationErrorHandler from '../middleware/validationErrorHandler';
 import idValidator from '../middleware/idValidator';
 import queryValidator from '../middleware/queryValidator';
+import dateValidator from '../middleware/dateValidator';
 
 import {
   validateAddMeal,
@@ -93,7 +94,13 @@ router.post(
 );
 
 // Get menu
-router.get('/menu/', MenuController.getMenu);
+router.get(
+  '/menu/',
+  queryValidator('start'),
+  queryValidator('limit'),
+  validationErrorHandler,
+  MenuController.getMenu,
+);
 
 // Update menu
 router.put(
@@ -123,6 +130,7 @@ router.get(
   '/orders', authenticate, authorize,
   queryValidator('limit'),
   queryValidator('page'),
+  dateValidator(),
   validationErrorHandler,
   OrderController.getAllOrders,
 );
@@ -145,6 +153,8 @@ router.put(
 router.get(
   '/orders/totalAmount',
   authenticate, authorize,
+  dateValidator(),
+  validationErrorHandler,
   OrderController.getTotalAmount,
 );
 
@@ -152,6 +162,8 @@ router.get(
 router.get(
   '/orders/totalOrders',
   authenticate, authorize,
+  dateValidator(),
+  validationErrorHandler,
   OrderController.getTotalNumberOfOrders,
 );
 
