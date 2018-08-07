@@ -3,8 +3,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
 import dotenv from 'dotenv';
-import swaggerUi from 'swagger-ui-express';
-import YAML from 'yamljs';
 import cors from 'cors';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -15,11 +13,6 @@ dotenv.config();
 
 // Set up express app
 const app = express();
-
-const port = process.env.PORT || 5000;
-
-// Load API documentation
-const swaggerDocument = YAML.load('swagger.yml');
 
 let root = '../../client/dist';
 
@@ -55,10 +48,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, root)));
 
-// Serve API docs
-app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-app.use('/api/v1', routes);
+app.use('/api', routes);
 
 app.get('*', (req, res) => (
   res.sendFile(path.join(__dirname, `${root}/index.html`))
@@ -73,12 +63,6 @@ app.use((err, req, res, next) => {
     message: 'Something failed, we are working on it :)',
     status: 'error',
   });
-});
-
-/* eslint no-console: 0 */
-// Start server
-app.listen(port, () => {
-  console.log(`Express server listening on ${port}`);
 });
 
 export default app;
