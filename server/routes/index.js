@@ -1,4 +1,6 @@
 import express from 'express';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
 import MealController from '../controllers/MealController';
 import UserController from '../controllers/UserController';
 import MenuController from '../controllers/MenuController';
@@ -30,27 +32,33 @@ import {
 // Setup express router
 const router = express.Router();
 
+// Load API documentation
+const swaggerDocument = YAML.load('swagger.yml');
+
+// Serve API docs
+router.use('/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // User sign in and sign up
 router.post(
-  '/auth/signup', validateSignup(),
+  '/v1/auth/signup', validateSignup(),
   validationErrorHandler, UserController.createUser,
 );
 router.post(
-  '/auth/signin', validateSignin(),
+  '/v1/auth/signin', validateSignin(),
   validationErrorHandler, UserController.signinUser,
 );
 
 
 // Delete User account
 router.delete(
-  '/users/:userId', idValidator('userId', 'User'),
+  '/v1/users/:userId', idValidator('userId', 'User'),
   UserController.deleteUserAccount,
 );
 
 
 // Get all meals
 router.get(
-  '/meals', authenticate, authorize,
+  '/v1/meals', authenticate, authorize,
   queryValidator('page'),
   queryValidator('limit'),
   validationErrorHandler,
@@ -59,28 +67,28 @@ router.get(
 
 // Get meal
 router.get(
-  '/meals/:mealId', authenticate, authorize,
+  '/v1/meals/:mealId', authenticate, authorize,
   idValidator('mealId', 'Meal'),
   validationErrorHandler, MealController.getMeal,
 );
 
 // Post meal
 router.post(
-  '/meals', authenticate, authorize,
+  '/v1/meals', authenticate, authorize,
   validateAddMeal(), validationErrorHandler,
   MealController.addMeal,
 );
 
 // Update meal
 router.put(
-  '/meals/:mealId', authenticate, authorize,
+  '/v1/meals/:mealId', authenticate, authorize,
   validateUpdateMeal(), validationErrorHandler,
   MealController.updateMeal,
 );
 
 // Delete meal
 router.delete(
-  '/meals/:mealId', authenticate, authorize,
+  '/v1/meals/:mealId', authenticate, authorize,
   idValidator('mealId', 'Meal'), validationErrorHandler,
   MealController.deleteMeal,
 );
@@ -88,14 +96,14 @@ router.delete(
 
 // Setup menu
 router.post(
-  '/menu/', authenticate, authorize,
+  '/v1/menu/', authenticate, authorize,
   validateSetupMenu(), validationErrorHandler,
   MenuController.setupMenu,
 );
 
 // Get menu
 router.get(
-  '/menu/',
+  '/v1/menu/',
   queryValidator('start'),
   queryValidator('limit'),
   validationErrorHandler,
@@ -104,13 +112,13 @@ router.get(
 
 // Update menu
 router.put(
-  '/menu/', authenticate, authorize,
+  '/v1/menu/', authenticate, authorize,
   idValidator('menuId', 'Menu', { optional: true }),
   validateUpdateMenu(), validationErrorHandler,
   MenuController.updateMenu,
 );
 router.put(
-  '/menu/:menuId',
+  '/v1/menu/:menuId',
   authenticate, authorize,
   idValidator('menuId', 'Menu'),
   validateUpdateMenu(), validationErrorHandler,
@@ -119,7 +127,7 @@ router.put(
 
 // Delete menu
 router.delete(
-  '/menu/:menuId', authenticate, authorize,
+  '/v1/menu/:menuId', authenticate, authorize,
   idValidator('menuId', 'Menu'), validationErrorHandler,
   MenuController.deleteMenu,
 );
@@ -127,7 +135,7 @@ router.delete(
 
 // Get all orders
 router.get(
-  '/orders', authenticate, authorize,
+  '/v1/orders', authenticate, authorize,
   queryValidator('limit'),
   queryValidator('page'),
   dateValidator(),
@@ -137,21 +145,21 @@ router.get(
 
 // Post Order
 router.post(
-  '/orders', authenticate,
+  '/v1/orders', authenticate,
   validateNewOrder(), validationErrorHandler,
   OrderController.makeAnOrder,
 );
 
 // Update Order
 router.put(
-  '/orders/:orderId', authenticate,
+  '/v1/orders/:orderId', authenticate,
   validateUpdateOrder(), validationErrorHandler,
   OrderController.updateOrder,
 );
 
 // Get Total amount made
 router.get(
-  '/orders/totalAmount',
+  '/v1/orders/totalAmount',
   authenticate, authorize,
   dateValidator(),
   validationErrorHandler,
@@ -160,7 +168,7 @@ router.get(
 
 // Get Total number of orders made
 router.get(
-  '/orders/totalOrders',
+  '/v1/orders/totalOrders',
   authenticate, authorize,
   dateValidator(),
   validationErrorHandler,
@@ -169,7 +177,7 @@ router.get(
 
 // Get orders for specific user
 router.get(
-  '/orders/users',
+  '/v1/orders/users',
   authenticate,
   queryValidator('limit'),
   queryValidator('page'),
@@ -177,7 +185,7 @@ router.get(
   OrderController.getUserOrderHistory,
 );
 router.get(
-  '/orders/users/:userId',
+  '/v1/orders/users/:userId',
   authenticate, idValidator('userId', 'User'),
   queryValidator('limit'),
   queryValidator('page'),
@@ -187,7 +195,7 @@ router.get(
 
 // Delete specific order
 router.delete(
-  '/orders/:orderId', authenticate, authorize,
+  '/v1/orders/:orderId', authenticate, authorize,
   idValidator('orderId', 'Order'), validationErrorHandler,
   OrderController.deleteOrder,
 );
