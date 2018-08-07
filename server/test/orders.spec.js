@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import sinon from 'sinon';
+import { useFakeTimers } from 'sinon';
 import app from '../app';
 import { Order } from '../models';
 import users from './usersTestData';
@@ -15,9 +15,10 @@ const signUpUrl = '/api/v1/auth/signup';
 const admin = users[4];
 const user = users[5];
 
+const today = (new Date()).toISOString().substring(0, 10);
+
 let token;
 let adminToken;
-let userId;
 
 describe('Orders', () => {
   // Setup user(admin)
@@ -31,7 +32,6 @@ describe('Orders', () => {
     const res = await chai.request(app).post(signUpUrl)
       .send(user);
     token = res.body.token;
-    userId = res.body.user.id;
   });
 
   // Test Get all orders
@@ -126,6 +126,21 @@ describe('Orders', () => {
       expect(res.body.status).to.equal('error');
       expect(res.body.error.page).to.equal('page must be a number');
     });
+    it('should return orders for current day', async () => {
+      const res = await chai.request(app).get(`${orderUrl}?date=${today}`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.status).to.equal('success');
+      expect(res.body.orders).to.be.an('array');
+      expect(res.body.orders.length).to.equal(21);
+    });
+    it('should throw an error if an invalid date is sent in query param', async () => {
+      const res = await chai.request(app).get(`${orderUrl}?date=abcd`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.date).to.equal('Use a valid date e.g YYYY-MM-DD');
+    });
   });
 
   // Test Post an order
@@ -135,9 +150,7 @@ describe('Orders', () => {
         .set('Authorization', `Bearer ${token}`)
         .send(orders[0]);
       expect(res.status).to.equal(201);
-      expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('success');
-      expect(res.body.order).to.be.an('object');
       expect(res.body.order.total).to.equal(orders[0].total);
       expect(res.body.order.quantity).to.equal(parseInt(orders[0].quantity, 10));
       expect(res.body.order.status).to.equal('pending');
@@ -165,12 +178,12 @@ describe('Orders', () => {
         .send({
           mealId: '2',
           amount: '2000',
-          quantity: '-3',
+          quantity: '-abcd',
           total: '2000',
         });
       expect(res.status).to.equal(400);
       expect(res.body.error.quantity).to
-        .include('Order quantity cannot be less than zero');
+        .equal('Order quantity must be a number');
     });
     it('should return an error if meal does not exist', async () => {
       const res = await chai.request(app).post(orderUrl)
@@ -183,6 +196,20 @@ describe('Orders', () => {
         });
       expect(res.status).to.equal(404);
       expect(res.body.message).to.include('Meal does not exist');
+    });
+    it('should not post an order if quantity is less than one', async () => {
+      const res = await chai.request(app).post(orderUrl)
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          mealId: '2',
+          amount: '2000',
+          quantity: 0,
+          total: '2000',
+          userId: 2,
+        });
+      expect(res.status).to.equal(400);
+      expect(res.body.error.quantity).to
+        .equal('Order quantity cannot be less than one');
     });
   });
 
@@ -260,7 +287,7 @@ describe('Orders', () => {
     describe('Modify an expired order', () => {
       let clock;
       before(() => {
-        clock = sinon.useFakeTimers(Date.now());
+        clock = useFakeTimers(Date.now());
         // Tick the clock ahead by 30mins
         clock.tick(1800000);
       });
@@ -317,6 +344,13 @@ describe('Orders', () => {
   // Test Get order total amount for specific day
   describe('Get total amount made', () => {
     it('should return total for current day', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalAmount?date=${today}`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.status).to.equal('success');
+      expect(res.body.totalAmount).to.equal(46000);
+    });
+    it('should return total for all orders', async () => {
       const res = await chai.request(app).get(`${orderUrl}/totalAmount`)
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
@@ -331,10 +365,26 @@ describe('Orders', () => {
       expect(res.body.error.message).to
         .equal("Forbidden, you don't have the privilege to perform this operation");
     });
+    it('should throw an error if an invalid date is sent in query param', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalAmount?date=abcd`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.date).to.equal('Use a valid date e.g YYYY-MM-DD');
+    });
   });
 
   // Test Get total number of orders made
   describe('Get total number of orders', () => {
+    it('should return  total number of orders made', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalOrders?date=${today}`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.totalOrders).to.be.gt(0);
+      expect(res.body.totalOrders).to.equal(23);
+      expect(res.body.message).to
+        .include('Total number of orders made successfully retrieved');
+    });
     it('should return  total number of orders made', async () => {
       const res = await chai.request(app).get(`${orderUrl}/totalOrders`)
         .set('Authorization', `Bearer ${adminToken}`);
@@ -351,6 +401,13 @@ describe('Orders', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.error.message).to
         .equal("Forbidden, you don't have the privilege to perform this operation");
+    });
+    it('should throw an error if an invalid date is sent in query param', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalOrders?date=abcd`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.date).to.equal('Use a valid date e.g YYYY-MM-DD');
     });
   });
 

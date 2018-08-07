@@ -102,6 +102,7 @@ module.exports = {
   },
   production: {
     use_env_variable: 'DATABASE_URL',
+    logging: false,
     define: {
       underscored: true,
       underscoredAll: true,
@@ -147,6 +148,7 @@ module.exports = {
     use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
     ssl: true,
+    logging: false,
     dialectOptions: {
       ssl: {
         require: true,

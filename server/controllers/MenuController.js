@@ -139,10 +139,8 @@ class MenuController {
       ...include,
       where: {
         id: {
-          [Op.and]: {
-            [Op.lt]: start,
-            [Op.gte]: 1,
-          },
+          [Op.lt]: start,
+          [Op.gte]: 1,
         },
       },
     } : {
@@ -158,7 +156,8 @@ class MenuController {
       include: [include],
       where: {
         created_at: {
-          [Op.gte]: currentDate,
+          [Op.gt]: new Date(currentDate - (24 * 60 * 60 * 1000)),
+          [Op.lt]: new Date(currentDate.setDate(currentDate.getDate() + 1)),
         },
       },
       limit,

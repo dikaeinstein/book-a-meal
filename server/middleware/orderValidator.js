@@ -2,6 +2,7 @@ import { body } from 'express-validator/check';
 import idValidator from './idValidator';
 import numberValidator from './numberValidator';
 
+/* eslint newline-per-chained-call: 0 */
 
 /**
  * @description - Validates input when making a new order
@@ -11,7 +12,13 @@ import numberValidator from './numberValidator';
 export const validateNewOrder = () => [
   idValidator('mealId', 'Meal'),
   numberValidator('total', 'Order'),
-  numberValidator('quantity', 'Order'),
+  body('quantity')
+    .trim()
+    .exists().withMessage('Order quantity is required')
+    .not().isEmpty().withMessage('Order quantity is required')
+    .isNumeric().withMessage('Order quantity must be a number')
+    .isFloat({ min: 1 })
+    .withMessage('Order quantity cannot be less than one'),
 ];
 
 
@@ -23,8 +30,14 @@ export const validateNewOrder = () => [
 export const validateUpdateOrder = () => [
   idValidator('orderId', 'Order'),
   idValidator('mealId', 'Meal', { optional: true }),
-  numberValidator('quantity', 'Order', { optional: true }),
   numberValidator('total', 'Order', { optional: true }),
+  body('quantity')
+    .trim()
+    .exists().withMessage('Order quantity is required')
+    .not().isEmpty().withMessage('Order quantity is required')
+    .isNumeric().withMessage('Order quantity must be a number')
+    .isFloat({ min: 1 })
+    .withMessage('Order quantity cannot be less than one'),
   body('status')
     .optional()
     .not().isEmpty()
