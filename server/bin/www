@@ -1,6 +1,9 @@
-import http from 'http';
-import app from '../app';
+const http = require('http');
 
+const appRoute = process.env.NODE_ENV === 'production'
+  ? '../dist/app'
+  : '../app';
+const app = require(appRoute);
 const port = process.env.PORT || 5000;
 
 // Create HTTP server
