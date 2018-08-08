@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { useFakeTimers } from 'sinon';
 import app from '../app';
-import { Order } from '../models';
+import { Order, Menu, Meal } from '../models';
 import users from './usersTestData';
 import orders from './ordersTestData';
 
@@ -11,6 +11,7 @@ chai.use(chaiHttp);
 
 const orderUrl = '/api/v1/orders';
 const signUpUrl = '/api/v1/auth/signup';
+const menuUrl = '/api/v1/menu/';
 
 const admin = users[4];
 const user = users[5];
@@ -145,6 +146,16 @@ describe('Orders', () => {
 
   // Test Post an order
   describe('Post an order', () => {
+    before(async () => {
+      const meals = await Meal.findAll({});
+      const mealIds = meals.map(meal => meal.id);
+      await chai.request(app).post(menuUrl)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          name: 'menu for today',
+          mealIds,
+        });
+    });
     it('should allow auth customers place an order', async () => {
       const res = await chai.request(app).post(orderUrl)
         .set('Authorization', `Bearer ${token}`)
@@ -185,7 +196,7 @@ describe('Orders', () => {
       expect(res.body.error.quantity).to
         .equal('Order quantity must be a number');
     });
-    it('should return an error if meal does not exist', async () => {
+    it('should return an error if meal does not exist or not on the menu', async () => {
       const res = await chai.request(app).post(orderUrl)
         .set('Authorization', `Bearer ${token}`)
         .send({
@@ -195,7 +206,8 @@ describe('Orders', () => {
           total: 6000,
         });
       expect(res.status).to.equal(404);
-      expect(res.body.message).to.include('Meal does not exist');
+      expect(res.body.message)
+        .to.equal('The meal you want to order is not on todays menu');
     });
     it('should not post an order if quantity is less than one', async () => {
       const res = await chai.request(app).post(orderUrl)
@@ -283,6 +295,19 @@ describe('Orders', () => {
       expect(res.body.status).to.equal('error');
       expect(res.body.error.orderId).to
         .include('Order id must be a whole number');
+    });
+    it('should return an error if meal does not exist or not on the menu', async () => {
+      const res = await chai.request(app).put(`${orderUrl}/1`)
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          mealId: 100,
+          amount: 2000,
+          quantity: 3,
+          total: 6000,
+        });
+      expect(res.status).to.equal(404);
+      expect(res.body.message)
+        .to.equal('The meal you want to order is not on todays menu');
     });
     describe('Modify an expired order', () => {
       let clock;

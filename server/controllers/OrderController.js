@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { Op } from 'sequelize';
-import { Order, User, Meal } from '../models';
+import { Order, User, Meal, Menu, MealMenu } from '../models';
 import { linksURIBuilder } from '../lib/pagination';
 import getAPIBaseUrl from '../lib/getAPIBaseUrl';
 
@@ -254,16 +254,38 @@ class OrderController {
       userId,
     };
 
-    const meal = await Meal.findById(mealId);
+    const currentDate = new Date();
+    currentDate.setUTCHours(0, 0, 0, 0);
 
-    if (!meal) {
-      error.meal = 'Meal does not exist';
+    const menu = await Menu.findOne({
+      where: {
+        created_at: {
+          [Op.gt]: new Date(currentDate - (24 * 60 * 60 * 1000)),
+          [Op.lt]: new Date(currentDate.setDate(currentDate.getDate() + 1)),
+        },
+      },
+    });
+
+    if (!menu) {
+      error.menu = 'Sorry!, menu for the day have not been set';
       return res.status(404).json({
         message: error.meal,
         status: 'error',
         error,
       });
     }
+
+    const mealExist = await menu.hasMeal(mealId);
+
+    if (!mealExist) {
+      error.meal = 'The meal you want to order is not on todays menu';
+      return res.status(404).json({
+        message: error.meal,
+        status: 'error',
+        error,
+      });
+    }
+
     const newOrder = await Order.create(order);
     return res.status(201).json({
       message: 'Order placed',
@@ -287,6 +309,41 @@ class OrderController {
   static async updateOrder(req, res) {
     const error = {};
     const { userId } = req;
+    const { mealId } = req.body;
+
+    if (mealId) {
+      const currentDate = new Date();
+      currentDate.setUTCHours(0, 0, 0, 0);
+
+      const menu = await Menu.findOne({
+        where: {
+          created_at: {
+            [Op.gt]: new Date(currentDate - (24 * 60 * 60 * 1000)),
+            [Op.lt]: new Date(currentDate.setDate(currentDate.getDate() + 1)),
+          },
+        },
+      });
+
+      if (!menu) {
+        error.menu = 'Sorry!, menu for the day have not been set';
+        return res.status(404).json({
+          message: error.meal,
+          status: 'error',
+          error,
+        });
+      }
+
+      const mealExist = await menu.hasMeal(mealId);
+
+      if (!mealExist) {
+        error.meal = 'The meal you want to order is not on todays menu';
+        return res.status(404).json({
+          message: error.meal,
+          status: 'error',
+          error,
+        });
+      }
+    }
 
     const currentUser = await User.findById(userId);
     const matchedOrder = await Order.findOne({
