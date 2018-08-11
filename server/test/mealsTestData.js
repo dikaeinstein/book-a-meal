@@ -15,7 +15,7 @@ const meals = [
     name: 'Bread and beans',
     description: 'Some dummy description',
     imageUrl: 'https://mydummyimgurl.com',
-    price: '3000',
+    price: '2000',
   },
   {
     name: 'Yam and egg',
@@ -27,19 +27,19 @@ const meals = [
     name: 'Akpo and vegetable soup',
     description: 'Some dummy description',
     imageUrl: 'https://mydummyimgurl.com',
-    price: '3000',
+    price: '2000',
   },
   {
     name: 'Nigeria jollof rice',
     description: 'Some dummy description',
     imageUrl: 'https://mydummyimgurl.com',
-    price: '4000',
+    price: '2000',
   },
   {
     name: 'Ghanian jollof rice',
     description: 'Some dummy description',
     imageUrl: 'https://mydummyimgurl.com',
-    price: '3000',
+    price: '2000',
   },
   {
     name: 'Moimoi and pap',
@@ -51,25 +51,25 @@ const meals = [
     name: 'Hot dog and hot chocolate',
     description: 'Some dummy description',
     imageUrl: 'https://mydummyimgurl.com',
-    price: '2500',
+    price: '2000',
   },
   {
     name: 'Yam and fish sauce',
     description: 'Some dummy description',
     imageUrl: 'https://mydummyimgurl.com',
-    price: '3000',
+    price: '2000',
   },
   {
     name: 'Jabalaya rice and Chicken',
     description: 'Some dummy description',
     imageUrl: 'https://mydummyimgurl.com',
-    price: '4000',
+    price: '2000',
   },
   {
     name: 'Yam porridge',
     description: 'Some dummy description',
     imageUrl: 'https://mydummyimgurl.com',
-    price: '2500',
+    price: '2000',
   },
 ];
 

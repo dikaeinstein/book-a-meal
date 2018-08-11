@@ -41,7 +41,7 @@ const mealIdsValidator = ({ optional = false } = {}) => {
   if (optional) {
     return body('mealIds')
       .optional()
-      .isArray().withMessage('Menu must have at least one meal')
+      .isArray().withMessage('mealIds must be an array')
       .custom((mealIds) => {
         if (mealIds.length <= 0) {
           throw new Error('Menu must have at least one meal');
@@ -62,7 +62,7 @@ const mealIdsValidator = ({ optional = false } = {}) => {
   }
   return body('mealIds')
     .exists().withMessage('Menu must have at least one meal')
-    .isArray().withMessage('Menu must have at least one meal')
+    .isArray().withMessage('mealIds must be an array')
     .custom((mealIds) => {
       if (mealIds.length <= 0) {
         throw new Error('Menu must have at least one meal');

@@ -64,6 +64,19 @@ describe('Menu', () => {
       expect(res.body.error.message).to
         .equal('Menu not found or have not been setup');
     });
+    it('should not setup menu with meal ids that don"t exist', async () => {
+      const res = await chai.request(app).post(menuUrl)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          name: 'menu for today',
+          mealIds: [1, 2, 100],
+        });
+      expect(res.status).to.equal(404);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.mealIds).to
+        .equal(`One or more meal cannot be found, 
+please include meal that exist when setting up menu`);
+    });
     it('should only allow admin setup menu', async () => {
       const res = await chai.request(app).post(menuUrl)
         .set('Authorization', `Bearer ${adminToken}`)
@@ -112,7 +125,6 @@ describe('Menu', () => {
           mealIds: [1, 2, 'a'],
         });
       expect(res.status).to.equal(400);
-      expect(res.body.error).to.be.an('object');
       expect(res.body.status).to.equal('error');
       expect(res.body.error.mealIds).to
         .include('mealIds can only be integer values');
@@ -127,6 +139,17 @@ describe('Menu', () => {
       expect(res.body.status).to.equal('error');
       expect(res.body.error.message).to
         .include('Menu for the day have been set');
+    });
+    it('should not setup menu with mealIds that is not an array', async () => {
+      const res = await chai.request(app).put(`${menuUrl}1`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          name: 'empty menu',
+          mealIds: 1,
+        });
+      expect(res.status).to.equal(400);
+      expect(res.body.error.mealIds).to
+        .include('mealIds must be an array');
     });
   });
 
@@ -215,11 +238,21 @@ describe('Update Menu', () => {
         mealIds: [],
       });
     expect(res.status).to.equal(400);
-    expect(res.body).to.be.an('object');
     expect(res.body.error.mealIds).to
       .include('Menu must have at least one meal');
   });
-  it('should not update menu with invalid meal ids', async () => {
+  it('should not update menu with mealIds that is not an array', async () => {
+    const res = await chai.request(app).put(`${menuUrl}1`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: 'empty menu',
+        mealIds: 1,
+      });
+    expect(res.status).to.equal(400);
+    expect(res.body.error.mealIds).to
+      .include('mealIds must be an array');
+  });
+  it('should not update menu with invalid mealIds', async () => {
     const res = await chai.request(app).put(`${menuUrl}`)
       .set('Authorization', `Bearer ${adminToken}`)
       .send({
@@ -232,17 +265,46 @@ describe('Update Menu', () => {
     expect(res.body.error.mealIds).to
       .include('mealIds can only be integer values');
   });
-  it('should update menu', async () => {
-    const res = await chai.request(app).put(`${menuUrl}1`)
+  it('should update menu without menuId', async () => {
+    const res = await chai.request(app).put(`${menuUrl}`)
       .set('Authorization', `Bearer ${adminToken}`)
       .send({
-        mealIds: [2],
+        mealIds: [2, 3],
       });
     expect(res.status).to.equal(200);
     expect(res.body.menu.meals.length).to.lessThan(30);
     expect(res.body.links.length).to.equal(2);
     expect(res.body.links[0].href).to.include('limit=30&start');
     expect(res.body.links[1].href).to.include('?limit=30&start=1');
+  });
+  it('should update menu without mealIds', async () => {
+    const res = await chai.request(app).put(`${menuUrl}1`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: 'Menu without mealIds',
+      });
+    expect(res.status).to.equal(200);
+    expect(res.body.status).to.equal('success');
+    expect(res.body.message).to.equal('Successfully updated menu');
+    expect(res.body.menu.name).to.equal('Menu without mealIds');
+    expect(res.body.menu.meals[0].name).to.include(meals[0].name);
+    expect(res.body.menu.meals.length).to.lessThan(30);
+    expect(res.body.links.length).to.equal(2);
+    expect(res.body.links[0].href).to.include('limit=30&start');
+    expect(res.body.links[1].href).to.include('?limit=30&start=1');
+  });
+  it('should not update menu with meal ids that don"t exist', async () => {
+    const res = await chai.request(app).put(menuUrl)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: 'menu for today',
+        mealIds: [1, 2, 100],
+      });
+    expect(res.status).to.equal(404);
+    expect(res.body.status).to.equal('error');
+    expect(res.body.error.mealIds).to
+      .equal(`One or more meal cannot be found, 
+please include meal that exist when setting up menu`);
   });
 });
 

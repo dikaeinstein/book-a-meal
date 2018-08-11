@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 import { Menu, Meal } from '../models';
 import getAPIBaseUrl from '../lib/getAPIBaseUrl';
+import buildCheckMealsQuery from '../lib/buildCheckMealsQuery';
 
 /**
  * @class MenuController
@@ -51,7 +52,21 @@ class MenuController {
       });
     }
 
+    // Check mealIds
+    const query = buildCheckMealsQuery(mealIds);
+    const result = await Meal.find(query);
+    if (!result.allmealsavailable) {
+      error.mealIds = `One or more meal cannot be found, 
+please include meal that exist when setting up menu`;
+      return res.status(404).json({
+        message: error.mealIds,
+        status: 'error',
+        error,
+      });
+    }
+
     const menu = await Menu.create({ name });
+
     // Insert into many-to-many table
     await menu.addMeals(mealIds);
 
@@ -222,14 +237,26 @@ class MenuController {
   static async updateMenu(req, res) {
     const limit = parseInt(req.query.limit, 10) || 30;
     const start = parseInt(req.query.start, 10) || 1;
-    const { mealIds } = req.body;
+    const { name, mealIds } = req.body;
     const { menuId } = req.params;
     const error = {};
 
     const API_BASE_URL = getAPIBaseUrl();
     const resourceUrl = `${API_BASE_URL}/api/v1/menu/`;
+    // Use current date as default
+    const currentDate = new Date();
+    currentDate.setUTCHours(0, 0, 0, 0);
 
-    const matchedMenu = await Menu.findById(menuId);
+    const matchedMenu = menuId
+      ? await Menu.findById(menuId)
+      : await Menu.findOne({
+        where: {
+          created_at: {
+            [Op.gt]: new Date(currentDate - (24 * 60 * 60 * 1000)),
+            [Op.lt]: new Date(currentDate.setDate(currentDate.getDate() + 1)),
+          },
+        },
+      });
 
     if (!matchedMenu) {
       error.message = 'Menu not found or have not been setup';
@@ -240,8 +267,27 @@ class MenuController {
       });
     }
 
-    // Insert into many-to-many table
-    await matchedMenu.setMeals(mealIds);
+    if (name) {
+      await matchedMenu.update({ name });
+    }
+
+    if (mealIds) {
+      // Check mealIds
+      const query = buildCheckMealsQuery(mealIds);
+      const result = await Meal.find(query);
+      if (!result.allmealsavailable) {
+        error.mealIds = `One or more meal cannot be found, 
+please include meal that exist when setting up menu`;
+        return res.status(404).json({
+          message: error.mealIds,
+          status: 'error',
+          error,
+        });
+      }
+      // Insert into many-to-many table
+      await matchedMenu.setMeals(mealIds);
+    }
+
     const returnedMenu = await Menu.findById(matchedMenu.id, {
       include: [{
         model: Meal,
