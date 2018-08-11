@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { useFakeTimers } from 'sinon';
 import app from '../app';
-import { Order, Menu, Meal } from '../models';
+import { Order, Meal } from '../models';
 import users from './usersTestData';
 import orders from './ordersTestData';
 
@@ -222,6 +222,34 @@ describe('Orders', () => {
       expect(res.status).to.equal(400);
       expect(res.body.error.quantity).to
         .equal('Order quantity cannot be less than one');
+    });
+    it('should not post an order if the total is incorrect', async () => {
+      const res = await chai.request(app).post(orderUrl)
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          mealId: '2',
+          amount: '2000',
+          quantity: '2',
+          total: '2000',
+          userId: 2,
+        });
+      expect(res.status).to.equal(422);
+      expect(res.body.error.message).to
+        .equal(`The total does not equal the expected total, 
+change meal or quantity appropriately`);
+    });
+    it('should return an error if meal does not exist or not on the menu', async () => {
+      const res = await chai.request(app).post(orderUrl)
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          mealId: 100,
+          amount: 2000,
+          quantity: 3,
+          total: 6000,
+        });
+      expect(res.status).to.equal(404);
+      expect(res.body.message)
+        .to.equal('The meal you want to order is not on todays menu');
     });
   });
 

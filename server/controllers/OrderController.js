@@ -1,8 +1,9 @@
 import dotenv from 'dotenv';
 import { Op } from 'sequelize';
-import { Order, User, Meal, Menu, MealMenu } from '../models';
+import { Order, User, Meal, Menu } from '../models';
 import { linksURIBuilder } from '../lib/pagination';
 import getAPIBaseUrl from '../lib/getAPIBaseUrl';
+import isExpectedTotal from '../lib/isExpectedTotal';
 
 dotenv.config();
 
@@ -281,6 +282,16 @@ class OrderController {
       error.meal = 'The meal you want to order is not on todays menu';
       return res.status(404).json({
         message: error.meal,
+        status: 'error',
+        error,
+      });
+    }
+    const expectedTotal = await isExpectedTotal(order);
+    if (!expectedTotal) {
+      error.message = `The total does not equal the expected total, 
+change meal or quantity appropriately`;
+      return res.status(422).json({
+        message: error.message,
         status: 'error',
         error,
       });
