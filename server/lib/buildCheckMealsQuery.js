@@ -8,12 +8,13 @@ import { Op, literal } from 'sequelize';
  * @returns {object} Query object
  */
 /* eslint function-paren-newline: 0 */
-const buildCheckMealsQuery = mealIds =>
-  ({
+const buildCheckMealsQuery = (mealIds) => {
+  const parsedMealIds = mealIds.map(mealId => parseInt(mealId, 10));
+  return ({
     attributes: [
       literal(
         `CASE
-          WHEN COUNT(*) = array_length(array[${[...mealIds]}], 1)
+          WHEN COUNT(*) = array_length(array[${[...parsedMealIds]}], 1)
             THEN true
           ELSE false
         END as allMealsAvailable`,
@@ -21,10 +22,11 @@ const buildCheckMealsQuery = mealIds =>
     ],
     where: {
       id: {
-        [Op.any]: mealIds,
+        [Op.any]: parsedMealIds,
       },
     },
     raw: true,
   });
+};
 
 export default buildCheckMealsQuery;

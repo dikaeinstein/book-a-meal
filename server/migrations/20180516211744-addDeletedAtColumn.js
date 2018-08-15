@@ -1,5 +1,5 @@
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: (queryInterface, Sequelize) => {
     const meals = queryInterface.addColumn('meals', 'deleted_at', {
       type: Sequelize.DATE,
       field: 'deleted_at',

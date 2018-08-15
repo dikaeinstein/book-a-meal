@@ -12,11 +12,12 @@ const secret = process.env.SECRET;
  * @description - Creates jwt token
  *
  * @param {number} id - User id used to sign token
+ * @param {string} role - User role used to sign token
  *
  * @returns {string} - Token string
  */
-const createToken = id => jwt.sign(
-  { id },
+const createToken = (id, role) => jwt.sign(
+  { id, role },
   secret,
   { expiresIn: '1 day' },
 );

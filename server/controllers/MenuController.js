@@ -38,7 +38,8 @@ class MenuController {
     const matchedMenu = await Menu.findOne({
       where: {
         created_at: {
-          [Op.gte]: currentDate,
+          [Op.gt]: new Date(currentDate - (24 * 60 * 60 * 1000)),
+          [Op.lt]: new Date(currentDate.setDate(currentDate.getDate() + 1)),
         },
       },
     });
