@@ -33,6 +33,7 @@ const authenticate = (req, res, next) => {
   try {
     const verifiedToken = jwt.verify(token, secret);
     req.userId = verifiedToken.id;
+    req.role = verifiedToken.role;
     return next();
   } catch (err) {
     error.message = 'Unauthorized, invalid token or session have expired';

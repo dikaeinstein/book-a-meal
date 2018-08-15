@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     role: {
-      type: DataTypes.ENUM('customer', 'caterer'),
+      type: DataTypes.ENUM('customer', 'caterer', 'superAdmin'),
       allowNull: false,
     },
     createdAt: {
@@ -40,6 +40,13 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
       },
       as: 'user',
+    });
+    User.hasMany(models.Meal, {
+      foreignKey: {
+        name: 'userId',
+        field: 'user_id',
+        onDelete: 'CASCADE',
+      },
     });
   };
   return User;

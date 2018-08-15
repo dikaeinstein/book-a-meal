@@ -55,7 +55,7 @@ class UserController {
       role,
     });
 
-    const token = createToken(newUser.id);
+    const token = createToken(newUser.id, newUser.role);
     return res.status(201)
       .header('Authorization', `Bearer ${token}`)
       .json({
@@ -102,7 +102,7 @@ class UserController {
     const match = await checkPassword(password, matchedUser.password);
     if (match) {
       // Create token for user
-      const token = createToken(matchedUser.id);
+      const token = createToken(matchedUser.id, matchedUser.role);
 
       return res.status(200)
         .header('Authorization', `Bearer ${token}`)

@@ -19,12 +19,8 @@ describe('User Sign Up', () => {
     const res = await chai.request(app).post(signUpUrl)
       .send(users[6]);
     expect(res.status).to.equal(201);
-    expect(res.body).to.be.an('object');
-    expect(res).to.have.header('Authorization');
-    expect(res.body.user.name).to.be.a('string');
     expect(res.body.user.name).to.equal(users[6].name);
     expect(res.body.user.email).to.equal(users[6].email);
-    expect(res.body.user.email).to.be.a('string');
     expect(res.body).not.to.have.property('password');
   });
   it('should not create user with wrong email format', async () => {
