@@ -1,7 +1,8 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import { Meal } from '../models';
+import { Meal, User } from '../models';
 import app from '../app';
+import { hashPassword } from '../lib/encrypt';
 import users from './usersTestData';
 import meals from './mealsTestData';
 
@@ -26,6 +27,16 @@ let superAdminToken;
 describe('Meals', () => {
   // Setup user(superAdmin)
   before(async () => {
+    const hashedPassword = await hashPassword(process.env.password);
+
+    await User.create({
+      name: process.env.name,
+      email: process.env.email,
+      password: hashedPassword,
+      role: 'superAdmin',
+      created_at: new Date(),
+      updated_at: new Date(),
+    });
     const res = await chai.request(app).post(signInUrl)
       .send({
         email: process.env.email,

@@ -23,7 +23,7 @@
     "start-client:dev": "export NODE_ENV=development || set NODE_ENV=development&& webpack-dev-server --mode development --config webpack.dev.js --open",
     "start-debug": "ndb start-dev",
     "start-dev": "export NODE_ENV=development || set NODE_ENV=development&& yarn db-migrate-dev && nodemon --exec babel-node server/bin/www",
-    "test": "export NODE_ENV=test || set NODE_ENV=test&& yarn db-migrate-test && yarn db-seed && nyc --require babel-core/register mocha server/test/**.spec.js -t 5000 --exit",
+    "test": "export NODE_ENV=test || set NODE_ENV=test&& yarn db-migrate-test && nyc --require babel-core/register mocha server/test/**.spec.js -t 5000 --exit",
     "test-client": "jest",
     "test-client:watch": "jest --watchAll"
   },
