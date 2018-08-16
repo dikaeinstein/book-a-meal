@@ -378,6 +378,17 @@ describe('Orders', () => {
       expect(res.body.status).to.equal('success');
       expect(res.body.order.status).to.equal('cancelled');
     });
+    it('should not allow auth customers update order after cancelling', async () => {
+      const res = await chai.request(app).put(`${orderUrl}/22`)
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          quantity: 2,
+          status: 'pending',
+        });
+      expect(res.status).to.equal(405);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.message).to.equal('You cannot update a cancelled order');
+    });
     describe('Modify an expired order', () => {
       let clock;
       before(() => {

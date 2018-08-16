@@ -437,6 +437,16 @@ class OrderController {
         });
       }
 
+      // If order has been cancelled
+      if (matchedOrder && matchedOrder.status === 'cancelled') {
+        error.message = 'You cannot update a cancelled order';
+        return res.status(405).json({
+          message: error.message,
+          status: 'error',
+          error,
+        });
+      }
+
       // If order has expired i.e not modifiable
       if (matchedOrder && matchedOrder.expired) {
         error.message = 'You can no longer update this order';

@@ -4,5 +4,5 @@ module.exports = {
       type: 'unique',
     })
   ),
-  down: (queryInterface, Sequelize) => null,
+  down: () => null,
 };

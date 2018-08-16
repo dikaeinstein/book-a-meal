@@ -12,5 +12,5 @@ module.exports = {
     });
   },
 
-  down: (queryInterface, Sequelize) => null,
+  down: () => null,
 };

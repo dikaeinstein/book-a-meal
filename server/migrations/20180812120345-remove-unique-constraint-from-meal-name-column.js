@@ -3,5 +3,5 @@ module.exports = {
     queryInterface.removeConstraint('meals', 'meals_name_uk')
   ),
 
-  down: (queryInterface, Sequelize) => null,
+  down: () => null,
 };
