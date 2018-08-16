@@ -42,8 +42,8 @@ const users = [
     role: 'customer',
   },
   {
-    name: 'Solomon Okwa',
-    email: 'solozyokwa@gmail.com',
+    name: 'Dika Okwa',
+    email: 'solzokwa@gmail.com',
     password: '1234567890',
     confirmPassword: '1234567890',
     role: 'caterer',
@@ -53,6 +53,13 @@ const users = [
     email: 'walterify@3d.com',
     password: '1234567890',
     role: 'customer',
+  },
+  {
+    name: 'Solo Okwa',
+    email: 'solozy@gmail.com',
+    password: '1234567890',
+    confirmPassword: '1234567890',
+    role: 'caterer',
   },
 ];
 

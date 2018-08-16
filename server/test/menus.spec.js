@@ -1,8 +1,11 @@
+import dotenv from 'dotenv';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
 import { Meal } from '../models';
 import mockUsers from './usersTestData';
+
+dotenv.config();
 
 chai.use(chaiHttp);
 
@@ -10,18 +13,29 @@ const { expect } = chai;
 
 const menuUrl = '/api/v1/menu/';
 const signUpUrl = '/api/v1/auth/signup';
+const signInUrl = '/api/v1/auth/signin';
 
-const admin = mockUsers[2];
+const admin = mockUsers[8];
 const user = mockUsers[3];
 
 let token;
 let adminToken;
+let superAdminToken;
 let meals;
 let mealIds;
 let menu;
 
 describe('Menu', () => {
-  // Setup user(admin)
+  // Setup user(superAdmin)
+  before(async () => {
+    const res = await chai.request(app).post(signInUrl)
+      .send({
+        email: process.env.email,
+        password: process.env.password,
+      });
+    superAdminToken = res.body.token;
+  });
+  // Setup caterer(admin)
   before(async () => {
     const res = await chai.request(app).post(signUpUrl)
       .send(admin);
@@ -54,19 +68,17 @@ describe('Menu', () => {
     });
     it('should not update menu if menu is not set', async () => {
       const res = await chai.request(app).put(menuUrl)
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', `Bearer ${superAdminToken}`)
         .send({
           mealIds: [2],
         });
       expect(res.status).to.equal(404);
-      expect(res.body).to.be.an('object');
-      expect(res.body.error).to.be.an('object');
       expect(res.body.error.message).to
         .equal('Menu not found or have not been setup');
     });
     it('should not setup menu with meal ids that don"t exist', async () => {
       const res = await chai.request(app).post(menuUrl)
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', `Bearer ${superAdminToken}`)
         .send({
           name: 'menu for today',
           mealIds: [1, 2, 100],
@@ -77,13 +89,12 @@ describe('Menu', () => {
         .equal(`One or more meal cannot be found, 
 please include meal that exist when setting up menu`);
     });
-    it('should only allow admin setup menu', async () => {
+    it('should only allow super admin setup menu', async () => {
       const res = await chai.request(app).post(menuUrl)
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', `Bearer ${superAdminToken}`)
         .send(menu);
       expect(res.status).to.equal(201);
       expect(res.body.menu.name).to.equal(menu.name);
-      expect(res.body.menu.meals[0].name).to.eql(meals[0].name);
       expect(res.body.menu.meals.length).to.lessThan(30);
       expect(res.body.links.length).to.equal(2);
       expect(res.body.links[0].href).to.include('limit=30&start');
@@ -97,9 +108,17 @@ please include meal that exist when setting up menu`);
       expect(res.body.error.message).to
         .equal("Forbidden, you don't have the privilege to perform this operation");
     });
-    it('should not setup menu without meals', async () => {
+    it('should not allow caterer to setup menu', async () => {
       const res = await chai.request(app).post(menuUrl)
         .set('Authorization', `Bearer ${adminToken}`)
+        .send(menu);
+      expect(res.status).to.equal(403);
+      expect(res.body.error.message).to
+        .equal("Forbidden, you don't have the privilege to perform this operation");
+    });
+    it('should not setup menu without meals', async () => {
+      const res = await chai.request(app).post(menuUrl)
+        .set('Authorization', `Bearer ${superAdminToken}`)
         .send({
           name: 'empty menu',
           mealIds: [],
@@ -111,7 +130,7 @@ please include meal that exist when setting up menu`);
     });
     it('should not setup menu without a name', async () => {
       const res = await chai.request(app).post(menuUrl)
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', `Bearer ${superAdminToken}`)
         .send({ meals });
       expect(res.status).to.equal(400);
       expect(res.body.error.name).to
@@ -119,7 +138,7 @@ please include meal that exist when setting up menu`);
     });
     it('should not setup menu with invalid meal ids', async () => {
       const res = await chai.request(app).post(menuUrl)
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', `Bearer ${superAdminToken}`)
         .send({
           name: 'menu for today',
           mealIds: [1, 2, 'a'],
@@ -131,7 +150,7 @@ please include meal that exist when setting up menu`);
     });
     it('should not setup menu more than once', async () => {
       const res = await chai.request(app).post(menuUrl)
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', `Bearer ${superAdminToken}`)
         .send(menu);
       expect(res.status).to.equal(409);
       expect(res.body).to.be.an('object');
@@ -141,8 +160,8 @@ please include meal that exist when setting up menu`);
         .include('Menu for the day have been set');
     });
     it('should not setup menu with mealIds that is not an array', async () => {
-      const res = await chai.request(app).put(`${menuUrl}1`)
-        .set('Authorization', `Bearer ${adminToken}`)
+      const res = await chai.request(app).post(`${menuUrl}`)
+        .set('Authorization', `Bearer ${superAdminToken}`)
         .send({
           name: 'empty menu',
           mealIds: 1,
@@ -218,13 +237,12 @@ please include meal that exist when setting up menu`);
 describe('Update Menu', () => {
   it('should update menu', async () => {
     const res = await chai.request(app).put(`${menuUrl}1`)
-      .set('Authorization', `Bearer ${adminToken}`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
       .send({
         mealIds: [2],
       });
     expect(res.status).to.equal(200);
     expect(res.body.status).to.equal('success');
-    expect(res.body.menu.meals[0].name).to.include(meals[0].name);
     expect(res.body.menu.meals.length).to.lessThan(30);
     expect(res.body.links.length).to.equal(2);
     expect(res.body.links[0].href).to.include('limit=30&start');
@@ -232,7 +250,7 @@ describe('Update Menu', () => {
   });
   it('should not update menu without meals', async () => {
     const res = await chai.request(app).put(`${menuUrl}1`)
-      .set('Authorization', `Bearer ${adminToken}`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
       .send({
         name: 'empty menu',
         mealIds: [],
@@ -243,7 +261,7 @@ describe('Update Menu', () => {
   });
   it('should not update menu with mealIds that is not an array', async () => {
     const res = await chai.request(app).put(`${menuUrl}1`)
-      .set('Authorization', `Bearer ${adminToken}`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
       .send({
         name: 'empty menu',
         mealIds: 1,
@@ -254,7 +272,7 @@ describe('Update Menu', () => {
   });
   it('should not update menu with invalid mealIds', async () => {
     const res = await chai.request(app).put(`${menuUrl}`)
-      .set('Authorization', `Bearer ${adminToken}`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
       .send({
         name: 'menu for today',
         mealIds: [1, 2, 'a'],
@@ -267,7 +285,7 @@ describe('Update Menu', () => {
   });
   it('should update menu without menuId', async () => {
     const res = await chai.request(app).put(`${menuUrl}`)
-      .set('Authorization', `Bearer ${adminToken}`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
       .send({
         mealIds: [2, 3],
       });
@@ -279,7 +297,7 @@ describe('Update Menu', () => {
   });
   it('should update menu without mealIds', async () => {
     const res = await chai.request(app).put(`${menuUrl}1`)
-      .set('Authorization', `Bearer ${adminToken}`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
       .send({
         name: 'Menu without mealIds',
       });
@@ -287,7 +305,6 @@ describe('Update Menu', () => {
     expect(res.body.status).to.equal('success');
     expect(res.body.message).to.equal('Successfully updated menu');
     expect(res.body.menu.name).to.equal('Menu without mealIds');
-    expect(res.body.menu.meals[0].name).to.include(meals[0].name);
     expect(res.body.menu.meals.length).to.lessThan(30);
     expect(res.body.links.length).to.equal(2);
     expect(res.body.links[0].href).to.include('limit=30&start');
@@ -295,7 +312,7 @@ describe('Update Menu', () => {
   });
   it('should not update menu with meal ids that don"t exist', async () => {
     const res = await chai.request(app).put(menuUrl)
-      .set('Authorization', `Bearer ${adminToken}`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
       .send({
         name: 'menu for today',
         mealIds: [1, 2, 100],
@@ -306,21 +323,28 @@ describe('Update Menu', () => {
       .equal(`One or more meal cannot be found, 
 please include meal that exist when setting up menu`);
   });
+  it('should not allow caterer to update menu', async () => {
+    const res = await chai.request(app).put(menuUrl)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send(menu);
+    expect(res.status).to.equal(403);
+    expect(res.body.error.message).to
+      .equal("Forbidden, you don't have the privilege to perform this operation");
+  });
 });
 
 // Test Delete Menu
 describe('Delete Menu', () => {
   it('should delete menu if it exists', async () => {
     const res = await chai.request(app).delete(`${menuUrl}1`)
-      .set('Authorization', `Bearer ${adminToken}`);
+      .set('Authorization', `Bearer ${superAdminToken}`);
     expect(res.status).to.equal(200);
-    expect(res.body).to.be.an('object');
     expect(res.body.status).to.equal('success');
     expect(res.body.message).to.equal('Menu successfully deleted');
   });
   it('should not delete menu if does not exists', async () => {
     const res = await chai.request(app).delete(`${menuUrl}100`)
-      .set('Authorization', `Bearer ${adminToken}`);
+      .set('Authorization', `Bearer ${superAdminToken}`);
     expect(res.status).to.equal(404);
     expect(res.body.status).to.equal('error');
     expect(res.body.message).to.equal('Menu does not exist');
@@ -328,6 +352,14 @@ describe('Delete Menu', () => {
   it('should not allow non auth admin to delete menu', async () => {
     const res = await chai.request(app).del(`${menuUrl}1`)
       .set('Authorization', `Bearer ${token}`);
+    expect(res.status).to.equal(403);
+    expect(res.body.status).to.equal('error');
+    expect(res.body.error.message).to
+      .equal("Forbidden, you don't have the privilege to perform this operation");
+  });
+  it('should not allow caterer to delete menu', async () => {
+    const res = await chai.request(app).del(`${menuUrl}1`)
+      .set('Authorization', `Bearer ${adminToken}`);
     expect(res.status).to.equal(403);
     expect(res.body.status).to.equal('error');
     expect(res.body.error.message).to

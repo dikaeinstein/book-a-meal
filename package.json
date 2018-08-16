@@ -14,9 +14,10 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "db-migrate": "sequelize db:migrate --env production",
     "db-migrate-dev": "sequelize db:migrate --env development",
+    "db-seed": "sequelize db:seed:all",
     "db-migrate-test": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test",
     "deploy": "gh-pages -d UI",
-    "heroku-postbuild": "yarn build&& yarn db-migrate",
+    "heroku-postbuild": "yarn build&& yarn db-migrate && yarn db-seed",
     "sequelize": "sequelize",
     "start": "export NODE_ENV=production || set NODE_ENV=production&& node server/bin/www",
     "start-client:dev": "export NODE_ENV=development || set NODE_ENV=development&& webpack-dev-server --mode development --config webpack.dev.js --open",
@@ -66,6 +67,7 @@
     "babel-cli": "^6.26.0",
     "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.4",
+    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -122,7 +124,7 @@
     }
   },
   "engines": {
-    "yarn": "1.7.0",
+    "yarn": "1.9.4",
     "node": "8.11.3"
   },
   "nodemonConfig": {

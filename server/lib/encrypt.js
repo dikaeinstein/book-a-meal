@@ -9,7 +9,7 @@ import bcrypt from 'bcrypt';
  *
  * @param {string} password - Password string
  *
- * @returns {Promis<string>}
+ * @returns {Promise<string>}
  */
 export const hashPassword = async (password) => {
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,7 +23,7 @@ export const hashPassword = async (password) => {
  * @param {string} plaintextPassword - Plain password string
  * @param {string} hashpass - Hashed password from the database
  *
- * @returns {Promis<string>}
+ * @returns {Promise<string>}
  */
 export const checkPassword = async (plaintextPassword, hashPass) => {
   const match = await bcrypt.compare(plaintextPassword, hashPass);

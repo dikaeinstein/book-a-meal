@@ -1,4 +1,4 @@
-import { Meal } from '../models';
+import { Meal, User } from '../models';
 import { linksURIBuilder } from '../lib/pagination';
 import getAPIBaseUrl from '../lib/getAPIBaseUrl';
 
@@ -30,6 +30,13 @@ class MealController {
     const resourceUrl = `${API_BASE_URL}/api/v1/meals`;
 
     const meals = await Meal.findAndCountAll({
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
       limit,
       offset,
       order: [['created_at', 'DESC']],
@@ -56,6 +63,49 @@ class MealController {
     });
   }
 
+  static async getUserMeals(req, res) {
+    const userId = req.params.userId || req.userId;
+    const limit = parseInt(req.query.limit, 10) || 30;
+    const page = parseInt(req.query.page, 10) || 1;
+    const offset = limit * (page - 1);
+    const API_BASE_URL = getAPIBaseUrl();
+
+    const resourceUrl = `${API_BASE_URL}/api/v1/meals/users/${userId}`;
+
+    const userMeals = await Meal.findAndCountAll({
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
+      where: { user_id: userId },
+      limit,
+      offset,
+      order: [['created_at', 'DESC']],
+    });
+
+    if (userMeals.count === 0) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'No meals found!',
+        meals: userMeals.rows,
+      });
+    }
+
+    const totalPages = Math.ceil(userMeals.count / limit);
+
+    // Array of links for traversing meals using pagination
+    const links = linksURIBuilder(resourceUrl, page, totalPages, userMeals.count, limit);
+
+    return res.status(200).json({
+      meals: userMeals.rows,
+      status: 'success',
+      message: 'Meals successfully retrieved',
+      links,
+    });
+  }
 
   /**
    * @description - Get a single meal
@@ -73,6 +123,13 @@ class MealController {
     const error = {};
     const matchedMeal = await Meal.findOne({
       where: { id: req.params.mealId },
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
     });
     if (!matchedMeal) {
       error.id = 'Meal does not exist';
@@ -104,7 +161,7 @@ class MealController {
    */
   static async addMeal(req, res) {
     const error = {};
-    let meal;
+    const { userId } = req;
     const {
       name,
       description,
@@ -113,7 +170,7 @@ class MealController {
     } = req.body;
 
     const matchedMeal = await Meal.findOne({
-      where: { name },
+      where: { name, user_id: userId },
     });
 
     if (matchedMeal) {
@@ -124,20 +181,20 @@ class MealController {
         error,
       });
     }
-    if (imageUrl) {
-      meal = await Meal.create({
+    const meal = imageUrl
+      ? await Meal.create({
         name,
         description,
         imageUrl,
         price,
-      });
-    } else {
-      meal = await Meal.create({
+        userId,
+      })
+      : await Meal.create({
         name,
         description,
         price,
+        userId,
       });
-    }
 
     return res.status(201).json({
       message: 'Successfully added meal',
@@ -160,38 +217,46 @@ class MealController {
    */
   static async updateMeal(req, res) {
     const error = {};
+    const { userId } = req;
+    const { name } = req.body;
 
     // Find meal
     const matchedMeal = await Meal.findOne({
-      where: { id: req.params.mealId },
+      where: { id: req.params.mealId, user_id: userId },
     });
 
     if (!matchedMeal) {
-      error.id = 'Meal id does not exist';
+      error.mealId = 'Meal you want to update does not exist';
       return res.status(404).json({
-        message: error.id,
+        message: error.mealId,
         status: 'error',
         error,
       });
+    }
+
+    if (name) {
+      const foundMeal = await Meal.findOne({
+        where: { name, user_id: userId },
+      });
+
+      if (foundMeal) {
+        error.name = 'You cannot update meal name to an existing meal name';
+        return res.status(409).json({
+          message: error.name,
+          status: 'error',
+          error,
+        });
+      }
     }
 
     // Update meal
-    try {
-      const updatedMeal = await matchedMeal.update(req.body);
+    const updatedMeal = await matchedMeal.update(req.body);
 
-      return res.status(200).json({
-        meal: updatedMeal,
-        status: 'success',
-        message: 'Successfully updated meal',
-      });
-    } catch (err) {
-      error.name = err.errors[0].message;
-      return res.status(409).json({
-        message: 'You cannot update meal name to an existing meal name',
-        status: 'error',
-        error,
-      });
-    }
+    return res.status(200).json({
+      meal: updatedMeal,
+      status: 'success',
+      message: 'Successfully updated meal',
+    });
   }
 
   /**
@@ -208,9 +273,11 @@ class MealController {
    */
   static async deleteMeal(req, res) {
     const error = {};
+    const { userId } = req;
+
     // Find meal
     const matchedMeal = await Meal.findOne({
-      where: { id: req.params.mealId },
+      where: { id: req.params.mealId, user_id: userId },
     });
 
     if (!matchedMeal) {

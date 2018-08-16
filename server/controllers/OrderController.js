@@ -3,7 +3,9 @@ import { Op } from 'sequelize';
 import { Order, User, Meal, Menu } from '../models';
 import { linksURIBuilder } from '../lib/pagination';
 import getAPIBaseUrl from '../lib/getAPIBaseUrl';
-import isExpectedTotal from '../lib/isExpectedTotal';
+import { buildNewOrder, buildUpdateOrder } from '../lib/buildOrder';
+import getCatererMeals from '../lib/getCatererMeals';
+import getCatererAdminOrder from '../lib/getCatererAdminOrder';
 
 dotenv.config();
 
@@ -65,6 +67,90 @@ class OrderController {
         },
       }
       : findOptions);
+
+    if (orders.count === 0) {
+      error.message = 'No order have been placed';
+      return res.status(404).json({
+        status: 'error',
+        message: error.message,
+        error,
+      });
+    }
+
+    const totalPages = Math.ceil(orders.count / limit);
+
+    // Array of links for traversing meals using pagination
+    const links = linksURIBuilder(resourceUrl, page, totalPages, orders.count, limit);
+
+    return res.status(200).json({
+      message: 'Orders successfully retrieved',
+      status: 'success',
+      orders: orders.rows,
+      links,
+    });
+  }
+
+  /**
+   * @description Get meal orders for specific caterer
+   * @static
+   * @async
+   *
+   * @param {object} req HTTP Request
+   * @param {object} res HTTP Response
+   *
+   * @memberof OrderController
+   *
+   * @returns {Promise<object>}
+   */
+  static async getCatererOrders(req, res) {
+    const userId = req.params.userId || req.userId;
+    const error = {};
+    const { date } = req.query;
+    const limit = parseInt(req.query.limit, 10) || 30;
+    const page = parseInt(req.query.page, 10) || 1;
+    const offset = limit * (page - 1);
+
+    const resourceUrl = `${API_BASE_URL}/api/v1/orders/caterers`;
+    const findOptions = {
+      include: [
+        {
+          model: Meal,
+          as: 'meal',
+          attributes: ['name', 'price'],
+        }, {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
+      limit,
+      offset,
+      order: [['created_at', 'DESC']],
+    };
+
+    const parsedDate = new Date(date);
+    const catererMealIds = await getCatererMeals(userId);
+    const orders = await Order.findAndCountAll(date
+      ? {
+        ...findOptions,
+        where: {
+          created_at: {
+            [Op.gt]: new Date(parsedDate - (24 * 60 * 60 * 1000)),
+            [Op.lt]: new Date(parsedDate.setDate(parsedDate.getDate() + 1)),
+          },
+          meal_id: {
+            [Op.in]: catererMealIds,
+          },
+        },
+      }
+      : {
+        ...findOptions,
+        where: {
+          meal_id: {
+            [Op.in]: catererMealIds,
+          },
+        },
+      });
 
     if (orders.count === 0) {
       error.message = 'No order have been placed';
@@ -238,22 +324,8 @@ class OrderController {
    * @returns {Promise<object>}
    */
   static async makeAnOrder(req, res) {
-    const {
-      mealId,
-      amount,
-      quantity,
-      total,
-    } = req.body;
     const { userId } = req;
     const error = {};
-
-    const order = {
-      mealId,
-      amount,
-      quantity,
-      total,
-      userId,
-    };
 
     const currentDate = new Date();
     currentDate.setUTCHours(0, 0, 0, 0);
@@ -276,7 +348,7 @@ class OrderController {
       });
     }
 
-    const mealExist = await menu.hasMeal(mealId);
+    const mealExist = await menu.hasMeal(req.body.mealId);
 
     if (!mealExist) {
       error.meal = 'The meal you want to order is not on todays menu';
@@ -286,18 +358,9 @@ class OrderController {
         error,
       });
     }
-    const expectedTotal = await isExpectedTotal(order);
-    if (!expectedTotal) {
-      error.message = `The total does not equal the expected total, 
-change meal or quantity appropriately`;
-      return res.status(422).json({
-        message: error.message,
-        status: 'error',
-        error,
-      });
-    }
+    const order = await buildNewOrder(req.body);
 
-    const newOrder = await Order.create(order);
+    const newOrder = await Order.create({ ...order, userId });
     return res.status(201).json({
       message: 'Order placed',
       status: 'success',
@@ -321,6 +384,7 @@ change meal or quantity appropriately`;
     const error = {};
     const { userId } = req;
     const { mealId } = req.body;
+    const { orderId } = req.params;
 
     if (mealId) {
       const currentDate = new Date();
@@ -357,20 +421,32 @@ change meal or quantity appropriately`;
     }
 
     const currentUser = await User.findById(userId);
-    const matchedOrder = await Order.findOne({
-      where: { id: req.params.orderId },
-    });
-
-    if (!matchedOrder) {
-      error.id = 'Order does not exist';
-      return res.status(404).json({
-        message: error.id,
-        status: 'error',
-        error,
-      });
-    }
+    let matchedOrder;
 
     if (currentUser.role === 'customer') {
+      matchedOrder = await Order.findOne({
+        where: { id: orderId, user_id: userId },
+      });
+
+      if (!matchedOrder) {
+        error.id = 'Order does not exist';
+        return res.status(404).json({
+          message: error.id,
+          status: 'error',
+          error,
+        });
+      }
+
+      // If order has been cancelled
+      if (matchedOrder && matchedOrder.status === 'cancelled') {
+        error.message = 'You cannot update a cancelled order';
+        return res.status(405).json({
+          message: error.message,
+          status: 'error',
+          error,
+        });
+      }
+
       // If order has expired i.e not modifiable
       if (matchedOrder && matchedOrder.expired) {
         error.message = 'You can no longer update this order';
@@ -393,8 +469,11 @@ change meal or quantity appropriately`;
           error,
         });
       }
+
+      const order = await buildUpdateOrder(matchedOrder, req.body);
+
       // Merge changes
-      const updatedOrder = await matchedOrder.update(req.body);
+      const updatedOrder = await matchedOrder.update(order);
       const returnOrder = await Order.findOne({
         include: [
           {
@@ -418,8 +497,19 @@ change meal or quantity appropriately`;
     }
 
     // For admin (caterer)
+    // get order based on user role
+    matchedOrder = await getCatererAdminOrder(orderId, currentUser);
+    if (!matchedOrder) {
+      error.id = 'Order does not exist';
+      return res.status(404).json({
+        message: error.id,
+        status: 'error',
+        error,
+      });
+    }
     // Merge changes
-    const updatedOrder = await matchedOrder.update(req.body);
+    const order = await buildUpdateOrder(matchedOrder, req.body);
+    const updatedOrder = await matchedOrder.update(order);
     const returnOrder = await Order.findOne({
       include: [
         {
@@ -456,6 +546,7 @@ change meal or quantity appropriately`;
    */
   static async deleteOrder(req, res) {
     const error = {};
+
     // Find Order
     const matchedOrder = await Order.findOne({
       where: { id: req.params.orderId },

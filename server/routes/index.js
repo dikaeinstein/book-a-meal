@@ -7,6 +7,7 @@ import MenuController from '../controllers/MenuController';
 import OrderController from '../controllers/OrderController';
 import authenticate from '../middleware/authenticate';
 import authorize from '../middleware/authorize';
+import authorizeSuperAdmin from '../middleware/authorizeSuperAdmin';
 import validationErrorHandler from '../middleware/validationErrorHandler';
 import idValidator from '../middleware/idValidator';
 import queryValidator from '../middleware/queryValidator';
@@ -58,11 +59,30 @@ router.delete(
 
 // Get all meals
 router.get(
-  '/v1/meals', authenticate, authorize,
+  '/v1/meals', authenticate, authorizeSuperAdmin,
   queryValidator('page'),
   queryValidator('limit'),
   validationErrorHandler,
   MealController.getAllMeals,
+);
+
+// Get orders for specific user
+router.get(
+  '/v1/meals/users',
+  authenticate, authorize,
+  queryValidator('limit'),
+  queryValidator('page'),
+  validationErrorHandler,
+  MealController.getUserMeals,
+);
+router.get(
+  '/v1/meals/users/:userId',
+  authenticate, authorize,
+  idValidator('userId', 'User'),
+  queryValidator('limit'),
+  queryValidator('page'),
+  validationErrorHandler,
+  MealController.getUserMeals,
 );
 
 // Get meal
@@ -93,10 +113,9 @@ router.delete(
   MealController.deleteMeal,
 );
 
-
 // Setup menu
 router.post(
-  '/v1/menu/', authenticate, authorize,
+  '/v1/menu/', authenticate, authorizeSuperAdmin,
   validateSetupMenu(), validationErrorHandler,
   MenuController.setupMenu,
 );
@@ -112,14 +131,14 @@ router.get(
 
 // Update menu
 router.put(
-  '/v1/menu/', authenticate, authorize,
+  '/v1/menu/', authenticate, authorizeSuperAdmin,
   idValidator('menuId', 'Menu', { optional: true }),
   validateUpdateMenu(), validationErrorHandler,
   MenuController.updateMenu,
 );
 router.put(
   '/v1/menu/:menuId',
-  authenticate, authorize,
+  authenticate, authorizeSuperAdmin,
   idValidator('menuId', 'Menu'),
   validateUpdateMenu(), validationErrorHandler,
   MenuController.updateMenu,
@@ -127,7 +146,7 @@ router.put(
 
 // Delete menu
 router.delete(
-  '/v1/menu/:menuId', authenticate, authorize,
+  '/v1/menu/:menuId', authenticate, authorizeSuperAdmin,
   idValidator('menuId', 'Menu'), validationErrorHandler,
   MenuController.deleteMenu,
 );
@@ -135,7 +154,7 @@ router.delete(
 
 // Get all orders
 router.get(
-  '/v1/orders', authenticate, authorize,
+  '/v1/orders', authenticate, authorizeSuperAdmin,
   queryValidator('limit'),
   queryValidator('page'),
   dateValidator(),
@@ -160,7 +179,7 @@ router.put(
 // Get Total amount made
 router.get(
   '/v1/orders/totalAmount',
-  authenticate, authorize,
+  authenticate, authorizeSuperAdmin,
   dateValidator(),
   validationErrorHandler,
   OrderController.getTotalAmount,
@@ -169,7 +188,7 @@ router.get(
 // Get Total number of orders made
 router.get(
   '/v1/orders/totalOrders',
-  authenticate, authorize,
+  authenticate, authorizeSuperAdmin,
   dateValidator(),
   validationErrorHandler,
   OrderController.getTotalNumberOfOrders,
@@ -193,9 +212,28 @@ router.get(
   OrderController.getUserOrderHistory,
 );
 
+// Get meal orders for specific caterer
+router.get(
+  '/v1/orders/caterers',
+  authenticate, authorize,
+  queryValidator('limit'),
+  queryValidator('page'),
+  validationErrorHandler,
+  OrderController.getCatererOrders,
+);
+router.get(
+  '/v1/orders/caterers/:userId',
+  authenticate, authorize,
+  idValidator('userId', 'User'),
+  queryValidator('limit'),
+  queryValidator('page'),
+  validationErrorHandler,
+  OrderController.getCatererOrders,
+);
+
 // Delete specific order
 router.delete(
-  '/v1/orders/:orderId', authenticate, authorize,
+  '/v1/orders/:orderId', authenticate, authorizeSuperAdmin,
   idValidator('orderId', 'Order'), validationErrorHandler,
   OrderController.deleteOrder,
 );

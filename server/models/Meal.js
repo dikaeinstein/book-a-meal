@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     description: {
       type: DataTypes.TEXT,
@@ -15,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     imageUrl: {
       type: DataTypes.STRING,
-      defaultValue: 'http://res.cloudinary.com/dikaeinstein/image/upload/c_scale,q_auto:low,w_1029/v1525566673/book-a-meal/avocado-cooked-delicious-262959.jpg',
+      defaultValue: 'https://res.cloudinary.com/dikaeinstein/image/upload/c_scale,q_auto:low,w_1029/v1525566673/book-a-meal/avocado-cooked-delicious-262959.jpg',
       field: 'image_url',
     },
     createdAt: {
@@ -41,6 +40,14 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
       },
       as: 'meal',
+    });
+    Meal.belongsTo(models.User, {
+      foreignKey: {
+        name: 'userId',
+        field: 'user_id',
+        onDelete: 'CASCADE',
+      },
+      as: 'user',
     });
     Meal.belongsToMany(models.Menu, {
       through: 'meal_menus',

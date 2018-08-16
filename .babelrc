@@ -10,5 +10,10 @@
       }
     }]
 	],
-	"plugins": ["transform-object-rest-spread", "react-hot-loader/babel", "emotion"]
+	"plugins": [
+    "transform-object-rest-spread",
+    "react-hot-loader/babel",
+    "emotion",
+    "add-module-exports"
+  ]
 }

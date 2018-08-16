@@ -1,6 +1,5 @@
 import { body } from 'express-validator/check';
 import idValidator from './idValidator';
-import numberValidator from './numberValidator';
 
 /* eslint newline-per-chained-call: 0 */
 
@@ -11,7 +10,6 @@ import numberValidator from './numberValidator';
  */
 export const validateNewOrder = () => [
   idValidator('mealId', 'Meal'),
-  numberValidator('total', 'Order'),
   body('quantity')
     .trim()
     .exists().withMessage('Order quantity is required')
@@ -30,10 +28,9 @@ export const validateNewOrder = () => [
 export const validateUpdateOrder = () => [
   idValidator('orderId', 'Order'),
   idValidator('mealId', 'Meal', { optional: true }),
-  numberValidator('total', 'Order', { optional: true }),
   body('quantity')
+    .optional()
     .trim()
-    .exists().withMessage('Order quantity is required')
     .not().isEmpty().withMessage('Order quantity is required')
     .isNumeric().withMessage('Order quantity must be a number')
     .isFloat({ min: 1 })
@@ -42,5 +39,12 @@ export const validateUpdateOrder = () => [
     .optional()
     .not().isEmpty()
     .withMessage('Order status is required')
-    .matches(/^(pending|delivered|cancelled)$/),
+    .custom((status, { req }) => {
+      if (req.role === 'customer' && !(/^(pending|cancelled)$/.test(status))) {
+        throw new Error('You can only cancel an order');
+      }
+      return true;
+    })
+    .matches(/^(pending|delivered|cancelled)$/)
+    .withMessage('Invalid order status!'),
 ];
