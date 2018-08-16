@@ -17,7 +17,7 @@
     "db-seed": "sequelize db:seed:all",
     "db-migrate-test": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test",
     "deploy": "gh-pages -d UI",
-    "heroku-postbuild": "yarn build&& yarn db-migrate && yarn db-seed",
+    "heroku-postbuild": "yarn build&& yarn db-migrate",
     "sequelize": "sequelize",
     "start": "export NODE_ENV=production || set NODE_ENV=production&& node server/bin/www",
     "start-client:dev": "export NODE_ENV=development || set NODE_ENV=development&& webpack-dev-server --mode development --config webpack.dev.js --open",
