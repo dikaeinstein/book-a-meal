@@ -475,6 +475,45 @@ describe('Orders', () => {
     });
   });
 
+  // Test Get order total amount by caterer for specific day
+  describe('Get total amount made by caterer', () => {
+    it('should return total for current day', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalAmount/caterers?date=${today}`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.status).to.equal('success');
+      expect(res.body.totalAmount).to.equal(42000);
+    });
+    it('should return total for current day using userId', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalAmount/caterers/2?date=${today}`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.status).to.equal('success');
+      expect(res.body.totalAmount).to.equal(42000);
+    });
+    it('should return total for all orders', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalAmount/caterers`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.status).to.equal('success');
+      expect(res.body.totalAmount).to.equal(42000);
+    });
+    it('should not retrieve total for non admin user', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalAmount/caterers`)
+        .set('Authorization', `Bearer ${token}`);
+      expect(res.status).to.equal(403);
+      expect(res.body.error.message).to
+        .equal("Forbidden, you don't have the privilege to perform this operation");
+    });
+    it('should throw an error if an invalid date is sent in query param', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalAmount/caterers?date=abcd`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.date).to.equal('Use a valid date e.g YYYY-MM-DD');
+    });
+  });
+
   // Test Get total number of orders made
   describe('Get total number of orders', () => {
     it('should return  total number of orders made', async () => {
@@ -512,33 +551,83 @@ describe('Orders', () => {
     });
   });
 
+  // Test Get total number of orders made for specific caterer
+  describe('Get total number of orders for specific caterer', () => {
+    it('should return total number of orders made', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalOrders/caterers?date=${today}`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.totalOrders).to.equal(23);
+      expect(res.body.message).to
+        .include('Total number of orders made successfully retrieved');
+    });
+    it('should return total number of orders made using userId', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalOrders/caterers/2?date=${today}`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.totalOrders).to.equal(23);
+      expect(res.body.message).to
+        .include('Total number of orders made successfully retrieved');
+    });
+    it('should return total number of all orders made', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalOrders/caterers`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.totalOrders).to.be.gt(0);
+      expect(res.body.totalOrders).to.equal(23);
+      expect(res.body.message).to
+        .include('Total number of orders made successfully retrieved');
+    });
+    it('should not retrieve total number of orders for non admin user', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalOrders/caterers`)
+        .set('Authorization', `Bearer ${token}`);
+      expect(res.status).to.equal(403);
+      expect(res.body.error.message).to
+        .equal("Forbidden, you don't have the privilege to perform this operation");
+    });
+    it('should throw an error if an invalid date is sent in query param', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/totalOrders/caterers?date=abcd`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(400);
+      expect(res.body.status).to.equal('error');
+      expect(res.body.error.date).to.equal('Use a valid date e.g YYYY-MM-DD');
+    });
+  });
+
   // Test Get order history for specific user
   describe('Get orders for specific user', () => {
+    it('should get orders for specific auth signed in user', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/users`)
+        .set('Authorization', `Bearer ${token}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.status).to.equal('success');
+      expect(res.body.orders).to.be.an('array');
+      expect(res.body.orders.length).to.equal(2);
+    });
     // Admin can get order history for specific user
     it('should get orders for specific auth user with userId', async () => {
       const res = await chai.request(app).get(`${orderUrl}/users/4`)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(200);
-      expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('success');
       expect(res.body.orders).to.be.an('array');
       expect(res.body.orders.length).to.equal(21);
     });
     it('should return 10 orders if limit is set to 10', async () => {
       const res = await chai.request(app).get(`${orderUrl}/users/4?limit=10`)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.orders.length).to.be.equal(10);
     });
     it('should return 1 order from page three', async () => {
       const res = await chai.request(app).get(`${orderUrl}/users/4?limit=10&page=3`)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.orders.length).to.be.equal(1);
     });
     it('should return links to traverse orders', async () => {
       const res = await chai.request(app).get(`${orderUrl}/users/4?limit=10`)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       const linkNames = res.body.links.map(link => link.rel);
       expect(res.status).to.equal(200);
       expect(linkNames.length).to.equal(3);
@@ -548,7 +637,7 @@ describe('Orders', () => {
     });
     it('should return link to first page', async () => {
       const res = await chai.request(app).get(`${orderUrl}/users/4?limit=10&page=2`)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       const linkNames = res.body.links.map(link => link.rel);
       expect(res.status).to.equal(200);
       expect(res.body.orders.length).to.equal(10);
@@ -557,42 +646,42 @@ describe('Orders', () => {
     });
     it('should return an error if limit is less than zero', async () => {
       const res = await chai.request(app).get(`${orderUrl}/users?limit=-10`)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.limit).to.equal('limit cannot be less than zero');
     });
     it('should return an error if limit is a fractional number', async () => {
       const res = await chai.request(app).get(`${orderUrl}/users?limit=9.5`)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.limit).to.equal('limit must be a whole number');
     });
     it('should return an error if limit is not a number', async () => {
       const res = await chai.request(app).get(`${orderUrl}/users?limit=b`)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.limit).to.equal('limit must be a number');
     });
     it('should return an error if page is less than zero', async () => {
       const res = await chai.request(app).get(`${orderUrl}/users/4?page=-10`)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.page).to.equal('page cannot be less than zero');
     });
     it('should return an error if page is a fractional number', async () => {
       const res = await chai.request(app).get(`${orderUrl}/users/4?page=9.5`)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.page).to.equal('page must be a whole number');
     });
     it('should return an error if page is not a number', async () => {
       const res = await chai.request(app).get(`${orderUrl}/users/4?page=b`)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.page).to.equal('page must be a number');
@@ -601,10 +690,18 @@ describe('Orders', () => {
 
   // Test Get meal orders for specific caterer
   describe('Get meal orders for specific caterer', () => {
+    it('should get orders for specific signed in caterer', async () => {
+      const res = await chai.request(app).get(`${orderUrl}/caterers`)
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('success');
+      expect(res.body.orders.length).to.equal(20);
+    });
     // Admin can get order history for specific user
     it('should get orders for specific caterer with userId', async () => {
       const res = await chai.request(app).get(`${orderUrl}/caterers/2`)
-        .set('Authorization', `Bearer ${adminToken}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('success');
@@ -612,13 +709,13 @@ describe('Orders', () => {
     });
     it('should return 10 orders if limit is set to 10', async () => {
       const res = await chai.request(app).get(`${orderUrl}/caterers/2?limit=10`)
-        .set('Authorization', `Bearer ${adminToken}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.orders.length).to.be.equal(10);
     });
     it('should return links to traverse orders', async () => {
       const res = await chai.request(app).get(`${orderUrl}/caterers/2?limit=10`)
-        .set('Authorization', `Bearer ${adminToken}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       const linkNames = res.body.links.map(link => link.rel);
       expect(res.status).to.equal(200);
       expect(linkNames.length).to.equal(3);
@@ -628,7 +725,7 @@ describe('Orders', () => {
     });
     it('should return link to first page', async () => {
       const res = await chai.request(app).get(`${orderUrl}/caterers/2?limit=10&page=2`)
-        .set('Authorization', `Bearer ${adminToken}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       const linkNames = res.body.links.map(link => link.rel);
       expect(res.status).to.equal(200);
       expect(res.body.orders.length).to.equal(10);
@@ -637,42 +734,42 @@ describe('Orders', () => {
     });
     it('should return an error if limit is less than zero', async () => {
       const res = await chai.request(app).get(`${orderUrl}/caterers/2?limit=-10`)
-        .set('Authorization', `Bearer ${adminToken}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.limit).to.equal('limit cannot be less than zero');
     });
     it('should return an error if limit is a fractional number', async () => {
       const res = await chai.request(app).get(`${orderUrl}/caterers/2?limit=9.5`)
-        .set('Authorization', `Bearer ${adminToken}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.limit).to.equal('limit must be a whole number');
     });
     it('should return an error if limit is not a number', async () => {
       const res = await chai.request(app).get(`${orderUrl}/caterers/2?limit=b`)
-        .set('Authorization', `Bearer ${adminToken}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.limit).to.equal('limit must be a number');
     });
     it('should return an error if page is less than zero', async () => {
       const res = await chai.request(app).get(`${orderUrl}/caterers/2?page=-10`)
-        .set('Authorization', `Bearer ${adminToken}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.page).to.equal('page cannot be less than zero');
     });
     it('should return an error if page is a fractional number', async () => {
       const res = await chai.request(app).get(`${orderUrl}/caterers/2?page=9.5`)
-        .set('Authorization', `Bearer ${adminToken}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.page).to.equal('page must be a whole number');
     });
     it('should return an error if page is not a number', async () => {
       const res = await chai.request(app).get(`${orderUrl}/caterers/2?page=b`)
-        .set('Authorization', `Bearer ${adminToken}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.page).to.equal('page must be a number');

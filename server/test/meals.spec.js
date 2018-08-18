@@ -368,38 +368,46 @@ describe('Meals', () => {
     });
   });
 
-  // Test Get meals for specific user
+  // Test Get meals for specific caterer
   describe('Get meals for specific user(caterer)', () => {
-    it('should get meals for specific auth user with userId', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/users/2`)
+    it('should get meals for specific auth signed in user(caterer)', async () => {
+      const res = await chai.request(app).get(`${mealUrl}/caterers`)
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.status).to.equal('success');
       expect(res.body.meals).to.be.an('array');
       expect(res.body.meals.length).to.equal(6);
     });
+    it('should get meals for specific auth user with userId', async () => {
+      const res = await chai.request(app).get(`${mealUrl}/caterers/2`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
+      expect(res.status).to.equal(200);
+      expect(res.body.status).to.equal('success');
+      expect(res.body.meals).to.be.an('array');
+      expect(res.body.meals.length).to.equal(6);
+    });
     it('should return error when no meals is found', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/users/10`)
-        .set('Authorization', `Bearer ${adminToken}`);
+      const res = await chai.request(app).get(`${mealUrl}/caterers/10`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(404);
       expect(res.body.status).to.equal('error');
       expect(res.body.message).to.equal('No meals found!');
     });
     it('should return 4 meals if limit is set to 4', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/users/2?limit=4`)
-        .set('Authorization', `Bearer ${adminToken}`);
+      const res = await chai.request(app).get(`${mealUrl}/caterers/2?limit=4`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.meals.length).to.be.equal(4);
     });
     it('should return 2 meal from page three', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/users/2?limit=2&page=3`)
-        .set('Authorization', `Bearer ${adminToken}`);
+      const res = await chai.request(app).get(`${mealUrl}/caterers/2?limit=2&page=3`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.meals.length).to.be.equal(2);
     });
     it('should return links to traverse meals', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/users/2?limit=2`)
-        .set('Authorization', `Bearer ${adminToken}`);
+      const res = await chai.request(app).get(`${mealUrl}/caterers/2?limit=2`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
       const linkNames = res.body.links.map(link => link.rel);
       expect(res.status).to.equal(200);
       expect(linkNames.length).to.equal(3);
@@ -408,8 +416,8 @@ describe('Meals', () => {
       expect(linkNames).to.include('self');
     });
     it('should return link to first page', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/users/2?limit=2&page=2`)
-        .set('Authorization', `Bearer ${adminToken}`);
+      const res = await chai.request(app).get(`${mealUrl}/caterers/2?limit=2&page=2`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
       const linkNames = res.body.links.map(link => link.rel);
       expect(res.status).to.equal(200);
       expect(res.body.meals.length).to.equal(2);
@@ -417,43 +425,43 @@ describe('Meals', () => {
       expect(linkNames.length).to.equal(5);
     });
     it('should return an error if limit is less than zero', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/users/2?limit=-10`)
-        .set('Authorization', `Bearer ${adminToken}`);
+      const res = await chai.request(app).get(`${mealUrl}/caterers/2?limit=-10`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.limit).to.equal('limit cannot be less than zero');
     });
     it('should return an error if limit is a fractional number', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/users/2?limit=9.5`)
-        .set('Authorization', `Bearer ${adminToken}`);
+      const res = await chai.request(app).get(`${mealUrl}/caterers/2?limit=9.5`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.limit).to.equal('limit must be a whole number');
     });
     it('should return an error if limit is not a number', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/users/2?limit=b`)
-        .set('Authorization', `Bearer ${adminToken}`);
+      const res = await chai.request(app).get(`${mealUrl}/caterers/2?limit=b`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.limit).to.equal('limit must be a number');
     });
     it('should return an error if page is less than zero', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/users/2?page=-10`)
-        .set('Authorization', `Bearer ${adminToken}`);
+      const res = await chai.request(app).get(`${mealUrl}/caterers/2?page=-10`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.page).to.equal('page cannot be less than zero');
     });
     it('should return an error if page is a fractional number', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/users/2?page=9.5`)
-        .set('Authorization', `Bearer ${adminToken}`);
+      const res = await chai.request(app).get(`${mealUrl}/caterers/2?page=9.5`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.page).to.equal('page must be a whole number');
     });
     it('should return an error if page is not a number', async () => {
-      const res = await chai.request(app).get(`${mealUrl}/users/2?page=b`)
-        .set('Authorization', `Bearer ${adminToken}`);
+      const res = await chai.request(app).get(`${mealUrl}/caterers/2?page=b`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(400);
       expect(res.body.status).to.equal('error');
       expect(res.body.error.page).to.equal('page must be a number');
@@ -515,6 +523,15 @@ describe('Meals', () => {
       expect(res.status).to.equal(409);
       expect(res.body.error.name).to
         .equal('You cannot update meal name to an existing meal name');
+    });
+    it('should update meal to its current meal name', async () => {
+      const res = await chai.request(app).put(`${mealUrl}/13`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          name: 'Semo and Abang soup',
+        });
+      expect(res.status).to.equal(200);
+      expect(res.body.meal.name).to.equal('Semo and Abang soup');
     });
     it('should not update meal with price that is less than zero', async () => {
       const res = await chai.request(app).put(`${mealUrl}/1`)

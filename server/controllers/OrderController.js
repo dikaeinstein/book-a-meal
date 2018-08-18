@@ -275,6 +275,55 @@ class OrderController {
   }
 
   /**
+  * @description Get Total amount made for specific caterer
+  * @static
+  * @async
+  *
+  * @param {object} req HTTP Request
+  * @param {object} res HTTP Response
+  *
+  * @memberof OrderController
+  *
+  * @returns {Promise<JSON>}
+  */
+  static async getCatererTotalAmount(req, res) {
+    const { date } = req.query;
+    const userId = req.params.userId || req.userId;
+    const validDate = new Date(date);
+    let totalAmount = 0;
+
+    const catererMealIds = await getCatererMeals(userId);
+    if (date) {
+      // Filter orders by date and return sum
+      totalAmount = await Order.sum('total', {
+        where: {
+          created_at: {
+            [Op.gt]: new Date(validDate - (24 * 60 * 60 * 1000)),
+            [Op.lt]: new Date(validDate.setDate(validDate.getDate() + 1)),
+          },
+          meal_id: {
+            [Op.in]: catererMealIds,
+          },
+        },
+      });
+    }
+
+    totalAmount = await Order.sum('total', {
+      where: {
+        meal_id: {
+          [Op.in]: catererMealIds,
+        },
+      },
+    });
+
+    return res.status(200).json({
+      message: 'Orders total amount successfully retrieved',
+      status: 'success',
+      totalAmount,
+    });
+  }
+
+  /**
    * @description Get total number of orders made
    * @static
    * @async
@@ -303,6 +352,55 @@ class OrderController {
     }
 
     totalOrders = await Order.count();
+
+    return res.status(200).json({
+      message: 'Total number of orders made successfully retrieved',
+      status: 'success',
+      totalOrders,
+    });
+  }
+
+  /**
+   * @description Get total number of orders made for a caterer meals
+   * @static
+   * @async
+   *
+   * @param {object} req HTTP Request
+   * @param {object} res HTTP Response
+   *
+   * @memberof OrderController
+   *
+   * @returns {Promise<object>}
+   */
+  static async getCatererTotalNumberOfOrders(req, res) {
+    let totalOrders = 0;
+    const { date } = req.query;
+    const userId = req.params.userId || req.userId;
+    const validDate = new Date(date);
+    const catererMealIds = await getCatererMeals(userId);
+
+    if (date) {
+      // Filter orders by date and return count
+      totalOrders = await Order.count({
+        where: {
+          created_at: {
+            [Op.gt]: new Date(validDate - (24 * 60 * 60 * 1000)),
+            [Op.lt]: new Date(validDate.setDate(validDate.getDate() + 1)),
+          },
+          meal_id: {
+            [Op.in]: catererMealIds,
+          },
+        },
+      });
+    }
+
+    totalOrders = await Order.count({
+      where: {
+        meal_id: {
+          [Op.in]: catererMealIds,
+        },
+      },
+    });
 
     return res.status(200).json({
       message: 'Total number of orders made successfully retrieved',
@@ -390,7 +488,7 @@ class OrderController {
       const currentDate = new Date();
       currentDate.setUTCHours(0, 0, 0, 0);
 
-      const menu = await Menu.findOne({
+      const todayMenu = await Menu.findOne({
         where: {
           created_at: {
             [Op.gt]: new Date(currentDate - (24 * 60 * 60 * 1000)),
@@ -399,7 +497,7 @@ class OrderController {
         },
       });
 
-      if (!menu) {
+      if (!todayMenu) {
         error.menu = 'Sorry!, menu for the day have not been set';
         return res.status(404).json({
           message: error.meal,
@@ -408,7 +506,7 @@ class OrderController {
         });
       }
 
-      const mealExist = await menu.hasMeal(mealId);
+      const mealExist = await todayMenu.hasMeal(mealId);
 
       if (!mealExist) {
         error.meal = 'The meal you want to order is not on todays menu';
@@ -422,6 +520,21 @@ class OrderController {
 
     const currentUser = await User.findById(userId);
     let matchedOrder;
+
+    const findOrder = order => Order.findOne({
+      include: [
+        {
+          model: Meal,
+          as: 'meal',
+          attributes: ['name', 'price'],
+        }, {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
+      where: { id: order.id },
+    });
 
     if (currentUser.role === 'customer') {
       matchedOrder = await Order.findOne({
@@ -438,7 +551,7 @@ class OrderController {
       }
 
       // If order has been cancelled
-      if (matchedOrder && matchedOrder.status === 'cancelled') {
+      if (matchedOrder.status === 'cancelled') {
         error.message = 'You cannot update a cancelled order';
         return res.status(405).json({
           message: error.message,
@@ -448,7 +561,7 @@ class OrderController {
       }
 
       // If order has expired i.e not modifiable
-      if (matchedOrder && matchedOrder.expired) {
+      if (matchedOrder.expired) {
         error.message = 'You can no longer update this order';
         return res.status(405).json({
           message: error.message,
@@ -474,20 +587,7 @@ class OrderController {
 
       // Merge changes
       const updatedOrder = await matchedOrder.update(order);
-      const returnOrder = await Order.findOne({
-        include: [
-          {
-            model: Meal,
-            as: 'meal',
-            attributes: ['name', 'price'],
-          }, {
-            model: User,
-            as: 'user',
-            attributes: ['name'],
-          },
-        ],
-        where: { id: updatedOrder.id },
-      });
+      const returnOrder = await findOrder(updatedOrder);
 
       return res.status(200).json({
         message: 'Successfully updated order',
@@ -507,23 +607,11 @@ class OrderController {
         error,
       });
     }
+
     // Merge changes
     const order = await buildUpdateOrder(matchedOrder, req.body);
     const updatedOrder = await matchedOrder.update(order);
-    const returnOrder = await Order.findOne({
-      include: [
-        {
-          model: Meal,
-          as: 'meal',
-          attributes: ['name', 'price'],
-        }, {
-          model: User,
-          as: 'user',
-          attributes: ['name'],
-        },
-      ],
-      where: { id: updatedOrder.id },
-    });
+    const returnOrder = await findOrder(updatedOrder);
 
     return res.status(200).json({
       message: 'Successfully updated order',

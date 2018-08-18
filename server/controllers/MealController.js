@@ -63,6 +63,18 @@ class MealController {
     });
   }
 
+  /**
+   * @description - Get all meals for specific user
+   * @static
+   * @async
+   *
+   * @param {object} req HTTP Request
+   * @param {object} res HTTP Request
+   *
+   * @memberof MenuController
+   *
+   * @returns {Promise<JSON>}
+   */
   static async getUserMeals(req, res) {
     const userId = req.params.userId || req.userId;
     const limit = parseInt(req.query.limit, 10) || 30;
@@ -239,7 +251,9 @@ class MealController {
         where: { name, user_id: userId },
       });
 
-      if (foundMeal) {
+      // If the foundMeal with the name is a different meal
+      // then you cannot update this meal to that name because it already exist
+      if (foundMeal.id !== matchedMeal.id) {
         error.name = 'You cannot update meal name to an existing meal name';
         return res.status(409).json({
           message: error.name,

@@ -66,9 +66,9 @@ router.get(
   MealController.getAllMeals,
 );
 
-// Get orders for specific user
+// Get meal for specific caterer
 router.get(
-  '/v1/meals/users',
+  '/v1/meals/caterers',
   authenticate, authorize,
   queryValidator('limit'),
   queryValidator('page'),
@@ -76,8 +76,8 @@ router.get(
   MealController.getUserMeals,
 );
 router.get(
-  '/v1/meals/users/:userId',
-  authenticate, authorize,
+  '/v1/meals/caterers/:userId',
+  authenticate, authorizeSuperAdmin,
   idValidator('userId', 'User'),
   queryValidator('limit'),
   queryValidator('page'),
@@ -185,9 +185,41 @@ router.get(
   OrderController.getTotalAmount,
 );
 
+// Get Total amount made by specific caterer
+router.get(
+  '/v1/orders/totalAmount/caterers',
+  authenticate, authorize,
+  dateValidator(),
+  validationErrorHandler,
+  OrderController.getCatererTotalAmount,
+);
+router.get(
+  '/v1/orders/totalAmount/caterers/:userId',
+  authenticate, authorizeSuperAdmin,
+  dateValidator(),
+  validationErrorHandler,
+  OrderController.getCatererTotalAmount,
+);
+
 // Get Total number of orders made
 router.get(
   '/v1/orders/totalOrders',
+  authenticate, authorizeSuperAdmin,
+  dateValidator(),
+  validationErrorHandler,
+  OrderController.getTotalNumberOfOrders,
+);
+
+// Get Total number of meal orders made for specific caterer
+router.get(
+  '/v1/orders/totalOrders/caterers',
+  authenticate, authorize,
+  dateValidator(),
+  validationErrorHandler,
+  OrderController.getTotalNumberOfOrders,
+);
+router.get(
+  '/v1/orders/totalOrders/caterers/:userId',
   authenticate, authorizeSuperAdmin,
   dateValidator(),
   validationErrorHandler,
@@ -205,7 +237,8 @@ router.get(
 );
 router.get(
   '/v1/orders/users/:userId',
-  authenticate, idValidator('userId', 'User'),
+  authenticate, authorizeSuperAdmin,
+  idValidator('userId', 'User'),
   queryValidator('limit'),
   queryValidator('page'),
   validationErrorHandler,
@@ -223,7 +256,7 @@ router.get(
 );
 router.get(
   '/v1/orders/caterers/:userId',
-  authenticate, authorize,
+  authenticate, authorizeSuperAdmin,
   idValidator('userId', 'User'),
   queryValidator('limit'),
   queryValidator('page'),
