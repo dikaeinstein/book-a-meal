@@ -22,12 +22,14 @@ export const userSignInError = error => ({
 });
 
 export const autoNavigate = (user, location) => {
+  const { role } = user;
   if (location && !['/', '/signin', '/signup'].includes(location.pathname)) {
     history.push(location);
-  } else if (user.role === 'customer') {
+  }
+  if (role === 'customer') {
     history.push('/user-menu');
   } else {
-    history.push('/caterer-dashboard');
+    history.push('/dashboard');
   }
 };
 

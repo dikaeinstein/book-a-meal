@@ -504,7 +504,7 @@ footer a:hover {
     font-weight: 500;
 }
 .nav-container > li:hover,
-a.active:hover {
+a:hover {
     color: $base-color; // yellow
 }
 
@@ -718,8 +718,11 @@ form select {
     color: #2c2c2c;
 }
 
+.user-menu {
+    width: 100%;
+}
+
 .dash-main,
-.user-menu-main,
 .order-history-main,
 .landing-main,
 .order-details-main {

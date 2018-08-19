@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 const Logo = ({ text, className }) => (
-  <NavLink
-    to="/"
-    activeClassName="active"
-  >
+  <NavLink exact to="/">
     <h1 className={className}>{text}</h1>
   </NavLink>
 );

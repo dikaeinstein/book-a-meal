@@ -13,6 +13,7 @@ const ConnectedNavigation = ({ urls, signout }) => {
     removeUser();
     history.push('/');
   };
+
   const urlList = urls.map(url => (
     url.link === 'signout'
       ? (
@@ -20,7 +21,6 @@ const ConnectedNavigation = ({ urls, signout }) => {
           <NavLink
             to={`/${url.link}`}
             onClick={handleSignout}
-            activeClassName="active"
           >
             {url.name}
           </NavLink>
@@ -30,7 +30,6 @@ const ConnectedNavigation = ({ urls, signout }) => {
         <li key={url.id}>
           <NavLink
             to={`/${url.link}`}
-            activeClassName="active"
           >{url.name}
           </NavLink>
         </li>
@@ -59,8 +58,8 @@ ConnectedNavigation.propTypes = {
 };
 
 const Navigation = connect(
-  mapStateToProps,
-  mapDispatchToProps,
+  mapStateToProps, mapDispatchToProps,
+  null, { pure: false },
 )(ConnectedNavigation);
 
 export default Navigation;

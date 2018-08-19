@@ -21,7 +21,7 @@ const dashboardService = {
       throw axiosErrorWrapper(error);
     }
   },
-  getAllOrders: async (url) => {
+  getOrders: async (url) => {
     try {
       const headers = setAuthorizationToken();
       const response = await axios.get(url, { headers });

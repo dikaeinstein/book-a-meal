@@ -44,7 +44,7 @@ const Root = ({ store }) => (
             path="/user-order-history"
             component={UserOrderHistory}
           />
-          <PrivateRoute path="/caterer-dashboard" component={Dashboard} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
           <PrivateRoute path="/meals" component={Meals} />
           <PrivateRoute path="/menus" component={Menus} />
           <PrivateRoute

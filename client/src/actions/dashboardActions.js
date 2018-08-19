@@ -65,6 +65,24 @@ export const getTotalAmount = () => async (dispatch) => {
 };
 
 /**
+ * Get caterer total amount async action creator
+ *
+ * @export
+ *
+ * @returns {Function} async function
+ */
+export const getCatererTotalAmount = () => async (dispatch) => {
+  dispatch({ type: GET_TOTAL_AMOUNT_REQUEST });
+  try {
+    const totalAmount = await dashboardService
+      .getTotalAmount(`${config.API_BASE_URL}/api/v1/orders/totalAmount/caterers`);
+    dispatch(getTotalAmountSuccess(totalAmount));
+  } catch (error) {
+    dispatch(getTotalAmountError(error));
+  }
+};
+
+/**
  * Get total number of orders made success action creator
  *
  * @export
@@ -101,7 +119,27 @@ export const getTotalOrders = () => async (dispatch) => {
   dispatch({ type: GET_TOTAL_ORDERS_REQUEST });
   try {
     const totalOrders = await dashboardService
-      .getTotalNumberOfOrders(`${config.API_BASE_URL}/api/v1/orders/totalOrders`);
+      .getTotalNumberOfOrders(
+        `${config.API_BASE_URL}/api/v1/orders/totalOrders`);
+    dispatch(getTotalOrdersSuccess(totalOrders));
+  } catch (error) {
+    dispatch(getTotalOrdersError(error));
+  }
+};
+
+/**
+ * Get caterer total number of orders made async action creator
+ *
+ * @export
+ *
+ * @returns {Function} async function
+ */
+export const getCatererTotalOrders = () => async (dispatch) => {
+  dispatch({ type: GET_TOTAL_ORDERS_REQUEST });
+  try {
+    const totalOrders = await dashboardService
+      .getTotalNumberOfOrders(
+        `${config.API_BASE_URL}/api/v1/orders/totalOrders/caterers`);
     dispatch(getTotalOrdersSuccess(totalOrders));
   } catch (error) {
     dispatch(getTotalOrdersError(error));
@@ -145,7 +183,25 @@ export const fetchAllOrders = () => async (dispatch) => {
   dispatch({ type: FETCH_ALL_ORDERS_REQUEST });
   try {
     const orders = await dashboardService
-      .getAllOrders(`${config.API_BASE_URL}/api/v1/orders`);
+      .getOrders(`${config.API_BASE_URL}/api/v1/orders`);
+    dispatch(fetchAllOrdersSuccess(orders));
+  } catch (error) {
+    dispatch(fetchAllOrdersError(error));
+  }
+};
+
+/**
+ * Fetch caterer orders async action creator
+ *
+ * @export
+ *
+ * @returns {Function} async function
+ */
+export const fetchCatererOrders = () => async (dispatch) => {
+  dispatch({ type: FETCH_ALL_ORDERS_REQUEST });
+  try {
+    const orders = await dashboardService
+      .getOrders(`${config.API_BASE_URL}/api/v1/orders/caterers`);
     dispatch(fetchAllOrdersSuccess(orders));
   } catch (error) {
     dispatch(fetchAllOrdersError(error));

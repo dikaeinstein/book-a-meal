@@ -24,7 +24,7 @@ class ConnectedCatererMeals extends Component {
     }
 
     return (
-      <section className="bg-light landing-main">
+      <section className="bg-light">
         <h1 className="text-center">
           Meals
         </h1>

@@ -32,7 +32,7 @@ const adminUrls = [
   {
     id: 1,
     name: 'Dashboard',
-    link: 'caterer-dashboard',
+    link: 'dashboard',
   },
   {
     id: 2,
@@ -58,9 +58,11 @@ const adminUrls = [
 
 const urlReducer = (state = initialState.urls, action) => {
   switch (action.type) {
-    case USER_SIGN_IN_SUCCESS:
-      return action.payload.user.role === 'caterer' ?
-        adminUrls : customerUrls;
+    case USER_SIGN_IN_SUCCESS: {
+      const { role } = action.payload.user;
+      return role === 'caterer' || role === 'superAdmin'
+        ? adminUrls : customerUrls;
+    }
     case USER_SIGN_IN_ERROR:
       return initialState.urls;
     case USER_SIGN_OUT:
