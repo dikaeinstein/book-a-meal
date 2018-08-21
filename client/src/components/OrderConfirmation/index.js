@@ -86,7 +86,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  orderMeal: order => dispatch(makeOrder(order)),
+  orderMeal(order) { dispatch(makeOrder(order)); },
 });
 
 const OrderConfirmation =

@@ -39,7 +39,9 @@ ConnectedUpdateMeal.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  editMeal: (values, actions, id) => dispatch(updateMeal(values, actions, id)),
+  editMeal(values, actions, id) {
+    dispatch(updateMeal(values, actions, id));
+  },
 });
 
 const UpdateMeal = connect(null, mapDispatchToProps)(ConnectedUpdateMeal);

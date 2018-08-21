@@ -33,8 +33,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchTotalAmount: () => dispatch(getTotalAmount()),
-  fetchCatererTotalAmount: () => dispatch(getCatererTotalAmount()),
+  fetchTotalAmount() { dispatch(getTotalAmount()); },
+  fetchCatererTotalAmount() { dispatch(getCatererTotalAmount()); },
 });
 
 const TotalAmount =

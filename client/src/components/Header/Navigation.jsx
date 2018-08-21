@@ -49,7 +49,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  signout: () => dispatch(userSignOut()),
+  signout() { dispatch(userSignOut()); },
 });
 
 ConnectedNavigation.propTypes = {

@@ -106,7 +106,7 @@ ConnectedMealCheckout.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  checkoutOrder: order => dispatch(checkoutOrder(order)),
+  checkoutOrder(order) { dispatch(checkoutOrder(order)); },
 });
 
 const MealCheckout = connect(null, mapDispatchToProps)(ConnectedMealCheckout);

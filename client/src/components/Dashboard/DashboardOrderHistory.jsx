@@ -51,8 +51,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getAllOrders: () => dispatch(fetchAllOrders()),
-  getCatererOrders: () => dispatch(fetchCatererOrders()),
+  getAllOrders() { dispatch(fetchAllOrders()); },
+  getCatererOrders() { dispatch(fetchCatererOrders()); },
 });
 
 const DashboardOrderHistory = connect(

@@ -57,7 +57,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchMenu: () => dispatch(fetchMenu()),
+  fetchMenu() { dispatch(fetchMenu()); },
 });
 
 const Menu = connect(mapStateToProps, mapDispatchToProps)(ConnectedMenu);

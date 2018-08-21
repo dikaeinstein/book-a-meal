@@ -77,8 +77,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  modifyMenu: (values, menuId) => dispatch(updateMenu(values, menuId)),
-  fetchMeals: () => dispatch(fetchMeals()),
+  modifyMenu(values, menuId) { dispatch(updateMenu(values, menuId)); },
+  fetchMeals() { dispatch(fetchMeals()); },
 });
 
 const UpdateMenu = connect(

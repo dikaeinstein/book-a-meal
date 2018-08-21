@@ -18,6 +18,7 @@ const ConnectedAddMeal = ({ saveMeal, closeModal }) => {
     });
     return closeModal();
   };
+
   return (
     <section className="add-section">
       <h2 className="text-center">Add New Meal</h2>
@@ -42,7 +43,7 @@ ConnectedAddMeal.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  saveMeal: (values, actions) => dispatch(addMeal(values, actions)),
+  saveMeal(values, actions) { dispatch(addMeal(values, actions)); },
 });
 
 const AddMeal = connect(null, mapDispatchToProps)(ConnectedAddMeal);

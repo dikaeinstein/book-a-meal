@@ -152,7 +152,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  removeMeal: id => dispatch(deleteMeal(id)),
+  removeMeal(id) { dispatch(deleteMeal(id)); },
 });
 
 const Meal = connect(mapStateToProps, mapDispatchToProps)(ConnectedMeal);

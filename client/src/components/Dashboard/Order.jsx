@@ -131,7 +131,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  modifyOrder: (values, orderId) => dispatch(updateOrder(values, orderId)),
+  modifyOrder(values, orderId) {
+    dispatch(updateOrder(values, orderId));
+  },
 });
 
 const Order = connect(mapStateToProps, mapDispatchToProps)(ConnectedOrder);

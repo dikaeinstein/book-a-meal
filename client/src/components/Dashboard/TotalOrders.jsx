@@ -33,8 +33,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchTotalOrders: () => dispatch(getTotalOrders()),
-  fetchCatererTotalOrders: () => dispatch(getCatererTotalOrders()),
+  fetchTotalOrders() { dispatch(getTotalOrders()); },
+  fetchCatererTotalOrders() { dispatch(getCatererTotalOrders()); },
 });
 
 const TotalOrders =

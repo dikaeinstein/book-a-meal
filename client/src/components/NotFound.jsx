@@ -7,6 +7,7 @@ const NotFound = () => {
   const handleClick = () => {
     history.goBack();
   };
+
   return (
     <main>
       <div

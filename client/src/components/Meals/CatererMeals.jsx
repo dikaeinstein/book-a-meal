@@ -52,8 +52,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchMeals: () => dispatch(fetchMeals()),
-  fetchCatererMeals: () => dispatch(fetchCatererMeals()),
+  fetchMeals() { dispatch(fetchMeals()); },
+  fetchCatererMeals() { dispatch(fetchCatererMeals()); },
 });
 
 const CatererMeals = connect(

@@ -62,11 +62,11 @@ const mapStateToProps = state => ({
   error: state.orders.fetchError,
 });
 
-const mapdispatchToProps = dispatch => ({
-  fetchUserOrders: () => dispatch(fetchUserOrders()),
+const mapDispatchToProps = dispatch => ({
+  fetchUserOrders() { dispatch(fetchUserOrders()); },
 });
 
 const UserOrderHistory =
-  connect(mapStateToProps, mapdispatchToProps)(ConnectedUserOrderHistory);
+  connect(mapStateToProps, mapDispatchToProps)(ConnectedUserOrderHistory);
 
 export default UserOrderHistory;
