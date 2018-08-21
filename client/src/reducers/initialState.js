@@ -2,13 +2,13 @@ const initialState = {
   urls: [
     {
       id: 1,
-      name: 'Signin',
+      name: 'Sign In',
       link: 'signin',
     },
     {
       id: 2,
-      name: 'Signout',
-      link: 'signout',
+      name: 'Sign Up',
+      link: 'signup',
     },
   ],
   menus: {

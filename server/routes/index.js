@@ -216,14 +216,14 @@ router.get(
   authenticate, authorize,
   dateValidator(),
   validationErrorHandler,
-  OrderController.getTotalNumberOfOrders,
+  OrderController.getCatererTotalNumberOfOrders,
 );
 router.get(
   '/v1/orders/totalOrders/caterers/:userId',
   authenticate, authorizeSuperAdmin,
   dateValidator(),
   validationErrorHandler,
-  OrderController.getTotalNumberOfOrders,
+  OrderController.getCatererTotalNumberOfOrders,
 );
 
 // Get orders for specific user

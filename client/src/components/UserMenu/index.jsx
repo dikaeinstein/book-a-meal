@@ -11,7 +11,7 @@ const ConnectedUserMenu = ({ fetchMenuError }) => {
 
   return (
     <div>
-      <div className="bg-dark-light landing-main">
+      <div className="landing-main bg-light">
         <main style={{ minHeight: 'calc(93vh - 151px)' }}>
           <MenuCardWithErrorHandling
             link="/order-confirmation"

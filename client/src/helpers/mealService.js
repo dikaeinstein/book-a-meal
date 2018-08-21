@@ -1,5 +1,4 @@
 import axios from 'axios';
-import axiosErrorWrapper from './axiosErrorWrapper';
 import setAuthorizationToken from './setAuthorizationToken';
 
 const mealService = {
@@ -10,7 +9,7 @@ const mealService = {
       const response = await axios.post(url, meal, { headers });
       return response.data.meal;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
   getMeals: async (url) => {
@@ -19,7 +18,7 @@ const mealService = {
       const response = await axios.get(url, { headers });
       return response.data.meals;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
   updateMeal: async (url, meal) => {
@@ -28,7 +27,7 @@ const mealService = {
       const response = await axios.put(url, meal, { headers });
       return response.data.meal;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
   deleteMeal: async (url) => {
@@ -37,7 +36,7 @@ const mealService = {
       const response = await axios.delete(url, { headers });
       return response.data.message;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
 };

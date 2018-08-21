@@ -1,5 +1,6 @@
 import menuService from '../helpers/menuService';
 import config from '../config';
+import axiosErrorWrapper from '../helpers/axiosErrorWrapper';
 import {
   FETCH_MENU_SUCCESS,
   FETCH_MENU_REQUEST,
@@ -51,7 +52,7 @@ export const fetchMenu = () => async (dispatch) => {
     const menu = await menuService.getMenu(`${config.API_BASE_URL}/api/v1/menu/`);
     dispatch(fetchMenuSuccess(menu));
   } catch (error) {
-    dispatch(fetchMenuError(error));
+    dispatch(fetchMenuError(axiosErrorWrapper(error)));
   }
 };
 
@@ -96,7 +97,7 @@ export const setupMenu = values => async (dispatch) => {
       .setMenu(`${config.API_BASE_URL}/api/v1/menu/`, values);
     dispatch(setupMenuSuccess(menu));
   } catch (error) {
-    dispatch(setupMenuError(error));
+    dispatch(setupMenuError(axiosErrorWrapper(error)));
   }
 };
 
@@ -142,6 +143,6 @@ export const updateMenu = (values, menuId) => async (dispatch) => {
       .updateMenu(`${config.API_BASE_URL}/api/v1/menu/${menuId}`, values);
     dispatch(updateMenuSuccess(menu));
   } catch (error) {
-    dispatch(updateMenuError(error));
+    dispatch(updateMenuError(axiosErrorWrapper(error)));
   }
 };

@@ -19,6 +19,7 @@ import {
 import dashboardService from '../helpers/dashboardService';
 import orderService from '../helpers/orderService';
 import transformError from '../helpers/transformError';
+import axiosErrorWrapper from '../helpers/axiosErrorWrapper';
 
 /**
  * Get total amount success action creator
@@ -60,7 +61,7 @@ export const getTotalAmount = () => async (dispatch) => {
       .getTotalAmount(`${config.API_BASE_URL}/api/v1/orders/totalAmount`);
     dispatch(getTotalAmountSuccess(totalAmount));
   } catch (error) {
-    dispatch(getTotalAmountError(error));
+    dispatch(getTotalAmountError(axiosErrorWrapper(error)));
   }
 };
 
@@ -78,7 +79,7 @@ export const getCatererTotalAmount = () => async (dispatch) => {
       .getTotalAmount(`${config.API_BASE_URL}/api/v1/orders/totalAmount/caterers`);
     dispatch(getTotalAmountSuccess(totalAmount));
   } catch (error) {
-    dispatch(getTotalAmountError(error));
+    dispatch(getTotalAmountError(axiosErrorWrapper(error)));
   }
 };
 
@@ -123,7 +124,7 @@ export const getTotalOrders = () => async (dispatch) => {
         `${config.API_BASE_URL}/api/v1/orders/totalOrders`);
     dispatch(getTotalOrdersSuccess(totalOrders));
   } catch (error) {
-    dispatch(getTotalOrdersError(error));
+    dispatch(getTotalOrdersError(axiosErrorWrapper(error)));
   }
 };
 
@@ -142,7 +143,7 @@ export const getCatererTotalOrders = () => async (dispatch) => {
         `${config.API_BASE_URL}/api/v1/orders/totalOrders/caterers`);
     dispatch(getTotalOrdersSuccess(totalOrders));
   } catch (error) {
-    dispatch(getTotalOrdersError(error));
+    dispatch(getTotalOrdersError(axiosErrorWrapper(error)));
   }
 };
 
@@ -186,7 +187,7 @@ export const fetchAllOrders = () => async (dispatch) => {
       .getOrders(`${config.API_BASE_URL}/api/v1/orders`);
     dispatch(fetchAllOrdersSuccess(orders));
   } catch (error) {
-    dispatch(fetchAllOrdersError(error));
+    dispatch(fetchAllOrdersError(axiosErrorWrapper(error)));
   }
 };
 
@@ -204,7 +205,7 @@ export const fetchCatererOrders = () => async (dispatch) => {
       .getOrders(`${config.API_BASE_URL}/api/v1/orders/caterers`);
     dispatch(fetchAllOrdersSuccess(orders));
   } catch (error) {
-    dispatch(fetchAllOrdersError(error));
+    dispatch(fetchAllOrdersError(axiosErrorWrapper(error)));
   }
 };
 
@@ -250,7 +251,7 @@ export const deleteOrder = orderId => async (dispatch) => {
     dispatch(deleteOrderSuccess(orderId));
   } catch (error) {
     dispatch(deleteOrderError(transformError(
-      error,
+      axiosErrorWrapper(error),
       'Error deleting order, please try again',
     )));
     throw error;
@@ -301,7 +302,7 @@ export const updateOrder = (values, orderId) => async (dispatch) => {
     return;
   } catch (error) {
     dispatch(updateOrderError(transformError(
-      error,
+      axiosErrorWrapper(error),
       'Error updating order, please try again',
     )));
     throw error;

@@ -14,7 +14,7 @@ const store = configureStore(initialState);
 const user = getUser();
 if (user) {
   store.dispatch(userSignInSuccess(user));
-  autoNavigate(user, window.location);
+  autoNavigate(user, window.location.pathname);
 } else {
   history.push('/');
 }

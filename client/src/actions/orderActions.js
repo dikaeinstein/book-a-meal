@@ -1,6 +1,7 @@
 import config from '../config';
 import history from '../helpers/history';
 import orderService from '../helpers/orderService';
+import axiosErrorWrapper from '../helpers/axiosErrorWrapper';
 import {
   FETCH_USER_ORDERS_REQUEST,
   FETCH_USER_ORDERS_SUCCESS,
@@ -71,7 +72,7 @@ export const fetchUserOrders = () => async (dispatch) => {
       .getUserOrderHistory(`${config.API_BASE_URL}/api/v1/orders/users`);
     dispatch(fetchOrdersSuccess(orders));
   } catch (error) {
-    dispatch(fetchOrdersError(error));
+    dispatch(fetchOrdersError(axiosErrorWrapper(error)));
   }
 };
 
@@ -117,7 +118,7 @@ export const makeOrder = order => async (dispatch) => {
     dispatch(makeOrderSuccess(newOrder));
     history.push('/user-order-history');
   } catch (error) {
-    dispatch(makeOrderError(error));
+    dispatch(makeOrderError(axiosErrorWrapper(error)));
   }
 };
 
@@ -163,7 +164,7 @@ export const deleteOrder = orderId => async (dispatch) => {
     dispatch(deleteOrderSuccess(orderId));
   } catch (error) {
     dispatch(deleteOrderError(transformError(
-      error,
+      axiosErrorWrapper(error),
       'Error deleting order, please try again',
     )));
   }
@@ -212,7 +213,7 @@ export const updateOrder = (values, orderId) => async (dispatch) => {
     dispatch(updateOrderSuccess(updatedOrder));
   } catch (error) {
     dispatch(deleteOrderError(transformError(
-      error,
+      axiosErrorWrapper(error),
       'Error updating order, please try again',
     )));
   }

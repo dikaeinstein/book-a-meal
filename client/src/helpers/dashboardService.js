@@ -1,5 +1,4 @@
 import axios from 'axios';
-import axiosErrorWrapper from './axiosErrorWrapper';
 import setAuthorizationToken from './setAuthorizationToken';
 
 const dashboardService = {
@@ -9,7 +8,7 @@ const dashboardService = {
       const response = await axios.get(url, { headers });
       return response.data.totalOrders;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
   getTotalAmount: async (url) => {
@@ -18,7 +17,7 @@ const dashboardService = {
       const response = await axios.get(url, { headers });
       return response.data.totalAmount;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
   getOrders: async (url) => {
@@ -27,7 +26,7 @@ const dashboardService = {
       const response = await axios.get(url, { headers });
       return response.data.orders;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
 };

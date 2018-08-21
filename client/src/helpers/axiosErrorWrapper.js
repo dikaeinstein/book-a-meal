@@ -1,10 +1,16 @@
 import history from './history';
-import initialState from '../reducers/initialState';
-import configureStore from '../store/configureStore';
 import { userSignInError } from '../actions/userActions';
 import { removeUser } from './persistUser';
 
-const axiosErrorWrapper = (error) => {
+/**
+ * Error wrapper around axios response errors
+ *
+ * @param {object} error Axios error
+ * @param {Function} dispatch Redux dispatch function
+ *
+ * @returns {string} Error message
+ */
+const axiosErrorWrapper = (error, dispatch) => {
   // The request was made and the server responded with a status code
   // that falls out of the range of 2xx
   if (error.response) {
@@ -14,11 +20,10 @@ const axiosErrorWrapper = (error) => {
       return response.data.error;
     }
     if (response.status === 401 || response.status === 403) {
-      const store = configureStore(initialState);
+      dispatch(userSignInError(response.data.error));
       removeUser();
       history.push('/signin');
-      store.dispatch(userSignInError(response.data.error));
-      return response.data.error;
+      return null;
     }
     return response.data.message;
   }

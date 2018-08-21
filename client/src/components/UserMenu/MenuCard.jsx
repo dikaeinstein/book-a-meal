@@ -24,7 +24,7 @@ class ConnectedMenuCard extends Component {
     }
 
     return (
-      <section style={{ padding: '1.5rem' }} id="menu">
+      <section className="main" id="menu">
         <h2 className="text-center">
           Menu for Today {(new Date()).toDateString()}
         </h2>

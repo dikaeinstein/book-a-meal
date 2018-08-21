@@ -71,7 +71,7 @@ class ConnectedMeals extends Component {
             value="Add meal"
             className="btn btn-default"
             onClick={this.handleAddMeal}
-            style={{ margin: '1rem 1rem 0 0' }}
+            style={{ margin: '1rem 1rem 1rem 0' }}
           />
           <Modal
             isOpen={this.state.isOpen}
