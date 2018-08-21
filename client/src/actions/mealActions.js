@@ -17,6 +17,8 @@ import {
   DELETE_MEAL_SUCCESS,
 } from '../constants/mealActionTypes';
 
+/* eslint consistent-return: 0 */
+
 /**
  * Add meal success action creator
  *
@@ -50,7 +52,12 @@ export const addMealError = error => ({
  *
  * @returns {Function} Async function
  */
-export const addMeal = (values, actions) => async (dispatch) => {
+export const addMeal = (values, actions) => async (dispatch, getState) => {
+  // Return early if already saving meal
+  if (getState().meals.isSaving) {
+    return Promise.resolve();
+  }
+
   const { setSubmitting, setErrors } = actions;
   try {
     dispatch({ type: ADD_MEAL_REQUEST });
@@ -65,7 +72,7 @@ export const addMeal = (values, actions) => async (dispatch) => {
         'Error saving meal, Please try again',
       ),
     });
-    dispatch(axiosErrorWrapper(addMealError(error)));
+    dispatch(axiosErrorWrapper(addMealError(error, dispatch)));
   }
 };
 
@@ -98,7 +105,12 @@ export const fetchMealsSuccess = meals => ({
  *
  * @returns {Function} Async function
  */
-export const fetchMeals = () => async (dispatch) => {
+export const fetchMeals = () => async (dispatch, getState) => {
+  // Return early if already fetching meals
+  if (getState().meals.isSaving) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: FETCH_MEALS_REQUEST });
   try {
     const meals = await mealService
@@ -114,7 +126,12 @@ export const fetchMeals = () => async (dispatch) => {
  *
  * @returns {Function} Async function
  */
-export const fetchCatererMeals = () => async (dispatch) => {
+export const fetchCatererMeals = () => async (dispatch, getState) => {
+  // Return early if already fetching meals
+  if (getState().meals.isSaving) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: FETCH_MEALS_REQUEST });
   try {
     const meals = await mealService
@@ -153,12 +170,17 @@ export const updateMealSuccess = meal => ({
  * Update meal async action creator
  *
  * @param {object} values Form values
- * @param {object} actions 
+ * @param {object} actions Form actions
  * @param {Number} id Id of meal to update
  *
  * @returns {Function} Async function
  */
-export const updateMeal = (values, actions, id) => async (dispatch) => {
+export const updateMeal = (values, actions, id) => async (dispatch, getState) => {
+  // Return early if already updating meal
+  if (getState().meals.isSaving) {
+    return Promise.resolve();
+  }
+
   const { setSubmitting, setErrors } = actions;
   dispatch({ type: UPDATE_MEAL_REQUEST });
   try {
@@ -208,7 +230,12 @@ export const deleteMealSuccess = id => ({
  *
  * @returns {Function} Async function
  */
-export const deleteMeal = id => async (dispatch) => {
+export const deleteMeal = id => async (dispatch, getState) => {
+  // Return early if already fetching meals
+  if (getState().meals.isSaving) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: DELETE_MEAL_REQUEST });
   try {
     await mealService

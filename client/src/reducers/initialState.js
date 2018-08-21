@@ -63,7 +63,7 @@ const initialState = {
   },
   dashboard: {
     isFetchingTotalOrders: false,
-    isFetchingTotalSales: false,
+    isFetchingTotalAmount: false,
     isUpdating: false,
     isDeleting: false,
     fetchTotalOrdersError: null,

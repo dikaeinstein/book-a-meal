@@ -21,6 +21,8 @@ import orderService from '../helpers/orderService';
 import transformError from '../helpers/transformError';
 import axiosErrorWrapper from '../helpers/axiosErrorWrapper';
 
+/* eslint consistent-return: 0 */
+
 /**
  * Get total amount success action creator
  *
@@ -54,14 +56,19 @@ export const getTotalAmountError = error => ({
  *
  * @returns {Function} async function
  */
-export const getTotalAmount = () => async (dispatch) => {
+export const getTotalAmount = () => async (dispatch, getState) => {
+  // Return early if already fetching
+  if (getState().dashboard.isFetchingTotalAmount) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: GET_TOTAL_AMOUNT_REQUEST });
   try {
     const totalAmount = await dashboardService
       .getTotalAmount(`${config.API_BASE_URL}/api/v1/orders/totalAmount`);
     dispatch(getTotalAmountSuccess(totalAmount));
   } catch (error) {
-    dispatch(getTotalAmountError(axiosErrorWrapper(error)));
+    dispatch(getTotalAmountError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -72,14 +79,19 @@ export const getTotalAmount = () => async (dispatch) => {
  *
  * @returns {Function} async function
  */
-export const getCatererTotalAmount = () => async (dispatch) => {
+export const getCatererTotalAmount = () => async (dispatch, getState) => {
+  // Return early if already fetching
+  if (getState().dashboard.isFetchingTotalAmount) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: GET_TOTAL_AMOUNT_REQUEST });
   try {
     const totalAmount = await dashboardService
       .getTotalAmount(`${config.API_BASE_URL}/api/v1/orders/totalAmount/caterers`);
     dispatch(getTotalAmountSuccess(totalAmount));
   } catch (error) {
-    dispatch(getTotalAmountError(axiosErrorWrapper(error)));
+    dispatch(getTotalAmountError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -116,7 +128,12 @@ export const getTotalOrdersError = error => ({
  *
  * @returns {Function} async function
  */
-export const getTotalOrders = () => async (dispatch) => {
+export const getTotalOrders = () => async (dispatch, getState) => {
+  // Return early if already fetching
+  if (getState().dashboard.isFetchingTotalOrders) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: GET_TOTAL_ORDERS_REQUEST });
   try {
     const totalOrders = await dashboardService
@@ -124,7 +141,7 @@ export const getTotalOrders = () => async (dispatch) => {
         `${config.API_BASE_URL}/api/v1/orders/totalOrders`);
     dispatch(getTotalOrdersSuccess(totalOrders));
   } catch (error) {
-    dispatch(getTotalOrdersError(axiosErrorWrapper(error)));
+    dispatch(getTotalOrdersError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -135,7 +152,12 @@ export const getTotalOrders = () => async (dispatch) => {
  *
  * @returns {Function} async function
  */
-export const getCatererTotalOrders = () => async (dispatch) => {
+export const getCatererTotalOrders = () => async (dispatch, getState) => {
+  // Return early if already fetching
+  if (getState().dashboard.isFetchingTotalOrders) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: GET_TOTAL_ORDERS_REQUEST });
   try {
     const totalOrders = await dashboardService
@@ -143,7 +165,7 @@ export const getCatererTotalOrders = () => async (dispatch) => {
         `${config.API_BASE_URL}/api/v1/orders/totalOrders/caterers`);
     dispatch(getTotalOrdersSuccess(totalOrders));
   } catch (error) {
-    dispatch(getTotalOrdersError(axiosErrorWrapper(error)));
+    dispatch(getTotalOrdersError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -180,14 +202,19 @@ export const fetchAllOrdersError = error => ({
  *
  * @returns {Function} async function
  */
-export const fetchAllOrders = () => async (dispatch) => {
+export const fetchAllOrders = () => async (dispatch, getState) => {
+  // Return early if already fetching
+  if (getState().dashboard.isFetchingAllOrders) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: FETCH_ALL_ORDERS_REQUEST });
   try {
     const orders = await dashboardService
       .getOrders(`${config.API_BASE_URL}/api/v1/orders`);
     dispatch(fetchAllOrdersSuccess(orders));
   } catch (error) {
-    dispatch(fetchAllOrdersError(axiosErrorWrapper(error)));
+    dispatch(fetchAllOrdersError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -198,14 +225,19 @@ export const fetchAllOrders = () => async (dispatch) => {
  *
  * @returns {Function} async function
  */
-export const fetchCatererOrders = () => async (dispatch) => {
+export const fetchCatererOrders = () => async (dispatch, getState) => {
+  // Return early if already fetching
+  if (getState().dashboard.isFetchingAllOrders) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: FETCH_ALL_ORDERS_REQUEST });
   try {
     const orders = await dashboardService
       .getOrders(`${config.API_BASE_URL}/api/v1/orders/caterers`);
     dispatch(fetchAllOrdersSuccess(orders));
   } catch (error) {
-    dispatch(fetchAllOrdersError(axiosErrorWrapper(error)));
+    dispatch(fetchAllOrdersError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -243,7 +275,12 @@ export const deleteOrderError = error => ({
  *
  * @returns {Function} Async function
  */
-export const deleteOrder = orderId => async (dispatch) => {
+export const deleteOrder = orderId => async (dispatch, getState) => {
+  // Return early if already deleting
+  if (getState().dashboard.isDeleting) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: DELETE_ORDER_REQUEST });
   try {
     await orderService
@@ -251,7 +288,7 @@ export const deleteOrder = orderId => async (dispatch) => {
     dispatch(deleteOrderSuccess(orderId));
   } catch (error) {
     dispatch(deleteOrderError(transformError(
-      axiosErrorWrapper(error),
+      axiosErrorWrapper(error, dispatch),
       'Error deleting order, please try again',
     )));
     throw error;
@@ -293,7 +330,12 @@ export const updateOrderError = error => ({
  *
  * @returns {Function}
  */
-export const updateOrder = (values, orderId) => async (dispatch) => {
+export const updateOrder = (values, orderId) => async (dispatch, getState) => {
+  // Return early if already updating
+  if (getState().dashboard.isUpdating) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: UPDATE_ORDER_REQUEST });
   try {
     const updatedOrder = await orderService
@@ -302,7 +344,7 @@ export const updateOrder = (values, orderId) => async (dispatch) => {
     return;
   } catch (error) {
     dispatch(updateOrderError(transformError(
-      axiosErrorWrapper(error),
+      axiosErrorWrapper(error, dispatch),
       'Error updating order, please try again',
     )));
     throw error;

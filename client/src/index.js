@@ -2,14 +2,13 @@ import React from 'react';
 import { render } from 'react-dom';
 import Root from './components/Root';
 import configureStore from './store/configureStore';
-import initialState from './reducers/initialState';
 import { getUser } from './helpers/persistUser';
 import history from './helpers/history';
 import { autoNavigate, userSignInSuccess }
   from './actions/userActions';
 import './static/index.scss';
 
-const store = configureStore(initialState);
+const store = configureStore();
 
 const user = getUser();
 if (user) {

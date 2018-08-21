@@ -19,6 +19,8 @@ import {
 } from '../constants/orderActionTypes';
 import transformError from '../helpers/transformError';
 
+/* eslint consistent-return: 0 */
+
 /**
  * Checkout order action creator
  *
@@ -65,14 +67,18 @@ export const fetchOrdersError = error => ({
  *
  * @returns {Function} async function
  */
-export const fetchUserOrders = () => async (dispatch) => {
+export const fetchUserOrders = () => async (dispatch, getState) => {
+  if (getState().orders.isFetching) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: FETCH_USER_ORDERS_REQUEST });
   try {
     const orders = await orderService
       .getUserOrderHistory(`${config.API_BASE_URL}/api/v1/orders/users`);
     dispatch(fetchOrdersSuccess(orders));
   } catch (error) {
-    dispatch(fetchOrdersError(axiosErrorWrapper(error)));
+    dispatch(fetchOrdersError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -110,7 +116,11 @@ export const makeOrderError = error => ({
  *
  * @returns {Function} Async function
  */
-export const makeOrder = order => async (dispatch) => {
+export const makeOrder = order => async (dispatch, getState) => {
+  if (getState().orders.isSaving) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: MAKE_ORDER_REQUEST });
   try {
     const newOrder = await orderService
@@ -118,7 +128,7 @@ export const makeOrder = order => async (dispatch) => {
     dispatch(makeOrderSuccess(newOrder));
     history.push('/user-order-history');
   } catch (error) {
-    dispatch(makeOrderError(axiosErrorWrapper(error)));
+    dispatch(makeOrderError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -156,7 +166,11 @@ export const deleteOrderError = error => ({
  *
  * @returns {Function} Async function
  */
-export const deleteOrder = orderId => async (dispatch) => {
+export const deleteOrder = orderId => async (dispatch, getState) => {
+  if (getState().orders.isDeleting) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: DELETE_ORDER_REQUEST });
   try {
     await orderService
@@ -164,7 +178,7 @@ export const deleteOrder = orderId => async (dispatch) => {
     dispatch(deleteOrderSuccess(orderId));
   } catch (error) {
     dispatch(deleteOrderError(transformError(
-      axiosErrorWrapper(error),
+      axiosErrorWrapper(error, dispatch),
       'Error deleting order, please try again',
     )));
   }
@@ -205,7 +219,11 @@ export const updateOrderError = error => ({
  *
  * @returns {Function}
  */
-export const updateOrder = (values, orderId) => async (dispatch) => {
+export const updateOrder = (values, orderId) => async (dispatch, getState) => {
+  if (getState().orders.isUpdating) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: UPDATE_ORDER_REQUEST });
   try {
     const updatedOrder = await orderService
@@ -213,7 +231,7 @@ export const updateOrder = (values, orderId) => async (dispatch) => {
     dispatch(updateOrderSuccess(updatedOrder));
   } catch (error) {
     dispatch(deleteOrderError(transformError(
-      axiosErrorWrapper(error),
+      axiosErrorWrapper(error, dispatch),
       'Error updating order, please try again',
     )));
   }

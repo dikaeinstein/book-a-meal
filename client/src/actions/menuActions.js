@@ -13,6 +13,8 @@ import {
   UPDATE_MENU_SUCCESS,
 } from '../constants/menuActionTypes';
 
+/* eslint consistent-return: 0 */
+
 /**
  * Fetch menu success action creator
  *
@@ -46,13 +48,17 @@ const fetchMenuError = error => ({
  *
  * @returns {Function}
  */
-export const fetchMenu = () => async (dispatch) => {
+export const fetchMenu = () => async (dispatch, getState) => {
+  if (getState().menus.isFetching) {
+    return Promise.resolve();
+  }
+
+  dispatch({ type: FETCH_MENU_REQUEST });
   try {
-    dispatch({ type: FETCH_MENU_REQUEST });
     const menu = await menuService.getMenu(`${config.API_BASE_URL}/api/v1/menu/`);
     dispatch(fetchMenuSuccess(menu));
   } catch (error) {
-    dispatch(fetchMenuError(axiosErrorWrapper(error)));
+    dispatch(fetchMenuError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -90,14 +96,18 @@ const setupMenuError = error => ({
  *
  * @returns {Function}
  */
-export const setupMenu = values => async (dispatch) => {
+export const setupMenu = values => async (dispatch, getState) => {
+  if (getState().menus.isSaving) {
+    return Promise.resolve();
+  }
+
+  dispatch({ type: SETUP_MENU_REQUEST });
   try {
-    dispatch({ type: SETUP_MENU_REQUEST });
     const menu = await menuService
       .setMenu(`${config.API_BASE_URL}/api/v1/menu/`, values);
     dispatch(setupMenuSuccess(menu));
   } catch (error) {
-    dispatch(setupMenuError(axiosErrorWrapper(error)));
+    dispatch(setupMenuError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -136,13 +146,17 @@ const updateMenuError = error => ({
  *
  * @returns {Function}
  */
-export const updateMenu = (values, menuId) => async (dispatch) => {
+export const updateMenu = (values, menuId) => async (dispatch, getState) => {
+  if (getState().menus.isUpdating) {
+    return Promise.resolve();
+  }
+
+  dispatch({ type: UPDATE_MENU_REQUEST });
   try {
-    dispatch({ type: UPDATE_MENU_REQUEST });
     const menu = await menuService
       .updateMenu(`${config.API_BASE_URL}/api/v1/menu/${menuId}`, values);
     dispatch(updateMenuSuccess(menu));
   } catch (error) {
-    dispatch(updateMenuError(axiosErrorWrapper(error)));
+    dispatch(updateMenuError(axiosErrorWrapper(error, dispatch)));
   }
 };
