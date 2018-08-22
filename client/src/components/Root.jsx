@@ -8,20 +8,20 @@ import {
   Redirect,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import history from './helpers/history';
+import history from '../helpers/history';
 
-import Header from './components/Header';
-import HomePage from './components/HomePage';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
-import UserMenu from './components/UserMenu';
-import UserOrderHistory from './components/UserOrderHistory';
-import PrivateRoute from './components/PrivateRoute';
-import NotFound from './components/NotFound';
-import Dashboard from './components/Dashboard';
-import Meals from './components/Meals';
-import Menus from './components/Menus';
-import OrderConfirmation from './components/OrderConfirmation';
+import Header from './Header';
+import HomePage from './HomePage';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+import UserMenu from './UserMenu';
+import UserOrderHistory from './UserOrderHistory';
+import PrivateRoute from './PrivateRoute';
+import NotFound from './NotFound';
+import Dashboard from './Dashboard';
+import Meals from './Meals';
+import Menus from './Menus';
+import OrderConfirmation from './OrderConfirmation';
 
 
 const Root = ({ store }) => (
@@ -44,7 +44,7 @@ const Root = ({ store }) => (
             path="/user-order-history"
             component={UserOrderHistory}
           />
-          <PrivateRoute path="/caterer-dashboard" component={Dashboard} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
           <PrivateRoute path="/meals" component={Meals} />
           <PrivateRoute path="/menus" component={Menus} />
           <PrivateRoute

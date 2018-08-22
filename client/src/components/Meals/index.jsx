@@ -8,6 +8,7 @@ import UpdateMeal from './UpdateMeal';
 import Footer from '../util/Footer';
 import Button from '../util/Button';
 import errorHandler from '../util/errorHandler';
+import { fetchMeals, fetchCatererMeals } from '../../actions/mealActions';
 
 Modal.setAppElement('#root');
 
@@ -23,6 +24,7 @@ class ConnectedMeals extends Component {
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleMealUpdate = this.handleMealUpdate.bind(this);
     this.handleAddMeal = this.handleAddMeal.bind(this);
+    this.handleRetry = this.handleRetry.bind(this);
   }
 
   handleOpenModal() {
@@ -43,6 +45,14 @@ class ConnectedMeals extends Component {
     this.handleOpenModal();
   }
 
+  handleRetry() {
+    if (this.props.role === 'superAdmin') {
+      this.props.fetchMeals();
+    } else {
+      this.props.fetchCatererMeals();
+    }
+  }
+
   render() {
     const modalStyle = {
       overlay: {
@@ -60,7 +70,8 @@ class ConnectedMeals extends Component {
       },
     };
     const CatererMealsWithErrorHandling =
-      errorHandler(CatererMeals, 'Error fetching meals');
+      errorHandler(CatererMeals, 'Error fetching meals', this.handleRetry, true);
+
     return (
       <div>
         <main
@@ -71,7 +82,7 @@ class ConnectedMeals extends Component {
             value="Add meal"
             className="btn btn-default"
             onClick={this.handleAddMeal}
-            style={{ margin: '1rem 1rem 0 0' }}
+            style={{ margin: '1rem 1rem 1rem 0' }}
           />
           <Modal
             isOpen={this.state.isOpen}
@@ -108,12 +119,21 @@ ConnectedMeals.propTypes = {
     PropTypes.string,
     PropTypes.objectOf(PropTypes.string),
   ]),
+  fetchMeals: PropTypes.func.isRequired,
+  fetchCatererMeals: PropTypes.func.isRequired,
+  role: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   error: state.meals.fetchError,
+  role: state.user.data.role,
 });
 
-const Meals = connect(mapStateToProps)(ConnectedMeals);
+const mapDispatchToProps = dispatch => ({
+  fetchMeals() { dispatch(fetchMeals()); },
+  fetchCatererMeals() { dispatch(fetchCatererMeals()); },
+});
+
+const Meals = connect(mapStateToProps, mapDispatchToProps)(ConnectedMeals);
 
 export default Meals;

@@ -1,3 +1,9 @@
+/**
+ * Checks if the browser supports the web storage API
+ * An adaptation of snippet on MDN
+ *
+ * @param {string} type Storage type e.g localStorage or sessionStorage
+ */
 const storageAvailable = (type) => {
   const storage = window[type];
   try {

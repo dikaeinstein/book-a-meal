@@ -1,3 +1,4 @@
+import { normalize } from 'normalizr';
 import config from '../config';
 import {
   GET_TOTAL_ORDERS_ERROR,
@@ -19,6 +20,10 @@ import {
 import dashboardService from '../helpers/dashboardService';
 import orderService from '../helpers/orderService';
 import transformError from '../helpers/transformError';
+import axiosErrorWrapper from '../helpers/axiosErrorWrapper';
+import { orderSchema, orderListSchema } from './schema';
+
+/* eslint consistent-return: 0 */
 
 /**
  * Get total amount success action creator
@@ -30,20 +35,20 @@ import transformError from '../helpers/transformError';
  */
 export const getTotalAmountSuccess = totalAmount => ({
   type: GET_TOTAL_AMOUNT_SUCCESS,
-  payload: { totalAmount },
+  response: totalAmount,
 });
 
 /**
  * Get total amount error action creator
  *
  * @export
- * @param {object} error
+ * @param {String} error Error message
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
 export const getTotalAmountError = error => ({
   type: GET_TOTAL_AMOUNT_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -53,14 +58,42 @@ export const getTotalAmountError = error => ({
  *
  * @returns {Function} async function
  */
-export const getTotalAmount = () => async (dispatch) => {
+export const getTotalAmount = () => async (dispatch, getState) => {
+  // Return early if already fetching
+  if (getState().dashboard.isFetchingTotalAmount) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: GET_TOTAL_AMOUNT_REQUEST });
   try {
     const totalAmount = await dashboardService
       .getTotalAmount(`${config.API_BASE_URL}/api/v1/orders/totalAmount`);
     dispatch(getTotalAmountSuccess(totalAmount));
   } catch (error) {
-    dispatch(getTotalAmountError(error));
+    dispatch(getTotalAmountError(axiosErrorWrapper(error, dispatch)));
+  }
+};
+
+/**
+ * Get caterer total amount async action creator
+ *
+ * @export
+ *
+ * @returns {Function} async function
+ */
+export const getCatererTotalAmount = () => async (dispatch, getState) => {
+  // Return early if already fetching
+  if (getState().dashboard.isFetchingTotalAmount) {
+    return Promise.resolve();
+  }
+
+  dispatch({ type: GET_TOTAL_AMOUNT_REQUEST });
+  try {
+    const totalAmount = await dashboardService
+      .getTotalAmount(`${config.API_BASE_URL}/api/v1/orders/totalAmount/caterers`);
+    dispatch(getTotalAmountSuccess(totalAmount));
+  } catch (error) {
+    dispatch(getTotalAmountError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -74,20 +107,20 @@ export const getTotalAmount = () => async (dispatch) => {
  */
 export const getTotalOrdersSuccess = totalOrders => ({
   type: GET_TOTAL_ORDERS_SUCCESS,
-  payload: { totalOrders },
+  response: totalOrders,
 });
 
 /**
  * Get total number of orders made error action creator
  *
  * @export
- * @param {string} error
+ * @param {String} error Error message
  *
  * @returns {object} Redux action
  */
 export const getTotalOrdersError = error => ({
   type: GET_TOTAL_ORDERS_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -97,14 +130,44 @@ export const getTotalOrdersError = error => ({
  *
  * @returns {Function} async function
  */
-export const getTotalOrders = () => async (dispatch) => {
+export const getTotalOrders = () => async (dispatch, getState) => {
+  // Return early if already fetching
+  if (getState().dashboard.isFetchingTotalOrders) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: GET_TOTAL_ORDERS_REQUEST });
   try {
     const totalOrders = await dashboardService
-      .getTotalNumberOfOrders(`${config.API_BASE_URL}/api/v1/orders/totalOrders`);
+      .getTotalNumberOfOrders(
+        `${config.API_BASE_URL}/api/v1/orders/totalOrders`);
     dispatch(getTotalOrdersSuccess(totalOrders));
   } catch (error) {
-    dispatch(getTotalOrdersError(error));
+    dispatch(getTotalOrdersError(axiosErrorWrapper(error, dispatch)));
+  }
+};
+
+/**
+ * Get caterer total number of orders made async action creator
+ *
+ * @export
+ *
+ * @returns {Function} async function
+ */
+export const getCatererTotalOrders = () => async (dispatch, getState) => {
+  // Return early if already fetching
+  if (getState().dashboard.isFetchingTotalOrders) {
+    return Promise.resolve();
+  }
+
+  dispatch({ type: GET_TOTAL_ORDERS_REQUEST });
+  try {
+    const totalOrders = await dashboardService
+      .getTotalNumberOfOrders(
+        `${config.API_BASE_URL}/api/v1/orders/totalOrders/caterers`);
+    dispatch(getTotalOrdersSuccess(totalOrders));
+  } catch (error) {
+    dispatch(getTotalOrdersError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -112,26 +175,26 @@ export const getTotalOrders = () => async (dispatch) => {
  * Fetch all orders success action creator
  *
  * @export
- * @param {Array} orders Array of order objects
+ * @param {Object} response Normalized orders response
  *
  * @returns {object} Redux action
  */
-export const fetchAllOrdersSuccess = orders => ({
+export const fetchAllOrdersSuccess = response => ({
   type: FETCH_ALL_ORDERS_SUCCESS,
-  payload: { orders },
+  response,
 });
 
 /**
  * Fetch all orders error action creator
  *
  * @export
- * @param {string} error
+ * @param {string} error Error message
  *
  * @returns {object} Redux action
  */
 export const fetchAllOrdersError = error => ({
   type: FETCH_ALL_ORDERS_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -141,14 +204,42 @@ export const fetchAllOrdersError = error => ({
  *
  * @returns {Function} async function
  */
-export const fetchAllOrders = () => async (dispatch) => {
+export const fetchAllOrders = () => async (dispatch, getState) => {
+  // Return early if already fetching
+  if (getState().dashboard.isFetchingAllOrders) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: FETCH_ALL_ORDERS_REQUEST });
   try {
     const orders = await dashboardService
-      .getAllOrders(`${config.API_BASE_URL}/api/v1/orders`);
-    dispatch(fetchAllOrdersSuccess(orders));
+      .getOrders(`${config.API_BASE_URL}/api/v1/orders`);
+    dispatch(fetchAllOrdersSuccess(normalize(orders, orderListSchema)));
   } catch (error) {
-    dispatch(fetchAllOrdersError(error));
+    dispatch(fetchAllOrdersError(axiosErrorWrapper(error, dispatch)));
+  }
+};
+
+/**
+ * Fetch caterer orders async action creator
+ *
+ * @export
+ *
+ * @returns {Function} async function
+ */
+export const fetchCatererOrders = () => async (dispatch, getState) => {
+  // Return early if already fetching
+  if (getState().dashboard.isFetchingAllOrders) {
+    return Promise.resolve();
+  }
+
+  dispatch({ type: FETCH_ALL_ORDERS_REQUEST });
+  try {
+    const orders = await dashboardService
+      .getOrders(`${config.API_BASE_URL}/api/v1/orders/caterers`);
+    dispatch(fetchAllOrdersSuccess(normalize(orders, orderListSchema)));
+  } catch (error) {
+    dispatch(fetchAllOrdersError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -186,7 +277,12 @@ export const deleteOrderError = error => ({
  *
  * @returns {Function} Async function
  */
-export const deleteOrder = orderId => async (dispatch) => {
+export const deleteOrder = orderId => async (dispatch, getState) => {
+  // Return early if already deleting
+  if (getState().dashboard.isDeleting) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: DELETE_ORDER_REQUEST });
   try {
     await orderService
@@ -194,7 +290,7 @@ export const deleteOrder = orderId => async (dispatch) => {
     dispatch(deleteOrderSuccess(orderId));
   } catch (error) {
     dispatch(deleteOrderError(transformError(
-      error,
+      axiosErrorWrapper(error, dispatch),
       'Error deleting order, please try again',
     )));
     throw error;
@@ -205,26 +301,26 @@ export const deleteOrder = orderId => async (dispatch) => {
  * Update order success action creator
  *
  * @export
- * @param {object} order
+ * @param {Object} response Normalized orders response
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
-export const updateOrderSuccess = order => ({
+export const updateOrderSuccess = response => ({
   type: UPDATE_ORDER_SUCCESS,
-  payload: { order },
+  response,
 });
 
 /**
  * Update order error  action creator
  *
  * @export
- * @param {object} error
+ * @param {String} error Error message
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
 export const updateOrderError = error => ({
   type: UPDATE_ORDER_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -236,16 +332,21 @@ export const updateOrderError = error => ({
  *
  * @returns {Function}
  */
-export const updateOrder = (values, orderId) => async (dispatch) => {
+export const updateOrder = (values, orderId) => async (dispatch, getState) => {
+  // Return early if already updating
+  if (getState().dashboard.isUpdating) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: UPDATE_ORDER_REQUEST });
   try {
     const updatedOrder = await orderService
       .updateOrder(`${config.API_BASE_URL}/api/v1/orders/${orderId}`, values);
-    dispatch(updateOrderSuccess(updatedOrder));
+    dispatch(updateOrderSuccess(normalize(updatedOrder, orderSchema)));
     return;
   } catch (error) {
     dispatch(updateOrderError(transformError(
-      error,
+      axiosErrorWrapper(error, dispatch),
       'Error updating order, please try again',
     )));
     throw error;

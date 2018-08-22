@@ -108,7 +108,12 @@ router.put(
 
 // Delete meal
 router.delete(
-  '/v1/meals/:mealId', authenticate, authorize,
+  '/v1/meals/:mealId/users', authenticate, authorize,
+  idValidator('mealId', 'Meal'), validationErrorHandler,
+  MealController.deleteMeal,
+);
+router.delete(
+  '/v1/meals/:mealId', authenticate, authorizeSuperAdmin,
   idValidator('mealId', 'Meal'), validationErrorHandler,
   MealController.deleteMeal,
 );
@@ -216,14 +221,14 @@ router.get(
   authenticate, authorize,
   dateValidator(),
   validationErrorHandler,
-  OrderController.getTotalNumberOfOrders,
+  OrderController.getCatererTotalNumberOfOrders,
 );
 router.get(
   '/v1/orders/totalOrders/caterers/:userId',
   authenticate, authorizeSuperAdmin,
   dateValidator(),
   validationErrorHandler,
-  OrderController.getTotalNumberOfOrders,
+  OrderController.getCatererTotalNumberOfOrders,
 );
 
 // Get orders for specific user

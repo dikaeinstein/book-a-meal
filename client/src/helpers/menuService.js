@@ -1,5 +1,4 @@
 import axios from 'axios';
-import axiosErrorWrapper from './axiosErrorWrapper';
 import setAuthorizationToken from './setAuthorizationToken';
 
 /**
@@ -22,7 +21,7 @@ const menuService = {
       const response = await axios.get(url);
       return response.data.menu;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
 
@@ -41,7 +40,7 @@ const menuService = {
       const response = await axios.post(url, values, { headers });
       return response.data.menu;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
 
@@ -60,7 +59,7 @@ const menuService = {
       const response = await axios.put(url, values, { headers });
       return response.data.menu;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
 };

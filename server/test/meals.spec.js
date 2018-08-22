@@ -615,19 +615,24 @@ describe('Meals', () => {
   // Test Delete a meal
   describe('Delete Meal', () => {
     it('should delete meal if it exist', async () => {
-      const res = await chai.request(app).del(`${mealUrl}/1`)
+      const res = await chai.request(app).del(`${mealUrl}/1/users`)
         .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).to.equal(200);
+    });
+    it('should allow superAdmin delete meal if it exist', async () => {
+      const res = await chai.request(app).del(`${mealUrl}/4`)
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(200);
     });
     it('should not delete meal if it does not exist', async () => {
       const res = await chai.request(app).del(`${mealUrl}/100`)
-        .set('Authorization', `Bearer ${adminToken}`);
+        .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(404);
       expect(res.body.error.mealId).to
         .include('Meal does not exist');
     });
     it('should not delete meal if it is not yours', async () => {
-      const res = await chai.request(app).del(`${mealUrl}/1`)
+      const res = await chai.request(app).del(`${mealUrl}/1/users`)
         .set('Authorization', `Bearer ${adminToken2}`);
       expect(res.status).to.equal(404);
       expect(res.body.error.mealId).to

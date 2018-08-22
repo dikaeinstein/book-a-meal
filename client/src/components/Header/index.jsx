@@ -10,7 +10,7 @@ const Header = ({ className }) => (
     <ToastContainer />
     <Logo
       text="Book-A-Meal"
-      className="col-1-4 logo text-left text-dark"
+      className="col-1-4 logo text-left"
     />
     <div className="toggle-show">&#9776;</div>
     <Navigation />

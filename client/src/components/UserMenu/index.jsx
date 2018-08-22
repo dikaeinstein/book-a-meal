@@ -11,8 +11,8 @@ const ConnectedUserMenu = ({ fetchMenuError }) => {
 
   return (
     <div>
-      <div className="bg-dark-light landing-main">
-        <main style={{ minHeight: 'calc(100vh - 151px)' }}>
+      <div className="landing-main bg-light">
+        <main style={{ minHeight: 'calc(93vh - 151px)' }}>
           <MenuCardWithErrorHandling
             link="/order-confirmation"
             error={fetchMenuError}
@@ -33,7 +33,7 @@ ConnectedUserMenu.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  fetchMenuError: state.menus.fetchError,
+  fetchMenuError: state.menu.fetchError,
 });
 
 const UserMenu = connect(mapStateToProps)(ConnectedUserMenu);

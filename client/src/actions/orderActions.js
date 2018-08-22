@@ -1,6 +1,9 @@
+import { normalize } from 'normalizr';
 import config from '../config';
 import history from '../helpers/history';
 import orderService from '../helpers/orderService';
+import { orderSchema, orderListSchema } from './schema';
+import axiosErrorWrapper from '../helpers/axiosErrorWrapper';
 import {
   FETCH_USER_ORDERS_REQUEST,
   FETCH_USER_ORDERS_SUCCESS,
@@ -18,43 +21,45 @@ import {
 } from '../constants/orderActionTypes';
 import transformError from '../helpers/transformError';
 
+/* eslint consistent-return: 0 */
+
 /**
  * Checkout order action creator
  *
  * @export
- * @param {object} order
+ * @param {Object} order Checked out order
  *
  * @returns Redux action
  */
 export const checkoutOrder = order => ({
   type: CHECKOUT_ORDER,
-  payload: { order },
+  response: order,
 });
 
 /**
  * Fetch order success action creator
  *
  * @export
- * @param {Array} orders
+ * @param {Object} response Normalized orders response
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
-export const fetchOrdersSuccess = orders => ({
+export const fetchOrdersSuccess = response => ({
   type: FETCH_USER_ORDERS_SUCCESS,
-  payload: { orders },
+  response,
 });
 
 /**
  * Fetch order error action creator
  *
  * @export
- * @param {object} error
+ * @param {String} error Error message
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
 export const fetchOrdersError = error => ({
   type: FETCH_USER_ORDERS_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -64,14 +69,18 @@ export const fetchOrdersError = error => ({
  *
  * @returns {Function} async function
  */
-export const fetchUserOrders = () => async (dispatch) => {
+export const fetchUserOrders = () => async (dispatch, getState) => {
+  if (getState().orders.isFetching) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: FETCH_USER_ORDERS_REQUEST });
   try {
     const orders = await orderService
       .getUserOrderHistory(`${config.API_BASE_URL}/api/v1/orders/users`);
-    dispatch(fetchOrdersSuccess(orders));
+    dispatch(fetchOrdersSuccess(normalize(orders, orderListSchema)));
   } catch (error) {
-    dispatch(fetchOrdersError(error));
+    dispatch(fetchOrdersError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -79,26 +88,26 @@ export const fetchUserOrders = () => async (dispatch) => {
  * Make order success action creator
  *
  * @export
- * @param {object} order
+ * @param {Object} response Normalized order response
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
-export const makeOrderSuccess = order => ({
+export const makeOrderSuccess = response => ({
   type: MAKE_ORDER_SUCCESS,
-  payload: { order },
+  response,
 });
 
 /**
  * Make order error action creator
  *
  * @export
- * @param {object} order
+ * @param {String} error Error message
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
 export const makeOrderError = error => ({
   type: MAKE_ORDER_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -109,15 +118,19 @@ export const makeOrderError = error => ({
  *
  * @returns {Function} Async function
  */
-export const makeOrder = order => async (dispatch) => {
+export const makeOrder = order => async (dispatch, getState) => {
+  if (getState().orders.isSaving) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: MAKE_ORDER_REQUEST });
   try {
     const newOrder = await orderService
       .makeOrder(`${config.API_BASE_URL}/api/v1/orders`, order);
-    dispatch(makeOrderSuccess(newOrder));
+    dispatch(makeOrderSuccess(normalize(newOrder, orderSchema)));
     history.push('/user-order-history');
   } catch (error) {
-    dispatch(makeOrderError(error));
+    dispatch(makeOrderError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -155,7 +168,11 @@ export const deleteOrderError = error => ({
  *
  * @returns {Function} Async function
  */
-export const deleteOrder = orderId => async (dispatch) => {
+export const deleteOrder = orderId => async (dispatch, getState) => {
+  if (getState().orders.isDeleting) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: DELETE_ORDER_REQUEST });
   try {
     await orderService
@@ -163,7 +180,7 @@ export const deleteOrder = orderId => async (dispatch) => {
     dispatch(deleteOrderSuccess(orderId));
   } catch (error) {
     dispatch(deleteOrderError(transformError(
-      error,
+      axiosErrorWrapper(error, dispatch),
       'Error deleting order, please try again',
     )));
   }
@@ -173,26 +190,26 @@ export const deleteOrder = orderId => async (dispatch) => {
  * Update order success action creator
  *
  * @export
- * @param {object} order
+ * @param {object} response Normalized order response
  *
  * @returns {object} Redux action
  */
-export const updateOrderSuccess = order => ({
+export const updateOrderSuccess = response => ({
   type: UPDATE_ORDER_SUCCESS,
-  payload: { order },
+  response,
 });
 
 /**
  * Update order error  action creator
  *
  * @export
- * @param {object} error
+ * @param {String} error Error message
  *
  * @returns {object} Redux action
  */
 export const updateOrderError = error => ({
   type: UPDATE_ORDER_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -204,15 +221,19 @@ export const updateOrderError = error => ({
  *
  * @returns {Function}
  */
-export const updateOrder = (values, orderId) => async (dispatch) => {
+export const updateOrder = (values, orderId) => async (dispatch, getState) => {
+  if (getState().orders.isUpdating) {
+    return Promise.resolve();
+  }
+
   dispatch({ type: UPDATE_ORDER_REQUEST });
   try {
     const updatedOrder = await orderService
       .updateOrder(`${config.API_BASE_URL}/api/v1/orders/${orderId}`, values);
-    dispatch(updateOrderSuccess(updatedOrder));
+    dispatch(updateOrderSuccess(normalize(updatedOrder, orderSchema)));
   } catch (error) {
     dispatch(deleteOrderError(transformError(
-      error,
+      axiosErrorWrapper(error, dispatch),
       'Error updating order, please try again',
     )));
   }

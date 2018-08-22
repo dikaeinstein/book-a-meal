@@ -5,7 +5,7 @@ import Order from './Order';
 const OrderList = ({ orders }) => {
   const renderTableBody = () => {
     const orderRows = orders.map(order => (
-      <Order order={order} />
+      <Order key={order.id} order={order} />
     ));
     return (
       <tbody>

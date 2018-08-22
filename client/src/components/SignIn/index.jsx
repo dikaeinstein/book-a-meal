@@ -32,7 +32,7 @@ ConnectedSignIn.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  signIn: (values, actions) => dispatch(userSignIn(values, actions)),
+  signIn(values, actions) { dispatch(userSignIn(values, actions)); },
 });
 
 const SignIn = connect(null, mapDispatchToProps)(ConnectedSignIn);

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import axiosErrorWrapper from './axiosErrorWrapper';
 import { setUser } from './persistUser';
 
 const userService = {
@@ -12,7 +11,7 @@ const userService = {
       setUser(user);
       return response.data.user;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
   signUp: async (url, data) => {
@@ -23,11 +22,8 @@ const userService = {
       setUser(user);
       return response.data.user;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
-  },
-  signout: () => {
-
   },
 };
 

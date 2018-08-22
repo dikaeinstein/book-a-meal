@@ -1,4 +1,4 @@
-import produce from 'immer';
+import { combineReducers } from 'redux';
 import {
   GET_TOTAL_ORDERS_ERROR,
   GET_TOTAL_ORDERS_REQUEST,
@@ -12,102 +12,172 @@ import {
   UPDATE_ORDER_ERROR,
   UPDATE_ORDER_REQUEST,
   UPDATE_ORDER_SUCCESS,
-  DELETE_ORDER_ERROR,
-  DELETE_ORDER_REQUEST,
-  DELETE_ORDER_SUCCESS,
 } from '../constants/orderActionTypes';
 import initialState from './initialState';
 
-const dashboardReducer = (state = initialState.dashboard, action) => {
+const isUpdating = (state = initialState.dashboard.isUpdating, action) => {
   switch (action.type) {
-    case GET_TOTAL_ORDERS_REQUEST:
-      return { ...state, isFetchingTotalOrders: true };
-    case GET_TOTAL_ORDERS_ERROR:
-      return {
-        ...state,
-        fetchTotalOrdersError: action.payload.error,
-        isFetchingTotalOrders: false,
-      };
-    case GET_TOTAL_ORDERS_SUCCESS:
-      return {
-        ...state,
-        totalOrders: action.payload.totalOrders,
-        fetchTotalOrdersError: null,
-        isFetchingTotalOrders: false,
-      };
-    case GET_TOTAL_AMOUNT_REQUEST:
-      return { ...state, isFetchingTotalAmount: true };
-    case GET_TOTAL_AMOUNT_ERROR:
-      return {
-        ...state,
-        fetchTotalAmountError: action.payload.error,
-        isFetchingTotalAmount: false,
-      };
-    case GET_TOTAL_AMOUNT_SUCCESS:
-      return {
-        ...state,
-        totalAmount: action.payload.totalAmount,
-        fetchTotalAmountError: null,
-        isFetchingTotalAmount: false,
-      };
-    case FETCH_ALL_ORDERS_REQUEST:
-      return { ...state, fetchAllOrders: true };
-    case FETCH_ALL_ORDERS_ERROR:
-      return {
-        ...state,
-        fetchAllOrdersError: action.payload.error,
-        isFetchingAllOrders: false,
-      };
-    case FETCH_ALL_ORDERS_SUCCESS:
-      return {
-        ...state,
-        fetchAllOrdersError: null,
-        isFetchingAllOrders: false,
-        allOrders: action.payload.orders,
-      };
     case UPDATE_ORDER_REQUEST:
-      return { ...state, isUpdating: true };
+      return true;
     case UPDATE_ORDER_ERROR:
-      return {
-        ...state,
-        isUpdating: false,
-        updateOrderError: action.payload.error,
-      };
-    case UPDATE_ORDER_SUCCESS: {
-      const updatedOrders = produce(state.allOrders, (draft) => {
-        /* eslint no-param-reassign: 0 */
-        draft[draft.findIndex(order => order.id === action.payload.order.id)]
-          = action.payload.order;
-      });
-      return {
-        ...state,
-        allOrders: updatedOrders,
-        isUpdating: false,
-        updateOrderError: null,
-      };
-    }
-    case DELETE_ORDER_REQUEST:
-      return { ...state, isDeleting: true };
-    case DELETE_ORDER_ERROR:
-      return {
-        ...state,
-        isDeleting: false,
-        deleteOrderError: action.payload.error,
-      };
-    case DELETE_ORDER_SUCCESS: {
-      const remainingOrders = produce(state.allOrders, (draft) => {
-        draft.splice(draft.findIndex(order => order.id === action.payload.id));
-      });
-      return {
-        ...state,
-        allOrders: remainingOrders,
-        isDeleting: false,
-        deleteOrderError: null,
-      };
-    }
+    case UPDATE_ORDER_SUCCESS:
+      return false;
     default:
       return state;
   }
 };
+
+const isFetchingAllOrders = (
+  state = initialState.dashboard.isFetchingAllOrders,
+  action,
+) => {
+  switch (action.type) {
+    case FETCH_ALL_ORDERS_REQUEST:
+      return true;
+    case FETCH_ALL_ORDERS_ERROR:
+    case FETCH_ALL_ORDERS_SUCCESS:
+      return false;
+    default:
+      return state;
+  }
+};
+
+const byId = (state = initialState.dashboard.byId, action) => {
+  switch (action.type) {
+    case FETCH_ALL_ORDERS_SUCCESS:
+    case UPDATE_ORDER_SUCCESS:
+      return {
+        ...state,
+        ...action.response.entities.orders,
+      };
+    default:
+      return state;
+  }
+};
+
+const allIds = (state = initialState.dashboard.allIds, action) => {
+  switch (action.type) {
+    case FETCH_ALL_ORDERS_SUCCESS:
+      return action.response.result;
+    case UPDATE_ORDER_SUCCESS:
+      return [...state, action.response.result];
+    default:
+      return state;
+  }
+};
+
+const fetchAllOrdersError = (
+  state = initialState.dashboard.fetchAllOrdersError,
+  action,
+) => {
+  switch (action.type) {
+    case FETCH_ALL_ORDERS_ERROR:
+      return action.message;
+    default:
+      return state;
+  }
+};
+
+const updateOrderError = (
+  state = initialState.dashboard.updateOrderError,
+  action,
+) => {
+  switch (action.type) {
+    case UPDATE_ORDER_ERROR:
+      return action.message;
+    default:
+      return state;
+  }
+};
+
+const isFetchingTotalAmount = (
+  state = initialState.dashboard.isFetchingTotalAmount,
+  action,
+) => {
+  switch (action.type) {
+    case GET_TOTAL_AMOUNT_REQUEST:
+      return true;
+    case GET_TOTAL_AMOUNT_ERROR:
+    case GET_TOTAL_AMOUNT_SUCCESS:
+      return false;
+    default:
+      return state;
+  }
+};
+
+const isFetchingTotalOrders = (
+  state = initialState.dashboard.isFetchingTotalOrders,
+  action,
+) => {
+  switch (action.type) {
+    case GET_TOTAL_ORDERS_REQUEST:
+      return true;
+    case GET_TOTAL_ORDERS_ERROR:
+    case GET_TOTAL_ORDERS_SUCCESS:
+      return false;
+    default:
+      return state;
+  }
+};
+
+const fetchTotalOrdersError = (
+  state = initialState.dashboard.fetchTotalOrdersError,
+  action,
+) => {
+  switch (action.type) {
+    case GET_TOTAL_ORDERS_ERROR:
+      return action.message;
+    default:
+      return state;
+  }
+};
+
+const fetchTotalAmountError = (
+  state = initialState.dashboard.fetchTotalAmountError,
+  action,
+) => {
+  switch (action.type) {
+    case GET_TOTAL_AMOUNT_ERROR:
+      return action.message;
+    default:
+      return state;
+  }
+};
+
+const totalAmount = (state = initialState.dashboard.totalAmount, action) => {
+  switch (action.type) {
+    case GET_TOTAL_AMOUNT_SUCCESS:
+      return action.response;
+    default:
+      return state;
+  }
+};
+
+const totalOrders = (state = initialState.dashboard.totalOrders, action) => {
+  switch (action.type) {
+    case GET_TOTAL_ORDERS_SUCCESS:
+      return action.response;
+    default:
+      return state;
+  }
+};
+
+export const getOrders = state =>
+  state.allIds.map(id => state.byId[id]);
+
+const dashboardReducer = combineReducers({
+  byId,
+  allIds,
+  isFetchingAllOrders,
+  isFetchingTotalAmount,
+  isFetchingTotalOrders,
+  isUpdating,
+  updateOrderError,
+  fetchAllOrdersError,
+  fetchTotalAmountError,
+  fetchTotalOrdersError,
+  totalAmount,
+  totalOrders,
+});
 
 export default dashboardReducer;

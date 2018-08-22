@@ -1,5 +1,4 @@
 import axios from 'axios';
-import axiosErrorWrapper from './axiosErrorWrapper';
 import setAuthorization from './setAuthorizationToken';
 
 /**
@@ -13,7 +12,7 @@ const orderService = {
       const response = await axios.get(url, { headers });
       return response.data.orders;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
   makeOrder: async (url, data) => {
@@ -22,7 +21,7 @@ const orderService = {
       const response = await axios.post(url, data, { headers });
       return response.data.order;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
   deleteOrder: async (url) => {
@@ -31,7 +30,7 @@ const orderService = {
       const response = await axios.delete(url, { headers });
       return response.data.message;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
   updateOrder: async (url, data) => {
@@ -40,7 +39,7 @@ const orderService = {
       const response = await axios.put(url, data, { headers });
       return response.data.order;
     } catch (error) {
-      throw axiosErrorWrapper(error);
+      throw error;
     }
   },
 };

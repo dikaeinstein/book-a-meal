@@ -557,7 +557,7 @@ describe('Orders', () => {
       const res = await chai.request(app).get(`${orderUrl}/totalOrders/caterers?date=${today}`)
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
-      expect(res.body.totalOrders).to.equal(23);
+      expect(res.body.totalOrders).to.equal(20);
       expect(res.body.message).to
         .include('Total number of orders made successfully retrieved');
     });
@@ -565,7 +565,7 @@ describe('Orders', () => {
       const res = await chai.request(app).get(`${orderUrl}/totalOrders/caterers/2?date=${today}`)
         .set('Authorization', `Bearer ${superAdminToken}`);
       expect(res.status).to.equal(200);
-      expect(res.body.totalOrders).to.equal(23);
+      expect(res.body.totalOrders).to.equal(20);
       expect(res.body.message).to
         .include('Total number of orders made successfully retrieved');
     });
@@ -574,7 +574,7 @@ describe('Orders', () => {
         .set('Authorization', `Bearer ${adminToken}`);
       expect(res.status).to.equal(200);
       expect(res.body.totalOrders).to.be.gt(0);
-      expect(res.body.totalOrders).to.equal(23);
+      expect(res.body.totalOrders).to.equal(20);
       expect(res.body.message).to
         .include('Total number of orders made successfully retrieved');
     });

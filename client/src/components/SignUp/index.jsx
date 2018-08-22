@@ -37,7 +37,9 @@ ConnectedSignUp.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  signUp: (values, actions) => dispatch(userSignUp(values, actions, ownProps.history)),
+  signUp(values, actions) {
+    dispatch(userSignUp(values, actions, ownProps.history));
+  },
 });
 
 const SignUp = connect(null, mapDispatchToProps)(ConnectedSignUp);

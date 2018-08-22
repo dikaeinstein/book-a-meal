@@ -7,6 +7,7 @@ import Loading from '../util/Loading';
 import MealsCheckBoxForm from './MealsCheckBoxForm';
 import { fetchMeals } from '../../actions/mealActions';
 import { updateMenu } from '../../actions/menuActions';
+import { getMeals } from '../../reducers/mealReducer';
 
 class ConnectedUpdateMenu extends Component {
   constructor(props) {
@@ -69,16 +70,16 @@ ConnectedUpdateMenu.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  error: state.menus.saveError,
-  meals: state.meals.data,
-  isUpdating: state.menus.isUpdating,
+  error: state.menu.saveError,
+  meals: getMeals(state.meals),
+  isUpdating: state.menu.isUpdating,
   isFetching: state.meals.isFetching,
-  menuId: state.menus.data.menu.id,
+  menuId: state.menu.menuId,
 });
 
 const mapDispatchToProps = dispatch => ({
-  modifyMenu: (values, menuId) => dispatch(updateMenu(values, menuId)),
-  fetchMeals: () => dispatch(fetchMeals()),
+  modifyMenu(values, menuId) { dispatch(updateMenu(values, menuId)); },
+  fetchMeals() { dispatch(fetchMeals()); },
 });
 
 const UpdateMenu = connect(

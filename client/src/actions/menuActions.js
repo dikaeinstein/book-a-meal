@@ -1,5 +1,8 @@
+import { normalize } from 'normalizr';
 import menuService from '../helpers/menuService';
 import config from '../config';
+import axiosErrorWrapper from '../helpers/axiosErrorWrapper';
+import { menuSchema } from './schema';
 import {
   FETCH_MENU_SUCCESS,
   FETCH_MENU_REQUEST,
@@ -12,30 +15,33 @@ import {
   UPDATE_MENU_SUCCESS,
 } from '../constants/menuActionTypes';
 
+
+/* eslint consistent-return: 0 */
+
 /**
  * Fetch menu success action creator
  *
  * @export
- * @param {object} menu
+ * @param {Object} response Normalized menu response
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
-const fetchMenuSuccess = menu => ({
+const fetchMenuSuccess = response => ({
   type: FETCH_MENU_SUCCESS,
-  payload: { menu },
+  response,
 });
 
 /**
  * Fetch menu error action creator
  *
  * @export
- * @param {*} error
+ * @param {String} error Error message
  *
  * @returns {object} Redux action
  */
 const fetchMenuError = error => ({
   type: FETCH_MENU_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -45,13 +51,17 @@ const fetchMenuError = error => ({
  *
  * @returns {Function}
  */
-export const fetchMenu = () => async (dispatch) => {
+export const fetchMenu = () => async (dispatch, getState) => {
+  if (getState().menu.isFetching) {
+    return Promise.resolve();
+  }
+
+  dispatch({ type: FETCH_MENU_REQUEST });
   try {
-    dispatch({ type: FETCH_MENU_REQUEST });
     const menu = await menuService.getMenu(`${config.API_BASE_URL}/api/v1/menu/`);
-    dispatch(fetchMenuSuccess(menu));
+    dispatch(fetchMenuSuccess(normalize(menu, menuSchema)));
   } catch (error) {
-    dispatch(fetchMenuError(error));
+    dispatch(fetchMenuError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -59,26 +69,26 @@ export const fetchMenu = () => async (dispatch) => {
  * Setup menu success action creator
  *
  * @export
- * @param {object} menu
+ * @param {Object} response Normalized menu response
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
-const setupMenuSuccess = menu => ({
+const setupMenuSuccess = response => ({
   type: SETUP_MENU_SUCCESS,
-  payload: { menu },
+  response,
 });
 
 /**
  * Setup menu error action creator
  *
  * @export
- * @param {*} error
+ * @param {String} error Error message
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
 const setupMenuError = error => ({
   type: SETUP_MENU_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -89,14 +99,18 @@ const setupMenuError = error => ({
  *
  * @returns {Function}
  */
-export const setupMenu = values => async (dispatch) => {
+export const setupMenu = values => async (dispatch, getState) => {
+  if (getState().menu.isSaving) {
+    return Promise.resolve();
+  }
+
+  dispatch({ type: SETUP_MENU_REQUEST });
   try {
-    dispatch({ type: SETUP_MENU_REQUEST });
     const menu = await menuService
       .setMenu(`${config.API_BASE_URL}/api/v1/menu/`, values);
-    dispatch(setupMenuSuccess(menu));
+    dispatch(setupMenuSuccess(normalize(menu, menuSchema)));
   } catch (error) {
-    dispatch(setupMenuError(error));
+    dispatch(setupMenuError(axiosErrorWrapper(error, dispatch)));
   }
 };
 
@@ -104,26 +118,26 @@ export const setupMenu = values => async (dispatch) => {
  * Update menu success action creator
  *
  * @export
- * @param {object} menu
+ * @param {Object} response Normalized menu response
  *
  * @returns {object} Redux action
  */
-const updateMenuSuccess = menu => ({
+const updateMenuSuccess = response => ({
   type: UPDATE_MENU_SUCCESS,
-  payload: { menu },
+  response,
 });
 
 /**
  * Update menu error action creator
  *
  * @export
- * @param {*} error
+ * @param {String} error Error message
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
 const updateMenuError = error => ({
   type: UPDATE_MENU_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -135,13 +149,17 @@ const updateMenuError = error => ({
  *
  * @returns {Function}
  */
-export const updateMenu = (values, menuId) => async (dispatch) => {
+export const updateMenu = (values, menuId) => async (dispatch, getState) => {
+  if (getState().menu.isUpdating) {
+    return Promise.resolve();
+  }
+
+  dispatch({ type: UPDATE_MENU_REQUEST });
   try {
-    dispatch({ type: UPDATE_MENU_REQUEST });
     const menu = await menuService
       .updateMenu(`${config.API_BASE_URL}/api/v1/menu/${menuId}`, values);
-    dispatch(updateMenuSuccess(menu));
+    dispatch(updateMenuSuccess(normalize(menu, menuSchema)));
   } catch (error) {
-    dispatch(updateMenuError(error));
+    dispatch(updateMenuError(axiosErrorWrapper(error, dispatch)));
   }
 };

@@ -118,8 +118,11 @@ const ConnectedOrder = (props) => {
 };
 
 ConnectedOrder.propTypes = {
-  /* eslint react/forbid-prop-types: 0 */
-  order: PropTypes.objectOf(PropTypes.number, PropTypes.string).isRequired,
+  order: PropTypes.objectOf(PropTypes
+    .oneOfType([
+      PropTypes.number, PropTypes.string,
+      PropTypes.bool, PropTypes.object,
+    ])).isRequired,
   modifyOrder: PropTypes.func.isRequired,
 };
 
@@ -128,7 +131,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  modifyOrder: (values, orderId) => dispatch(updateOrder(values, orderId)),
+  modifyOrder(values, orderId) {
+    dispatch(updateOrder(values, orderId));
+  },
 });
 
 const Order = connect(mapStateToProps, mapDispatchToProps)(ConnectedOrder);

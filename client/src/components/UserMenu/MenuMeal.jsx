@@ -150,5 +150,4 @@ const mapStateToProps = state => ({
   loggedIn: state.user.loggedIn,
 });
 
-
 export default connect(mapStateToProps)(MenuMeal);
