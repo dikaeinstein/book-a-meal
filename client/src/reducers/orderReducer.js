@@ -1,4 +1,4 @@
-import produce from 'immer';
+import { combineReducers } from 'redux';
 import initialState from './initialState';
 import {
   FETCH_USER_ORDERS_REQUEST,
@@ -13,78 +13,118 @@ import {
   UPDATE_ORDER_SUCCESS,
 } from '../constants/orderActionTypes';
 
-const orderReducer = (state = initialState.orders, action) => {
+
+const byId = (state = initialState.orders.byId, action) => {
   switch (action.type) {
-    case FETCH_USER_ORDERS_REQUEST:
-      return { ...state, isFetching: true };
-    case FETCH_USER_ORDERS_ERROR:
-      return {
-        ...state,
-        isFetching: false,
-        fetchError: action.payload.error,
-      };
     case FETCH_USER_ORDERS_SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        data: {
-          ...state.data,
-          userOrders: action.payload.orders,
-        },
-        fetchError: null,
-      };
-    case MAKE_ORDER_ERROR:
-      return {
-        ...state,
-        isSaving: false,
-        saveError: action.payload.error,
-      };
-    case MAKE_ORDER_REQUEST:
-      return { ...state, isSaving: true };
     case MAKE_ORDER_SUCCESS:
+    case UPDATE_ORDER_SUCCESS:
       return {
         ...state,
-        isSaving: false,
-        saveError: null,
-        data: {
-          ...state.data,
-          checkedOutOrder: {},
-        },
+        ...action.response.entities.orders,
       };
-    case CHECKOUT_ORDER:
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          checkedOutOrder: action.payload.order,
-        },
-      };
-    case UPDATE_ORDER_REQUEST:
-      return { ...state, isUpdating: true };
-    case UPDATE_ORDER_ERROR:
-      return {
-        ...state,
-        isUpdating: false,
-        updateError: action.payload.error,
-      };
-    case UPDATE_ORDER_SUCCESS: {
-      const updatedOrders = produce(state.data.userOrders, (draft) => {
-        /* eslint no-param-reassign: 0 */
-        draft[draft.findIndex(order => order.id === action.payload.order.id)]
-          = action.payload.order;
-      });
-      return {
-        ...state,
-        data: {
-          userOrders: updatedOrders,
-        },
-        isUpdating: false,
-        updateError: null,
-      };
-    }
     default:
       return state;
   }
 };
+
+const allIds = (state = initialState.orders.allIds, action) => {
+  switch (action.type) {
+    case FETCH_USER_ORDERS_SUCCESS:
+      return action.response.result;
+    case MAKE_ORDER_SUCCESS:
+    case UPDATE_ORDER_SUCCESS:
+      return [...state, action.response.result];
+    default:
+      return state;
+  }
+};
+
+const isFetching = (state = initialState.orders.isFetching, action) => {
+  switch (action.type) {
+    case FETCH_USER_ORDERS_REQUEST:
+      return true;
+    case FETCH_USER_ORDERS_ERROR:
+    case FETCH_USER_ORDERS_SUCCESS:
+      return false;
+    default:
+      return state;
+  }
+};
+
+const isSaving = (state = initialState.orders.isSaving, action) => {
+  switch (action.type) {
+    case MAKE_ORDER_REQUEST:
+      return true;
+    case MAKE_ORDER_ERROR:
+    case MAKE_ORDER_SUCCESS:
+      return false;
+    default:
+      return state;
+  }
+};
+
+const isUpdating = (state = initialState.orders.isUpdating, action) => {
+  switch (action.type) {
+    case UPDATE_ORDER_REQUEST:
+      return true;
+    case UPDATE_ORDER_ERROR:
+    case UPDATE_ORDER_SUCCESS:
+      return false;
+    default:
+      return state;
+  }
+};
+
+const saveError = (state = initialState.orders.saveError, action) => {
+  switch (action.type) {
+    case MAKE_ORDER_ERROR:
+      return action.message;
+    default:
+      return state;
+  }
+};
+
+const updateError = (state = initialState.orders.updateError, action) => {
+  switch (action.type) {
+    case UPDATE_ORDER_ERROR:
+      return action.message;
+    default:
+      return state;
+  }
+};
+
+const fetchError = (state = initialState.orders.fetchError, action) => {
+  switch (action.type) {
+    case FETCH_USER_ORDERS_ERROR:
+      return action.message;
+    default:
+      return state;
+  }
+};
+
+const checkedOutOrder = (state = initialState.orders.checkedOutOrder, action) => {
+  switch (action.type) {
+    case CHECKOUT_ORDER:
+      return action.response;
+    default:
+      return state;
+  }
+};
+
+export const getOrders = state =>
+  state.allIds.map(id => state.byId[id]);
+
+const orderReducer = combineReducers({
+  byId,
+  allIds,
+  isFetching,
+  isSaving,
+  isUpdating,
+  fetchError,
+  saveError,
+  updateError,
+  checkedOutOrder,
+});
 
 export default orderReducer;

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import OrderList from './OrderList';
+import { getOrders } from '../../reducers/orderReducer';
 
 const ConnectedOrderHistory = ({ orders }) => <OrderList orders={orders} />;
 
@@ -10,7 +11,7 @@ ConnectedOrderHistory.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  orders: state.orders.data.userOrders,
+  orders: getOrders(state.orders),
 });
 
 const OrderHistory = connect(mapStateToProps)(ConnectedOrderHistory);

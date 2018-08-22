@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import { connect } from 'react-redux';
+import swal from 'sweetalert';
 import Button from '../util/Button';
 import MealDetail from './MealDetail';
 import ConfirmDeleteButton from '../util/ConfirmDeleteButton';
-import { deleteMeal } from '../../actions/mealActions';
+import { deleteMeal, deleteCatererMeal } from '../../actions/mealActions';
 import '../../static/hover_overlay.scss';
 
 class ConnectedMeal extends Component {
@@ -30,11 +31,22 @@ class ConnectedMeal extends Component {
   }
 
   handleDelete() {
-    this.props.removeMeal(this.props.meal.id);
+    if (this.props.role === 'superAdmin') {
+      this.props.removeMeal(this.props.meal.id);
+    } else {
+      this.props.removeCatererMeal(this.props.meal.id);
+    }
   }
 
   handleUpdate() {
-    this.props.handleMealUpdate(this.props.meal);
+    if (this.props.role === 'superAdmin') {
+      return swal({
+        text: 'You cannot update a caterers meal',
+        icon: 'info',
+        className: 'swal-button--confirm',
+      });
+    }
+    return this.props.handleMealUpdate(this.props.meal);
   }
 
   render() {
@@ -144,15 +156,19 @@ ConnectedMeal.propTypes = {
   isUpdating: PropTypes.bool.isRequired,
   handleMealUpdate: PropTypes.func.isRequired,
   removeMeal: PropTypes.func.isRequired,
+  removeCatererMeal: PropTypes.func.isRequired,
+  role: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   isDeleting: state.meals.isDeleting,
   isUpdating: state.meals.isUpdating,
+  role: state.user.data.role,
 });
 
 const mapDispatchToProps = dispatch => ({
   removeMeal(id) { dispatch(deleteMeal(id)); },
+  removeCatererMeal(id) { dispatch(deleteCatererMeal(id)); },
 });
 
 const Meal = connect(mapStateToProps, mapDispatchToProps)(ConnectedMeal);

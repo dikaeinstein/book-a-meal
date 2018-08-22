@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
+import swal from 'sweetalert';
 import Menu from './Menu';
 import Button from '../util/Button';
 import Footer from '../util/Footer';
@@ -22,6 +23,13 @@ class ConnectedMenus extends Component {
   }
 
   handleOpenModal() {
+    if (this.props.role !== 'superAdmin') {
+      return swal({
+        text: 'You do not have the permission to setup a menu',
+        icon: 'info',
+        className: 'swal-button--confirm',
+      });
+    }
     this.setState({ isOpen: true });
   }
 
@@ -30,6 +38,13 @@ class ConnectedMenus extends Component {
   }
 
   handleMenuUpdate() {
+    if (this.props.role !== 'superAdmin') {
+      return swal({
+        text: 'You do not have the permission to setup a menu',
+        icon: 'info',
+        className: 'swal-button--confirm',
+      });
+    }
     this.setState({ updating: true });
     this.handleOpenModal();
   }
@@ -122,11 +137,13 @@ ConnectedMenus.propTypes = {
     PropTypes.objectOf(PropTypes.string),
   ]),
   isSet: PropTypes.bool.isRequired,
+  role: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
-  fetchMenuError: state.menus.fetchError,
-  isSet: state.menus.isSet,
+  fetchMenuError: state.menu.fetchError,
+  isSet: state.menu.isSet,
+  role: state.user.data.role,
 });
 
 const Menus = connect(mapStateToProps)(ConnectedMenus);

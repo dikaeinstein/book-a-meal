@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MenuMeal from './MenuMeal';
+import { getMenu } from '../../reducers/menuReducer';
 
 
 const ConnectedMealList = ({ meals, link }) => {
@@ -20,7 +21,7 @@ ConnectedMealList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  meals: state.menus.data.menu.meals,
+  meals: getMenu(state.menu).meals,
 });
 
 const MealList = connect(mapStateToProps)(ConnectedMealList);

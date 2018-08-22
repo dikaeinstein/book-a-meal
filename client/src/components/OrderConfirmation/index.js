@@ -30,6 +30,8 @@ const ConnectedOrderConfirmation = ({ checkedOutOrder, orderMeal }) => {
     }
   };
 
+  const handleGoBack = () => history.push('/user-menu');
+
   return (
     <div>
       <main
@@ -39,12 +41,15 @@ const ConnectedOrderConfirmation = ({ checkedOutOrder, orderMeal }) => {
         <section className="card text-center order-details">
           <h2>Order Summary</h2>
           <div style={orderItem} className="m1">
-            <div className="f1">SHIPPING</div>
-            <div className="f1">&#x20a6; 0</div>
+            <div className="f1">Meal</div>
+            <div className="f1">{checkedOutOrder.name}</div>
           </div>
           <div style={orderItem} className="m1">
-            <div className="f1">ESTIMATED TAX</div>
-            <div className="f1">&#x20a6; 0</div>
+            <div className="f1">Quantity</div>
+            <div className="f1">
+              {checkedOutOrder.quantity}{' '}
+              plate{checkedOutOrder.quantity > 1 ? 's' : ''}
+            </div>
           </div>
           <div style={orderItem} className="font-weight-bold m1">
             <div className="f1"><h3>TOTAL</h3></div>
@@ -54,10 +59,10 @@ const ConnectedOrderConfirmation = ({ checkedOutOrder, orderMeal }) => {
           </div>
           <div style={{ ...orderItem, justifyContent: 'space-around' }}>
             <Button
-              value="Go Back"
+              value="Back to menu"
               className="btn btn-default"
               style={btnStyle}
-              onClick={() => { history.goBack(); }}
+              onClick={handleGoBack}
             />
             <Button
               value="Confirm Order"
@@ -82,7 +87,7 @@ ConnectedOrderConfirmation.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  checkedOutOrder: state.orders.data.checkedOutOrder,
+  checkedOutOrder: state.orders.checkedOutOrder,
 });
 
 const mapDispatchToProps = dispatch => ({

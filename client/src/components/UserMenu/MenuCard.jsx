@@ -41,7 +41,7 @@ ConnectedMenuCard.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isFetching: state.menus.isFetching,
+  isFetching: state.menu.isFetching,
 });
 
 const mapDispatchToProps = dispatch => ({

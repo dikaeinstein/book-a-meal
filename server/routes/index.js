@@ -108,7 +108,12 @@ router.put(
 
 // Delete meal
 router.delete(
-  '/v1/meals/:mealId', authenticate, authorize,
+  '/v1/meals/:mealId/users', authenticate, authorize,
+  idValidator('mealId', 'Meal'), validationErrorHandler,
+  MealController.deleteMeal,
+);
+router.delete(
+  '/v1/meals/:mealId', authenticate, authorizeSuperAdmin,
   idValidator('mealId', 'Meal'), validationErrorHandler,
   MealController.deleteMeal,
 );

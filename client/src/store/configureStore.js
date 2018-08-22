@@ -28,6 +28,7 @@ const getMiddleware = () => {
  */
 const configureStore = () => {
   const persistedState = loadState();
+
   const state = persistedState
     ? { ...initialState, ...persistedState }
     : initialState;
@@ -43,7 +44,7 @@ const configureStore = () => {
 
   // Throttle the saveState function to be called once every second
   store.subscribe(throttle(() => {
-    saveState(store.getState());
+    saveState({ orders: store.getState().orders });
   }, 1000));
 
   return store;

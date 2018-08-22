@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Preloader } from 'react-materialize';
 import OrderList from './OrderList';
 import { fetchAllOrders, fetchCatererOrders } from '../../actions/dashboardActions';
+import { getOrders } from '../../reducers/dashboardReducer';
 import Loading from '../util/Loading';
 
 class ConnectedDashboardOrderHistory extends Component {
@@ -46,7 +47,7 @@ ConnectedDashboardOrderHistory.propTypes = {
 
 const mapStateToProps = state => ({
   isFetching: state.dashboard.isFetchingAllOrders,
-  allOrders: state.dashboard.allOrders,
+  allOrders: getOrders(state.dashboard),
   role: state.user.data.role,
 });
 

@@ -46,10 +46,12 @@ ConnectedCatererMeals.propTypes = {
   handleMealUpdate: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  isFetching: state.meals.isFetching,
-  role: state.user.role,
-});
+const mapStateToProps = (state) => {
+  return ({
+    isFetching: state.meals.isFetching,
+    role: state.user.data.role,
+  });
+};
 
 const mapDispatchToProps = dispatch => ({
   fetchMeals() { dispatch(fetchMeals()); },

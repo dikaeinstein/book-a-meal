@@ -4,21 +4,24 @@ import { connect } from 'react-redux';
 import { Preloader } from 'react-materialize';
 import Loading from '../util/Loading';
 import { fetchMenu } from '../../actions/menuActions';
+import { getMenu } from '../../reducers/menuReducer';
 
 class ConnectedMenu extends Component {
   componentDidMount() {
     this.props.fetchMenu();
   }
 
-  render() {
-    const { menu, isFetching } = this.props;
-
-    const mealList = menu.meals.map(meal => (
+  renderMealList() {
+    return this.props.menu.meals.map(meal => (
       <tr key={String(meal.id)}>
         <td>{meal.name}</td>
         <td>&#x20a6; {meal.price}</td>
       </tr>
     ));
+  }
+
+  render() {
+    const { isFetching } = this.props;
 
     return (
       isFetching
@@ -34,7 +37,7 @@ class ConnectedMenu extends Component {
             <div className="card menu-card table-scroll">
               <table className="font-weight-bold">
                 <tbody>
-                  {mealList}
+                  {this.renderMealList()}
                 </tbody>
               </table>
             </div>
@@ -52,8 +55,8 @@ ConnectedMenu.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  menu: state.menus.data.menu,
-  isFetching: state.menus.isFetching,
+  menu: getMenu(state.menu),
+  isFetching: state.menu.isFetching,
 });
 
 const mapDispatchToProps = dispatch => ({

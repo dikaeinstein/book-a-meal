@@ -1,3 +1,4 @@
+import { normalize } from 'normalizr';
 import config from '../config';
 import {
   GET_TOTAL_ORDERS_ERROR,
@@ -20,6 +21,7 @@ import dashboardService from '../helpers/dashboardService';
 import orderService from '../helpers/orderService';
 import transformError from '../helpers/transformError';
 import axiosErrorWrapper from '../helpers/axiosErrorWrapper';
+import { orderSchema, orderListSchema } from './schema';
 
 /* eslint consistent-return: 0 */
 
@@ -33,20 +35,20 @@ import axiosErrorWrapper from '../helpers/axiosErrorWrapper';
  */
 export const getTotalAmountSuccess = totalAmount => ({
   type: GET_TOTAL_AMOUNT_SUCCESS,
-  payload: { totalAmount },
+  response: totalAmount,
 });
 
 /**
  * Get total amount error action creator
  *
  * @export
- * @param {object} error
+ * @param {String} error Error message
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
 export const getTotalAmountError = error => ({
   type: GET_TOTAL_AMOUNT_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -105,20 +107,20 @@ export const getCatererTotalAmount = () => async (dispatch, getState) => {
  */
 export const getTotalOrdersSuccess = totalOrders => ({
   type: GET_TOTAL_ORDERS_SUCCESS,
-  payload: { totalOrders },
+  response: totalOrders,
 });
 
 /**
  * Get total number of orders made error action creator
  *
  * @export
- * @param {string} error
+ * @param {String} error Error message
  *
  * @returns {object} Redux action
  */
 export const getTotalOrdersError = error => ({
   type: GET_TOTAL_ORDERS_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -173,26 +175,26 @@ export const getCatererTotalOrders = () => async (dispatch, getState) => {
  * Fetch all orders success action creator
  *
  * @export
- * @param {Array} orders Array of order objects
+ * @param {Object} response Normalized orders response
  *
  * @returns {object} Redux action
  */
-export const fetchAllOrdersSuccess = orders => ({
+export const fetchAllOrdersSuccess = response => ({
   type: FETCH_ALL_ORDERS_SUCCESS,
-  payload: { orders },
+  response,
 });
 
 /**
  * Fetch all orders error action creator
  *
  * @export
- * @param {string} error
+ * @param {string} error Error message
  *
  * @returns {object} Redux action
  */
 export const fetchAllOrdersError = error => ({
   type: FETCH_ALL_ORDERS_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -212,7 +214,7 @@ export const fetchAllOrders = () => async (dispatch, getState) => {
   try {
     const orders = await dashboardService
       .getOrders(`${config.API_BASE_URL}/api/v1/orders`);
-    dispatch(fetchAllOrdersSuccess(orders));
+    dispatch(fetchAllOrdersSuccess(normalize(orders, orderListSchema)));
   } catch (error) {
     dispatch(fetchAllOrdersError(axiosErrorWrapper(error, dispatch)));
   }
@@ -235,7 +237,7 @@ export const fetchCatererOrders = () => async (dispatch, getState) => {
   try {
     const orders = await dashboardService
       .getOrders(`${config.API_BASE_URL}/api/v1/orders/caterers`);
-    dispatch(fetchAllOrdersSuccess(orders));
+    dispatch(fetchAllOrdersSuccess(normalize(orders, orderListSchema)));
   } catch (error) {
     dispatch(fetchAllOrdersError(axiosErrorWrapper(error, dispatch)));
   }
@@ -299,26 +301,26 @@ export const deleteOrder = orderId => async (dispatch, getState) => {
  * Update order success action creator
  *
  * @export
- * @param {object} order
+ * @param {Object} response Normalized orders response
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
-export const updateOrderSuccess = order => ({
+export const updateOrderSuccess = response => ({
   type: UPDATE_ORDER_SUCCESS,
-  payload: { order },
+  response,
 });
 
 /**
  * Update order error  action creator
  *
  * @export
- * @param {object} error
+ * @param {String} error Error message
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
 export const updateOrderError = error => ({
   type: UPDATE_ORDER_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -340,7 +342,7 @@ export const updateOrder = (values, orderId) => async (dispatch, getState) => {
   try {
     const updatedOrder = await orderService
       .updateOrder(`${config.API_BASE_URL}/api/v1/orders/${orderId}`, values);
-    dispatch(updateOrderSuccess(updatedOrder));
+    dispatch(updateOrderSuccess(normalize(updatedOrder, orderSchema)));
     return;
   } catch (error) {
     dispatch(updateOrderError(transformError(

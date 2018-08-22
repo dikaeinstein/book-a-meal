@@ -33,7 +33,7 @@ ConnectedUserMenu.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  fetchMenuError: state.menus.fetchError,
+  fetchMenuError: state.menu.fetchError,
 });
 
 const UserMenu = connect(mapStateToProps)(ConnectedUserMenu);

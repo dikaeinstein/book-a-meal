@@ -2,7 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import transformError from '../../helpers/transformError';
 
-const errorHandler = (WrappedComponent, defaultMessage) => {
+/**
+ * A reusable error handler HOC
+ *
+ * @param {JSX} WrappedComponent React component
+ * @param {string} defaultMessage Default fallback error message
+ * @param {Function} onRetry Retry handler
+ * @param {boolean} retry True or False
+ *
+ * @returns {JSX} React component with error handling capability
+ */
+const errorHandler = (WrappedComponent, defaultMessage, onRetry = null, retry = false) => {
   const ErrorWrapper = ({ error, ...rest }) => {
     if (error) {
       return (
@@ -10,6 +20,9 @@ const errorHandler = (WrappedComponent, defaultMessage) => {
           <h2>
             {transformError(error, defaultMessage)}
           </h2>
+          {retry
+            ? <button className="btn btn-default" onClick={onRetry}>Retry</button>
+            : null}
         </div>
       );
     }

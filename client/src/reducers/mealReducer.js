@@ -1,4 +1,5 @@
-import produce from 'immer';
+import { combineReducers } from 'redux';
+import omit from 'lodash.omit';
 import initialState from './initialState';
 import {
   FETCH_MEALS_REQUEST,
@@ -15,77 +16,135 @@ import {
   DELETE_MEAL_SUCCESS,
 } from '../constants/mealActionTypes';
 
-const mealReducer = (state = initialState.meals, action) => {
+
+const byId = (state = initialState.meals.byId, action) => {
   switch (action.type) {
-    case FETCH_MEALS_REQUEST:
-      return { ...state, isFetching: true };
-    case FETCH_MEALS_ERROR:
-      return { ...state, isFetching: false, fetchError: action.payload.error };
     case FETCH_MEALS_SUCCESS:
+    case ADD_MEAL_SUCCESS:
+    case UPDATE_MEAL_SUCCESS:
       return {
         ...state,
-        isFetching: false,
-        data: action.payload.meals,
-        fetchError: null,
+        ...action.response.entities.meals,
       };
-    case ADD_MEAL_ERROR:
-      return {
-        ...state,
-        isSaving: false,
-        saveError: action.payload.error,
-      };
-    case ADD_MEAL_REQUEST:
-      return { ...state, isSaving: true };
-    case ADD_MEAL_SUCCESS: {
-      const addedMeals = produce(state.data, (draft) => {
-        draft.push(action.payload.meal);
-      });
-      return {
-        ...state,
-        isSaving: false,
-        data: addedMeals,
-        saveError: null,
-      };
-    }
-    case UPDATE_MEAL_REQUEST:
-      return { ...state, isUpdating: true, updateError: false };
-    case UPDATE_MEAL_ERROR:
-      return {
-        ...state,
-        isUpdating: false,
-        updateError: action.payload.error,
-      };
-    case UPDATE_MEAL_SUCCESS: {
-      const updatedMeals = produce(state.data, (draft) => {
-        /* eslint no-param-reassign: 0 */
-        draft[draft.findIndex(meal => meal.id === action.payload.meal.id)]
-          = action.payload.meal;
-      });
-      return {
-        ...state,
-        isUpdating: false,
-        data: updatedMeals,
-        updateError: false,
-      };
-    }
-    case DELETE_MEAL_ERROR:
-      return { ...state, isDeleting: false, deleteError: false };
-    case DELETE_MEAL_REQUEST:
-      return { ...state, isDeleting: true, deleteError: false };
-    case DELETE_MEAL_SUCCESS: {
-      const remainingMeals = produce(state.data, (draft) => {
-        draft.splice(draft.findIndex(meal => action.id === meal.id), 1);
-      });
-      return {
-        ...state,
-        isDeleting: false,
-        data: remainingMeals,
-        deleteError: false,
-      };
-    }
+    case DELETE_MEAL_SUCCESS:
+      return omit(state, [action.response.result]);
     default:
       return state;
   }
 };
+
+const allIds = (state = initialState.meals.allIds, action) => {
+  switch (action.type) {
+    case FETCH_MEALS_SUCCESS:
+      return action.response.result;
+    case ADD_MEAL_SUCCESS:
+    case UPDATE_MEAL_SUCCESS:
+      return [...state, action.response.result];
+    case DELETE_MEAL_SUCCESS:
+      return state.filter(id => id !== action.response.result);
+    default:
+      return state;
+  }
+};
+
+const isFetching = (state = initialState.meals.isFetching, action) => {
+  switch (action.type) {
+    case FETCH_MEALS_REQUEST:
+      return true;
+    case FETCH_MEALS_ERROR:
+    case FETCH_MEALS_SUCCESS:
+      return false;
+    default:
+      return state;
+  }
+};
+
+const isSaving = (state = initialState.meals.isSaving, action) => {
+  switch (action.type) {
+    case ADD_MEAL_REQUEST:
+      return true;
+    case ADD_MEAL_ERROR:
+    case ADD_MEAL_SUCCESS:
+      return false;
+    default:
+      return state;
+  }
+};
+
+const isUpdating = (state = initialState.meals.isUpdating, action) => {
+  switch (action.type) {
+    case UPDATE_MEAL_REQUEST:
+      return true;
+    case UPDATE_MEAL_ERROR:
+    case UPDATE_MEAL_SUCCESS:
+      return false;
+    default:
+      return state;
+  }
+};
+
+const isDeleting = (state = initialState.meals.isDeleting, action) => {
+  switch (action.type) {
+    case DELETE_MEAL_REQUEST:
+      return true;
+    case DELETE_MEAL_ERROR:
+    case DELETE_MEAL_SUCCESS:
+      return false;
+    default:
+      return state;
+  }
+};
+
+const saveError = (state = initialState.meals.saveError, action) => {
+  switch (action.type) {
+    case ADD_MEAL_ERROR:
+      return action.message;
+    default:
+      return state;
+  }
+};
+
+const updateError = (state = initialState.meals.updateError, action) => {
+  switch (action.type) {
+    case UPDATE_MEAL_ERROR:
+      return action.message;
+    default:
+      return state;
+  }
+};
+
+const fetchError = (state = initialState.meals.fetchError, action) => {
+  switch (action.type) {
+    case FETCH_MEALS_ERROR:
+      return action.message;
+    default:
+      return state;
+  }
+};
+
+const deleteError = (state = initialState.meals.deleteError, action) => {
+  switch (action.type) {
+    case DELETE_MEAL_ERROR:
+      return action.message;
+    default:
+      return state;
+  }
+};
+
+export const getMeals = state =>
+  state.allIds.map(id => state.byId[id]);
+
+const mealReducer = combineReducers({
+  byId,
+  allIds,
+  isFetching,
+  isSaving,
+  isUpdating,
+  isDeleting,
+  saveError,
+  updateError,
+  fetchError,
+  deleteError,
+});
 
 export default mealReducer;

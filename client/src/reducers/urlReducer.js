@@ -64,7 +64,6 @@ const urlReducer = (state = initialState.urls, action) => {
         ? adminUrls : customerUrls;
     }
     case USER_SIGN_IN_ERROR:
-      return initialState.urls;
     case USER_SIGN_OUT:
       return initialState.urls;
     default:

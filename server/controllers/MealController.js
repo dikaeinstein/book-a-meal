@@ -287,12 +287,16 @@ class MealController {
    */
   static async deleteMeal(req, res) {
     const error = {};
-    const { userId } = req;
+    const { userId, role } = req;
 
     // Find meal
-    const matchedMeal = await Meal.findOne({
-      where: { id: req.params.mealId, user_id: userId },
-    });
+    const matchedMeal = role === 'superAdmin'
+      ? await Meal.findOne({
+        where: { id: req.params.mealId },
+      })
+      : await Meal.findOne({
+        where: { id: req.params.mealId, user_id: userId },
+      });
 
     if (!matchedMeal) {
       error.mealId = 'Meal does not exist';

@@ -33,6 +33,7 @@ class ConnectedMealCheckout extends Component {
     this.props.closeModal();
     this.props.checkoutOrder({
       mealId: this.props.meal.id,
+      name: this.props.meal.name,
       quantity: this.state.quantity,
       total: this.state.total,
       amount: this.props.meal.price,
