@@ -1,57 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import UserOrder from './UserOrder';
 
 const OrderList = ({ orders }) => {
   const renderTableBody = () => {
-    const disabledBtnStyle = {
-      backgroundColor: '#ccc',
-      cursor: 'default',
-    };
-
-    const updateBtnStyle = {
-      backgroundColor: '#28a745',
-    };
-
-    const rows = orders.map((order) => {
-      let orderStatus = 'text-warning';
-      const disabled = order.status === 'delivered' || order.status === 'cancelled';
-
-      if (order.status === 'cancelled') {
-        orderStatus = 'text-danger';
-      }
-
-      if (order.status === 'delivered') {
-        orderStatus = 'text-success';
-      }
-
-      return (
-        <tr key={order.id}>
-          <td>{order.id}</td>
-          <td>{order.meal.name}</td>
-          <td>{order.user.name}</td>
-          <td>{order.meal.price}</td>
-          <td>{order.quantity}</td>
-          <td>{order.total}</td>
-          <td className={orderStatus}>{order.status}</td>
-          <td>
-            <div style={{ display: 'flex' }}>
-              <button
-                value="Edit"
-                title="Update order"
-                disabled={disabled}
-                className="action-btn"
-                style={disabled ? { ...disabledBtnStyle } : { ...updateBtnStyle }}
-              >
-                Update
-              </button>
-            </div>
-          </td>
-        </tr>
-      );
-    });
+    const orderRows = orders.map(order =>
+      <UserOrder key={order.id} order={order} />);
     return (
       <tbody>
-        {rows}
+        {orderRows}
       </tbody>
     );
   };

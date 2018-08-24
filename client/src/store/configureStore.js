@@ -44,7 +44,11 @@ const configureStore = () => {
 
   // Throttle the saveState function to be called once every second
   store.subscribe(throttle(() => {
-    saveState({ orders: store.getState().orders });
+    saveState({
+      orders: {
+        checkedOutOrder: store.getState().orders.checkedOutOrder,
+      },
+    });
   }, 1000));
 
   return store;

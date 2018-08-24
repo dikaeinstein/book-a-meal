@@ -7,20 +7,14 @@ import { updateOrder } from '../../actions/dashboardActions';
 const ConnectedOrder = (props) => {
   const { order } = props;
 
-  const handleDeliver = async (event) => {
-    event.preventDefault();
+  const handleDeliver = async () => {
     try {
       const willConfirmOrder = await swal({
         text: 'Deliver order?',
         buttons: true,
       });
       if (willConfirmOrder) {
-        await props.modifyOrder({ status: 'delivered' }, order.id);
-        swal({
-          title: 'Delivered!',
-          text: 'Order delivered successfully!',
-          icon: 'success',
-        });
+        props.modifyOrder({ status: 'delivered' }, order.id);
       }
     } catch (error) {
       if (error) {
@@ -32,19 +26,14 @@ const ConnectedOrder = (props) => {
     }
   };
 
-  const handleCancel = async (event) => {
-    event.preventDefault();
+  const handleCancel = async () => {
     try {
       const willCancelOrder = await swal({
         text: 'Cancel order?',
         buttons: true,
       });
-      await props.modifyOrder({ status: 'cancelled' }, order.id);
       if (willCancelOrder) {
-        swal({
-          text: 'Order cancelled successfully!',
-          icon: 'success',
-        });
+        await props.modifyOrder({ status: 'cancelled' }, order.id);
       }
     } catch (error) {
       if (error) {

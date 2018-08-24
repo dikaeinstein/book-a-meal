@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import swal from 'sweetalert';
 import history from '../../helpers/history';
 import Button from '../util/Button';
 import Footer from '../util/Footer';
@@ -15,20 +14,7 @@ const ConnectedOrderConfirmation = ({ checkedOutOrder, orderMeal }) => {
     display: 'flex',
   };
 
-  const handleConfirmOrder = async () => {
-    try {
-      await orderMeal(checkedOutOrder);
-      return swal({
-        title: 'Order Confirmed!',
-        text: 'Order have been successfully confirmed',
-        icon: 'success',
-      });
-    } catch (error) {
-      return swal({
-        text: 'Order confirmation failed, please try again',
-      });
-    }
-  };
+  const handleConfirmOrder = () => orderMeal(checkedOutOrder);
 
   const handleGoBack = () => history.push('/user-menu');
 
