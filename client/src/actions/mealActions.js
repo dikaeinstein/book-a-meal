@@ -1,4 +1,5 @@
 import { normalize } from 'normalizr';
+import swal from 'sweetalert';
 import config from '../config';
 import mealService from '../helpers/mealService';
 import transformError from '../helpers/transformError';
@@ -65,15 +66,24 @@ export const addMeal = (values, actions) => async (dispatch, getState) => {
     const meal = await mealService
       .addMeal(`${config.API_BASE_URL}/api/v1/meals`, values);
     dispatch(addMealSuccess(normalize(meal, mealSchema)));
+    swal({
+      text: 'Meal added successfully',
+      icon: 'success',
+      className: 'swal-button--confirm',
+    });
   } catch (error) {
+    const normalizedError = axiosErrorWrapper(error, dispatch);
+    const defaultErrorMessage = 'Error saving meal, Please try again';
     setSubmitting(false);
     setErrors({
-      addMeal: transformError(
-        error,
-        'Error saving meal, Please try again',
-      ),
+      addMeal: transformError(error, defaultErrorMessage),
     });
-    dispatch(addMealError(axiosErrorWrapper(error, dispatch)));
+    dispatch(addMealError(normalizedError));
+    swal({
+      text: typeof normalizedError !== 'string'
+        ? defaultErrorMessage : normalizedError,
+      icon: 'error',
+    });
   }
 };
 
@@ -146,13 +156,13 @@ export const fetchCatererMeals = () => async (dispatch, getState) => {
 /**
  * Delete meal error action creator
  *
- * @param {object} error
+ * @param {String} error Error message
  *
- * @returns {object} Redux action
+ * @returns {Object} Redux action
  */
 export const updateMealError = error => ({
   type: UPDATE_MEAL_ERROR,
-  payload: { error },
+  message: error,
 });
 
 /**
@@ -162,9 +172,9 @@ export const updateMealError = error => ({
  *
  * @returns {object} Redux action
  */
-export const updateMealSuccess = meal => ({
+export const updateMealSuccess = response => ({
   type: UPDATE_MEAL_SUCCESS,
-  payload: { meal },
+  response,
 });
 
 /**
@@ -188,15 +198,27 @@ export const updateMeal = (values, actions, id) => async (dispatch, getState) =>
     const meal = await mealService
       .updateMeal(`${config.API_BASE_URL}/api/v1/meals/${id}`, values);
     dispatch(updateMealSuccess(normalize(meal, mealSchema)));
+    swal({
+      text: 'Meal updated successfully!',
+      icon: 'success',
+      className: 'swal-button--confirm',
+    });
   } catch (error) {
+    const normalizedError = axiosErrorWrapper(error, dispatch);
+    const defaultErrorMessage = 'Error saving meal, Please try again';
     setSubmitting(false);
     setErrors({
-      updateMeal: transformError(
-        error,
-        'Error updating meal, Please try again',
-      ),
+      updateMeal: transformError(normalizedError, defaultErrorMessage),
     });
-    dispatch(updateMealError(axiosErrorWrapper(error, dispatch)));
+    dispatch(updateMealError(transformError(
+      normalizedError,
+      defaultErrorMessage,
+    )));
+    swal({
+      text: typeof normalizedError !== 'string'
+        ? defaultErrorMessage : normalizedError,
+      icon: 'error',
+    });
   }
 };
 
@@ -242,11 +264,23 @@ export const deleteMeal = id => async (dispatch, getState) => {
     await mealService
       .deleteMeal(`${config.API_BASE_URL}/api/v1/meals/${id}`);
     dispatch(deleteMealSuccess(normalize({ id }, mealSchema)));
+    swal({
+      text: 'Successfully deleted meal',
+      icon: 'success',
+      className: 'swal-button',
+    });
   } catch (error) {
+    const defaultErrorMessage = 'Error deleting meal, please try again';
+    const normalizedError = axiosErrorWrapper(error, dispatch);
     dispatch(deleteMealError(transformError(
-      axiosErrorWrapper(error, dispatch),
-      'Error deleting meal, please try again',
+      normalizedError,
+      defaultErrorMessage,
     )));
+    swal({
+      text: typeof normalizedError !== 'string'
+        ? defaultErrorMessage : normalizedError,
+      icon: 'error',
+    });
   }
 };
 
@@ -268,10 +302,22 @@ export const deleteCatererMeal = id => async (dispatch, getState) => {
     await mealService
       .deleteMeal(`${config.API_BASE_URL}/api/v1/meals/${id}/users`);
     dispatch(deleteMealSuccess(normalize({ id }, mealSchema)));
+    swal({
+      text: 'Successfully deleted meal',
+      icon: 'success',
+      className: 'swal-button',
+    });
   } catch (error) {
+    const defaultErrorMessage = 'Error deleting meal, please try again';
+    const normalizedError = axiosErrorWrapper(error, dispatch);
     dispatch(deleteMealError(transformError(
-      axiosErrorWrapper(error, dispatch),
-      'Error deleting meal, please try again',
+      normalizedError,
+      defaultErrorMessage,
     )));
+    swal({
+      text: typeof normalizedError !== 'string'
+        ? defaultErrorMessage : normalizedError,
+      icon: 'error',
+    });
   }
 };

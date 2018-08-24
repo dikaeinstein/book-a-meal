@@ -3,14 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Preloader } from 'react-materialize';
 import Loading from '../util/Loading';
-import { fetchMenu } from '../../actions/menuActions';
 import { getMenu } from '../../reducers/menuReducer';
 
 class ConnectedMenu extends Component {
-  componentDidMount() {
-    this.props.fetchMenu();
-  }
-
   renderMealList() {
     return this.props.menu.meals.map(meal => (
       <tr key={String(meal.id)}>
@@ -51,7 +46,6 @@ ConnectedMenu.propTypes = {
     PropTypes.string, PropTypes.array, PropTypes.number,
   ])).isRequired,
   isFetching: PropTypes.bool.isRequired,
-  fetchMenu: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -59,10 +53,6 @@ const mapStateToProps = state => ({
   isFetching: state.menu.isFetching,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchMenu() { dispatch(fetchMenu()); },
-});
-
-const Menu = connect(mapStateToProps, mapDispatchToProps)(ConnectedMenu);
+const Menu = connect(mapStateToProps)(ConnectedMenu);
 
 export default Menu;

@@ -1,7 +1,9 @@
 import { normalize } from 'normalizr';
+import swal from 'sweetalert';
 import menuService from '../helpers/menuService';
 import config from '../config';
 import axiosErrorWrapper from '../helpers/axiosErrorWrapper';
+import transformError from '../helpers/transformError';
 import { menuSchema } from './schema';
 import {
   FETCH_MENU_SUCCESS,
@@ -109,8 +111,22 @@ export const setupMenu = values => async (dispatch, getState) => {
     const menu = await menuService
       .setMenu(`${config.API_BASE_URL}/api/v1/menu/`, values);
     dispatch(setupMenuSuccess(normalize(menu, menuSchema)));
+    swal({
+      text: 'Successfully setup menu!',
+      icon: 'success',
+    });
   } catch (error) {
-    dispatch(setupMenuError(axiosErrorWrapper(error, dispatch)));
+    const normalizedError = axiosErrorWrapper(error, dispatch);
+    const defaultErrorMessage = 'Error saving menu, Please try again';
+    dispatch(setupMenuError(transformError(
+      normalizedError,
+      defaultErrorMessage,
+    )));
+    swal({
+      text: typeof normalizedError !== 'string'
+        ? defaultErrorMessage : normalizedError,
+      icon: 'error',
+    });
   }
 };
 
@@ -159,7 +175,21 @@ export const updateMenu = (values, menuId) => async (dispatch, getState) => {
     const menu = await menuService
       .updateMenu(`${config.API_BASE_URL}/api/v1/menu/${menuId}`, values);
     dispatch(updateMenuSuccess(normalize(menu, menuSchema)));
+    await swal({
+      text: 'Menu successfully updated!',
+      icon: 'success',
+    });
   } catch (error) {
-    dispatch(updateMenuError(axiosErrorWrapper(error, dispatch)));
+    const normalizedError = axiosErrorWrapper(error, dispatch);
+    const defaultErrorMessage = 'Error updating menu, Please try again';
+    dispatch(updateMenuError(transformError(
+      normalizedError,
+      defaultErrorMessage,
+    )));
+    swal({
+      text: typeof normalizedError !== 'string'
+        ? defaultErrorMessage : normalizedError,
+      icon: 'error',
+    });
   }
 };

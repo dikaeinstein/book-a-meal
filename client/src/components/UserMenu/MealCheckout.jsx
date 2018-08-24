@@ -100,8 +100,6 @@ ConnectedMealCheckout.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ])).isRequired,
-  price: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
   checkoutOrder: PropTypes.func.isRequired,
 };

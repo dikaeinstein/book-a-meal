@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Preloader } from 'react-materialize';
-import swal from 'sweetalert';
 import Loading from '../util/Loading';
 import MealsCheckBoxForm from './MealsCheckBoxForm';
 import { fetchMeals } from '../../actions/mealActions';
-import { updateMenu } from '../../actions/menuActions';
+import { updateMenu, fetchMenu } from '../../actions/menuActions';
 import { getMeals } from '../../reducers/mealReducer';
 
 class ConnectedUpdateMenu extends Component {
@@ -21,10 +20,7 @@ class ConnectedUpdateMenu extends Component {
 
   async handleSubmit(values) {
     await this.props.modifyMenu(values, this.props.menuId);
-    await swal({
-      text: 'Menu successfully updated!',
-      icon: 'success',
-    });
+    this.props.fetchMenu();
     return this.props.closeModal();
   }
 
@@ -60,13 +56,14 @@ ConnectedUpdateMenu.propTypes = {
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
   isUpdating: PropTypes.bool.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  menuId: PropTypes.string.isRequired,
+  menuId: PropTypes.number.isRequired,
   /* eslint react/require-default-props: 0 */
   error: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.objectOf(PropTypes.string),
   ]),
   closeModal: PropTypes.func.isRequired,
+  fetchMenu: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -80,6 +77,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   modifyMenu(values, menuId) { dispatch(updateMenu(values, menuId)); },
   fetchMeals() { dispatch(fetchMeals()); },
+  fetchMenu() { dispatch(fetchMenu()); },
 });
 
 const UpdateMenu = connect(

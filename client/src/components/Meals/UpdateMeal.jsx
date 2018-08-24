@@ -11,11 +11,6 @@ import { updateMeal } from '../../actions/mealActions';
 const ConnectedUpdateMeal = ({ editMeal, meal, closeModal }) => {
   const handleSubmit = async (values, actions) => {
     await editMeal(values, actions, meal.id);
-    await swal({
-      text: 'Meal updated successfully',
-      icon: 'success',
-      className: 'swal-button--confirm',
-    });
     return closeModal();
   };
   return (

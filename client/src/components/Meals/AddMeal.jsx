@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
-import swal from 'sweetalert';
 import AddMealForm from './AddMealForm';
 import mealSchema from '../../validation/mealSchema';
 import { addMeal } from '../../actions/mealActions';
@@ -11,11 +10,6 @@ import { addMeal } from '../../actions/mealActions';
 const ConnectedAddMeal = ({ saveMeal, closeModal }) => {
   const handleSubmit = async (values, actions) => {
     await saveMeal(values, actions);
-    await swal({
-      text: 'Meal added successfully',
-      icon: 'success',
-      className: 'swal-button--confirm',
-    });
     return closeModal();
   };
 
