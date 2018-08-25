@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import Button from '../util/Button';
 import MealDetail from './MealDetail';
-import ConfirmDeleteButton from '../util/ConfirmDeleteButton';
 import { deleteMeal, deleteCatererMeal } from '../../actions/mealActions';
 import '../../static/hover_overlay.scss';
 
@@ -30,11 +29,32 @@ class ConnectedMeal extends Component {
     this.setState({ isOpen: false });
   }
 
-  handleDelete() {
+  handleRemoveMeal() {
     if (this.props.role === 'superAdmin') {
       this.props.removeMeal(this.props.meal.id);
     } else {
       this.props.removeCatererMeal(this.props.meal.id);
+    }
+  }
+
+  async handleDelete() {
+    try {
+      const willDelete = await swal({
+        text: 'Are you sure you want to delete meal?',
+        buttons: true,
+        icon: 'warning',
+        dangerMode: true,
+      });
+      if (willDelete) {
+        this.handleRemoveMeal();
+      }
+    } catch (error) {
+      if (error) {
+        swal('Oh noes!', 'The request failed!', 'error');
+      } else {
+        swal.stopLoading();
+        swal.close();
+      }
     }
   }
 
@@ -126,21 +146,21 @@ class ConnectedMeal extends Component {
             value="Edit"
             disabled={isUpdating}
             onClick={this.handleUpdate}
-            style={Object.assign({}, btnStyle, { color: 'green' })}
+            style={{ ...btnStyle, color: '#28a745' }}
             title="Edit Meal"
           >
             Edit
           </button>
-          <ConfirmDeleteButton
+          <button
             value="Delete"
             disabled={isDeleting}
-            handleOk={this.handleDelete}
-            style={Object.assign({}, btnStyle, { color: 'red' })}
+            onClick={this.handleDelete}
+            style={{ ...btnStyle, color: '#dc3545' }}
             title="Delete Meal"
             resource="meal"
           >
             Delete
-          </ConfirmDeleteButton>
+          </button>
         </div>
       </div>
     );

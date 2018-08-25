@@ -42,11 +42,11 @@ class OrderController {
         {
           model: Meal,
           as: 'meal',
-          attributes: ['name', 'price'],
+          attributes: ['id', 'name', 'price'],
         }, {
           model: User,
           as: 'user',
-          attributes: ['name'],
+          attributes: ['id', 'name'],
         },
       ],
       limit,
@@ -116,11 +116,11 @@ class OrderController {
         {
           model: Meal,
           as: 'meal',
-          attributes: ['name', 'price'],
+          attributes: ['id', 'name', 'price'],
         }, {
           model: User,
           as: 'user',
-          attributes: ['name'],
+          attributes: ['id', 'name'],
         },
       ],
       limit,
@@ -202,11 +202,11 @@ class OrderController {
         {
           model: Meal,
           as: 'meal',
-          attributes: ['name', 'price'],
+          attributes: ['id', 'name', 'price'],
         }, {
           model: User,
           as: 'user',
-          attributes: ['name'],
+          attributes: ['id', 'name'],
         },
       ],
       limit,
@@ -459,10 +459,25 @@ class OrderController {
     const order = await buildNewOrder(req.body);
 
     const newOrder = await Order.create({ ...order, userId });
+    const returnedOrder = await Order.findOne({
+      include: [
+        {
+          model: Meal,
+          as: 'meal',
+          attributes: ['id', 'name', 'price'],
+        }, {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'name'],
+        },
+      ],
+      where: { id: newOrder.id },
+    });
+
     return res.status(201).json({
       message: 'Order placed',
       status: 'success',
-      order: newOrder,
+      order: returnedOrder,
     });
   }
 
@@ -526,11 +541,11 @@ class OrderController {
         {
           model: Meal,
           as: 'meal',
-          attributes: ['name', 'price'],
+          attributes: ['id', 'name', 'price'],
         }, {
           model: User,
           as: 'user',
-          attributes: ['name'],
+          attributes: ['id', 'name'],
         },
       ],
       where: { id: order.id },

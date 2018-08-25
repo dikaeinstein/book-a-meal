@@ -1,4 +1,5 @@
 import { normalize } from 'normalizr';
+import swal from 'sweetalert';
 import config from '../config';
 import {
   GET_TOTAL_ORDERS_ERROR,
@@ -343,12 +344,22 @@ export const updateOrder = (values, orderId) => async (dispatch, getState) => {
     const updatedOrder = await orderService
       .updateOrder(`${config.API_BASE_URL}/api/v1/orders/${orderId}`, values);
     dispatch(updateOrderSuccess(normalize(updatedOrder, orderSchema)));
-    return;
+    swal({
+      text: 'Order updated successfully!',
+      icon: 'success',
+    });
   } catch (error) {
+    const normalizedError = axiosErrorWrapper(error, dispatch);
+    const defaultErrorMessage = 'Error updating order, please try again';
     dispatch(updateOrderError(transformError(
-      axiosErrorWrapper(error, dispatch),
-      'Error updating order, please try again',
+      normalizedError,
+      defaultErrorMessage,
     )));
-    throw error;
+    swal({
+      title: 'Update failed!',
+      text: typeof normalizedError !== 'string'
+        ? defaultErrorMessage : normalizedError,
+      icon: 'error',
+    });
   }
 };

@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import history from '../../helpers/history';
+import swal from 'sweetalert';
 import Button from '../util/Button';
-import { checkoutOrder } from '../../actions/orderActions';
+import { updateOrder } from '../../actions/orderActions';
 
-class ConnectedMealCheckout extends Component {
+class ConnectedUpdateOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      total: parseFloat(props.meal.price),
-      quantity: 1,
-      amount: parseFloat(props.meal.price),
+      total: parseFloat(props.order.total),
+      quantity: props.order.quantity,
+      amount: parseFloat(props.order.meal.price),
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleCheckout = this.handleCheckout.bind(this);
+    this.handleQuantityUpdate = this.handleQuantityUpdate.bind(this);
   }
 
   handleChange(event) {
@@ -29,22 +29,31 @@ class ConnectedMealCheckout extends Component {
     }
   }
 
-  handleCheckout() {
+  async handleQuantityUpdate() {
     this.props.closeModal();
-    this.props.checkoutOrder({
-      mealId: this.props.meal.id,
-      name: this.props.meal.name,
-      quantity: this.state.quantity,
-      total: this.state.total,
-      amount: this.props.meal.price,
-    });
-    history.push('/order-confirmation');
+    try {
+      const willUpdateOrder = await swal({
+        text: 'Update order?',
+        buttons: true,
+      });
+      if (willUpdateOrder) {
+        this.props
+          .modifyOrder({ quantity: this.state.quantity }, this.props.order.id);
+      }
+    } catch (error) {
+      if (error) {
+        swal('Oh noes!', 'The request failed!', 'error');
+      } else {
+        swal.stopLoading();
+        swal.close();
+      }
+    }
   }
 
   render() {
     return (
       <div id="checkout" className="text-center">
-        <h3>Checkout Order</h3>
+        <h3>Update Order</h3>
         <div>
           <table>
             <thead className="text-center">
@@ -63,7 +72,7 @@ class ConnectedMealCheckout extends Component {
             <tbody>
               <tr className="text-center">
                 <td>
-                  {this.props.meal.name}
+                  {this.props.order.meal.name}
                 </td>
                 <td>
                   <input
@@ -84,30 +93,48 @@ class ConnectedMealCheckout extends Component {
             </tbody>
           </table>
         </div>
-        <Button
-          className="btn btn-default"
-          value="Checkout"
-          style={{ margin: '1rem auto' }}
-          onClick={this.handleCheckout}
-        />
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+          <Button
+            className="btn btn-default"
+            value="Update Order"
+            style={{ margin: '1rem .5rem', background: '#28a745' }}
+            onClick={this.handleQuantityUpdate}
+            title="update order"
+          />
+          <Button
+            className="btn btn-default"
+            value="Cancel"
+            style={{ margin: '1rem .5rem', background: '#dc3545' }}
+            onClick={this.props.closeModal}
+          />
+        </div>
       </div>
     );
   }
 }
 
-ConnectedMealCheckout.propTypes = {
-  meal: PropTypes.objectOf(PropTypes.oneOfType([
+ConnectedUpdateOrder.propTypes = {
+  order: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
+    PropTypes.object,
+    PropTypes.bool,
   ])).isRequired,
   closeModal: PropTypes.func.isRequired,
-  checkoutOrder: PropTypes.func.isRequired,
+  modifyOrder: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
-  checkoutOrder(order) { dispatch(checkoutOrder(order)); },
+const mapStateToProps = state => ({
+  isUpdating: state.orders.isUpdating,
 });
 
-const MealCheckout = connect(null, mapDispatchToProps)(ConnectedMealCheckout);
+const mapDispatchToProps = dispatch => ({
+  modifyOrder(values, orderId) {
+    dispatch(updateOrder(values, orderId));
+  },
+});
 
-export default MealCheckout;
+const UpdateOrder =
+  connect(mapStateToProps, mapDispatchToProps)(ConnectedUpdateOrder);
+
+export default UpdateOrder;

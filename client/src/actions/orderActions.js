@@ -1,3 +1,4 @@
+import swal from 'sweetalert';
 import { normalize } from 'normalizr';
 import config from '../config';
 import history from '../helpers/history';
@@ -128,9 +129,24 @@ export const makeOrder = order => async (dispatch, getState) => {
     const newOrder = await orderService
       .makeOrder(`${config.API_BASE_URL}/api/v1/orders`, order);
     dispatch(makeOrderSuccess(normalize(newOrder, orderSchema)));
+    swal({
+      title: 'Order Confirmed!',
+      text: 'Order have been successfully confirmed',
+      icon: 'success',
+    });
     history.push('/user-order-history');
   } catch (error) {
-    dispatch(makeOrderError(axiosErrorWrapper(error, dispatch)));
+    const normalizedError = axiosErrorWrapper(error, dispatch);
+    const defaultErrorMessage = 'Order confirmation failed!, Please try again.';
+    dispatch(makeOrderError(transformError(
+      normalizedError,
+      defaultErrorMessage,
+    )));
+    swal({
+      text: typeof normalizedError !== 'string'
+        ? defaultErrorMessage : normalizedError,
+      icon: 'error',
+    });
   }
 };
 
@@ -231,10 +247,22 @@ export const updateOrder = (values, orderId) => async (dispatch, getState) => {
     const updatedOrder = await orderService
       .updateOrder(`${config.API_BASE_URL}/api/v1/orders/${orderId}`, values);
     dispatch(updateOrderSuccess(normalize(updatedOrder, orderSchema)));
+    swal({
+      text: 'Order updated successfully!',
+      icon: 'success',
+    });
   } catch (error) {
-    dispatch(deleteOrderError(transformError(
-      axiosErrorWrapper(error, dispatch),
-      'Error updating order, please try again',
+    const normalizedError = axiosErrorWrapper(error, dispatch);
+    const defaultErrorMessage = 'Error updating order, please try again';
+    dispatch(updateOrderError(transformError(
+      normalizedError,
+      defaultErrorMessage,
     )));
+    swal({
+      title: 'Update failed!',
+      text: typeof normalizedError !== 'string'
+        ? defaultErrorMessage : normalizedError,
+      icon: 'error',
+    });
   }
 };

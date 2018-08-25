@@ -9,6 +9,7 @@ import Footer from '../util/Footer';
 import SetupMenu from './SetupMenu';
 import UpdateMenu from './UpdateMenu';
 import errorHandler from '../util/errorHandler';
+import { fetchMenu } from '../../actions/menuActions';
 
 class ConnectedMenus extends Component {
   constructor(props) {
@@ -22,15 +23,20 @@ class ConnectedMenus extends Component {
     this.handleMenuUpdate = this.handleMenuUpdate.bind(this);
   }
 
+  componentDidMount() {
+    this.props.fetchMenu();
+  }
+
   handleOpenModal() {
     if (this.props.role !== 'superAdmin') {
-      return swal({
+      swal({
         text: 'You do not have the permission to setup a menu',
         icon: 'info',
         className: 'swal-button--confirm',
       });
+    } else {
+      this.setState({ isOpen: true });
     }
-    this.setState({ isOpen: true });
   }
 
   handleCloseModal() {
@@ -39,14 +45,15 @@ class ConnectedMenus extends Component {
 
   handleMenuUpdate() {
     if (this.props.role !== 'superAdmin') {
-      return swal({
+      swal({
         text: 'You do not have the permission to setup a menu',
         icon: 'info',
         className: 'swal-button--confirm',
       });
+    } else {
+      this.setState({ updating: true });
+      this.handleOpenModal();
     }
-    this.setState({ updating: true });
-    this.handleOpenModal();
   }
 
   render() {
@@ -138,6 +145,7 @@ ConnectedMenus.propTypes = {
   ]),
   isSet: PropTypes.bool.isRequired,
   role: PropTypes.string.isRequired,
+  fetchMenu: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -146,6 +154,10 @@ const mapStateToProps = state => ({
   role: state.user.data.role,
 });
 
-const Menus = connect(mapStateToProps)(ConnectedMenus);
+const mapDispatchToProps = dispatch => ({
+  fetchMenu() { dispatch(fetchMenu()); },
+});
+
+const Menus = connect(mapStateToProps, mapDispatchToProps)(ConnectedMenus);
 
 export default Menus;
