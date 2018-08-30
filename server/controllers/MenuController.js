@@ -2,6 +2,7 @@ import { Op } from 'sequelize';
 import { Menu, Meal } from '../models';
 import getAPIBaseUrl from '../lib/getAPIBaseUrl';
 import buildCheckMealsQuery from '../lib/buildCheckMealsQuery';
+import { linksURIBuilder, menuMealsCount } from '../lib/pagination';
 
 /**
  * @class MenuController
@@ -25,7 +26,8 @@ class MenuController {
   static async setupMenu(req, res) {
     const { name, mealIds } = req.body;
     const limit = parseInt(req.query.limit, 10) || 30;
-    const start = parseInt(req.query.start, 10) || 1;
+    const page = parseInt(req.query.page, 10) || 1;
+    const offset = limit * (page - 1);
     const error = {};
 
     const API_BASE_URL = getAPIBaseUrl();
@@ -71,49 +73,29 @@ please include meal that exist when setting up menu`;
     // Insert into many-to-many table
     await menu.addMeals(mealIds);
 
-    const returnedMenu = await Menu.findById(menu.id, {
-      include: [
-        {
-          model: Meal,
-          attributes: ['id', 'name', 'description', 'price', 'imageUrl'],
-          as: 'meals',
-          through: { attributes: [] },
-          required: false,
-          where: {
-            id: {
-              [Op.gte]: start,
-            },
-          },
-        },
-      ],
-      subQuery: false,
+    const menuMeals = await menu.getMeals({
       limit,
+      offset,
+      joinTableAttributes: [],
     });
+    const count = await menuMealsCount(menu.id);
 
-    // Sort menu meals in place
-    returnedMenu.meals.sort((a, b) => (
-      parseInt(a.id, 10) - parseInt(b.id, 10)
-    ));
+    const totalPages = Math.ceil(count / limit);
 
-    const lastIndex = returnedMenu.meals.length - 1;
-    const lastMeal = returnedMenu.meals[lastIndex];
-    // Array of links for traversing menu meals using pagination
-    const links = [
-      {
-        rel: 'next',
-        href: `${resourceUrl}?limit=${limit}&start=${
-          lastMeal ? lastMeal.id + 1 : start}`,
-      },
-      {
-        rel: 'self',
-        href: `${resourceUrl}?limit=${limit}&start=${start}`,
-      },
-    ];
+    // Build links for pagination
+    const links = linksURIBuilder(resourceUrl, page, totalPages, count, limit);
+    const returnMenu = {
+      id: menu.id,
+      name: menu.name,
+      meals: menuMeals,
+      createdAt: menu.createdAt,
+      updateAt: menu.updateAt,
+    };
 
     return res.status(201).json({
       message: 'Successfully setup menu for today',
       status: 'success',
-      menu: returnedMenu,
+      menu: returnMenu,
       links,
     });
   }
@@ -132,8 +114,8 @@ please include meal that exist when setting up menu`;
    */
   static async getMenu(req, res) {
     const limit = parseInt(req.query.limit, 10) || 30;
-    const start = parseInt(req.query.start, 10) || 1;
-    const previous = Boolean(parseInt(req.query.previous, 10));
+    const page = parseInt(req.query.page, 10) || 1;
+    const offset = limit * (page - 1);
     const error = {};
     const API_BASE_URL = getAPIBaseUrl();
 
@@ -143,41 +125,13 @@ please include meal that exist when setting up menu`;
     const currentDate = new Date();
     currentDate.setUTCHours(0, 0, 0, 0);
 
-    let include = {
-      model: Meal,
-      attributes: ['id', 'name', 'description', 'price', 'imageUrl'],
-      as: 'meals',
-      through: { attributes: [] },
-      required: false,
-    };
-
-    include = previous ? {
-      ...include,
-      where: {
-        id: {
-          [Op.lt]: start,
-          [Op.gte]: 1,
-        },
-      },
-    } : {
-      ...include,
-      where: {
-        id: {
-          [Op.gte]: start,
-        },
-      },
-    };
-
     const todayMenu = await Menu.findOne({
-      include: [include],
       where: {
         created_at: {
           [Op.gt]: new Date(currentDate - (24 * 60 * 60 * 1000)),
           [Op.lt]: new Date(currentDate.setDate(currentDate.getDate() + 1)),
         },
       },
-      limit,
-      subQuery: false,
     });
 
     if (!todayMenu) {
@@ -189,36 +143,29 @@ please include meal that exist when setting up menu`;
       });
     }
 
-    // Sort menu meals in place
-    todayMenu.meals.sort((a, b) => (
-      parseInt(a.id, 10) - parseInt(b.id, 10)
-    ));
+    const menuMeals = await todayMenu.getMeals({
+      limit,
+      offset,
+      joinTableAttributes: [],
+    });
+    const count = await menuMealsCount(todayMenu.id);
 
-    const firstMeal = todayMenu.meals[0];
-    const lastIndex = todayMenu.meals.length - 1;
-    const lastMeal = todayMenu.meals[lastIndex];
-    // Array of links for traversing menu meals using pagination
-    const links = [
-      {
-        rel: 'next',
-        href: `${resourceUrl}?limit=${limit}&start=${
-          lastMeal ? lastMeal.id + 1 : start}`,
-      },
-      {
-        rel: 'previous',
-        href: `${resourceUrl}?limit=${limit}&start=${
-          firstMeal ? firstMeal.id : start}&previous=true`,
-      },
-      {
-        rel: 'self',
-        href: `${resourceUrl}?limit=${limit}&start=${start}`,
-      },
-    ];
+    const totalPages = Math.ceil(count / limit);
+
+    // Build links for pagination
+    const links = linksURIBuilder(resourceUrl, page, totalPages, count, limit);
+    const menu = {
+      id: todayMenu.id,
+      name: todayMenu.name,
+      meals: menuMeals,
+      createdAt: todayMenu.createdAt,
+      updateAt: todayMenu.updateAt,
+    };
 
     return res.status(200).json({
       message: 'Successfully retrieved menu',
       status: 'success',
-      menu: todayMenu,
+      menu,
       links,
     });
   }
@@ -237,7 +184,8 @@ please include meal that exist when setting up menu`;
    */
   static async updateMenu(req, res) {
     const limit = parseInt(req.query.limit, 10) || 30;
-    const start = parseInt(req.query.start, 10) || 1;
+    const page = parseInt(req.query.page, 10) || 1;
+    const offset = limit * (page - 1);
     const { name, mealIds } = req.body;
     const { menuId } = req.params;
     const error = {};
@@ -289,46 +237,29 @@ please include meal that exist when setting up menu`;
       await matchedMenu.setMeals(mealIds);
     }
 
-    const returnedMenu = await Menu.findById(matchedMenu.id, {
-      include: [{
-        model: Meal,
-        attributes: ['id', 'name', 'description', 'price', 'imageUrl'],
-        as: 'meals',
-        through: { attributes: [] },
-        where: {
-          id: {
-            [Op.gte]: start,
-          },
-        },
-      }],
+    const updatedMenuMeals = await matchedMenu.getMeals({
       limit,
-      subQuery: false,
+      offset,
+      joinTableAttributes: [],
     });
+    const count = await menuMealsCount(matchedMenu.id);
 
-    // Sort menu meals in place
-    returnedMenu.meals.sort((a, b) => (
-      parseInt(a.id, 10) - parseInt(b.id, 10)
-    ));
+    const totalPages = Math.ceil(count / limit);
 
-    const lastIndex = returnedMenu.meals.length - 1;
-    const lastMeal = returnedMenu.meals[lastIndex];
-    // Array of links for traversing menu meals using pagination
-    const links = [
-      {
-        rel: 'next',
-        href: `${resourceUrl}?limit=${limit}&start=${
-          lastMeal ? lastMeal.id + 1 : start}`,
-      },
-      {
-        rel: 'self',
-        href: `${resourceUrl}?limit=${limit}&start=${start}`,
-      },
-    ];
+    // Build links for pagination
+    const links = linksURIBuilder(resourceUrl, page, totalPages, count, limit);
+    const menu = {
+      id: matchedMenu.id,
+      name: matchedMenu.name,
+      meals: updatedMenuMeals,
+      createdAt: matchedMenu.createdAt,
+      updateAt: matchedMenu.updateAt,
+    };
 
     return res.status(200).json({
       message: 'Successfully updated menu',
       status: 'success',
-      menu: returnedMenu,
+      menu,
       links,
     });
   }

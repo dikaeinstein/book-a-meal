@@ -75,14 +75,14 @@ class MealController {
    *
    * @returns {Promise<JSON>}
    */
-  static async getUserMeals(req, res) {
+  static async getCatererMeals(req, res) {
     const userId = req.params.userId || req.userId;
     const limit = parseInt(req.query.limit, 10) || 30;
     const page = parseInt(req.query.page, 10) || 1;
     const offset = limit * (page - 1);
     const API_BASE_URL = getAPIBaseUrl();
 
-    const resourceUrl = `${API_BASE_URL}/api/v1/meals/users/${userId}`;
+    const resourceUrl = `${API_BASE_URL}/api/v1/meals/caterers`;
 
     const userMeals = await Meal.findAndCountAll({
       include: [

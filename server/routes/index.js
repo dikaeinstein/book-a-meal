@@ -73,7 +73,7 @@ router.get(
   queryValidator('limit'),
   queryValidator('page'),
   validationErrorHandler,
-  MealController.getUserMeals,
+  MealController.getCatererMeals,
 );
 router.get(
   '/v1/meals/caterers/:userId',
@@ -82,7 +82,7 @@ router.get(
   queryValidator('limit'),
   queryValidator('page'),
   validationErrorHandler,
-  MealController.getUserMeals,
+  MealController.getCatererMeals,
 );
 
 // Get meal
@@ -128,7 +128,7 @@ router.post(
 // Get menu
 router.get(
   '/v1/menu/',
-  queryValidator('start'),
+  queryValidator('page'),
   queryValidator('limit'),
   validationErrorHandler,
   MenuController.getMenu,

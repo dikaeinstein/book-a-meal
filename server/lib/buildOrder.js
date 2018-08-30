@@ -29,7 +29,7 @@ export const buildNewOrder = async (payload) => {
  *
  * @returns {object} order
  */
-export const buildUpdateOrder = async (order, payload) => {
+export const buildUpdateOrder = async (order, payload, differenceInMinutes) => {
   const {
     mealId,
     quantity = order.quantity,
@@ -48,5 +48,6 @@ export const buildUpdateOrder = async (order, payload) => {
     quantity,
     amount: meal.price,
     status,
+    expired: differenceInMinutes > 30 || false,
   };
 };

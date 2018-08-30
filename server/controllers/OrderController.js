@@ -193,7 +193,7 @@ class OrderController {
     const offset = limit * (page - 1);
     const error = {};
 
-    const resourceUrl = `${API_BASE_URL}/api/v1/orders/users/${userId}`;
+    const resourceUrl = `${API_BASE_URL}/api/v1/orders/users`;
 
     // Filter by orders userId
     const userOrders = await Order.findAndCountAll({
@@ -624,7 +624,9 @@ class OrderController {
     }
 
     // Merge changes
-    const order = await buildUpdateOrder(matchedOrder, req.body);
+    const differenceInMinutes =
+        Math.floor((Date.now() - matchedOrder.createdAt) / 60000);
+    const order = await buildUpdateOrder(matchedOrder, req.body, differenceInMinutes);
     const updatedOrder = await matchedOrder.update(order);
     const returnOrder = await findOrder(updatedOrder);
 
