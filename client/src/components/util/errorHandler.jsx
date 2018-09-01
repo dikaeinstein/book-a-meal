@@ -6,9 +6,9 @@ import transformError from '../../helpers/transformError';
  * A reusable error handler HOC
  *
  * @param {JSX} WrappedComponent React component
- * @param {string} defaultMessage Default fallback error message
+ * @param {String} defaultMessage Default fallback error message
  * @param {Function} onRetry Retry handler
- * @param {boolean} retry True or False
+ * @param {Boolean} retry True or False
  *
  * @returns {JSX} React component with error handling capability
  */
@@ -21,7 +21,14 @@ const errorHandler = (WrappedComponent, defaultMessage, onRetry = null, retry = 
             {transformError(error, defaultMessage)}
           </h2>
           {retry
-            ? <button className="btn btn-default" onClick={onRetry}>Retry</button>
+            ?
+              <button
+                className="btn btn-default"
+                onClick={onRetry}
+                style={{ margin: '1rem auto 0 auto' }}
+              >
+                Retry
+              </button>
             : null}
         </div>
       );

@@ -9,9 +9,9 @@ class ConnectedUpdateOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      total: parseFloat(props.order.total),
-      quantity: props.order.quantity,
-      amount: parseFloat(props.order.meal.price),
+      total: parseFloat(this.props.defaultOrder.total),
+      quantity: this.props.defaultOrder.quantity,
+      amount: parseFloat(this.props.defaultOrder.meal.price),
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleQuantityUpdate = this.handleQuantityUpdate.bind(this);
@@ -37,8 +37,8 @@ class ConnectedUpdateOrder extends Component {
         buttons: true,
       });
       if (willUpdateOrder) {
-        this.props
-          .modifyOrder({ quantity: this.state.quantity }, this.props.order.id);
+        await this.props
+          .modifyOrder({ quantity: this.state.quantity }, this.props.defaultOrder.id);
       }
     } catch (error) {
       if (error) {
@@ -72,7 +72,7 @@ class ConnectedUpdateOrder extends Component {
             <tbody>
               <tr className="text-center">
                 <td>
-                  {this.props.order.meal.name}
+                  {this.props.defaultOrder.meal.name}
                 </td>
                 <td>
                   <input
@@ -114,7 +114,7 @@ class ConnectedUpdateOrder extends Component {
 }
 
 ConnectedUpdateOrder.propTypes = {
-  order: PropTypes.objectOf(PropTypes.oneOfType([
+  defaultOrder: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.object,

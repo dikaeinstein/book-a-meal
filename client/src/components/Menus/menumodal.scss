@@ -1,0 +1,9 @@
+.ReactModal__Content.ReactModal__Content--after-open{
+  overflow-x: auto !important;
+}
+
+@media screen and (min-width: 640px) {
+  .ReactModal__Content.ReactModal__Content--after-open{
+    overflow-x: hidden !important;
+  }
+}

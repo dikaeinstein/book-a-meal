@@ -4,14 +4,17 @@ import { ProgressBar } from 'react-materialize';
 import Loading from '../util/Loading';
 import Label from '../util/Label';
 import MealsCheckBoxList from './MealsCheckboxList';
+import Paginate from '../util/Paginate';
 import '../../static/sass/materialize.scss';
 
 class MealsCheckBoxForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: 'Menu for today',
-      mealIds: [],
+      name: this.props.defaultMenuName,
+      mealIds: this.props.defaultMenuMealIds,
+      checked: this.props.defaultMenuMealIds
+        .reduce((obj, key) => ({ ...obj, [`meal-${key}`]: true }), {}),
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,17 +37,27 @@ class MealsCheckBoxForm extends Component {
 
   handleCheck(event) {
     if (event.target.checked) {
+      // Extract mealId from input name
+      const mealId = event.target.name.slice(5);
       this.setState({
-        mealIds: [
-          ...this.state.mealIds,
-          event.target.value,
-        ],
+        mealIds: [...this.state.mealIds, mealId],
+        checked: {
+          ...this.state.checked,
+          [event.target.name]: true,
+        },
       });
     } else {
-      const filteredMealIds = this.state.mealIds.filter(mealId =>
-        mealId !== event.target.value);
+      const mealId = event.target.name.slice(5);
+      const filteredMealIds = this.state.mealIds.filter(OldMealId =>
+        OldMealId !== mealId);
 
-      this.setState({ mealIds: filteredMealIds });
+      this.setState({
+        mealIds: filteredMealIds,
+        checked: {
+          ...this.state.checked,
+          [event.target.name]: false,
+        },
+      });
     }
   }
 
@@ -75,14 +88,21 @@ class MealsCheckBoxForm extends Component {
           <h3 style={{ margin: '.5rem 0' }}>Meals</h3>
           <MealsCheckBoxList
             meals={this.props.meals}
+            checkedMeals={this.state.checked}
             handleCheck={this.handleCheck}
+          />
+          <Paginate
+            onPageChange={this.props.onPageChange}
+            nextUrl={this.props.nextUrl}
+            previousUrl={this.props.previousUrl}
+            style={{ marginTop: '0' }}
           />
         </div>
         <button
           value="Set Menu"
           type="submit"
           className="btn btn-default"
-          style={{ margin: '2rem auto 1rem auto' }}
+          style={{ margin: '0 auto 1rem auto' }}
         >
           {this.props.action} Menu
         </button>
@@ -100,8 +120,15 @@ class MealsCheckBoxForm extends Component {
   }
 }
 
+MealsCheckBoxForm.defaultProps = {
+  defaultMenuName: 'Menu for Today',
+  defaultMenuMealIds: [],
+};
+
 MealsCheckBoxForm.propTypes = {
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
+  defaultMenuName: PropTypes.string,
+  defaultMenuMealIds: PropTypes.arrayOf(PropTypes.number),
   handleSubmit: PropTypes.func.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
   /* eslint react/require-default-props: 0 */
@@ -110,6 +137,9 @@ MealsCheckBoxForm.propTypes = {
     PropTypes.objectOf(PropTypes.string),
   ]),
   action: PropTypes.string.isRequired,
+  nextUrl: PropTypes.string,
+  previousUrl: PropTypes.string,
+  onPageChange: PropTypes.func.isRequired,
 };
 
 export default MealsCheckBoxForm;

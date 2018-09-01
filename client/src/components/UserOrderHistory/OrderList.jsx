@@ -20,7 +20,6 @@ const OrderList = ({ orders }) => {
           <tr>
             <th>Order ID</th>
             <th>Order Name</th>
-            <th>Customer</th>
             <th>Order Amount (&#x20a6;)</th>
             <th>Quantity</th>
             <th>Total (&#x20a6;)</th>

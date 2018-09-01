@@ -1,50 +1,56 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Preloader } from 'react-materialize';
-import Loading from '../util/Loading';
-import MealsCheckBoxForm from './MealsCheckBoxForm';
+import MenuCheckBoxForm from './MenuCheckBoxForm';
 import { fetchMeals } from '../../actions/mealActions';
-import { updateMenu, fetchMenu } from '../../actions/menuActions';
+import { updateMenu } from '../../actions/menuActions';
 import { getMeals } from '../../reducers/mealReducer';
+import {
+  getCurrentPageUrl,
+  getNextPageUrl,
+  getPreviousPageUrl,
+} from '../../reducers/paginationReducer';
+import { getMenu } from '../../reducers/menuReducer';
 
 class ConnectedUpdateMenu extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   componentDidMount() {
-    this.props.fetchMeals();
+    this.handlePageChange(this.props.currentUrl);
   }
 
   async handleSubmit(values) {
     await this.props.modifyMenu(values, this.props.menuId);
-    this.props.fetchMenu();
-    return this.props.closeModal();
+    this.props.closeModal();
+  }
+
+  handlePageChange(url) {
+    this.props.fetchMeals(url);
   }
 
   render() {
-    const {
-      meals, error, isUpdating, isFetching,
-    } = this.props;
+    const { meals, error, isUpdating } = this.props;
 
     return (
       <section>
         <h2 className="text-center">Update Menu</h2>
-        {isFetching
-        ?
-          <Loading text="Fetching meals . . .">
-            <Preloader />
-          </Loading>
-        :
-          <MealsCheckBoxForm
-            error={error}
-            handleSubmit={this.handleSubmit}
-            meals={meals}
-            action="Set"
-            isSubmitting={isUpdating}
-          />}
+        <MenuCheckBoxForm
+          error={error}
+          handleSubmit={this.handleSubmit}
+          defaultMenuName={this.props.menu.name}
+          defaultMenuMealIds={this.props.menu.meals.map(meal => meal.id)}
+          meals={meals}
+          action="Set"
+          isSubmitting={isUpdating}
+          nextUrl={this.props.nextUrl}
+          currentUrl={this.props.currentUrl}
+          previousUrl={this.props.previousUrl}
+          onPageChange={this.handlePageChange}
+        />
       </section>
     );
   }
@@ -55,7 +61,9 @@ ConnectedUpdateMenu.propTypes = {
   fetchMeals: PropTypes.func.isRequired,
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
   isUpdating: PropTypes.bool.isRequired,
-  isFetching: PropTypes.bool.isRequired,
+  menu: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string, PropTypes.array, PropTypes.number,
+  ])).isRequired,
   menuId: PropTypes.number.isRequired,
   /* eslint react/require-default-props: 0 */
   error: PropTypes.oneOfType([
@@ -63,21 +71,26 @@ ConnectedUpdateMenu.propTypes = {
     PropTypes.objectOf(PropTypes.string),
   ]),
   closeModal: PropTypes.func.isRequired,
-  fetchMenu: PropTypes.func.isRequired,
+  currentUrl: PropTypes.string.isRequired,
+  nextUrl: PropTypes.string,
+  previousUrl: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   error: state.menu.saveError,
+  menu: getMenu(state.menu),
   meals: getMeals(state.meals),
   isUpdating: state.menu.isUpdating,
   isFetching: state.meals.isFetching,
-  menuId: state.menu.menuId,
+  menuId: getMenu(state.menu).id,
+  currentUrl: getCurrentPageUrl(state.pagination.meals.superAdmin),
+  nextUrl: getNextPageUrl(state.pagination.meals.superAdmin),
+  previousUrl: getPreviousPageUrl(state.pagination.meals.superAdmin),
 });
 
 const mapDispatchToProps = dispatch => ({
   modifyMenu(values, menuId) { dispatch(updateMenu(values, menuId)); },
-  fetchMeals() { dispatch(fetchMeals()); },
-  fetchMenu() { dispatch(fetchMenu()); },
+  fetchMeals(url) { dispatch(fetchMeals(url)); },
 });
 
 const UpdateMenu = connect(

@@ -5,8 +5,9 @@ import { NavLink } from 'react-router-dom';
 import { removeUser } from '../../helpers/persistUser';
 import history from '../../helpers/history';
 import { userSignOut } from '../../actions/userActions';
+import { getUser } from '../../reducers/userReducer';
 
-const ConnectedNavigation = ({ urls, signout }) => {
+const ConnectedNavigation = ({ urls, signout, userName }) => {
   const handleSignout = (event) => {
     event.preventDefault();
     signout();
@@ -14,9 +15,9 @@ const ConnectedNavigation = ({ urls, signout }) => {
     history.push('/');
   };
 
-  const urlList = urls.map(url => (
-    url.link === 'signout'
-      ? (
+  const urlList = urls.map((url) => {
+    if (url.link === 'signout') {
+      return (
         <li key={url.id}>
           <NavLink
             to={`/${url.link}`}
@@ -25,15 +26,26 @@ const ConnectedNavigation = ({ urls, signout }) => {
             {url.name}
           </NavLink>
         </li>
-      )
-      : (
+      );
+    }
+
+    if (url.link && (url.name === 'Customer' || url.name === 'Caterer')) {
+      return (
         <li key={url.id}>
-          <NavLink
-            to={`/${url.link}`}
-          >{url.name}
-          </NavLink>
+          {userName.split(' ')[0]}
         </li>
-      )));
+      );
+    }
+
+    return (
+      <li key={url.id}>
+        <NavLink
+          to={`/${url.link}`}
+        >{url.name}
+        </NavLink>
+      </li>
+    );
+  });
 
   return (
     <nav className="col-3-4">
@@ -44,18 +56,24 @@ const ConnectedNavigation = ({ urls, signout }) => {
   );
 };
 
+ConnectedNavigation.defaultProps = {
+  userName: '',
+};
+
+ConnectedNavigation.propTypes = {
+  urls: PropTypes.arrayOf(PropTypes.object).isRequired,
+  signout: PropTypes.func.isRequired,
+  userName: PropTypes.string,
+};
+
 const mapStateToProps = state => ({
   urls: state.urls,
+  userName: getUser(state.user).name,
 });
 
 const mapDispatchToProps = dispatch => ({
   signout() { dispatch(userSignOut()); },
 });
-
-ConnectedNavigation.propTypes = {
-  urls: PropTypes.arrayOf(PropTypes.object).isRequired,
-  signout: PropTypes.func.isRequired,
-};
 
 const Navigation = connect(
   mapStateToProps, mapDispatchToProps,

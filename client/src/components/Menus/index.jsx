@@ -9,7 +9,7 @@ import Footer from '../util/Footer';
 import SetupMenu from './SetupMenu';
 import UpdateMenu from './UpdateMenu';
 import errorHandler from '../util/errorHandler';
-import { fetchMenu } from '../../actions/menuActions';
+import './menumodal.scss';
 
 class ConnectedMenus extends Component {
   constructor(props) {
@@ -21,10 +21,6 @@ class ConnectedMenus extends Component {
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleMenuUpdate = this.handleMenuUpdate.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.fetchMenu();
   }
 
   handleOpenModal() {
@@ -70,7 +66,6 @@ class ConnectedMenus extends Component {
         transform: 'translate(-50%, -50%)',
         minWidth: '20rem',
         width: '60%',
-        overflow: 'hidden',
       },
     };
 
@@ -145,7 +140,6 @@ ConnectedMenus.propTypes = {
   ]),
   isSet: PropTypes.bool.isRequired,
   role: PropTypes.string.isRequired,
-  fetchMenu: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -154,10 +148,7 @@ const mapStateToProps = state => ({
   role: state.user.data.role,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchMenu() { dispatch(fetchMenu()); },
-});
 
-const Menus = connect(mapStateToProps, mapDispatchToProps)(ConnectedMenus);
+const Menus = connect(mapStateToProps, null, null, { pure: true })(ConnectedMenus);
 
 export default Menus;

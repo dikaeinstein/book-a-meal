@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
+import swal from 'sweetalert';
 import CatererMeals from './CatererMeals';
 import AddMeal from './AddMeal';
 import UpdateMeal from './UpdateMeal';
@@ -9,6 +10,11 @@ import Footer from '../util/Footer';
 import Button from '../util/Button';
 import errorHandler from '../util/errorHandler';
 import { fetchMeals, fetchCatererMeals } from '../../actions/mealActions';
+import Paginate from '../util/Paginate';
+import {
+  getNextPageUrl,
+  getPreviousPageUrl, getCurrentPageUrl,
+} from '../../reducers/paginationReducer';
 
 Modal.setAppElement('#root');
 
@@ -25,6 +31,16 @@ class ConnectedMeals extends Component {
     this.handleMealUpdate = this.handleMealUpdate.bind(this);
     this.handleAddMeal = this.handleAddMeal.bind(this);
     this.handleRetry = this.handleRetry.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
+    this.handleCatererPageChange = this.handleCatererPageChange.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.role === 'superAdmin') {
+      this.handlePageChange(this.props.currentUrl);
+    } else {
+      this.handleCatererPageChange(this.props.catererCurrentUrl);
+    }
   }
 
   handleOpenModal() {
@@ -41,19 +57,33 @@ class ConnectedMeals extends Component {
   }
 
   handleAddMeal() {
-    this.setState({ updating: false });
-    this.handleOpenModal();
-  }
-
-  handleRetry() {
-    if (this.props.role === 'superAdmin') {
-      this.props.fetchMeals();
+    if (this.props.role !== 'caterer') {
+      swal({
+        text: 'You do not have the permission to add a meal',
+        icon: 'info',
+        className: 'swal-button--confirm',
+      });
     } else {
-      this.props.fetchCatererMeals();
+      this.setState({ updating: false });
+      this.handleOpenModal();
     }
   }
 
+  handleRetry() {
+    this.handlePageChange(this.props.currentUrl);
+  }
+
+  handlePageChange(url) {
+    this.props.fetchMeals(url);
+  }
+
+  handleCatererPageChange(url) {
+    this.props.fetchCatererMeals(url);
+  }
+
   render() {
+    const { role } = this.props;
+
     const modalStyle = {
       overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.25)',
@@ -106,6 +136,20 @@ class ConnectedMeals extends Component {
             handleMealUpdate={this.handleMealUpdate}
             error={this.props.error}
           />
+          <Paginate
+            onPageChange={role === 'superAdmin'
+              ? this.handlePageChange
+              : this.handleCatererPageChange
+            }
+            nextUrl={role === 'superAdmin'
+              ? this.props.nextUrl
+              : this.props.catererNextUrl
+            }
+            previousUrl={role === 'superAdmin'
+              ? this.props.previousUrl
+              : this.props.catererPreviousUrl
+            }
+          />
         </main>
         <Footer />
       </div>
@@ -122,16 +166,28 @@ ConnectedMeals.propTypes = {
   fetchMeals: PropTypes.func.isRequired,
   fetchCatererMeals: PropTypes.func.isRequired,
   role: PropTypes.string.isRequired,
+  currentUrl: PropTypes.string.isRequired,
+  nextUrl: PropTypes.string.isRequired,
+  previousUrl: PropTypes.string.isRequired,
+  catererCurrentUrl: PropTypes.string.isRequired,
+  catererNextUrl: PropTypes.string.isRequired,
+  catererPreviousUrl: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   error: state.meals.fetchError,
   role: state.user.data.role,
+  nextUrl: getNextPageUrl(state.pagination.meals.superAdmin),
+  currentUrl: getCurrentPageUrl(state.pagination.meals.superAdmin),
+  previousUrl: getPreviousPageUrl(state.pagination.meals.superAdmin),
+  catererNextUrl: getNextPageUrl(state.pagination.meals.caterer),
+  catererCurrentUrl: getCurrentPageUrl(state.pagination.meals.caterer),
+  catererPreviousUrl: getPreviousPageUrl(state.pagination.meals.caterer),
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchMeals() { dispatch(fetchMeals()); },
-  fetchCatererMeals() { dispatch(fetchCatererMeals()); },
+  fetchMeals(url) { dispatch(fetchMeals(url)); },
+  fetchCatererMeals(url) { dispatch(fetchCatererMeals(url)); },
 });
 
 const Meals = connect(mapStateToProps, mapDispatchToProps)(ConnectedMeals);

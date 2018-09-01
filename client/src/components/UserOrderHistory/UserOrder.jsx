@@ -12,7 +12,6 @@ class ConnectedUserOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      order: props.order,
       isModalOpen: false,
     };
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -82,8 +81,8 @@ class ConnectedUserOrder extends Component {
     const { order } = this.props;
     let orderStatus = 'text-warning';
     const disabled = order.status === 'delivered'
-      || order.status === 'cancelled';
-      // || order.expired;
+      || order.status === 'cancelled'
+      || order.expired;
 
     if (order.status === 'cancelled') {
       orderStatus = 'text-danger';
@@ -98,7 +97,6 @@ class ConnectedUserOrder extends Component {
         <tr key={order.id}>
           <td>{order.id}</td>
           <td>{order.meal.name}</td>
-          <td>{order.user.name}</td>
           <td>{order.meal.price}</td>
           <td>{order.quantity}</td>
           <td>{order.total}</td>
@@ -110,8 +108,7 @@ class ConnectedUserOrder extends Component {
                 title="Update order"
                 disabled={disabled}
                 className="action-btn"
-                style={disabled
-                  ? { ...disabledBtnStyle } : { ...updateBtnStyle }}
+                style={disabled ? disabledBtnStyle : updateBtnStyle}
                 onClick={this.handleOpenModal}
               >
                 Update
@@ -122,7 +119,7 @@ class ConnectedUserOrder extends Component {
                 onClick={this.handleCancel}
                 disabled={disabled}
                 className="action-btn"
-                style={disabled ? { ...disabledBtnStyle } : { ...cancelBtnStyle }}
+                style={disabled ? disabledBtnStyle : cancelBtnStyle}
               >
                 Cancel
               </button>
@@ -141,7 +138,7 @@ class ConnectedUserOrder extends Component {
             className="close"
           />
           <UpdateOrder
-            order={this.state.order}
+            defaultOrder={this.props.order}
             closeModal={this.handleCloseModal}
           />
         </Modal>
