@@ -72,6 +72,8 @@ const fetchError = (state = initialState.menu.fetchError, action) => {
   switch (action.type) {
     case FETCH_MENU_ERROR:
       return action.message;
+    case SETUP_MENU_SUCCESS:
+      return initialState.menu.fetchError;
     default:
       return state;
   }
@@ -92,8 +94,9 @@ const byId = (state = initialState.menu.byId, action) => {
   switch (action.type) {
     case FETCH_MENU_SUCCESS:
     case SETUP_MENU_SUCCESS:
-    case UPDATE_MENU_SUCCESS:
-      return { ...state, ...action.response.entities.menu };
+    case UPDATE_MENU_SUCCESS: {
+      return action.response.entities.menu;
+    }
     default:
       return state;
   }

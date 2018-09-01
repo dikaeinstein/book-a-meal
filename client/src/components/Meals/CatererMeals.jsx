@@ -1,66 +1,44 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Preloader } from 'react-materialize';
-import { fetchMeals, fetchCatererMeals } from '../../actions/mealActions';
 import CatererMealList from './CatererMealLIst';
 import Loading from '../util/Loading';
+import { getMeals } from '../../reducers/mealReducer';
 
-class ConnectedCatererMeals extends Component {
-  componentDidMount() {
-    if (this.props.role === 'superAdmin') {
-      this.props.fetchMeals();
-    } else {
-      this.props.fetchCatererMeals();
-    }
-  }
-
-  render() {
-    const { isFetching, handleMealUpdate } = this.props;
-    if (isFetching) {
-      return (
-        <div className="loader-container">
-          <Loading text="Loading...">
-            <Preloader flashing size="big" />
-          </Loading>
-        </div>
-      );
-    }
-
+const ConnectedCatererMeals = ({ isFetching, handleMealUpdate, meals }) => {
+  if (isFetching) {
     return (
-      <section className="bg-light">
-        <h1 className="text-center">
-          Meals
-        </h1>
-        <CatererMealList handleMealUpdate={handleMealUpdate} />
-      </section>
+      <div className="loader-container">
+        <Loading text="fetching meals...">
+          <Preloader flashing size="medium" />
+        </Loading>
+      </div>
     );
   }
-}
+
+  return (
+    <section className="bg-light">
+      <h1 className="text-center">Meals</h1>
+      <CatererMealList
+        meals={meals}
+        handleMealUpdate={handleMealUpdate}
+      />
+    </section>
+  );
+};
 
 ConnectedCatererMeals.propTypes = {
   isFetching: PropTypes.bool.isRequired,
-  role: PropTypes.string.isRequired,
-  fetchMeals: PropTypes.func.isRequired,
-  fetchCatererMeals: PropTypes.func.isRequired,
   handleMealUpdate: PropTypes.func.isRequired,
+  meals: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-const mapStateToProps = (state) => {
-  return ({
-    isFetching: state.meals.isFetching,
-    role: state.user.data.role,
-  });
-};
-
-const mapDispatchToProps = dispatch => ({
-  fetchMeals() { dispatch(fetchMeals()); },
-  fetchCatererMeals() { dispatch(fetchCatererMeals()); },
+const mapStateToProps = state => ({
+  isFetching: state.meals.isFetching,
+  meals: getMeals(state.meals),
 });
 
-const CatererMeals = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConnectedCatererMeals);
+const CatererMeals = connect(mapStateToProps)(ConnectedCatererMeals);
 
 export default CatererMeals;

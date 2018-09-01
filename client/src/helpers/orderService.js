@@ -10,7 +10,7 @@ const orderService = {
     try {
       const headers = setAuthorization();
       const response = await axios.get(url, { headers });
-      return response.data.orders;
+      return response.data;
     } catch (error) {
       throw error;
     }

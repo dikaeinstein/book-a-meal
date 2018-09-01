@@ -205,7 +205,7 @@ export const fetchAllOrdersError = error => ({
  *
  * @returns {Function} async function
  */
-export const fetchAllOrders = () => async (dispatch, getState) => {
+export const fetchAllOrders = url => async (dispatch, getState) => {
   // Return early if already fetching
   if (getState().dashboard.isFetchingAllOrders) {
     return Promise.resolve();
@@ -213,9 +213,9 @@ export const fetchAllOrders = () => async (dispatch, getState) => {
 
   dispatch({ type: FETCH_ALL_ORDERS_REQUEST });
   try {
-    const orders = await dashboardService
-      .getOrders(`${config.API_BASE_URL}/api/v1/orders`);
-    dispatch(fetchAllOrdersSuccess(normalize(orders, orderListSchema)));
+    const response = await dashboardService.getOrders(url);
+    dispatch(fetchAllOrdersSuccess(normalize(response.orders, orderListSchema)));
+    dispatch({ type: 'SET_DASHBOARD_ORDERS_PAGINATION', links: response.links });
   } catch (error) {
     dispatch(fetchAllOrdersError(axiosErrorWrapper(error, dispatch)));
   }
@@ -228,7 +228,7 @@ export const fetchAllOrders = () => async (dispatch, getState) => {
  *
  * @returns {Function} async function
  */
-export const fetchCatererOrders = () => async (dispatch, getState) => {
+export const fetchCatererOrders = url => async (dispatch, getState) => {
   // Return early if already fetching
   if (getState().dashboard.isFetchingAllOrders) {
     return Promise.resolve();
@@ -236,9 +236,12 @@ export const fetchCatererOrders = () => async (dispatch, getState) => {
 
   dispatch({ type: FETCH_ALL_ORDERS_REQUEST });
   try {
-    const orders = await dashboardService
-      .getOrders(`${config.API_BASE_URL}/api/v1/orders/caterers`);
-    dispatch(fetchAllOrdersSuccess(normalize(orders, orderListSchema)));
+    const response = await dashboardService.getOrders(url);
+    dispatch(fetchAllOrdersSuccess(normalize(response.orders, orderListSchema)));
+    dispatch({
+      type: 'SET_CATERER_DASHBOARD_ORDERS_PAGINATION',
+      links: response.links,
+    });
   } catch (error) {
     dispatch(fetchAllOrdersError(axiosErrorWrapper(error, dispatch)));
   }

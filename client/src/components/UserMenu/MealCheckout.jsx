@@ -9,9 +9,9 @@ class ConnectedMealCheckout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      total: parseFloat(props.meal.price),
+      total: parseFloat(this.props.defaultMeal.price),
       quantity: 1,
-      amount: parseFloat(props.meal.price),
+      amount: parseFloat(this.props.defaultMeal.price),
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleCheckout = this.handleCheckout.bind(this);
@@ -32,11 +32,11 @@ class ConnectedMealCheckout extends Component {
   handleCheckout() {
     this.props.closeModal();
     this.props.checkoutOrder({
-      mealId: this.props.meal.id,
-      name: this.props.meal.name,
+      mealId: this.props.defaultMeal.id,
+      name: this.props.defaultMeal.name,
       quantity: this.state.quantity,
       total: this.state.total,
-      amount: this.props.meal.price,
+      amount: this.props.defaultMeal.price,
     });
     history.push('/order-confirmation');
   }
@@ -63,7 +63,7 @@ class ConnectedMealCheckout extends Component {
             <tbody>
               <tr className="text-center">
                 <td>
-                  {this.props.meal.name}
+                  {this.props.defaultMeal.name}
                 </td>
                 <td>
                   <input
@@ -96,7 +96,7 @@ class ConnectedMealCheckout extends Component {
 }
 
 ConnectedMealCheckout.propTypes = {
-  meal: PropTypes.objectOf(PropTypes.oneOfType([
+  defaultMeal: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ])).isRequired,

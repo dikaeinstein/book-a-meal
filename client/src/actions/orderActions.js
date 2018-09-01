@@ -70,16 +70,17 @@ export const fetchOrdersError = error => ({
  *
  * @returns {Function} async function
  */
-export const fetchUserOrders = () => async (dispatch, getState) => {
+export const fetchUserOrders = url => async (dispatch, getState) => {
   if (getState().orders.isFetching) {
     return Promise.resolve();
   }
 
   dispatch({ type: FETCH_USER_ORDERS_REQUEST });
   try {
-    const orders = await orderService
-      .getUserOrderHistory(`${config.API_BASE_URL}/api/v1/orders/users`);
-    dispatch(fetchOrdersSuccess(normalize(orders, orderListSchema)));
+    const response = await orderService
+      .getUserOrderHistory(url);
+    dispatch(fetchOrdersSuccess(normalize(response.orders, orderListSchema)));
+    dispatch({ type: 'SET_ORDERS_PAGINATION', links: response.links });
   } catch (error) {
     dispatch(fetchOrdersError(axiosErrorWrapper(error, dispatch)));
   }
@@ -250,6 +251,7 @@ export const updateOrder = (values, orderId) => async (dispatch, getState) => {
     swal({
       text: 'Order updated successfully!',
       icon: 'success',
+      button: 'Close',
     });
   } catch (error) {
     const normalizedError = axiosErrorWrapper(error, dispatch);

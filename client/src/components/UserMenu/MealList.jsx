@@ -6,7 +6,8 @@ import { getMenu } from '../../reducers/menuReducer';
 
 
 const ConnectedMealList = ({ meals, link }) => {
-  const mealList = meals.map(meal => <MenuMeal key={meal.id} meal={meal} link={link} />);
+  const mealList = meals
+    .map(meal => <MenuMeal key={meal.id} defaultMeal={meal} link={link} />);
 
   return (
     <section className="card user-menu text-left">

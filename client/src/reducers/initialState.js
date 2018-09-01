@@ -1,3 +1,5 @@
+import config from '../config';
+
 const initialState = {
   urls: [
     {
@@ -69,6 +71,60 @@ const initialState = {
     totalOrders: 0,
     byId: {},
     allIds: [],
+  },
+  pagination: {
+    meals: {
+      superAdmin: {
+        nextPage: '',
+        previousPage: '',
+        currentPage: {
+          rel: 'self',
+          href: `${config.API_BASE_URL}/api/v1/meals?limit=12`,
+        },
+      },
+      caterer: {
+        nextPage: '',
+        previousPage: '',
+        currentPage: {
+          rel: 'self',
+          href: `${config.API_BASE_URL}/api/v1/meals/caterers?limit=12`,
+        },
+      },
+    },
+    orders: {
+      nextPage: '',
+      previousPage: '',
+      currentPage: {
+        rel: 'self',
+        href: `${config.API_BASE_URL}/api/v1/orders/users?limit=10`,
+      },
+    },
+    dashboard: {
+      superAdmin: {
+        nextPage: '',
+        previousPage: '',
+        currentPage: {
+          rel: 'self',
+          href: `${config.API_BASE_URL}/api/v1/orders?limit=10`,
+        },
+      },
+      caterer: {
+        nextPage: '',
+        previousPage: '',
+        currentPage: {
+          rel: 'self',
+          href: `${config.API_BASE_URL}/api/v1/orders/caterers?limit=10`,
+        },
+      },
+    },
+    menu: {
+      nextPage: '',
+      previousPage: '',
+      currentPage: {
+        rel: 'self',
+        href: `${config.API_BASE_URL}/api/v1/menu/?limit=12`,
+      },
+    },
   },
 };
 

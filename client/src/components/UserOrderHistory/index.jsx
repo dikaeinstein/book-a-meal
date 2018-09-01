@@ -6,30 +6,51 @@ import OrderHistory from './OrderHistory';
 import { fetchUserOrders } from '../../actions/orderActions';
 import Loading from '../util/Loading';
 import Footer from '../util/Footer';
+import Pagination from '../util/Paginate';
+import errorHandler from '../util/errorHandler';
+import {
+  getCurrentPageUrl, getNextPageUrl,
+  getPreviousPageUrl,
+} from '../../reducers/paginationReducer';
 
 class ConnectedUserOrderHistory extends Component {
+  constructor(props) {
+    super(props);
+    this.handlePageChange = this.handlePageChange.bind(this);
+    this.handleRetry = this.handleRetry.bind(this);
+  }
+
   componentDidMount() {
-    this.props.fetchUserOrders();
+    this.handlePageChange(this.props.currentUrl);
+  }
+
+  handlePageChange(url) {
+    this.props.fetchUserOrders(url);
+  }
+
+  handleRetry() {
+    this.handlePageChange(this.props.currentUrl);
   }
 
   render() {
     const { isFetching, error } = this.props;
+
+    const OrderHistoryWithErrorHandling =
+      errorHandler(
+        OrderHistory, 'Error fetching orders',
+        this.handleRetry, true,
+      );
+
     if (isFetching) {
       return (
         <div className="loader-container">
-          <Loading text="Loading...">
-            <Preloader flashing size="big" />
+          <Loading text="fetching orders...">
+            <Preloader flashing size="medium" />
           </Loading>
         </div>
       );
     }
-    if (error) {
-      return (
-        <h1 className="error-container text-center">
-          {error}
-        </h1>
-      );
-    }
+
     return (
       <div>
         <main
@@ -38,7 +59,13 @@ class ConnectedUserOrderHistory extends Component {
         >
           <h2>Order history</h2>
           <section className="card order-history">
-            <OrderHistory />
+            <OrderHistoryWithErrorHandling error={error} />
+            <Pagination
+              onPageChange={this.handlePageChange}
+              nextUrl={this.props.nextUrl}
+              previousUrl={this.props.previousUrl}
+              style={{ marginTop: '0' }}
+            />
           </section>
         </main>
         <Footer />
@@ -55,15 +82,21 @@ ConnectedUserOrderHistory.propTypes = {
     PropTypes.objectOf(PropTypes.string),
   ]),
   fetchUserOrders: PropTypes.func.isRequired,
+  currentUrl: PropTypes.string.isRequired,
+  nextUrl: PropTypes.string,
+  previousUrl: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   isFetching: state.orders.isFetching,
   error: state.orders.fetchError,
+  nextUrl: getNextPageUrl(state.pagination.orders),
+  currentUrl: getCurrentPageUrl(state.pagination.orders),
+  previousUrl: getPreviousPageUrl(state.pagination.orders),
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchUserOrders() { dispatch(fetchUserOrders()); },
+  fetchUserOrders(url) { dispatch(fetchUserOrders(url)); },
 });
 
 const UserOrderHistory =

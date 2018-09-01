@@ -5,6 +5,7 @@ Book-A-Meal is an application that allows customers to make food orders and help
 [![Coverage Status](https://coveralls.io/repos/github/Dikaeinstein/book-a-meal/badge.svg?branch=develop)](https://coveralls.io/github/Dikaeinstein/book-a-meal?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1104abe96a3ded2f2b39/maintainability)](https://codeclimate.com/github/Dikaeinstein/book-a-meal/maintainability)
 
+**View App:** [book-a-meal](https://dikaeinstein-book-a-meal.herokuapp.com)
 **View UI template:** [Click](https://dikaeinstein.github.io/book-a-meal/)
 
 ## Features

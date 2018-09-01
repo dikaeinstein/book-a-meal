@@ -1,50 +1,53 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Preloader } from 'react-materialize';
-import MealsCheckBoxForm from './MealsCheckBoxForm';
-import Loading from '../util/Loading';
+import MenuCheckBoxForm from './MenuCheckBoxForm';
 import { fetchMeals } from '../../actions/mealActions';
-import { setupMenu, fetchMenu } from '../../actions/menuActions';
+import { setupMenu } from '../../actions/menuActions';
 import { getMeals } from '../../reducers/mealReducer';
+import {
+  getCurrentPageUrl,
+  getNextPageUrl,
+  getPreviousPageUrl,
+} from '../../reducers/paginationReducer';
 
 class ConnectedSetupMenu extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   componentDidMount() {
-    this.props.fetchMeals();
+    this.handlePageChange(this.props.currentUrl);
   }
 
   async handleSubmit(values) {
     await this.props.setMenu(values);
-    this.props.fetchMenu();
-    return this.props.closeModal();
+    this.props.closeModal();
+  }
+
+  handlePageChange(url) {
+    this.props.fetchMeals(url);
   }
 
   render() {
-    const {
-      meals, error, isSaving, isFetching,
-    } = this.props;
+    const { meals, error, isSaving } = this.props;
 
     return (
       <section>
         <h2 className="text-center">Set Up Menu</h2>
-        {isFetching
-        ?
-          <Loading text="Fetching meals . . .">
-            <Preloader />
-          </Loading>
-        :
-          <MealsCheckBoxForm
-            error={error}
-            handleSubmit={this.handleSubmit}
-            meals={meals}
-            action="Set"
-            isSubmitting={isSaving}
-          />}
+        <MenuCheckBoxForm
+          error={error}
+          handleSubmit={this.handleSubmit}
+          meals={meals}
+          action="Set"
+          isSubmitting={isSaving}
+          nextUrl={this.props.nextUrl}
+          currentUrl={this.props.currentUrl}
+          previousUrl={this.props.previousUrl}
+          onPageChange={this.handlePageChange}
+        />
       </section>
     );
   }
@@ -59,23 +62,25 @@ ConnectedSetupMenu.propTypes = {
   ]),
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
   fetchMeals: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
   isSaving: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
-  fetchMenu: PropTypes.func.isRequired,
+  currentUrl: PropTypes.string.isRequired,
+  nextUrl: PropTypes.string,
+  previousUrl: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   error: state.menu.saveError,
   meals: getMeals(state.meals),
-  isFetching: state.meals.isFetching,
   isSaving: state.menu.isSaving,
+  currentUrl: getCurrentPageUrl(state.pagination.meals.superAdmin),
+  nextUrl: getNextPageUrl(state.pagination.meals.superAdmin),
+  previousUrl: getPreviousPageUrl(state.pagination.meals.superAdmin),
 });
 
 const mapDispatchToProps = dispatch => ({
   setMenu(values) { dispatch(setupMenu(values)); },
-  fetchMeals() { dispatch(fetchMeals()); },
-  fetchMenu() { dispatch(fetchMenu()); },
+  fetchMeals(url) { dispatch(fetchMeals(url)); },
 });
 
 const SetupMenu = connect(

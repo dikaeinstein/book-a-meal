@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
-import swal from 'sweetalert';
 import UpdateMealForm from './UpdateMealForm';
 import mealSchema from '../../validation/mealSchema';
 import { updateMeal } from '../../actions/mealActions';

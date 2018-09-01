@@ -114,9 +114,11 @@ export const fetchMealsSuccess = response => ({
 /**
  * Fetch meal async action creator
  *
+ * @param {String} url Meals url
+ *
  * @returns {Function} Async function
  */
-export const fetchMeals = () => async (dispatch, getState) => {
+export const fetchMeals = url => async (dispatch, getState) => {
   // Return early if already fetching meals
   if (getState().meals.isSaving) {
     return Promise.resolve();
@@ -124,9 +126,10 @@ export const fetchMeals = () => async (dispatch, getState) => {
 
   dispatch({ type: FETCH_MEALS_REQUEST });
   try {
-    const meals = await mealService
-      .getMeals('/api/v1/meals');
-    dispatch(fetchMealsSuccess(normalize(meals, mealListSchema)));
+    const response = await mealService
+      .getMeals(url);
+    dispatch(fetchMealsSuccess(normalize(response.meals, mealListSchema)));
+    dispatch({ type: 'SET_MEALS_PAGINATION', links: response.links });
   } catch (error) {
     dispatch(fetchMealsError(axiosErrorWrapper(error, dispatch)));
   }
@@ -135,9 +138,11 @@ export const fetchMeals = () => async (dispatch, getState) => {
 /**
  * Fetch caterer meals async action creator
  *
+ * @param {String} url Meals url
+ *
  * @returns {Function} Async function
  */
-export const fetchCatererMeals = () => async (dispatch, getState) => {
+export const fetchCatererMeals = url => async (dispatch, getState) => {
   // Return early if already fetching meals
   if (getState().meals.isSaving) {
     return Promise.resolve();
@@ -145,9 +150,10 @@ export const fetchCatererMeals = () => async (dispatch, getState) => {
 
   dispatch({ type: FETCH_MEALS_REQUEST });
   try {
-    const meals = await mealService
-      .getMeals('/api/v1/meals/caterers');
-    dispatch(fetchMealsSuccess(normalize(meals, mealListSchema)));
+    const response = await mealService
+      .getMeals(url);
+    dispatch(fetchMealsSuccess(normalize(response.meals, mealListSchema)));
+    dispatch({ type: 'SET_CATERER_MEALS_PAGINATION', links: response.links });
   } catch (error) {
     dispatch(fetchMealsError(axiosErrorWrapper(error, dispatch)));
   }

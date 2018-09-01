@@ -53,15 +53,16 @@ const fetchMenuError = error => ({
  *
  * @returns {Function}
  */
-export const fetchMenu = () => async (dispatch, getState) => {
+export const fetchMenu = url => async (dispatch, getState) => {
   if (getState().menu.isFetching) {
     return Promise.resolve();
   }
 
   dispatch({ type: FETCH_MENU_REQUEST });
   try {
-    const menu = await menuService.getMenu(`${config.API_BASE_URL}/api/v1/menu/`);
-    dispatch(fetchMenuSuccess(normalize(menu, menuSchema)));
+    const response = await menuService.getMenu(url);
+    dispatch(fetchMenuSuccess(normalize(response.menu, menuSchema)));
+    dispatch({ type: 'SET_MENU_PAGINATION', links: response.links });
   } catch (error) {
     dispatch(fetchMenuError(axiosErrorWrapper(error, dispatch)));
   }

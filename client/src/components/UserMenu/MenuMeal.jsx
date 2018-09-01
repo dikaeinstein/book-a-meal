@@ -14,7 +14,7 @@ class MenuMeal extends Component {
     this.state = {
       isMealDetailOpen: false,
       isMealCheckoutOpen: false,
-      meal: props.meal,
+      meal: this.props.defaultMeal,
     };
     this.handleOpenMealDetailModal =
       this.handleOpenMealDetailModal.bind(this);
@@ -118,8 +118,9 @@ class MenuMeal extends Component {
           {this.props.loggedIn
             ?
               <MealCheckout
-                meal={this.state.meal}
+                defaultMeal={this.state.meal}
                 closeModal={this.handleCloseMealCheckoutModal}
+                key={this.state.meal.id}
               />
             :
               <SigninSignupButtons
@@ -139,7 +140,7 @@ class MenuMeal extends Component {
 }
 
 MenuMeal.propTypes = {
-  meal: PropTypes.objectOf(PropTypes.oneOfType([
+  defaultMeal: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ])).isRequired,

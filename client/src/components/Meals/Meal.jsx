@@ -11,10 +11,7 @@ import '../../static/hover_overlay.scss';
 class ConnectedMeal extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isOpen: false,
-      meal: props.meal,
-    };
+    this.state = { isOpen: false };
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
@@ -61,11 +58,12 @@ class ConnectedMeal extends Component {
   handleUpdate() {
     if (this.props.role === 'superAdmin') {
       return swal({
-        text: 'You cannot update a caterers meal',
+        text: 'You cannot update a caterer meal',
         icon: 'info',
         className: 'swal-button--confirm',
       });
     }
+
     return this.props.handleMealUpdate(this.props.meal);
   }
 
@@ -108,8 +106,8 @@ class ConnectedMeal extends Component {
           tabIndex="0"
         >
           <img
-            src={this.state.meal.imageUrl}
-            alt={this.state.meal.name}
+            src={this.props.meal.imageUrl}
+            alt={this.props.meal.name}
           />
           <div className="overlay">
             <div className="text">
@@ -129,16 +127,16 @@ class ConnectedMeal extends Component {
           />
           <MealDetail
             closeMealDetail={this.handleCloseModal}
-            meal={this.state.meal}
+            meal={this.props.meal}
           />
         </Modal>
         <div
-          className="font-weight-bold text-black"
+          className="font-weight-bold text-black text-center"
           style={{ padding: '.875rem' }}
         >
-          <p>{this.state.meal.name}</p>
+          <p>{this.props.meal.name}</p>
           <p style={{ fontSize: '1.25rem' }}>
-            &#x20a6;{this.state.meal.price}
+            &#x20a6;{this.props.meal.price}
           </p>
         </div>
         <div style={{ display: 'flex', width: '75%', margin: '.5rem auto' }}>

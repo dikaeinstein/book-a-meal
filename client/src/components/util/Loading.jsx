@@ -10,12 +10,14 @@ import '../../static/sass/materialize.scss';
  *
  * @returns {JSX} JSX element
  */
-const Loading = props => (
-  <section>
+const Loading = ({ children, text }) => (
+  <section style={{ margin: '0 auto', textAlign: 'center' }}>
     <Row>
       <Col s={12}>
-        <strong>{props.text}</strong>
-        {props.children}
+        <strong style={{ display: 'block', marginBottom: '1rem' }}>
+          {text}
+        </strong>
+        {children}
       </Col>
     </Row>
   </section>

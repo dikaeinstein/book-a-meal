@@ -18,7 +18,7 @@ const customerUrls = [
   },
   {
     id: 3,
-    name: 'Dikaeinstein',
+    name: 'Customer',
     link: 'user-details',
   },
   {

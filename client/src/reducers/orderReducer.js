@@ -33,8 +33,11 @@ const allIds = (state = initialState.orders.allIds, action) => {
     case FETCH_USER_ORDERS_SUCCESS:
       return action.response.result;
     case MAKE_ORDER_SUCCESS:
-    case UPDATE_ORDER_SUCCESS:
       return [...state, action.response.result];
+    case UPDATE_ORDER_SUCCESS: {
+      const newIds = state.filter(id => id !== action.response.result);
+      return [action.response.result, ...newIds].sort((a, b) => b - a);
+    }
     default:
       return state;
   }
