@@ -59,8 +59,10 @@ const allIds = (state = initialState.dashboard.allIds, action) => {
   switch (action.type) {
     case FETCH_ALL_ORDERS_SUCCESS:
       return action.response.result;
-    case UPDATE_ORDER_SUCCESS:
-      return [...state, action.response.result];
+    case UPDATE_ORDER_SUCCESS: {
+      const newIds = state.filter(id => id !== action.response.result);
+      return [action.response.result, ...newIds].sort((a, b) => b - a);
+    }
     default:
       return state;
   }

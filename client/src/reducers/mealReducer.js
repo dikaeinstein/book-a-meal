@@ -38,8 +38,10 @@ const allIds = (state = initialState.meals.allIds, action) => {
     case FETCH_MEALS_SUCCESS:
       return action.response.result;
     case ADD_MEAL_SUCCESS:
-    case UPDATE_MEAL_SUCCESS:
-      return [...state, action.response.result];
+    case UPDATE_MEAL_SUCCESS: {
+      const newIds = state.filter(id => id !== action.response.result);
+      return [action.response.result, ...newIds].sort((a, b) => b - a);
+    }
     case DELETE_MEAL_SUCCESS:
       return state.filter(id => id !== action.response.result);
     default:
@@ -135,8 +137,8 @@ export const getMeals = state =>
   state.allIds.map(id => state.byId[id]);
 
 const mealReducer = combineReducers({
-  byId,
   allIds,
+  byId,
   isFetching,
   isSaving,
   isUpdating,

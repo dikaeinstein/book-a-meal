@@ -24,7 +24,7 @@ const dashboardService = {
     try {
       const headers = setAuthorizationToken();
       const response = await axios.get(url, { headers });
-      return response.data.orders;
+      return response.data;
     } catch (error) {
       throw error;
     }

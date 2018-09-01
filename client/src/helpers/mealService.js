@@ -16,7 +16,7 @@ const mealService = {
     try {
       const headers = setAuthorizationToken();
       const response = await axios.get(url, { headers });
-      return response.data.meals;
+      return response.data;
     } catch (error) {
       throw error;
     }

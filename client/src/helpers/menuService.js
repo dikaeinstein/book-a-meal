@@ -19,7 +19,7 @@ const menuService = {
     /* eslint consistent-return: 0 */
     try {
       const response = await axios.get(url);
-      return response.data.menu;
+      return response.data;
     } catch (error) {
       throw error;
     }
