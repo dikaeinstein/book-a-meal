@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import MealDetail from '../Meals/MealDetail';
-import MealCheckout from './MealCheckout';
+import ConnectedMealCheckout from './MealCheckout';
 import SigninSignupButtons from './SigninSignupButtons';
 import Button from '../util/Button';
 
 
-class MenuMeal extends Component {
+export class MenuMeal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -117,7 +117,7 @@ class MenuMeal extends Component {
           />
           {this.props.loggedIn
             ?
-              <MealCheckout
+              <ConnectedMealCheckout
                 defaultMeal={this.state.meal}
                 closeModal={this.handleCloseMealCheckoutModal}
                 key={this.state.meal.id}

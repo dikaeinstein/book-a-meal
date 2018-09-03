@@ -1,5 +1,5 @@
 import config from '../config';
-import history from '../helpers/history';
+import autoNavigate from '../helpers/autoNavigate';
 import userService from '../helpers/userService';
 import transformError from '../helpers/transformError';
 import axiosErrorWrapper from '../helpers/axiosErrorWrapper';
@@ -35,23 +35,6 @@ export const userSignInError = error => ({
   type: USER_SIGN_IN_ERROR,
   payload: { error },
 });
-
-/**
- * Auto navigates user to appropriate page after signin
- *
- * @param {object} user Signed in user object
- * @param {object} location Browser location object
- */
-export const autoNavigate = (user, location) => {
-  const { role } = user;
-  if (location && !['/', '/signin', '/signup'].includes(location)) {
-    history.push(location);
-  } else if (role === 'customer') {
-    history.push('/user-menu');
-  } else if (role === 'superAdmin' || role === 'caterer') {
-    history.push('/dashboard');
-  }
-};
 
 /**
  * User signout action creator

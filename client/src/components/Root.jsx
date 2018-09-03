@@ -11,12 +11,13 @@ import PropTypes from 'prop-types';
 import history from '../helpers/history';
 
 import Header from './Header';
-import HomePage from './HomePage';
+import ConnectedHomePage from './HomePage';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import UserMenu from './UserMenu';
 import UserOrderHistory from './UserOrderHistory';
-import PrivateRoute from './PrivateRoute';
+import ConnectedPrivateRoute from './PrivateRoute';
+import ConnectedPrivateAdminRoute from './PrivateAdminRoute';
 import NotFound from './NotFound';
 import Dashboard from './Dashboard';
 import Meals from './Meals';
@@ -24,13 +25,13 @@ import Menus from './Menus';
 import OrderConfirmation from './OrderConfirmation';
 
 
-const Root = ({ store }) => (
+export const Root = ({ store }) => (
   <Provider store={store}>
     <Router history={history}>
       <div>
         <Header className="navbar" />
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          <Route exact path="/" component={ConnectedHomePage} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route
@@ -39,18 +40,18 @@ const Root = ({ store }) => (
               <Redirect to="/" />
             )}
           />
-          <PrivateRoute path="/user-menu" component={UserMenu} />
-          <PrivateRoute
+          <ConnectedPrivateRoute path="/user-menu" component={UserMenu} />
+          <ConnectedPrivateRoute
             path="/user-order-history"
             component={UserOrderHistory}
           />
-          <PrivateRoute path="/dashboard" component={Dashboard} />
-          <PrivateRoute path="/meals" component={Meals} />
-          <PrivateRoute path="/menus" component={Menus} />
-          <PrivateRoute
+          <ConnectedPrivateRoute
             path="/order-confirmation"
             component={OrderConfirmation}
           />
+          <ConnectedPrivateAdminRoute path="/dashboard" component={Dashboard} />
+          <ConnectedPrivateAdminRoute path="/meals" component={Meals} />
+          <ConnectedPrivateAdminRoute path="/menus" component={Menus} />
           <Route component={NotFound} />
         </Switch>
       </div>

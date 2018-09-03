@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Preloader } from 'react-materialize';
 import { fetchMenu } from '../../actions/menuActions';
-import MealList from './MealList';
+import ConnectedMealList from './MealList';
 import Loading from '../util/Loading';
 import Paginate from '../util/Paginate';
 import {
@@ -11,7 +11,7 @@ import {
   getPreviousPageUrl, getCurrentPageUrl,
 } from '../../reducers/paginationReducer';
 
-class ConnectedMenuCard extends Component {
+export class MenuCard extends Component {
   constructor(props) {
     super(props);
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -42,7 +42,7 @@ class ConnectedMenuCard extends Component {
         <h2 className="text-center">
           Menu for Today {(new Date()).toDateString()}
         </h2>
-        <MealList link={link} />
+        <ConnectedMealList link={link} />
         <Paginate
           onPageChange={this.handlePageChange}
           nextUrl={this.props.nextUrl}
@@ -54,13 +54,17 @@ class ConnectedMenuCard extends Component {
   }
 }
 
-ConnectedMenuCard.propTypes = {
+MenuCard.defaultProps = {
+  nextUrl: '', previousUrl: '',
+};
+
+MenuCard.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   fetchMenu: PropTypes.func.isRequired,
   link: PropTypes.string.isRequired,
   currentUrl: PropTypes.string.isRequired,
-  nextUrl: PropTypes.string.isRequired,
-  previousUrl: PropTypes.string.isRequired,
+  nextUrl: PropTypes.string,
+  previousUrl: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
@@ -74,6 +78,4 @@ const mapDispatchToProps = dispatch => ({
   fetchMenu(url) { dispatch(fetchMenu(url)); },
 });
 
-const MenuCard = connect(mapStateToProps, mapDispatchToProps)(ConnectedMenuCard);
-
-export default MenuCard;
+export default connect(mapStateToProps, mapDispatchToProps)(MenuCard);

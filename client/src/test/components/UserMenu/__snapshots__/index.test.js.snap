@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<UserMenu /> should match snapshot 1`] = `
+<div>
+  <div
+    className="landing-main bg-light"
+  >
+    <main
+      style={
+        Object {
+          "minHeight": "calc(93vh - 151px)",
+        }
+      }
+    >
+      <ErrorWrapper
+        link="/order-confirmation"
+      />
+    </main>
+  </div>
+  <Footer />
+</div>
+`;

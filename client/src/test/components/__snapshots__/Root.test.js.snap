@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Root /> should render Root 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <div>
+      <Header
+        className="navbar"
+      />
+      <Switch>
+        <Route
+          component={[Function]}
+          exact={true}
+          path="/"
+        />
+        <Route
+          component={[Function]}
+          path="/signin"
+        />
+        <Route
+          component={[Function]}
+          path="/signup"
+        />
+        <Route
+          path="/signout"
+          render={[Function]}
+        />
+        <Connect(PrivateRoute)
+          component={[Function]}
+          path="/user-menu"
+        />
+        <Connect(PrivateRoute)
+          component={[Function]}
+          path="/user-order-history"
+        />
+        <Connect(PrivateRoute)
+          component={[Function]}
+          path="/order-confirmation"
+        />
+        <Connect(PrivateAdminRoute)
+          component={[Function]}
+          path="/dashboard"
+        />
+        <Connect(PrivateAdminRoute)
+          component={[Function]}
+          path="/meals"
+        />
+        <Connect(PrivateAdminRoute)
+          component={[Function]}
+          path="/menus"
+        />
+        <Route
+          component={[Function]}
+        />
+      </Switch>
+    </div>
+  </Router>
+</Provider>
+`;

@@ -1,11 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Root from './components/Root';
+import HotRoot from './components/Root';
 import configureStore from './store/configureStore';
 import { getUser } from './helpers/persistUser';
 import history from './helpers/history';
-import { autoNavigate, userSignInSuccess }
-  from './actions/userActions';
+import { userSignInSuccess } from './actions/userActions';
+import autoNavigate from './helpers/autoNavigate';
 import './static/index.scss';
 
 const store = configureStore();
@@ -18,4 +18,4 @@ if (user) {
   history.push('/');
 }
 
-render(<Root store={store} />, document.getElementById('root'));
+render(<HotRoot store={store} />, document.getElementById('root'));

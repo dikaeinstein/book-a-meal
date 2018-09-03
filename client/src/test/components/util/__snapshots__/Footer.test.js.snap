@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Footer /> should match snapshot 1`] = `
+<footer
+  className="text-center"
+>
+  <p>
+    © Book-A-Meal
+     
+    2018
+    . Developed with 
+    <span
+      className="text-dark"
+    >
+      ❤
+    </span>
+     by
+     
+    <a
+      href="https://dikaeinstein.github.io"
+    >
+      Dikaeinstein
+    </a>
+  </p>
+</footer>
+`;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Logo from './Logo';
-import Navigation from './Navigation';
+import ConnectedNavigation from './Navigation';
 
 const Header = ({ className }) => {
   const toggleNavbar = () => {
@@ -28,7 +28,7 @@ const Header = ({ className }) => {
       >
         &#9776;
       </div>
-      <Navigation />
+      <ConnectedNavigation />
     </header>
   );
 };

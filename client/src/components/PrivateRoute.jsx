@@ -3,31 +3,31 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const ConnectedPrivateRoute = ({ loggedIn, component: Component, ...rest }) => (
+export const PrivateRoute = ({
+  loggedIn, userRole, component: Component, ...rest
+}) => (
   <Route
     {...rest}
     render={props => (
-    loggedIn ?
+    loggedIn && userRole === 'customer' ?
       <Component {...props} />
       :
       <Redirect to="/signin" />)}
   />
 );
 
-ConnectedPrivateRoute.propTypes = {
+PrivateRoute.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
+  userRole: PropTypes.string.isRequired,
   component: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.func,
   ]).isRequired,
-  /* eslint react/forbid-prop-types: 0 */
-  location: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
   loggedIn: state.user.loggedIn,
+  userRole: state.user.data.role,
 });
 
-const PrivateRoute = connect(mapStateToProps)(ConnectedPrivateRoute);
-
-export default PrivateRoute;
+export default connect(mapStateToProps)(PrivateRoute);
