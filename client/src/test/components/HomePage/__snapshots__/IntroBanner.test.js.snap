@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IntroBanner should render IntroBanner correctly 1`] = `
+<section
+  className="text-center intro-banner image-overlay text-white"
+>
+  <h1>
+    Book-A-Meal
+  </h1>
+  <p
+    style={
+      Object {
+        "margin": "1rem",
+      }
+    }
+  >
+    Your favourite meal order service
+  </p>
+</section>
+`;

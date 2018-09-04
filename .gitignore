@@ -12,6 +12,7 @@ client/dist
 .nyc_output
 
 .coveralls.yml
+coverage
 
 # vscode
 .vscode

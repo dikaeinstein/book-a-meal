@@ -2,7 +2,7 @@
 
 exports[`<SideImage /> should match snapshot 1`] = `
 <section
-  className="col-3-4 hero text-center"
+  className="col-3-4 hero text-center bg-dark"
   id="testIn"
 >
   <div>

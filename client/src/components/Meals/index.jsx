@@ -16,7 +16,7 @@ import {
   getPreviousPageUrl, getCurrentPageUrl,
 } from '../../reducers/paginationReducer';
 
-Modal.setAppElement('#root');
+if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#root');
 
 class ConnectedMeals extends Component {
   constructor() {

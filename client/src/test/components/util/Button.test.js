@@ -1,11 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import Button from '../../components/util/Button';
-import setup from '../setup';
-
-// Setup tests
-setup();
+import Button from '../../../components/util/Button';
 
 let wrapper;
 

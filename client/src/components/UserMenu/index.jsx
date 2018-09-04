@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import MenuCard from './MenuCard';
+import ConnectedMenuCard from './MenuCard';
 import Footer from '../util/Footer';
 import errorHandler from '../util/errorHandler';
 
-const ConnectedUserMenu = ({ fetchMenuError }) => {
+export const UserMenu = ({ fetchMenuError }) => {
   const MenuCardWithErrorHandling =
-    errorHandler(MenuCard, 'Error fetching menu');
+    errorHandler(ConnectedMenuCard, 'Error fetching menu');
 
   return (
     <div>
@@ -24,7 +24,7 @@ const ConnectedUserMenu = ({ fetchMenuError }) => {
   );
 };
 
-ConnectedUserMenu.propTypes = {
+UserMenu.propTypes = {
   /* eslint react/require-default-props: 0 */
   fetchMenuError: PropTypes.oneOfType([
     PropTypes.string,
@@ -36,6 +36,4 @@ const mapStateToProps = state => ({
   fetchMenuError: state.menu.fetchError,
 });
 
-const UserMenu = connect(mapStateToProps)(ConnectedUserMenu);
-
-export default UserMenu;
+export default connect(mapStateToProps)(UserMenu);

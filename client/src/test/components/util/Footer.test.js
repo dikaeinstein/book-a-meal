@@ -1,11 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import Footer from '../../components/util/Footer';
-import setup from '../setup';
-
-// Setup tests
-setup();
+import Footer from '../../../components/util/Footer';
 
 let wrapper;
 

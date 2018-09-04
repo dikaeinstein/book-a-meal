@@ -2,29 +2,37 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import swal  from 'sweetalert';
 import { removeUser } from '../../helpers/persistUser';
 import history from '../../helpers/history';
 import { userSignOut } from '../../actions/userActions';
 import { getUser } from '../../reducers/userReducer';
 
-const ConnectedNavigation = ({ urls, signout, userName }) => {
-  const handleSignout = (event) => {
-    event.preventDefault();
-    signout();
-    removeUser();
-    history.push('/');
-  };
+export const Navigation = ({ urls, signout, userName }) => {
+  const handleSignout = () =>
+    swal({
+      text: 'Are you sure you want to leave this page?',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willLeave) => {
+        if (willLeave) {
+          signout();
+          removeUser();
+          history.push('/');
+        }
+      });
 
   const urlList = urls.map((url) => {
     if (url.link === 'signout') {
       return (
-        <li key={url.id}>
-          <NavLink
-            to={`/${url.link}`}
-            onClick={handleSignout}
-          >
-            {url.name}
-          </NavLink>
+        <li
+          key={url.id}
+          onClick={handleSignout}
+          onKeyDown={handleSignout}
+        >
+          {url.name}
         </li>
       );
     }
@@ -56,11 +64,11 @@ const ConnectedNavigation = ({ urls, signout, userName }) => {
   );
 };
 
-ConnectedNavigation.defaultProps = {
+Navigation.defaultProps = {
   userName: '',
 };
 
-ConnectedNavigation.propTypes = {
+Navigation.propTypes = {
   urls: PropTypes.arrayOf(PropTypes.object).isRequired,
   signout: PropTypes.func.isRequired,
   userName: PropTypes.string,
@@ -75,9 +83,7 @@ const mapDispatchToProps = dispatch => ({
   signout() { dispatch(userSignOut()); },
 });
 
-const Navigation = connect(
+export default connect(
   mapStateToProps, mapDispatchToProps,
   null, { pure: false },
-)(ConnectedNavigation);
-
-export default Navigation;
+)(Navigation);

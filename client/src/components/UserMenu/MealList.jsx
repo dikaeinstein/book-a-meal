@@ -5,7 +5,7 @@ import MenuMeal from './MenuMeal';
 import { getMenu } from '../../reducers/menuReducer';
 
 
-const ConnectedMealList = ({ meals, link }) => {
+export const MealList = ({ meals, link }) => {
   const mealList = meals
     .map(meal => <MenuMeal key={meal.id} defaultMeal={meal} link={link} />);
 
@@ -16,7 +16,7 @@ const ConnectedMealList = ({ meals, link }) => {
   );
 };
 
-ConnectedMealList.propTypes = {
+MealList.propTypes = {
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
   link: PropTypes.string.isRequired,
 };
@@ -25,6 +25,4 @@ const mapStateToProps = state => ({
   meals: getMenu(state.menu).meals,
 });
 
-const MealList = connect(mapStateToProps)(ConnectedMealList);
-
-export default MealList;
+export default connect(mapStateToProps)(MealList);

@@ -5,7 +5,7 @@ import history from '../../helpers/history';
 import Button from '../util/Button';
 import { checkoutOrder } from '../../actions/orderActions';
 
-class ConnectedMealCheckout extends Component {
+export class MealCheckout extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -95,7 +95,7 @@ class ConnectedMealCheckout extends Component {
   }
 }
 
-ConnectedMealCheckout.propTypes = {
+MealCheckout.propTypes = {
   defaultMeal: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -108,6 +108,4 @@ const mapDispatchToProps = dispatch => ({
   checkoutOrder(order) { dispatch(checkoutOrder(order)); },
 });
 
-const MealCheckout = connect(null, mapDispatchToProps)(ConnectedMealCheckout);
-
-export default MealCheckout;
+export default connect(null, mapDispatchToProps)(MealCheckout);

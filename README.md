@@ -6,7 +6,7 @@ Book-A-Meal is an application that allows customers to make food orders and help
 [![Maintainability](https://api.codeclimate.com/v1/badges/1104abe96a3ded2f2b39/maintainability)](https://codeclimate.com/github/Dikaeinstein/book-a-meal/maintainability)
 
 **View App:** [book-a-meal](https://dikaeinstein-book-a-meal.herokuapp.com)
-**View UI template:** [Click](https://dikaeinstein.github.io/book-a-meal/)
+<!-- **View UI template:** [Click](https://dikaeinstein.github.io/book-a-meal/) -->
 
 ## Features
 
@@ -23,7 +23,7 @@ Book-A-Meal is an application that allows customers to make food orders and help
 - Create meals
 - Modiy meals
 - Delete meals
-- Setup menu for P0articular Day
+- Setup menu for Particular Day
 - Get All Orders for a Specific Day
 - Get All Orders for a Specific User
 - View Order Summary for Specific Day
@@ -59,13 +59,12 @@ yarn start-dev     /* Keep watching files for changes */
 To run tests:
 
 ```yarn
-yarn test-single
-yarn test          /* Keep watching files for changes */
+yarn test
 ```
 
 ## API
 
-API is deployed at [here](https://dikaeinstein-book-a-meal.herokuapp.com/) on heroku.
+API is deployed at [here](https://dikaeinstein-book-a-meal.herokuapp.com/api/v1/api-docs) on heroku.
 
 ### API Routes
 

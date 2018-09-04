@@ -1,11 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import SideImage from '../../components/util/SideImage';
-import setup from '../setup';
-
-// Setup tests
-setup();
+import SideImage from '../../../components/util/SideImage';
 
 let wrapper;
 
