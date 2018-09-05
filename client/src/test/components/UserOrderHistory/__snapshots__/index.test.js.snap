@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<UserOrderHistory /> should match snapshot 1`] = `
+<div
+  className="loader-container"
+>
+  <Loading
+    text="fetching orders..."
+  >
+    <Preloader
+      active={true}
+      color="blue"
+      flashing={true}
+      size="medium"
+    />
+  </Loading>
+</div>
+`;

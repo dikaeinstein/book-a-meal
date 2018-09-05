@@ -5,9 +5,9 @@ exports[`<MealCheckout /> should match snapshot 1`] = `
   className="text-center"
   id="checkout"
 >
-  <h3>
+  <h5>
     Checkout Order
-  </h3>
+  </h5>
   <div>
     <table>
       <thead

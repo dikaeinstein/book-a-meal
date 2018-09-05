@@ -132,7 +132,7 @@ export class MenuMeal extends Component {
           className="btn btn-default"
           onClick={this.handleOpenMealCheckoutModal}
           value="Order Now"
-          style={{ margin: '1rem auto' }}
+          style={{ marginLeft: 'auto', marginRight: 'auto' }}
         />
       </div>
     );
@@ -143,6 +143,7 @@ MenuMeal.propTypes = {
   defaultMeal: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
+    PropTypes.object,
   ])).isRequired,
   loggedIn: PropTypes.bool.isRequired,
 };

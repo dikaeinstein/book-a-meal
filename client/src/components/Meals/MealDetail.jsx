@@ -14,12 +14,12 @@ const MealDetail = ({ meal, closeMealDetail }) => {
         <img src={meal.imageUrl} alt={meal.name} />
       </div>
       <div style={{ ...mealDetailItemStyle, flex: '40%', color: '#000' }}>
-        <h2
+        <h4
           className="text-capitalize font-weight-bold"
           style={{ margin: '.875rem 0' }}
         >
           {meal.name}
-        </h2>
+        </h4>
         <p
           className="font-weight-bold"
           style={{ margin: '.5rem 0' }}
@@ -54,6 +54,7 @@ MealDetail.propTypes = {
   meal: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
+    PropTypes.object,
   ])).isRequired,
   closeMealDetail: PropTypes.func.isRequired,
 };

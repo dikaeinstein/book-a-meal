@@ -34,7 +34,7 @@ class ConnectedMenu extends Component {
 
     return (
       <section className="menu landing-main">
-        <h2 className="text-center">{name}</h2>
+        <h4 className="text-center">{name}</h4>
         <div className="card menu-card table-scroll">
           {isFetching
             ?

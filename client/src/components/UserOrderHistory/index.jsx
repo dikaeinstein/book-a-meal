@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Preloader } from 'react-materialize';
-import OrderHistory from './OrderHistory';
+import ConnectedOrderHistory from './OrderHistory';
 import { fetchUserOrders } from '../../actions/orderActions';
 import Loading from '../util/Loading';
 import Footer from '../util/Footer';
@@ -13,7 +13,7 @@ import {
   getPreviousPageUrl,
 } from '../../reducers/paginationReducer';
 
-class ConnectedUserOrderHistory extends Component {
+export class UserOrderHistory extends Component {
   constructor(props) {
     super(props);
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -37,7 +37,7 @@ class ConnectedUserOrderHistory extends Component {
 
     const OrderHistoryWithErrorHandling =
       errorHandler(
-        OrderHistory, 'Error fetching orders',
+        ConnectedOrderHistory, 'Error fetching orders',
         this.handleRetry, true,
       );
 
@@ -57,7 +57,7 @@ class ConnectedUserOrderHistory extends Component {
           className="bg-light order-history-main text-center"
           style={{ minHeight: 'calc(100vh - 151px)' }}
         >
-          <h2>Order history</h2>
+          <h4>Order history</h4>
           <section className="card order-history">
             <OrderHistoryWithErrorHandling error={error} />
             <Pagination
@@ -74,7 +74,7 @@ class ConnectedUserOrderHistory extends Component {
   }
 }
 
-ConnectedUserOrderHistory.propTypes = {
+UserOrderHistory.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   /* eslint react/require-default-props: 0 */
   error: PropTypes.oneOfType([
@@ -95,11 +95,4 @@ const mapStateToProps = state => ({
   previousUrl: getPreviousPageUrl(state.pagination.orders),
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchUserOrders(url) { dispatch(fetchUserOrders(url)); },
-});
-
-const UserOrderHistory =
-  connect(mapStateToProps, mapDispatchToProps)(ConnectedUserOrderHistory);
-
-export default UserOrderHistory;
+export default connect(mapStateToProps, { fetchUserOrders })(UserOrderHistory);

@@ -22,12 +22,12 @@ exports[`<MenuCard /> should match snapshot 2`] = `
   className="main"
   id="menu"
 >
-  <h2
+  <h4
     className="text-center"
   >
     Menu for Today 
-    Mon Sep 03 2018
-  </h2>
+    Wed Sep 05 2018
+  </h4>
   <Connect(Component)
     link="/test"
   />

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import UserOrder from './UserOrder';
+import ConnectedUserOrder from './UserOrder';
 
 const OrderList = ({ orders }) => {
   const renderTableBody = () => {
     const orderRows = orders.map(order =>
-      <UserOrder key={order.id} order={order} />);
+      <ConnectedUserOrder key={order.id} order={order} />);
     return (
       <tbody>
         {orderRows}

@@ -167,11 +167,11 @@ ConnectedMeals.propTypes = {
   fetchCatererMeals: PropTypes.func.isRequired,
   role: PropTypes.string.isRequired,
   currentUrl: PropTypes.string.isRequired,
-  nextUrl: PropTypes.string.isRequired,
-  previousUrl: PropTypes.string.isRequired,
+  nextUrl: PropTypes.string,
+  previousUrl: PropTypes.string,
   catererCurrentUrl: PropTypes.string.isRequired,
-  catererNextUrl: PropTypes.string.isRequired,
-  catererPreviousUrl: PropTypes.string.isRequired,
+  catererNextUrl: PropTypes.string,
+  catererPreviousUrl: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

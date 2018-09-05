@@ -6,7 +6,7 @@ import Button from '../util/Button';
 import Footer from '../util/Footer';
 import { makeOrder } from '../../actions/orderActions';
 
-const ConnectedOrderConfirmation = ({ checkedOutOrder, orderMeal }) => {
+export const OrderConfirmation = ({ checkedOutOrder, orderMeal }) => {
   const btnStyle = {
     margin: '1rem',
   };
@@ -25,7 +25,7 @@ const ConnectedOrderConfirmation = ({ checkedOutOrder, orderMeal }) => {
         style={{ minHeight: 'calc(100vh - 151px)' }}
       >
         <section className="card text-center order-details">
-          <h2>Order Summary</h2>
+          <h4>Order Summary</h4>
           <div style={orderItem} className="m1">
             <div className="f1">Meal</div>
             <div className="f1">{checkedOutOrder.name}</div>
@@ -38,9 +38,9 @@ const ConnectedOrderConfirmation = ({ checkedOutOrder, orderMeal }) => {
             </div>
           </div>
           <div style={orderItem} className="font-weight-bold m1">
-            <div className="f1"><h3>TOTAL</h3></div>
+            <div className="f1"><h5>TOTAL</h5></div>
             <div className="f1">
-              <h2>&#x20a6; {checkedOutOrder.total}</h2>
+              <h5>&#x20a6; {checkedOutOrder.total}</h5>
             </div>
           </div>
           <div style={{ ...orderItem, justifyContent: 'space-around' }}>
@@ -64,7 +64,7 @@ const ConnectedOrderConfirmation = ({ checkedOutOrder, orderMeal }) => {
   );
 };
 
-ConnectedOrderConfirmation.propTypes = {
+OrderConfirmation.propTypes = {
   orderMeal: PropTypes.func.isRequired,
   checkedOutOrder: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
@@ -76,11 +76,7 @@ const mapStateToProps = state => ({
   checkedOutOrder: state.orders.checkedOutOrder,
 });
 
-const mapDispatchToProps = dispatch => ({
-  orderMeal(order) { dispatch(makeOrder(order)); },
-});
-
-const OrderConfirmation =
-  connect(mapStateToProps, mapDispatchToProps)(ConnectedOrderConfirmation);
-
-export default OrderConfirmation;
+export default connect(
+  mapStateToProps,
+  { orderMeal: makeOrder },
+)(OrderConfirmation);

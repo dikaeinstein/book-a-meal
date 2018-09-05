@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import ConnectedSignOut from './SignOut';
 
 export const PrivateRoute = ({
   loggedIn, userRole, component: Component, ...rest
@@ -12,7 +13,7 @@ export const PrivateRoute = ({
     loggedIn && userRole === 'customer' ?
       <Component {...props} />
       :
-      <Redirect to="/signin" />)}
+      <ConnectedSignOut><Redirect to="/signin" /></ConnectedSignOut>)}
   />
 );
 

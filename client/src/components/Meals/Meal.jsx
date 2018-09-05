@@ -169,6 +169,7 @@ ConnectedMeal.propTypes = {
   meal: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
+    PropTypes.object,
   ])).isRequired,
   isDeleting: PropTypes.bool.isRequired,
   isUpdating: PropTypes.bool.isRequired,

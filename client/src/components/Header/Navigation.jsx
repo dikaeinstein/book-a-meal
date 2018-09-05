@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import swal  from 'sweetalert';
+import swal from 'sweetalert';
 import { removeUser } from '../../helpers/persistUser';
 import history from '../../helpers/history';
 import { userSignOut } from '../../actions/userActions';
@@ -40,6 +40,8 @@ export const Navigation = ({ urls, signout, userName }) => {
     if (url.link && (url.name === 'Customer' || url.name === 'Caterer')) {
       return (
         <li key={url.id}>
+          <i className="fas fa-user-circle" />
+          {' '}
           {userName.split(' ')[0]}
         </li>
       );

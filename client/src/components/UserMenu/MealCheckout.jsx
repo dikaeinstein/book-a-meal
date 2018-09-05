@@ -44,7 +44,7 @@ export class MealCheckout extends Component {
   render() {
     return (
       <div id="checkout" className="text-center">
-        <h3>Checkout Order</h3>
+        <h5>Checkout Order</h5>
         <div>
           <table>
             <thead className="text-center">
@@ -104,8 +104,4 @@ MealCheckout.propTypes = {
   checkoutOrder: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
-  checkoutOrder(order) { dispatch(checkoutOrder(order)); },
-});
-
-export default connect(null, mapDispatchToProps)(MealCheckout);
+export default connect(null, { checkoutOrder })(MealCheckout);

@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OrderList /> match should snapshot 1`] = `
+<div
+  className="orders"
+>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          Order ID
+        </th>
+        <th>
+          Order Name
+        </th>
+        <th>
+          Customer
+        </th>
+        <th>
+          Order Amount (₦)
+        </th>
+        <th>
+          Quantity (plate)
+        </th>
+        <th>
+          Total (₦)
+        </th>
+        <th>
+          Status
+        </th>
+        <th>
+          Order Actions
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <Connect(Component)
+        key="11"
+        order={
+          Object {
+            "expired": false,
+            "id": 11,
+            "meal": Object {
+              "id": 3,
+              "name": "Amala and Ewedu",
+              "price": "4000",
+            },
+            "mealId": 3,
+            "quantity": 1,
+            "status": "delivered",
+            "total": "4000",
+            "user": Object {
+              "id": 4,
+              "name": "Chinonso Okorie",
+            },
+            "userId": 4,
+          }
+        }
+      />
+    </tbody>
+  </table>
+</div>
+`;

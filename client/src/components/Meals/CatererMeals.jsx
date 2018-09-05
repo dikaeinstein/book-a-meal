@@ -19,7 +19,7 @@ const ConnectedCatererMeals = ({ isFetching, handleMealUpdate, meals }) => {
 
   return (
     <section className="bg-light">
-      <h1 className="text-center">Meals</h1>
+      <h4 className="text-center">Meals</h4>
       <CatererMealList
         meals={meals}
         handleMealUpdate={handleMealUpdate}

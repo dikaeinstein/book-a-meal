@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getTotalAmount, getCatererTotalAmount } from '../../actions/dashboardActions';
+import { getTotalAmount, getCatererTotalAmount }
+  from '../../actions/dashboardActions';
 
-const ConnectedTotalAmount = ({
-  totalAmount, fetchTotalAmount, role, fetchCatererTotalAmount,
+export const TotalAmount = ({
+  totalAmount, fetchTotalAmount, userRole, fetchCatererTotalAmount,
 }) => {
-  if (role === 'superAdmin') {
+  if (userRole === 'superAdmin') {
     fetchTotalAmount();
   } else {
     fetchCatererTotalAmount();
@@ -20,24 +21,22 @@ const ConnectedTotalAmount = ({
   );
 };
 
-ConnectedTotalAmount.propTypes = {
+TotalAmount.propTypes = {
   totalAmount: PropTypes.number.isRequired,
-  role: PropTypes.string.isRequired,
+  userRole: PropTypes.string.isRequired,
   fetchTotalAmount: PropTypes.func.isRequired,
   fetchCatererTotalAmount: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   totalAmount: state.dashboard.totalAmount,
-  role: state.user.data.role,
+  userRole: state.user.data.role,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchTotalAmount() { dispatch(getTotalAmount()); },
-  fetchCatererTotalAmount() { dispatch(getCatererTotalAmount()); },
-});
-
-const TotalAmount =
-  connect(mapStateToProps, mapDispatchToProps)(ConnectedTotalAmount);
-
-export default TotalAmount;
+export default connect(
+  mapStateToProps,
+  {
+    fetchTotalAmount: getTotalAmount,
+    fetchCatererTotalAmount: getCatererTotalAmount,
+  },
+)(TotalAmount);
