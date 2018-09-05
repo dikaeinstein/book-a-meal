@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Paginate /> should match snapshot 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "justifyContent": "center",
+      "marginTop": "1rem",
+    }
+  }
+/>
+`;
+
+exports[`<Paginate /> should match snapshot 2`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "justifyContent": "center",
+      "marginTop": "1rem",
+    }
+  }
+>
+  <button
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "none",
+        "border": "none",
+        "color": "#eb480b",
+        "margin": "1rem .5rem",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "background": "inherits",
+          "margin": ".25rem",
+        }
+      }
+    >
+      Previous
+    </span>
+    <i
+      className="fas fa-arrow-alt-circle-left"
+    />
+  </button>
+</div>
+`;
+
+exports[`<Paginate /> should match snapshot 3`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "justifyContent": "center",
+      "marginTop": "1rem",
+    }
+  }
+>
+  <button
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "none",
+        "border": "none",
+        "color": "#eb480b",
+        "margin": "1rem .5rem",
+      }
+    }
+  >
+    <i
+      className="fas fa-arrow-alt-circle-right"
+    />
+    <span
+      style={
+        Object {
+          "background": "inherits",
+          "margin": ".25rem",
+        }
+      }
+    >
+      Next
+    </span>
+  </button>
+</div>
+`;

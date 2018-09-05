@@ -39,9 +39,9 @@ export class MenuCard extends Component {
 
     return (
       <section className="main" id="menu">
-        <h2 className="text-center">
+        <h4 className="text-center">
           Menu for Today {(new Date()).toDateString()}
-        </h2>
+        </h4>
         <ConnectedMealList link={link} />
         <Paginate
           onPageChange={this.handlePageChange}
@@ -74,8 +74,4 @@ const mapStateToProps = state => ({
   previousUrl: getPreviousPageUrl(state.pagination.menu),
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchMenu(url) { dispatch(fetchMenu(url)); },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(MenuCard);
+export default connect(mapStateToProps, { fetchMenu })(MenuCard);

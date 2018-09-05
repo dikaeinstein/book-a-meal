@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { Menu, Meal } from '../models';
+import { Menu, Meal, User } from '../models';
 import getAPIBaseUrl from '../lib/getAPIBaseUrl';
 import buildCheckMealsQuery from '../lib/buildCheckMealsQuery';
 import { linksURIBuilder, menuMealsCount } from '../lib/pagination';
@@ -74,6 +74,13 @@ please include meal that exist when setting up menu`;
     await menu.addMeals(mealIds);
 
     const menuMeals = await menu.getMeals({
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'name'],
+        },
+      ],
       limit,
       offset,
       joinTableAttributes: [],
@@ -144,6 +151,13 @@ please include meal that exist when setting up menu`;
     }
 
     const menuMeals = await todayMenu.getMeals({
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'name'],
+        },
+      ],
       limit,
       offset,
       joinTableAttributes: [],
@@ -238,6 +252,13 @@ please include meal that exist when setting up menu`;
     }
 
     const updatedMenuMeals = await matchedMenu.getMeals({
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'name'],
+        },
+      ],
       limit,
       offset,
       joinTableAttributes: [],

@@ -17,9 +17,9 @@ const errorHandler = (WrappedComponent, defaultMessage, onRetry = null, retry = 
     if (error) {
       return (
         <div className="error-container text-center">
-          <h2>
+          <h4>
             {transformError(error, defaultMessage)}
-          </h2>
+          </h4>
           {retry
             ?
               <button

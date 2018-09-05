@@ -13,6 +13,9 @@ describe('<Header />', () => {
     wrapper = shallow(<Header className="test" />);
   });
   it('should render a hamburger', () => {
+    const spy = jest.spyOn(document, 'getElementsByClassName');
+    spy.mockReturnValue([{ classList: { toggle: jest.fn() } }]);
+    wrapper.find('.toggle-show').simulate('click');
     expect(wrapper.find('.toggle-show').length).toEqual(1);
   });
   it('should render a "ToastContainer" component', () => {

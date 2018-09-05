@@ -36,7 +36,7 @@ class ConnectedSetupMenu extends Component {
 
     return (
       <section>
-        <h2 className="text-center">Set Up Menu</h2>
+        <h5 className="text-center">Set Up Menu</h5>
         <MenuCheckBoxForm
           error={error}
           handleSubmit={this.handleSubmit}

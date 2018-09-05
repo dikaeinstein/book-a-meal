@@ -16,7 +16,7 @@ const SignInForm = (props) => {
 
   return (
     <Form className="form card">
-      <h2 className="text-center">Sign In</h2>
+      <h5 className="text-center">Sign In</h5>
       <p className="text-center font-weight-bold">
         Sign in to book a meal now
       </p>

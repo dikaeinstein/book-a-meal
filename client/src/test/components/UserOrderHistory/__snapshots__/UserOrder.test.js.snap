@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<User /> should match snapshot 1`] = `
+<React.Fragment>
+  <tr
+    key="11"
+  >
+    <td>
+      11
+    </td>
+    <td>
+      Amala and Ewedu
+    </td>
+    <td>
+      4000
+    </td>
+    <td>
+      1
+    </td>
+    <td>
+      4000
+    </td>
+    <td
+      className="text-success"
+    >
+      delivered
+    </td>
+    <td>
+      <div
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      >
+        <button
+          className="action-btn"
+          disabled={true}
+          onClick={[Function]}
+          style={
+            Object {
+              "backgroundColor": "#ccc",
+              "cursor": "default",
+            }
+          }
+          title="Update order"
+          value="Edit"
+        >
+          Update
+        </button>
+        <button
+          className="action-btn"
+          disabled={true}
+          onClick={[Function]}
+          style={
+            Object {
+              "backgroundColor": "#ccc",
+              "cursor": "default",
+            }
+          }
+          title="Cancel order"
+          value="Cancel"
+        >
+          Cancel
+        </button>
+      </div>
+    </td>
+  </tr>
+  <Modal
+    ariaHideApp={true}
+    bodyOpenClassName="ReactModal__Body--open"
+    closeTimeoutMS={150}
+    contentLabel="Update order"
+    isOpen={false}
+    parentSelector={[Function]}
+    portalClassName="ReactModalPortal"
+    shouldCloseOnEsc={true}
+    shouldCloseOnOverlayClick={true}
+    shouldFocusAfterRender={true}
+    shouldReturnFocusAfterClose={true}
+    style={
+      Object {
+        "content": Object {
+          "bottom": "auto",
+          "left": "50%",
+          "marginRight": "-50%",
+          "minWidth": "20rem",
+          "right": "auto",
+          "top": "50%",
+          "transform": "translate(-50%, -50%)",
+          "width": "45%",
+        },
+        "overlay": Object {
+          "backgroundColor": "rgba(0, 0, 0, 0.25)",
+        },
+      }
+    }
+  >
+    <Button
+      className="close"
+      onClick={[Function]}
+      value="×"
+    />
+    <Connect(UpdateOrder)
+      closeModal={[Function]}
+      defaultOrder={
+        Object {
+          "expired": false,
+          "id": 11,
+          "meal": Object {
+            "id": 3,
+            "name": "Amala and Ewedu",
+            "price": "4000",
+          },
+          "mealId": 3,
+          "quantity": 1,
+          "status": "delivered",
+          "total": "4000",
+          "user": Object {
+            "id": 4,
+            "name": "Chinonso Okorie",
+          },
+          "userId": 4,
+        }
+      }
+    />
+  </Modal>
+</React.Fragment>
+`;

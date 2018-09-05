@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import { updateOrder } from '../../actions/dashboardActions';
 
-const ConnectedOrder = (props) => {
+export const Order = (props) => {
   const { order } = props;
 
   const handleDeliver = async () => {
@@ -106,7 +106,7 @@ const ConnectedOrder = (props) => {
   );
 };
 
-ConnectedOrder.propTypes = {
+Order.propTypes = {
   order: PropTypes.objectOf(PropTypes
     .oneOfType([
       PropTypes.number, PropTypes.string,
@@ -119,12 +119,5 @@ const mapStateToProps = state => ({
   isUpdating: state.dashboard.isUpdating,
 });
 
-const mapDispatchToProps = dispatch => ({
-  modifyOrder(values, orderId) {
-    dispatch(updateOrder(values, orderId));
-  },
-});
 
-const Order = connect(mapStateToProps, mapDispatchToProps)(ConnectedOrder);
-
-export default Order;
+export default connect(mapStateToProps, { modifyOrder: updateOrder })(Order);

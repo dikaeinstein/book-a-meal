@@ -72,12 +72,10 @@ const fetchAllOrdersError = (
   state = initialState.dashboard.fetchAllOrdersError,
   action,
 ) => {
-  switch (action.type) {
-    case FETCH_ALL_ORDERS_ERROR:
-      return action.message;
-    default:
-      return state;
+  if (action.type === FETCH_ALL_ORDERS_ERROR) {
+    return action.message;
   }
+  return initialState.dashboard.fetchAllOrdersError;
 };
 
 const updateOrderError = (
@@ -163,6 +161,8 @@ const totalOrders = (state = initialState.dashboard.totalOrders, action) => {
       return state;
   }
 };
+
+export const isFetching = state => state.isFetchingAllOrders;
 
 export const getOrders = state =>
   state.allIds.map(id => state.byId[id]);

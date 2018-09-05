@@ -1,13 +1,14 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import sweetAlert from 'sweetalert';
+import sweetalert from 'sweetalert';
 import { NavLink } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import ConnectedNavigation, { Navigation } from '../../../components/Header/Navigation';
+import ConnectedNavigation, { Navigation }
+  from '../../../components/Header/Navigation';
 
 jest.mock('sweetalert');
 const signout = jest.fn();
-sweetAlert.mockResolvedValue(Promise.resolve(true));
+sweetalert.mockResolvedValue(Promise.resolve(true));
 
 const urls = [
   {

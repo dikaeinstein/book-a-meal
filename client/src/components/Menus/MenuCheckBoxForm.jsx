@@ -67,12 +67,12 @@ class MealsCheckBoxForm extends Component {
         className="form card"
         onSubmit={this.handleSubmit}
       >
-        <h3
+        <h6
           className="text-center"
           style={{ margin: '.5rem 0 1rem 0' }}
         >
           Select meals to add to menu
-        </h3>
+        </h6>
         <div>
           <Label className="label label-block" htmlFor="name">
             Menu Name:
@@ -85,7 +85,7 @@ class MealsCheckBoxForm extends Component {
           />
         </div>
         <div>
-          <h3 style={{ margin: '.5rem 0' }}>Meals</h3>
+          <h5 style={{ margin: '.5rem 0' }}>Meals</h5>
           <MealsCheckBoxList
             meals={this.props.meals}
             checkedMeals={this.state.checked}

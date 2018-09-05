@@ -14,7 +14,7 @@ const SignUpForm = (props) => {
   } = props;
   return (
     <Form className="form card">
-      <h2 className="text-center">Sign Up</h2>
+      <h5 className="text-center">Sign Up</h5>
       <p className="text-center font-weight-bold">
         Sign up to book a meal now
       </p>

@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import DashboardOrderHistory from './DashboardOrderHistory';
+import ConnectedDashboardOrderHistory from './DashboardOrderHistory';
 import Footer from '../util/Footer';
-import FilterOrders from './FilterOrders';
-import TotalOrders from './TotalOrders';
-import TotalSales from './TotalAmount';
+import ConnectedFilterOrders from './FilterOrders';
+import ConnectedTotalOrders from './TotalOrders';
+import ConnectedTotalAmount from './TotalAmount';
 import errorHandler from '../util/errorHandler';
 
 
-const ConnectedDashboard = ({ fetchAllOrdersError }) => {
+export const Dashboard = ({ fetchAllOrdersError }) => {
   const DashboardOrderHistoryWithErrorHandling =
-    errorHandler(DashboardOrderHistory, 'Error fetching orders');
+    errorHandler(ConnectedDashboardOrderHistory, 'Error fetching orders');
 
   return (
     <div>
@@ -19,11 +19,11 @@ const ConnectedDashboard = ({ fetchAllOrdersError }) => {
         className="dash-main text-center bg-dark-light"
         style={{ minHeight: 'calc(100vh - 151px)' }}
       >
-        <h1>Dashboard</h1>
+        <h4>Dashboard</h4>
         <section className="card dashboard">
-          <TotalOrders />
-          <TotalSales />
-          <FilterOrders />
+          <ConnectedTotalOrders />
+          <ConnectedTotalAmount />
+          <ConnectedFilterOrders />
           <DashboardOrderHistoryWithErrorHandling
             error={fetchAllOrdersError}
           />
@@ -34,7 +34,7 @@ const ConnectedDashboard = ({ fetchAllOrdersError }) => {
   );
 };
 
-ConnectedDashboard.propTypes = {
+Dashboard.propTypes = {
   /* eslint react/require-default-props: 0 */
   fetchAllOrdersError: PropTypes.oneOfType([
     PropTypes.string,
@@ -46,6 +46,4 @@ const mapStateToProps = state => ({
   fetchAllOrdersError: state.dashboard.fetchAllOrdersError,
 });
 
-const Dashboard = connect(mapStateToProps)(ConnectedDashboard);
-
-export default Dashboard;
+export default connect(mapStateToProps)(Dashboard);

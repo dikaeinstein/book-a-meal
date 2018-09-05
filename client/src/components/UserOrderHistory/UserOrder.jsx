@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
-import UpdateOrder from './UpdateOrder';
+import ConnectedUpdateOrder from './UpdateOrder';
 import Button from '../util/Button';
 import { updateOrder } from '../../actions/orderActions';
 
 
-class ConnectedUserOrder extends Component {
+export class UserOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -137,7 +137,7 @@ class ConnectedUserOrder extends Component {
             onClick={this.handleCloseModal}
             className="close"
           />
-          <UpdateOrder
+          <ConnectedUpdateOrder
             defaultOrder={this.props.order}
             closeModal={this.handleCloseModal}
           />
@@ -147,7 +147,7 @@ class ConnectedUserOrder extends Component {
   }
 }
 
-ConnectedUserOrder.propTypes = {
+UserOrder.propTypes = {
   order: PropTypes.objectOf(PropTypes
     .oneOfType([
       PropTypes.number, PropTypes.string,
@@ -156,12 +156,4 @@ ConnectedUserOrder.propTypes = {
   modifyOrder: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
-  modifyOrder(values, orderId) {
-    dispatch(updateOrder(values, orderId));
-  },
-});
-
-const UserOrder = connect(null, mapDispatchToProps)(ConnectedUserOrder);
-
-export default UserOrder;
+export default connect(null, { modifyOrder: updateOrder })(UserOrder);

@@ -72,6 +72,7 @@ exports[`<MenuMeal /> should match snapshot 1`] = `
           "name": "test meal",
           "price": 2000,
           "user": Object {
+            "id": 1,
             "name": "Dika Test",
           },
         }
@@ -135,8 +136,21 @@ exports[`<MenuMeal /> should match snapshot 1`] = `
       onClick={[Function]}
       value="×"
     />
-    <SigninSignupButtons
+    <Connect(MealCheckout)
       closeModal={[Function]}
+      defaultMeal={
+        Object {
+          "id": 1,
+          "imageUrl": "http://testurl.com/image.jpg",
+          "name": "test meal",
+          "price": 2000,
+          "user": Object {
+            "id": 1,
+            "name": "Dika Test",
+          },
+        }
+      }
+      key="1"
     />
   </Modal>
   <Button
@@ -144,7 +158,8 @@ exports[`<MenuMeal /> should match snapshot 1`] = `
     onClick={[Function]}
     style={
       Object {
-        "margin": "1rem auto",
+        "marginLeft": "auto",
+        "marginRight": "auto",
       }
     }
     value="Order Now"

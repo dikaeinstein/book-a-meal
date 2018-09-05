@@ -5,7 +5,7 @@ import swal from 'sweetalert';
 import Button from '../util/Button';
 import { updateOrder } from '../../actions/orderActions';
 
-class ConnectedUpdateOrder extends Component {
+export class UpdateOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +53,7 @@ class ConnectedUpdateOrder extends Component {
   render() {
     return (
       <div id="checkout" className="text-center">
-        <h3>Update Order</h3>
+        <h5>Update Order</h5>
         <div>
           <table>
             <thead className="text-center">
@@ -113,7 +113,7 @@ class ConnectedUpdateOrder extends Component {
   }
 }
 
-ConnectedUpdateOrder.propTypes = {
+UpdateOrder.propTypes = {
   defaultOrder: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -128,13 +128,4 @@ const mapStateToProps = state => ({
   isUpdating: state.orders.isUpdating,
 });
 
-const mapDispatchToProps = dispatch => ({
-  modifyOrder(values, orderId) {
-    dispatch(updateOrder(values, orderId));
-  },
-});
-
-const UpdateOrder =
-  connect(mapStateToProps, mapDispatchToProps)(ConnectedUpdateOrder);
-
-export default UpdateOrder;
+export default connect(mapStateToProps, { modifyOrder: updateOrder })(UpdateOrder);
