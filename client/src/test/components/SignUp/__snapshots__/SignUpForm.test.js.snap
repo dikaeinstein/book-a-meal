@@ -1,0 +1,450 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SignUpForm /> should match snapshot 1`] = `
+<Form
+  className="form card"
+>
+  <h5
+    className="text-center"
+  >
+    Sign Up
+  </h5>
+  <p
+    className="text-center font-weight-bold"
+  >
+    Sign up to book a meal now
+  </p>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="name"
+    >
+      Full name
+    </Label>
+    <Field
+      className=""
+      id="name"
+      name="name"
+      placeholder="Enter full name"
+      required={true}
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="email"
+    >
+      Email address:
+    </Label>
+    <Field
+      className=""
+      id="email"
+      name="email"
+      placeholder="johndoe@domain.com"
+      required={true}
+      type="email"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="password"
+    >
+      Password:
+    </Label>
+    <Field
+      className=""
+      id="password"
+      name="password"
+      placeholder="Enter password"
+      required={true}
+      type="password"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="confirmPassword"
+    >
+      Confirm Password:
+    </Label>
+    <Field
+      className=""
+      id="confirmPassword"
+      name="confirmPassword"
+      placeholder="Confirm password"
+      required={true}
+      type="password"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="customer"
+    >
+      Sign up as:
+    </Label>
+    <Field
+      component="select"
+      id="role"
+      name="role"
+      required={true}
+    >
+      <option
+        value="customer"
+      >
+        Customer
+      </option>
+      <option
+        value="caterer"
+      >
+        Caterer
+      </option>
+    </Field>
+  </div>
+  <Button
+    className="btn btn-default btn-default-lg font-weight-bold"
+    disabled={false}
+    type="submit"
+    value="Sign Up"
+  />
+</Form>
+`;
+
+exports[`<SignUpForm /> should show an error if email does not validate 1`] = `
+<Form
+  className="form card"
+>
+  <h5
+    className="text-center"
+  >
+    Sign Up
+  </h5>
+  <p
+    className="text-center font-weight-bold"
+  >
+    Sign up to book a meal now
+  </p>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="name"
+    >
+      Full name
+    </Label>
+    <Field
+      className=""
+      id="name"
+      name="name"
+      placeholder="Enter full name"
+      required={true}
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="email"
+    >
+      Email address:
+    </Label>
+    <Field
+      className=""
+      id="email"
+      name="email"
+      placeholder="johndoe@domain.com"
+      required={true}
+      type="email"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="password"
+    >
+      Password:
+    </Label>
+    <Field
+      className=""
+      id="password"
+      name="password"
+      placeholder="Enter password"
+      required={true}
+      type="password"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="confirmPassword"
+    >
+      Confirm Password:
+    </Label>
+    <Field
+      className=""
+      id="confirmPassword"
+      name="confirmPassword"
+      placeholder="Confirm password"
+      required={true}
+      type="password"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="customer"
+    >
+      Sign up as:
+    </Label>
+    <Field
+      component="select"
+      id="role"
+      name="role"
+      required={true}
+    >
+      <option
+        value="customer"
+      >
+        Customer
+      </option>
+      <option
+        value="caterer"
+      >
+        Caterer
+      </option>
+    </Field>
+  </div>
+  <Button
+    className="btn btn-default btn-default-lg font-weight-bold"
+    disabled={false}
+    type="submit"
+    value="Sign Up"
+  />
+</Form>
+`;
+
+exports[`<SignUpForm /> should show an error if password does not validate 1`] = `
+<Form
+  className="form card"
+>
+  <h5
+    className="text-center"
+  >
+    Sign Up
+  </h5>
+  <p
+    className="text-center font-weight-bold"
+  >
+    Sign up to book a meal now
+  </p>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="name"
+    >
+      Full name
+    </Label>
+    <Field
+      className=""
+      id="name"
+      name="name"
+      placeholder="Enter full name"
+      required={true}
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="email"
+    >
+      Email address:
+    </Label>
+    <Field
+      className=""
+      id="email"
+      name="email"
+      placeholder="johndoe@domain.com"
+      required={true}
+      type="email"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="password"
+    >
+      Password:
+    </Label>
+    <Field
+      className=""
+      id="password"
+      name="password"
+      placeholder="Enter password"
+      required={true}
+      type="password"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="confirmPassword"
+    >
+      Confirm Password:
+    </Label>
+    <Field
+      className=""
+      id="confirmPassword"
+      name="confirmPassword"
+      placeholder="Confirm password"
+      required={true}
+      type="password"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="customer"
+    >
+      Sign up as:
+    </Label>
+    <Field
+      component="select"
+      id="role"
+      name="role"
+      required={true}
+    >
+      <option
+        value="customer"
+      >
+        Customer
+      </option>
+      <option
+        value="caterer"
+      >
+        Caterer
+      </option>
+    </Field>
+  </div>
+  <Button
+    className="btn btn-default btn-default-lg font-weight-bold"
+    disabled={false}
+    type="submit"
+    value="Sign Up"
+  />
+</Form>
+`;
+
+exports[`<SignUpForm /> should show loading indicator when isSubmitting 1`] = `
+<Form
+  className="form card"
+>
+  <h5
+    className="text-center"
+  >
+    Sign Up
+  </h5>
+  <p
+    className="text-center font-weight-bold"
+  >
+    Sign up to book a meal now
+  </p>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="name"
+    >
+      Full name
+    </Label>
+    <Field
+      className=""
+      id="name"
+      name="name"
+      placeholder="Enter full name"
+      required={true}
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="email"
+    >
+      Email address:
+    </Label>
+    <Field
+      className=""
+      id="email"
+      name="email"
+      placeholder="johndoe@domain.com"
+      required={true}
+      type="email"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="password"
+    >
+      Password:
+    </Label>
+    <Field
+      className=""
+      id="password"
+      name="password"
+      placeholder="Enter password"
+      required={true}
+      type="password"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="confirmPassword"
+    >
+      Confirm Password:
+    </Label>
+    <Field
+      className=""
+      id="confirmPassword"
+      name="confirmPassword"
+      placeholder="Confirm password"
+      required={true}
+      type="password"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="customer"
+    >
+      Sign up as:
+    </Label>
+    <Field
+      component="select"
+      id="role"
+      name="role"
+      required={true}
+    >
+      <option
+        value="customer"
+      >
+        Customer
+      </option>
+      <option
+        value="caterer"
+      >
+        Caterer
+      </option>
+    </Field>
+  </div>
+  <Button
+    className="btn btn-default btn-default-lg font-weight-bold"
+    disabled={true}
+    type="submit"
+    value="Sign Up"
+  />
+  <Loading
+    text="signing in"
+  >
+    <ProgressBar />
+  </Loading>
+</Form>
+`;

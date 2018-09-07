@@ -11,7 +11,7 @@ import {
   getPreviousPageUrl,
 } from '../../reducers/paginationReducer';
 
-class ConnectedSetupMenu extends Component {
+export class SetupMenu extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -53,7 +53,7 @@ class ConnectedSetupMenu extends Component {
   }
 }
 
-ConnectedSetupMenu.propTypes = {
+SetupMenu.propTypes = {
   setMenu: PropTypes.func.isRequired,
   /* eslint react/require-default-props: 0 */
   error: PropTypes.oneOfType([
@@ -78,14 +78,7 @@ const mapStateToProps = state => ({
   previousUrl: getPreviousPageUrl(state.pagination.meals.superAdmin),
 });
 
-const mapDispatchToProps = dispatch => ({
-  setMenu(values) { dispatch(setupMenu(values)); },
-  fetchMeals(url) { dispatch(fetchMeals(url)); },
-});
-
-const SetupMenu = connect(
+export default connect(
   mapStateToProps,
-  mapDispatchToProps,
-)(ConnectedSetupMenu);
-
-export default SetupMenu;
+  { setMenu: setupMenu, fetchMeals },
+)(SetupMenu);

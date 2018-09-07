@@ -8,7 +8,7 @@ import MealDetail from './MealDetail';
 import { deleteMeal, deleteCatererMeal } from '../../actions/mealActions';
 import '../../static/hover_overlay.scss';
 
-class ConnectedMeal extends Component {
+export class Meal extends Component {
   constructor(props) {
     super(props);
     this.state = { isOpen: false };
@@ -27,7 +27,7 @@ class ConnectedMeal extends Component {
   }
 
   handleRemoveMeal() {
-    if (this.props.role === 'superAdmin') {
+    if (this.props.userRole === 'superAdmin') {
       this.props.removeMeal(this.props.meal.id);
     } else {
       this.props.removeCatererMeal(this.props.meal.id);
@@ -56,7 +56,7 @@ class ConnectedMeal extends Component {
   }
 
   handleUpdate() {
-    if (this.props.role === 'superAdmin') {
+    if (this.props.userRole === 'superAdmin') {
       return swal({
         text: 'You cannot update a caterer meal',
         icon: 'info',
@@ -165,7 +165,7 @@ class ConnectedMeal extends Component {
   }
 }
 
-ConnectedMeal.propTypes = {
+Meal.propTypes = {
   meal: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -176,20 +176,16 @@ ConnectedMeal.propTypes = {
   handleMealUpdate: PropTypes.func.isRequired,
   removeMeal: PropTypes.func.isRequired,
   removeCatererMeal: PropTypes.func.isRequired,
-  role: PropTypes.string.isRequired,
+  userRole: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   isDeleting: state.meals.isDeleting,
   isUpdating: state.meals.isUpdating,
-  role: state.user.data.role,
+  userRole: state.user.data.role,
 });
 
-const mapDispatchToProps = dispatch => ({
-  removeMeal(id) { dispatch(deleteMeal(id)); },
-  removeCatererMeal(id) { dispatch(deleteCatererMeal(id)); },
-});
-
-const Meal = connect(mapStateToProps, mapDispatchToProps)(ConnectedMeal);
-
-export default Meal;
+export default connect(mapStateToProps, {
+  removeMeal: deleteMeal,
+  removeCatererMeal: deleteCatererMeal,
+})(Meal);

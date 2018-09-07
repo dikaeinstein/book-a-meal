@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SetupMenu /> should match snapshot 1`] = `
+<section>
+  <h5
+    className="text-center"
+  >
+    Set Up Menu
+  </h5>
+  <MealsCheckBoxForm
+    action="Set"
+    currentUrl="http://testurl"
+    defaultMenuMealIds={Array []}
+    defaultMenuName="Menu for Today"
+    error={null}
+    handleSubmit={[Function]}
+    isSubmitting={false}
+    meals={Array []}
+    onPageChange={[Function]}
+  />
+</section>
+`;

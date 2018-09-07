@@ -1,0 +1,235 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SignUp /> should match snapshot 1`] = `
+<main
+  className="flex-container"
+>
+  <SideImage
+    id="signUp"
+  />
+  <section
+    className="col-1-4 aside bg-dark"
+    id="signIn"
+  >
+    <Formik
+      component={[Function]}
+      enableReinitialize={false}
+      initialValues={
+        Object {
+          "confirmPassword": "",
+          "email": "",
+          "name": "",
+          "password": "",
+          "role": "customer",
+        }
+      }
+      isInitialValid={false}
+      onSubmit={[Function]}
+      validateOnBlur={true}
+      validateOnChange={true}
+      validationSchema={
+        ObjectSchema {
+          "_blacklist": RefSet {
+            "list": Set {},
+            "refs": Map {},
+          },
+          "_conditions": Array [],
+          "_defaultDefault": [Function],
+          "_deps": Array [],
+          "_excludedEdges": Array [],
+          "_exclusive": Object {},
+          "_mutate": false,
+          "_nodes": Array [
+            "role",
+            "confirmPassword",
+            "password",
+            "email",
+            "name",
+          ],
+          "_options": Object {
+            "abortEarly": true,
+            "recursive": true,
+          },
+          "_type": "object",
+          "_typeError": [Function],
+          "_whitelist": RefSet {
+            "list": Set {},
+            "refs": Map {},
+          },
+          "fields": Object {
+            "confirmPassword": StringSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {},
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "string",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {
+                  null,
+                },
+                "refs": Map {
+                  "password" => Reference {
+                    "_get": [Function],
+                    "isContext": false,
+                    "isSelf": false,
+                    "key": "password",
+                    "map": [Function],
+                    "path": "password",
+                    "prefix": "$",
+                  },
+                },
+              },
+              "_whitelistError": [Function],
+              "tests": Array [],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+            "email": StringSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {
+                "required": false,
+                "undefined": false,
+              },
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "string",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "tests": Array [
+                [Function],
+                [Function],
+                [Function],
+              ],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+            "name": StringSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {
+                "max": true,
+                "min": true,
+                "required": false,
+              },
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "string",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "tests": Array [
+                [Function],
+                [Function],
+                [Function],
+                [Function],
+              ],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+            "password": StringSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {
+                "max": true,
+                "min": true,
+                "required": false,
+              },
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "string",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "tests": Array [
+                [Function],
+                [Function],
+                [Function],
+                [Function],
+              ],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+            "role": StringSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {
+                "required": false,
+                "undefined": false,
+              },
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "string",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "tests": Array [
+                [Function],
+                [Function],
+                [Function],
+              ],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+          },
+          "tests": Array [],
+          "transforms": Array [
+            [Function],
+          ],
+        }
+      }
+    />
+  </section>
+</main>
+`;

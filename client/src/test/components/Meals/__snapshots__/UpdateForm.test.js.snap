@@ -1,0 +1,330 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<UpdateMealForm /> should call handleImageChange when image changes 1`] = `
+<Form
+  className="form card"
+>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="name"
+    >
+      Meal name:
+    </Label>
+    <Field
+      className=""
+      name="name"
+      placeholder="Enter meal name"
+      required={true}
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="price"
+    >
+      Price (₦):
+    </Label>
+    <Field
+      className=""
+      name="price"
+      placeholder="Enter price"
+      required={true}
+      type="number"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="description"
+    >
+      Description:
+    </Label>
+    <Field
+      className=""
+      component="textarea"
+      name="description"
+      placeholder="Enter price"
+      required={true}
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="image"
+    >
+      Image:
+    </Label>
+    <input
+      accept="image/*"
+      name="image"
+      onChange={[Function]}
+      type="file"
+    />
+    <div
+      className="text-dark text-center uploading"
+    >
+      <small>
+        <Loading
+          text="uploading image . . ."
+        >
+          <ProgressBar />
+        </Loading>
+      </small>
+    </div>
+  </div>
+  <div>
+    <Field
+      name="imageUrl"
+      type="hidden"
+    />
+  </div>
+  <Button
+    className="btn btn-default font-weight-bold"
+    disabled={false}
+    type="submit"
+    value="update meal"
+  />
+</Form>
+`;
+
+exports[`<UpdateMealForm /> should match snapshot 1`] = `
+<Form
+  className="form card"
+>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="name"
+    >
+      Meal name:
+    </Label>
+    <Field
+      className=""
+      name="name"
+      placeholder="Enter meal name"
+      required={true}
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="price"
+    >
+      Price (₦):
+    </Label>
+    <Field
+      className=""
+      name="price"
+      placeholder="Enter price"
+      required={true}
+      type="number"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="description"
+    >
+      Description:
+    </Label>
+    <Field
+      className=""
+      component="textarea"
+      name="description"
+      placeholder="Enter price"
+      required={true}
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="image"
+    >
+      Image:
+    </Label>
+    <input
+      accept="image/*"
+      name="image"
+      onChange={[Function]}
+      type="file"
+    />
+  </div>
+  <div>
+    <Field
+      name="imageUrl"
+      type="hidden"
+    />
+  </div>
+  <Button
+    className="btn btn-default font-weight-bold"
+    disabled={false}
+    type="submit"
+    value="update meal"
+  />
+</Form>
+`;
+
+exports[`<UpdateMealForm /> should match snapshot 2`] = `
+<Form
+  className="form card"
+>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="name"
+    >
+      Meal name:
+    </Label>
+    <Field
+      className=""
+      name="name"
+      placeholder="Enter meal name"
+      required={true}
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="price"
+    >
+      Price (₦):
+    </Label>
+    <Field
+      className=""
+      name="price"
+      placeholder="Enter price"
+      required={true}
+      type="number"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="description"
+    >
+      Description:
+    </Label>
+    <Field
+      className=""
+      component="textarea"
+      name="description"
+      placeholder="Enter price"
+      required={true}
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="image"
+    >
+      Image:
+    </Label>
+    <input
+      accept="image/*"
+      name="image"
+      onChange={[Function]}
+      type="file"
+    />
+  </div>
+  <div>
+    <Field
+      name="imageUrl"
+      type="hidden"
+    />
+  </div>
+  <Button
+    className="btn btn-default font-weight-bold"
+    disabled={true}
+    type="submit"
+    value="update meal"
+  />
+  <Loading
+    text="Saving Meal . . ."
+  >
+    <ProgressBar />
+  </Loading>
+</Form>
+`;
+
+exports[`<UpdateMealForm /> should match snapshot 3`] = `
+<Form
+  className="form card"
+>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="name"
+    >
+      Meal name:
+    </Label>
+    <Field
+      className=""
+      name="name"
+      placeholder="Enter meal name"
+      required={true}
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="price"
+    >
+      Price (₦):
+    </Label>
+    <Field
+      className=""
+      name="price"
+      placeholder="Enter price"
+      required={true}
+      type="number"
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="description"
+    >
+      Description:
+    </Label>
+    <Field
+      className=""
+      component="textarea"
+      name="description"
+      placeholder="Enter price"
+      required={true}
+    />
+  </div>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="image"
+    >
+      Image:
+    </Label>
+    <input
+      accept="image/*"
+      name="image"
+      onChange={[Function]}
+      type="file"
+    />
+  </div>
+  <div>
+    <Field
+      name="imageUrl"
+      type="hidden"
+    />
+  </div>
+  <Button
+    className="btn btn-default font-weight-bold"
+    disabled={false}
+    type="submit"
+    value="update meal"
+  />
+  <div
+    className="error text-center"
+  >
+    true
+  </div>
+</Form>
+`;

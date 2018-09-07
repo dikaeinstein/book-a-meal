@@ -1,0 +1,367 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MenuCheckBoxForm /> should call handleCheck when meal is checked 1`] = `
+<form
+  className="form card"
+  onSubmit={[Function]}
+>
+  <h6
+    className="text-center"
+    style={
+      Object {
+        "margin": ".5rem 0 1rem 0",
+      }
+    }
+  >
+    Select meals to add to menu
+  </h6>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="name"
+    >
+      Menu Name:
+    </Label>
+    <input
+      name="name"
+      onChange={[Function]}
+      placeholder="Enter menu name"
+      value="Menu for Today"
+    />
+  </div>
+  <div>
+    <h5
+      style={
+        Object {
+          "margin": ".5rem 0",
+        }
+      }
+    >
+      Meals
+    </h5>
+    <Connect(Component)
+      checkedMeals={
+        Object {
+          "meal-1": true,
+          "meal-2": true,
+        }
+      }
+      handleCheck={[Function]}
+      meals={
+        Array [
+          Object {
+            "id": 1,
+            "name": "test meal",
+            "price": 4000,
+          },
+          Object {
+            "id": 2,
+            "name": "test meal",
+            "price": 4000,
+          },
+        ]
+      }
+    />
+    <Paginate
+      nextUrl="http://testurl/next"
+      onPageChange={[MockFunction]}
+      previousUrl="http://testurl.com"
+      style={
+        Object {
+          "marginTop": "0",
+        }
+      }
+    />
+  </div>
+  <button
+    className="btn btn-default"
+    style={
+      Object {
+        "margin": "0 auto 1rem auto",
+      }
+    }
+    type="submit"
+    value="Set Menu"
+  >
+    set
+     Menu
+  </button>
+</form>
+`;
+
+exports[`<MenuCheckBoxForm /> should match snapshot 1`] = `
+<form
+  className="form card"
+  onSubmit={[Function]}
+>
+  <h6
+    className="text-center"
+    style={
+      Object {
+        "margin": ".5rem 0 1rem 0",
+      }
+    }
+  >
+    Select meals to add to menu
+  </h6>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="name"
+    >
+      Menu Name:
+    </Label>
+    <input
+      name="name"
+      onChange={[Function]}
+      placeholder="Enter menu name"
+      value="Menu for Today"
+    />
+  </div>
+  <div>
+    <h5
+      style={
+        Object {
+          "margin": ".5rem 0",
+        }
+      }
+    >
+      Meals
+    </h5>
+    <Connect(Component)
+      checkedMeals={
+        Object {
+          "meal-1": true,
+          "meal-2": true,
+        }
+      }
+      handleCheck={[Function]}
+      meals={
+        Array [
+          Object {
+            "id": 1,
+            "name": "test meal",
+            "price": 4000,
+          },
+          Object {
+            "id": 2,
+            "name": "test meal",
+            "price": 4000,
+          },
+        ]
+      }
+    />
+    <Paginate
+      nextUrl="http://testurl/next"
+      onPageChange={[MockFunction]}
+      previousUrl="http://testurl.com"
+      style={
+        Object {
+          "marginTop": "0",
+        }
+      }
+    />
+  </div>
+  <button
+    className="btn btn-default"
+    style={
+      Object {
+        "margin": "0 auto 1rem auto",
+      }
+    }
+    type="submit"
+    value="Set Menu"
+  >
+    set
+     Menu
+  </button>
+</form>
+`;
+
+exports[`<MenuCheckBoxForm /> should match snapshot 2`] = `
+<form
+  className="form card"
+  onSubmit={[Function]}
+>
+  <h6
+    className="text-center"
+    style={
+      Object {
+        "margin": ".5rem 0 1rem 0",
+      }
+    }
+  >
+    Select meals to add to menu
+  </h6>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="name"
+    >
+      Menu Name:
+    </Label>
+    <input
+      name="name"
+      onChange={[Function]}
+      placeholder="Enter menu name"
+      value="Menu for Today"
+    />
+  </div>
+  <div>
+    <h5
+      style={
+        Object {
+          "margin": ".5rem 0",
+        }
+      }
+    >
+      Meals
+    </h5>
+    <Connect(Component)
+      checkedMeals={
+        Object {
+          "meal-1": true,
+          "meal-2": true,
+        }
+      }
+      handleCheck={[Function]}
+      meals={
+        Array [
+          Object {
+            "id": 1,
+            "name": "test meal",
+            "price": 4000,
+          },
+          Object {
+            "id": 2,
+            "name": "test meal",
+            "price": 4000,
+          },
+        ]
+      }
+    />
+    <Paginate
+      nextUrl="http://testurl/next"
+      onPageChange={[MockFunction]}
+      previousUrl="http://testurl.com"
+      style={
+        Object {
+          "marginTop": "0",
+        }
+      }
+    />
+  </div>
+  <button
+    className="btn btn-default"
+    style={
+      Object {
+        "margin": "0 auto 1rem auto",
+      }
+    }
+    type="submit"
+    value="Set Menu"
+  >
+    set
+     Menu
+  </button>
+  <Loading
+    text="signing in"
+  >
+    <ProgressBar />
+  </Loading>
+</form>
+`;
+
+exports[`<MenuCheckBoxForm /> should match snapshot 3`] = `
+<form
+  className="form card"
+  onSubmit={[Function]}
+>
+  <h6
+    className="text-center"
+    style={
+      Object {
+        "margin": ".5rem 0 1rem 0",
+      }
+    }
+  >
+    Select meals to add to menu
+  </h6>
+  <div>
+    <Label
+      className="label label-block"
+      htmlFor="name"
+    >
+      Menu Name:
+    </Label>
+    <input
+      name="name"
+      onChange={[Function]}
+      placeholder="Enter menu name"
+      value="Menu for Today"
+    />
+  </div>
+  <div>
+    <h5
+      style={
+        Object {
+          "margin": ".5rem 0",
+        }
+      }
+    >
+      Meals
+    </h5>
+    <Connect(Component)
+      checkedMeals={
+        Object {
+          "meal-1": true,
+          "meal-2": true,
+        }
+      }
+      handleCheck={[Function]}
+      meals={
+        Array [
+          Object {
+            "id": 1,
+            "name": "test meal",
+            "price": 4000,
+          },
+          Object {
+            "id": 2,
+            "name": "test meal",
+            "price": 4000,
+          },
+        ]
+      }
+    />
+    <Paginate
+      nextUrl="http://testurl/next"
+      onPageChange={[MockFunction]}
+      previousUrl="http://testurl.com"
+      style={
+        Object {
+          "marginTop": "0",
+        }
+      }
+    />
+  </div>
+  <button
+    className="btn btn-default"
+    style={
+      Object {
+        "margin": "0 auto 1rem auto",
+      }
+    }
+    type="submit"
+    value="Set Menu"
+  >
+    set
+     Menu
+  </button>
+  <div
+    className="error"
+  >
+    Error submitting form
+  </div>
+</form>
+`;

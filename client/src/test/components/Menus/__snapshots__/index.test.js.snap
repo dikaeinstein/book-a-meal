@@ -1,0 +1,271 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Menus /> should call handleMenuUpdate when updateMenu is clicked 1`] = `
+<div>
+  <div
+    style={
+      Object {
+        "backgroundColor": "#f0f1f2",
+        "display": "flex",
+        "justifyContent": "space-between",
+        "padding": "1rem 4rem 0 4rem",
+      }
+    }
+  >
+    <Button
+      className="btn btn-default"
+      disabled={false}
+      onClick={[Function]}
+      style={
+        Object {
+          "margin": "1rem 1rem 1rem 0",
+        }
+      }
+      value="Set Up Menu"
+    />
+    <Button
+      className="btn btn-default"
+      disabled={true}
+      onClick={[Function]}
+      style={
+        Object {
+          "margin": "1rem 0 1rem 0",
+        }
+      }
+      value="Update Menu"
+    />
+  </div>
+  <main
+    className="bg-light main"
+    style={
+      Object {
+        "minHeight": "calc(100vh - 240px)",
+      }
+    }
+  >
+    <Modal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      closeTimeoutMS={0}
+      contentLabel="Menu"
+      isOpen={false}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+      style={
+        Object {
+          "content": Object {
+            "bottom": "auto",
+            "left": "50%",
+            "marginRight": "-50%",
+            "minWidth": "20rem",
+            "right": "auto",
+            "top": "50%",
+            "transform": "translate(-50%, -50%)",
+            "width": "60%",
+          },
+          "overlay": Object {
+            "backgroundColor": "rgba(0, 0, 0, 0.25)",
+          },
+        }
+      }
+    >
+      <Button
+        className="close"
+        onClick={[Function]}
+        value="×"
+      />
+      <ErrorWrapper
+        closeModal={[Function]}
+      />
+    </Modal>
+    <ErrorWrapper
+      error={null}
+    />
+  </main>
+  <Footer />
+</div>
+`;
+
+exports[`<Menus /> should call handleOpenModal when set menu is clicked 1`] = `
+<div>
+  <div
+    style={
+      Object {
+        "backgroundColor": "#f0f1f2",
+        "display": "flex",
+        "justifyContent": "space-between",
+        "padding": "1rem 4rem 0 4rem",
+      }
+    }
+  >
+    <Button
+      className="btn btn-default"
+      disabled={false}
+      onClick={[Function]}
+      style={
+        Object {
+          "margin": "1rem 1rem 1rem 0",
+        }
+      }
+      value="Set Up Menu"
+    />
+    <Button
+      className="btn btn-default"
+      disabled={true}
+      onClick={[Function]}
+      style={
+        Object {
+          "margin": "1rem 0 1rem 0",
+        }
+      }
+      value="Update Menu"
+    />
+  </div>
+  <main
+    className="bg-light main"
+    style={
+      Object {
+        "minHeight": "calc(100vh - 240px)",
+      }
+    }
+  >
+    <Modal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      closeTimeoutMS={0}
+      contentLabel="Menu"
+      isOpen={false}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+      style={
+        Object {
+          "content": Object {
+            "bottom": "auto",
+            "left": "50%",
+            "marginRight": "-50%",
+            "minWidth": "20rem",
+            "right": "auto",
+            "top": "50%",
+            "transform": "translate(-50%, -50%)",
+            "width": "60%",
+          },
+          "overlay": Object {
+            "backgroundColor": "rgba(0, 0, 0, 0.25)",
+          },
+        }
+      }
+    >
+      <Button
+        className="close"
+        onClick={[Function]}
+        value="×"
+      />
+      <ErrorWrapper
+        closeModal={[Function]}
+      />
+    </Modal>
+    <ErrorWrapper
+      error={null}
+    />
+  </main>
+  <Footer />
+</div>
+`;
+
+exports[`<Menus /> should match snapshot 1`] = `
+<div>
+  <div
+    style={
+      Object {
+        "backgroundColor": "#f0f1f2",
+        "display": "flex",
+        "justifyContent": "space-between",
+        "padding": "1rem 4rem 0 4rem",
+      }
+    }
+  >
+    <Button
+      className="btn btn-default"
+      disabled={false}
+      onClick={[Function]}
+      style={
+        Object {
+          "margin": "1rem 1rem 1rem 0",
+        }
+      }
+      value="Set Up Menu"
+    />
+    <Button
+      className="btn btn-default"
+      disabled={true}
+      onClick={[Function]}
+      style={
+        Object {
+          "margin": "1rem 0 1rem 0",
+        }
+      }
+      value="Update Menu"
+    />
+  </div>
+  <main
+    className="bg-light main"
+    style={
+      Object {
+        "minHeight": "calc(100vh - 240px)",
+      }
+    }
+  >
+    <Modal
+      ariaHideApp={true}
+      bodyOpenClassName="ReactModal__Body--open"
+      closeTimeoutMS={0}
+      contentLabel="Menu"
+      isOpen={false}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+      style={
+        Object {
+          "content": Object {
+            "bottom": "auto",
+            "left": "50%",
+            "marginRight": "-50%",
+            "minWidth": "20rem",
+            "right": "auto",
+            "top": "50%",
+            "transform": "translate(-50%, -50%)",
+            "width": "60%",
+          },
+          "overlay": Object {
+            "backgroundColor": "rgba(0, 0, 0, 0.25)",
+          },
+        }
+      }
+    >
+      <Button
+        className="close"
+        onClick={[Function]}
+        value="×"
+      />
+      <ErrorWrapper
+        closeModal={[Function]}
+      />
+    </Modal>
+    <ErrorWrapper
+      error={null}
+    />
+  </main>
+  <Footer />
+</div>
+`;

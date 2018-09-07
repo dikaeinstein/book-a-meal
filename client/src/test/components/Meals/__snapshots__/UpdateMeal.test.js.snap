@@ -1,0 +1,187 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<UpdateMeal /> should match snapshot 1`] = `
+<section
+  className="add-section"
+>
+  <h2
+    className="text-center"
+  >
+    Update Meal
+  </h2>
+  <Formik
+    component={[Function]}
+    enableReinitialize={false}
+    initialValues={
+      Object {
+        "description": "This is a test meal",
+        "imageUrl": "http://testimageurl",
+        "name": "Test meal",
+        "price": 4000,
+      }
+    }
+    isInitialValid={false}
+    onSubmit={[Function]}
+    validateOnBlur={true}
+    validateOnChange={true}
+    validationSchema={
+      ObjectSchema {
+        "_blacklist": RefSet {
+          "list": Set {},
+          "refs": Map {},
+        },
+        "_conditions": Array [],
+        "_defaultDefault": [Function],
+        "_deps": Array [],
+        "_excludedEdges": Array [],
+        "_exclusive": Object {},
+        "_mutate": false,
+        "_nodes": Array [
+          "imageUrl",
+          "price",
+          "description",
+          "name",
+        ],
+        "_options": Object {
+          "abortEarly": true,
+          "recursive": true,
+        },
+        "_type": "object",
+        "_typeError": [Function],
+        "_whitelist": RefSet {
+          "list": Set {},
+          "refs": Map {},
+        },
+        "fields": Object {
+          "description": StringSchema {
+            "_blacklist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "_conditions": Array [],
+            "_deps": Array [],
+            "_exclusive": Object {
+              "required": false,
+            },
+            "_mutate": false,
+            "_options": Object {
+              "abortEarly": true,
+              "recursive": true,
+            },
+            "_type": "string",
+            "_typeError": [Function],
+            "_whitelist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "tests": Array [
+              [Function],
+              [Function],
+            ],
+            "transforms": Array [
+              [Function],
+            ],
+          },
+          "imageUrl": StringSchema {
+            "_blacklist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "_conditions": Array [],
+            "_deps": Array [],
+            "_exclusive": Object {
+              "undefined": false,
+            },
+            "_mutate": false,
+            "_options": Object {
+              "abortEarly": true,
+              "recursive": true,
+            },
+            "_type": "string",
+            "_typeError": [Function],
+            "_whitelist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "tests": Array [
+              [Function],
+            ],
+            "transforms": Array [
+              [Function],
+            ],
+          },
+          "name": StringSchema {
+            "_blacklist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "_conditions": Array [],
+            "_deps": Array [],
+            "_exclusive": Object {
+              "max": true,
+              "min": true,
+              "required": false,
+            },
+            "_mutate": false,
+            "_options": Object {
+              "abortEarly": true,
+              "recursive": true,
+            },
+            "_type": "string",
+            "_typeError": [Function],
+            "_whitelist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "tests": Array [
+              [Function],
+              [Function],
+              [Function],
+              [Function],
+            ],
+            "transforms": Array [
+              [Function],
+            ],
+          },
+          "price": NumberSchema {
+            "_blacklist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "_conditions": Array [],
+            "_deps": Array [],
+            "_exclusive": Object {
+              "max": true,
+              "min": true,
+              "required": false,
+            },
+            "_mutate": false,
+            "_options": Object {
+              "abortEarly": true,
+              "recursive": true,
+            },
+            "_type": "number",
+            "_typeError": [Function],
+            "_whitelist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "tests": Array [
+              [Function],
+              [Function],
+              [Function],
+            ],
+            "transforms": Array [
+              [Function],
+            ],
+          },
+        },
+        "tests": Array [],
+        "transforms": Array [
+          [Function],
+        ],
+      }
+    }
+  />
+</section>
+`;

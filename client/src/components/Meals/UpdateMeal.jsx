@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
-import UpdateMealForm from './UpdateMealForm';
+import ConnectedUpdateMealForm from './UpdateMealForm';
 import mealSchema from '../../validation/mealSchema';
 import { updateMeal } from '../../actions/mealActions';
 
 
-const ConnectedUpdateMeal = ({ editMeal, meal, closeModal }) => {
+export const UpdateMeal = ({ editMeal, meal, closeModal }) => {
   const handleSubmit = async (values, actions) => {
     await editMeal(values, actions, meal.id);
     return closeModal();
@@ -18,26 +18,18 @@ const ConnectedUpdateMeal = ({ editMeal, meal, closeModal }) => {
       <Formik
         initialValues={meal}
         validationSchema={mealSchema}
-        component={UpdateMealForm}
+        component={ConnectedUpdateMealForm}
         onSubmit={handleSubmit}
       />
     </section>
   );
 };
 
-ConnectedUpdateMeal.propTypes = {
+UpdateMeal.propTypes = {
   meal: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string, PropTypes.number])).isRequired,
   editMeal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
-  editMeal(values, actions, id) {
-    dispatch(updateMeal(values, actions, id));
-  },
-});
-
-const UpdateMeal = connect(null, mapDispatchToProps)(ConnectedUpdateMeal);
-
-export default UpdateMeal;
+export default connect(null, { editMeal: updateMeal })(UpdateMeal);

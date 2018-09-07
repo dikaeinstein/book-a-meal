@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CatererMealList /> should match snapshot 1`] = `
+<section
+  className="card user-menu text-left"
+>
+  <Connect(Meal)
+    handleMealUpdate={[MockFunction]}
+    key="1"
+    meal={
+      Object {
+        "id": 1,
+        "name": "test meal",
+        "price": 4000,
+      }
+    }
+  />
+  <Connect(Meal)
+    handleMealUpdate={[MockFunction]}
+    key="2"
+    meal={
+      Object {
+        "id": 2,
+        "name": "test meal2",
+        "price": 4000,
+      }
+    }
+  />
+</section>
+`;

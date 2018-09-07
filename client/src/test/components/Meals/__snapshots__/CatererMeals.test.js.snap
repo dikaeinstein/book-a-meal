@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CatererMeals /> should match snapshot 1`] = `
+<section
+  className="bg-light"
+>
+  <h4
+    className="text-center"
+  >
+    Meals
+  </h4>
+  <CatererMealList
+    handleMealUpdate={[MockFunction]}
+    meals={
+      Array [
+        Object {
+          "id": 1,
+          "name": "test meal",
+          "price": 4000,
+        },
+        Object {
+          "id": 2,
+          "name": "test meal2",
+          "price": 4000,
+        },
+      ]
+    }
+  />
+</section>
+`;
+
+exports[`<CatererMeals /> should match snapshot 2`] = `
+<div
+  className="loader-container"
+>
+  <Loading
+    text="fetching meals..."
+  >
+    <Preloader
+      active={true}
+      color="blue"
+      flashing={true}
+      size="medium"
+    />
+  </Loading>
+</div>
+`;

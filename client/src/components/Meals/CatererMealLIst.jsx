@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Meal from './Meal';
+import ConnectedMeal from './Meal';
 
 const CatererMealList = ({ meals, handleMealUpdate }) => {
   const mealList = meals.map(meal => (
-    <Meal key={meal.id} meal={meal} handleMealUpdate={handleMealUpdate} />
+    <ConnectedMeal
+      key={meal.id}
+      meal={meal}
+      handleMealUpdate={handleMealUpdate}
+    />
   ));
 
   return (

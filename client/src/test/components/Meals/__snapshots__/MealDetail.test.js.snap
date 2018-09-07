@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MealDetail /> should match snapshot 1`] = `
+<div
+  className="flex-container"
+>
+  <div
+    style={
+      Object {
+        "flex": "60%",
+        "padding": "0 1rem 1rem 1rem",
+      }
+    }
+  >
+    <img
+      alt="Test meal"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "color": "#000",
+        "flex": "40%",
+        "padding": "0 1rem 1rem 1rem",
+      }
+    }
+  >
+    <h4
+      className="text-capitalize font-weight-bold"
+      style={
+        Object {
+          "margin": ".875rem 0",
+        }
+      }
+    >
+      Test meal
+    </h4>
+    <p
+      className="font-weight-bold"
+      style={
+        Object {
+          "margin": ".5rem 0",
+        }
+      }
+    >
+      Description:
+    </p>
+    <p
+      style={
+        Object {
+          "fontSize": ".875rem",
+          "margin": ".5rem 0",
+        }
+      }
+    >
+      This is a test meal
+    </p>
+    <p
+      style={
+        Object {
+          "margin": ".875rem 0",
+        }
+      }
+    >
+      <span
+        className="font-weight-bold"
+      >
+        Caterer:
+         
+      </span>
+      <span>
+        Test Dika
+      </span>
+    </p>
+    <div
+      className="text-dark font-weight-bold"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      role="button"
+      style={
+        Object {
+          "cursor": "pointer",
+          "fontSize": ".85rem",
+        }
+      }
+      tabIndex="0"
+    >
+      Back to meals
+    </div>
+  </div>
+</div>
+`;

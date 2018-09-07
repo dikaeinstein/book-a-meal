@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MenuMeals /> should match snapshot 1`] = `
+<table
+  className="font-weight-bold"
+>
+  <tbody>
+    <tr
+      key="1"
+    >
+      <td>
+        test meal
+      </td>
+      <td>
+        ₦ 
+        4000
+      </td>
+    </tr>
+    <tr
+      key="2"
+    >
+      <td>
+        test meal
+      </td>
+      <td>
+        ₦ 
+        4000
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
