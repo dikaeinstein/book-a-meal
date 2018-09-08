@@ -27,7 +27,7 @@
     "test": "export NODE_ENV=test || set NODE_ENV=test&& yarn test-client:ci && yarn db-migrate-test && nyc --require babel-core/register mocha server/test/**.spec.js -t 5000 --exit",
     "test-client": "jest",
     "test-client:watch": "jest --watchAll",
-    "test-client:ci": "jest --ci",
+    "test-client:ci": "jest --ci -u",
     "babel": "babel"
   },
   "dependencies": {
