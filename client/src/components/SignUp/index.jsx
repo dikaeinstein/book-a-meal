@@ -7,7 +7,7 @@ import SideImage from '../util/SideImage';
 import userSignupSchema from '../../validation/userSignupSchema';
 import { userSignUp } from '../../actions/userActions';
 
-const ConnectedSignUp = ({ signUp }) => {
+export const SignUp = ({ signUp }) => {
   const handleSubmit = (values, actions) => {
     signUp(values, actions);
   };
@@ -32,16 +32,8 @@ const ConnectedSignUp = ({ signUp }) => {
   );
 };
 
-ConnectedSignUp.propTypes = {
+SignUp.propTypes = {
   signUp: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  signUp(values, actions) {
-    dispatch(userSignUp(values, actions, ownProps.history));
-  },
-});
-
-const SignUp = connect(null, mapDispatchToProps)(ConnectedSignUp);
-
-export default SignUp;
+export default connect(null, { signUp: userSignUp })(SignUp);

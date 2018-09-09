@@ -12,7 +12,7 @@ import {
 } from '../../reducers/paginationReducer';
 import { fetchMenu } from '../../actions/menuActions';
 
-class ConnectedMenu extends Component {
+export class Menu extends Component {
   constructor(props) {
     super(props);
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -54,12 +54,12 @@ class ConnectedMenu extends Component {
   }
 }
 
-ConnectedMenu.defaultProps = {
+Menu.defaultProps = {
   nextUrl: '',
   previousUrl: '',
 };
 
-ConnectedMenu.propTypes = {
+Menu.propTypes = {
   menu: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string, PropTypes.array, PropTypes.number,
   ])).isRequired,
@@ -78,10 +78,4 @@ const mapStateToProps = state => ({
   previousUrl: getPreviousPageUrl(state.pagination.menu),
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchMenu(url) { dispatch(fetchMenu(url)); },
-});
-
-const Menu = connect(mapStateToProps, mapDispatchToProps)(ConnectedMenu);
-
-export default Menu;
+export default connect(mapStateToProps, { fetchMenu })(Menu);

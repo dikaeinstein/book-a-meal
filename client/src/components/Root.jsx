@@ -12,17 +12,17 @@ import history from '../helpers/history';
 
 import Header from './Header';
 import ConnectedHomePage from './HomePage';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import UserMenu from './UserMenu';
-import UserOrderHistory from './UserOrderHistory';
+import ConnectedSignIn from './SignIn';
+import ConnectedSignUp from './SignUp';
+import ConnectedUserMenu from './UserMenu';
+import ConnectedUserOrderHistory from './UserOrderHistory';
 import ConnectedPrivateRoute from './PrivateRoute';
 import ConnectedPrivateAdminRoute from './PrivateAdminRoute';
 import NotFound from './NotFound';
-import Dashboard from './Dashboard';
-import Meals from './Meals';
-import Menus from './Menus';
-import OrderConfirmation from './OrderConfirmation';
+import ConnectedDashboard from './Dashboard';
+import ConnectedMeals from './Meals';
+import ConnectedMenus from './Menus';
+import ConnectedOrderConfirmation from './OrderConfirmation';
 
 
 export const Root = ({ store }) => (
@@ -32,26 +32,38 @@ export const Root = ({ store }) => (
         <Header className="navbar" />
         <Switch>
           <Route exact path="/" component={ConnectedHomePage} />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/signup" component={SignUp} />
+          <Route path="/signin" component={ConnectedSignIn} />
+          <Route path="/signup" component={ConnectedSignUp} />
           <Route
             path="/signout"
             render={() => (
               <Redirect to="/" />
             )}
           />
-          <ConnectedPrivateRoute path="/user-menu" component={UserMenu} />
+          <ConnectedPrivateRoute
+            path="/user-menu"
+            component={ConnectedUserMenu}
+          />
           <ConnectedPrivateRoute
             path="/user-order-history"
-            component={UserOrderHistory}
+            component={ConnectedUserOrderHistory}
           />
           <ConnectedPrivateRoute
             path="/order-confirmation"
-            component={OrderConfirmation}
+            component={ConnectedOrderConfirmation}
           />
-          <ConnectedPrivateAdminRoute path="/dashboard" component={Dashboard} />
-          <ConnectedPrivateAdminRoute path="/meals" component={Meals} />
-          <ConnectedPrivateAdminRoute path="/menus" component={Menus} />
+          <ConnectedPrivateAdminRoute
+            path="/dashboard"
+            component={ConnectedDashboard}
+          />
+          <ConnectedPrivateAdminRoute
+            path="/meals"
+            component={ConnectedMeals}
+          />
+          <ConnectedPrivateAdminRoute
+            path="/menus"
+            component={ConnectedMenus}
+          />
           <Route component={NotFound} />
         </Switch>
       </div>

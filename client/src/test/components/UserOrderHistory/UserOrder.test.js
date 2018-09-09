@@ -3,7 +3,8 @@ import sweetalert from 'sweetalert';
 import { shallow } from 'enzyme';
 import { UserOrder }
   from '../../../components/UserOrderHistory/UserOrder';
-import ConnectedUpdateOrder from '../../../components/UserOrderHistory/UpdateOrder';
+import ConnectedUpdateOrder
+  from '../../../components/UserOrderHistory/UpdateOrder';
 
 jest.mock('sweetalert');
 

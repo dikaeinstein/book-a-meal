@@ -6,7 +6,7 @@ import CatererMealList from './CatererMealLIst';
 import Loading from '../util/Loading';
 import { getMeals } from '../../reducers/mealReducer';
 
-const ConnectedCatererMeals = ({ isFetching, handleMealUpdate, meals }) => {
+export const CatererMeals = ({ isFetching, handleMealUpdate, meals }) => {
   if (isFetching) {
     return (
       <div className="loader-container">
@@ -28,7 +28,7 @@ const ConnectedCatererMeals = ({ isFetching, handleMealUpdate, meals }) => {
   );
 };
 
-ConnectedCatererMeals.propTypes = {
+CatererMeals.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   handleMealUpdate: PropTypes.func.isRequired,
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -39,6 +39,4 @@ const mapStateToProps = state => ({
   meals: getMeals(state.meals),
 });
 
-const CatererMeals = connect(mapStateToProps)(ConnectedCatererMeals);
-
-export default CatererMeals;
+export default connect(mapStateToProps)(CatererMeals);

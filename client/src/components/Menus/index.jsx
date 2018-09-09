@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import swal from 'sweetalert';
-import Menu from './Menu';
+import ConnectedMenu from './Menu';
 import Button from '../util/Button';
 import Footer from '../util/Footer';
-import SetupMenu from './SetupMenu';
-import UpdateMenu from './UpdateMenu';
+import ConnectedSetupMenu from './SetupMenu';
+import ConnectedUpdateMenu from './UpdateMenu';
 import errorHandler from '../util/errorHandler';
 import './menumodal.scss';
 
-class ConnectedMenus extends Component {
+export class Menus extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +24,7 @@ class ConnectedMenus extends Component {
   }
 
   handleOpenModal() {
-    if (this.props.role !== 'superAdmin') {
+    if (this.props.userRole !== 'superAdmin') {
       swal({
         text: 'You do not have the permission to setup a menu',
         icon: 'info',
@@ -40,7 +40,7 @@ class ConnectedMenus extends Component {
   }
 
   handleMenuUpdate() {
-    if (this.props.role !== 'superAdmin') {
+    if (this.props.userRole !== 'superAdmin') {
       swal({
         text: 'You do not have the permission to setup a menu',
         icon: 'info',
@@ -76,15 +76,15 @@ class ConnectedMenus extends Component {
       padding: '1rem 4rem 0 4rem',
     };
 
-    const MenuWithErrorHandling = errorHandler(Menu, 'Error fetching menu');
+    const MenuWithErrorHandling = errorHandler(ConnectedMenu, 'Error fetching menu');
     const SetupMenuWithErrorHandling =
       errorHandler(
-        SetupMenu,
+        ConnectedSetupMenu,
         'Error fetching meals, Please close the modal dialog and try again',
       );
     const UpdateMenuWithErrorHandling =
       errorHandler(
-        UpdateMenu,
+        ConnectedUpdateMenu,
         'Error fetching meals, Please close the modal dialog and try again',
       );
 
@@ -132,23 +132,21 @@ class ConnectedMenus extends Component {
   }
 }
 
-ConnectedMenus.propTypes = {
+Menus.propTypes = {
   /* eslint react/require-default-props: 0 */
   fetchMenuError: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.objectOf(PropTypes.string),
   ]),
   isSet: PropTypes.bool.isRequired,
-  role: PropTypes.string.isRequired,
+  userRole: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   fetchMenuError: state.menu.fetchError,
   isSet: state.menu.isSet,
-  role: state.user.data.role,
+  userRole: state.user.data.role,
 });
 
 
-const Menus = connect(mapStateToProps, null, null, { pure: true })(ConnectedMenus);
-
-export default Menus;
+export default connect(mapStateToProps)(Menus);

@@ -31,6 +31,7 @@ export const Navigation = ({ urls, signout, userName }) => {
           key={url.id}
           onClick={handleSignout}
           onKeyDown={handleSignout}
+          style={{ cursor: 'pointer' }}
         >
           {url.name}
         </li>

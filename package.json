@@ -1,7 +1,7 @@
 {
   "name": "book-a-meal",
   "version": "1.0.0",
-  "description": "",
+  "description": "Book-A-Meal is an application that allows customers to make food orders and helps the food vendor know what the customers want to eat.",
   "main": "server/app.js",
   "repository": "https://github.com/Dikaeinstein/book-a-meal.git",
   "author": "Solomon Okwa <solozyokwa@gmail.com>",
@@ -24,9 +24,10 @@
     "start-client:dev": "export NODE_ENV=development || set NODE_ENV=development&& webpack-dev-server --mode development --config webpack.dev.js --open",
     "start-debug": "ndb start-dev",
     "start-dev": "export NODE_ENV=development || set NODE_ENV=development&& yarn db-migrate-dev && nodemon --exec babel-node server/bin/www",
-    "test": "export NODE_ENV=test || set NODE_ENV=test&& yarn db-migrate-test && nyc --require babel-core/register mocha server/test/**.spec.js -t 5000 --exit",
+    "test": "export NODE_ENV=test || set NODE_ENV=test&& yarn test-client:ci && yarn db-migrate-test && nyc --require babel-core/register mocha server/test/**.spec.js -t 5000 --exit",
     "test-client": "jest",
-    "test-client:watch": "jest --watchAll",
+    "test-client:watch": "jest --watchAll -u",
+    "test-client:ci": "jest --ci -u",
     "babel": "babel"
   },
   "dependencies": {

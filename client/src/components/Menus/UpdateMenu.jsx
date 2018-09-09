@@ -12,7 +12,7 @@ import {
 } from '../../reducers/paginationReducer';
 import { getMenu } from '../../reducers/menuReducer';
 
-class ConnectedUpdateMenu extends Component {
+export class UpdateMenu extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -37,7 +37,7 @@ class ConnectedUpdateMenu extends Component {
 
     return (
       <section>
-        <h2 className="text-center">Update Menu</h2>
+        <h5 className="text-center">Update Menu</h5>
         <MenuCheckBoxForm
           error={error}
           handleSubmit={this.handleSubmit}
@@ -56,7 +56,7 @@ class ConnectedUpdateMenu extends Component {
   }
 }
 
-ConnectedUpdateMenu.propTypes = {
+UpdateMenu.propTypes = {
   modifyMenu: PropTypes.func.isRequired,
   fetchMeals: PropTypes.func.isRequired,
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -88,14 +88,7 @@ const mapStateToProps = state => ({
   previousUrl: getPreviousPageUrl(state.pagination.meals.superAdmin),
 });
 
-const mapDispatchToProps = dispatch => ({
-  modifyMenu(values, menuId) { dispatch(updateMenu(values, menuId)); },
-  fetchMeals(url) { dispatch(fetchMeals(url)); },
-});
-
-const UpdateMenu = connect(
+export default connect(
   mapStateToProps,
-  mapDispatchToProps,
-)(ConnectedUpdateMenu);
-
-export default UpdateMenu;
+  { modifyMenu: updateMenu, fetchMeals },
+)(UpdateMenu);
