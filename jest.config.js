@@ -6,6 +6,7 @@ module.exports = {
     '/dist/',
     '/client/__mocks__',
     '/client/src/store/',
+    '/client/src/helpers/',
   ],
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',
@@ -13,11 +14,11 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     '**/*.{js,jsx}', '!webpack.*.js', '!jest.config.js',
-    '!**/configureStore.js',
+    '!**/index.js',
   ],
   coveragePathIgnorePatterns: [
     '/server/', '/UI/', '/coverage/', '/dist/', '/node_modules/',
-    '/client/src/store/',
+    '/client/src/store/', '/client/src/helpers/',
   ],
   snapshotSerializers: ['enzyme-to-json/serializer'],
   setupTestFrameworkScriptFile: './client/src/test/setupTests.js',

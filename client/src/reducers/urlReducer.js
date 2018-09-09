@@ -5,7 +5,7 @@ import {
 } from '../constants/userActionTypes';
 import initialState from '../reducers/initialState';
 
-const customerUrls = [
+export const customerUrls = [
   {
     id: 1,
     name: 'Menu',
@@ -28,7 +28,7 @@ const customerUrls = [
   },
 ];
 
-const adminUrls = [
+export const adminUrls = [
   {
     id: 1,
     name: 'Dashboard',

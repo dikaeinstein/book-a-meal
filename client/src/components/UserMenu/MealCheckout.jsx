@@ -99,6 +99,7 @@ MealCheckout.propTypes = {
   defaultMeal: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
+    PropTypes.object,
   ])).isRequired,
   closeModal: PropTypes.func.isRequired,
   checkoutOrder: PropTypes.func.isRequired,
