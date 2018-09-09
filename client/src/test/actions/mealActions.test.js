@@ -106,7 +106,7 @@ describe('mealActions', () => {
       result: 1,
     };
 
-    mock.onPost(`${config.API_BASE_URL}/api/v1/meals`, meal)
+    mock.onPost(`${config.API_BASE_URL}/api/v1/meals`)
       .reply(200, { meal: { id: 1, ...meal } });
 
     const expectedActions = [
@@ -128,7 +128,7 @@ describe('mealActions', () => {
       imageUrl: 'http://testurl.com',
     };
     const error = { message: 'Meal name already exist' };
-    mock.onPost(`${config.API_BASE_URL}/api/v1/meals`, meal)
+    mock.onPost(`${config.API_BASE_URL}/api/v1/meals`)
       .reply(409, { message: 'Meal name already exist' });
 
     const expectedActions = [
@@ -154,7 +154,7 @@ describe('mealActions', () => {
       result: 1,
     };
 
-    mock.onPut(`${config.API_BASE_URL}/api/v1/meals/1`, meal)
+    mock.onPut(`${config.API_BASE_URL}/api/v1/meals/1`)
       .reply(200, { meal: { id: 1, ...meal } });
 
     const expectedActions = [
@@ -176,7 +176,7 @@ describe('mealActions', () => {
       imageUrl: 'http://testurl.com',
     };
     const error = { message: 'Meal name already exist' };
-    mock.onPut(`${config.API_BASE_URL}/api/v1/meals/1`, meal)
+    mock.onPut(`${config.API_BASE_URL}/api/v1/meals/1`)
       .reply(409, { message: 'Meal name already exist' });
 
     const expectedActions = [

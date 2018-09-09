@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
-import AddMealForm from './AddMealForm';
+import ConnectedAddMealForm from './AddMealForm';
 import mealSchema from '../../validation/mealSchema';
 import { addMeal } from '../../actions/mealActions';
 
 
-const ConnectedAddMeal = ({ saveMeal, closeModal }) => {
+export const AddMeal = ({ saveMeal, closeModal }) => {
   const handleSubmit = async (values, actions) => {
     await saveMeal(values, actions);
     return closeModal();
@@ -15,7 +15,7 @@ const ConnectedAddMeal = ({ saveMeal, closeModal }) => {
 
   return (
     <section className="add-section">
-      <h2 className="text-center">Add New Meal</h2>
+      <h4 className="text-center">Add New Meal</h4>
       <Formik
         initialValues={{
           name: '',
@@ -24,22 +24,16 @@ const ConnectedAddMeal = ({ saveMeal, closeModal }) => {
           imageUrl: undefined,
         }}
         validationSchema={mealSchema}
-        component={AddMealForm}
+        component={ConnectedAddMealForm}
         onSubmit={handleSubmit}
       />
     </section>
   );
 };
 
-ConnectedAddMeal.propTypes = {
+AddMeal.propTypes = {
   saveMeal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
-  saveMeal(values, actions) { dispatch(addMeal(values, actions)); },
-});
-
-const AddMeal = connect(null, mapDispatchToProps)(ConnectedAddMeal);
-
-export default AddMeal;
+export default connect(null, { saveMeal: addMeal })(AddMeal);

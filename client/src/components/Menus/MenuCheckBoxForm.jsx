@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ProgressBar } from 'react-materialize';
 import Loading from '../util/Loading';
 import Label from '../util/Label';
-import MealsCheckBoxList from './MealsCheckboxList';
+import ConnectedMealsCheckboxList from './MealsCheckboxList';
 import Paginate from '../util/Paginate';
 import '../../static/sass/materialize.scss';
 
@@ -86,7 +86,7 @@ class MealsCheckBoxForm extends Component {
         </div>
         <div>
           <h5 style={{ margin: '.5rem 0' }}>Meals</h5>
-          <MealsCheckBoxList
+          <ConnectedMealsCheckboxList
             meals={this.props.meals}
             checkedMeals={this.state.checked}
             handleCheck={this.handleCheck}

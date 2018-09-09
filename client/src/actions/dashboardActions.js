@@ -14,9 +14,6 @@ import {
   UPDATE_ORDER_ERROR,
   UPDATE_ORDER_REQUEST,
   UPDATE_ORDER_SUCCESS,
-  DELETE_ORDER_ERROR,
-  DELETE_ORDER_REQUEST,
-  DELETE_ORDER_SUCCESS,
 } from '../constants/orderActionTypes';
 import dashboardService from '../helpers/dashboardService';
 import orderService from '../helpers/orderService';
@@ -244,60 +241,6 @@ export const fetchCatererOrders = url => async (dispatch, getState) => {
     });
   } catch (error) {
     dispatch(fetchAllOrdersError(axiosErrorWrapper(error, dispatch)));
-  }
-};
-
-/**
- * Delete order success action creator
- *
- * @export
- * @param {number} id Order id
- *
- * @returns {object} Redux action
- */
-export const deleteOrderSuccess = id => ({
-  type: DELETE_ORDER_SUCCESS,
-  payload: { id },
-});
-
-/**
- * Delete order error action creator
- *
- * @export
- * @param {object} error
- *
- * @returns {object} Redux action
- */
-export const deleteOrderError = error => ({
-  type: DELETE_ORDER_ERROR,
-  payload: { error },
-});
-
-/**
- * Delete order async action creator
- *
- * @export
- * @param {number} orderId Order id
- *
- * @returns {Function} Async function
- */
-export const deleteOrder = orderId => async (dispatch, getState) => {
-  // Return early if already deleting
-  if (getState().dashboard.isDeleting) {
-    return Promise.resolve();
-  }
-
-  dispatch({ type: DELETE_ORDER_REQUEST });
-  try {
-    await orderService
-      .deleteOrder(`${config.API_BASE_URL}/api/v1/orders/${orderId}`);
-    dispatch(deleteOrderSuccess(orderId));
-  } catch (error) {
-    dispatch(deleteOrderError(transformError(
-      axiosErrorWrapper(error, dispatch),
-      'Error deleting order, please try again',
-    )));
-    throw error;
   }
 };
 

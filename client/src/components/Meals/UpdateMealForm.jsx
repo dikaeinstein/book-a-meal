@@ -8,7 +8,7 @@ import Button from '../util/Button';
 import Loading from '../util/Loading';
 import cloudinaryImageUpload from '../../helpers/cloudinaryImageUpload';
 
-class ConnectedUpdateMealForm extends Component {
+export class UpdateMealForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -177,7 +177,7 @@ class ConnectedUpdateMealForm extends Component {
   }
 }
 
-ConnectedUpdateMealForm.propTypes = {
+UpdateMealForm.propTypes = {
   errors: PropTypes.objectOf(PropTypes.string).isRequired,
   touched: PropTypes.objectOf(PropTypes.bool).isRequired,
   isUpdating: PropTypes.bool.isRequired,
@@ -189,6 +189,4 @@ const mapStateToProps = state => ({
   isUpdating: state.meals.isUpdating,
 });
 
-const updateMealForm = connect(mapStateToProps)(ConnectedUpdateMealForm);
-
-export default updateMealForm;
+export default connect(mapStateToProps)(UpdateMealForm);

@@ -176,7 +176,7 @@ export const updateMenu = (values, menuId) => async (dispatch, getState) => {
     const menu = await menuService
       .updateMenu(`${config.API_BASE_URL}/api/v1/menu/${menuId}`, values);
     dispatch(updateMenuSuccess(normalize(menu, menuSchema)));
-    await swal({
+    swal({
       text: 'Menu successfully updated!',
       icon: 'success',
     });
