@@ -15,7 +15,7 @@ export const AddMeal = ({ saveMeal, closeModal }) => {
 
   return (
     <section className="add-section">
-      <h2 className="text-center">Add New Meal</h2>
+      <h4 className="text-center">Add New Meal</h4>
       <Formik
         initialValues={{
           name: '',

@@ -14,7 +14,7 @@ export const UpdateMeal = ({ editMeal, meal, closeModal }) => {
   };
   return (
     <section className="add-section">
-      <h2 className="text-center">Update Meal</h2>
+      <h4 className="text-center">Update Meal</h4>
       <Formik
         initialValues={meal}
         validationSchema={mealSchema}

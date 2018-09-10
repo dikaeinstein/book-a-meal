@@ -28,6 +28,7 @@
     "test-client": "jest",
     "test-client:watch": "jest --watchAll -u",
     "test-client:ci": "jest --ci -u",
+    "test-server": "yarn db-migrate-test && nyc --require babel-core/register mocha server/test/**.spec.js -t 5000 --exit",
     "babel": "babel"
   },
   "dependencies": {
