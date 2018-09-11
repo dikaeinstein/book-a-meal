@@ -4,20 +4,24 @@ import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ConnectedSignOut from './SignOut';
 
-export const PrivateRoute = ({
+export const PrivateAdminRoute = ({
   loggedIn, userRole, component: Component, ...rest
 }) => (
   <Route
     {...rest}
-    render={props => (
-    loggedIn && userRole === 'customer' ?
-      <Component {...props} />
-      :
-      <ConnectedSignOut><Redirect to="/signin" /></ConnectedSignOut>)}
+    render={(props) => {
+      if (loggedIn && (userRole === 'caterer' || userRole === 'superAdmin')) {
+        return <Component {...props} />;
+      }
+      if (loggedIn && (userRole === 'customer')) {
+        return <Redirect to="/forbidden" />;
+      }
+      return <ConnectedSignOut><Redirect to="/signin" /></ConnectedSignOut>;
+    }}
   />
 );
 
-PrivateRoute.propTypes = {
+PrivateAdminRoute.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   userRole: PropTypes.string.isRequired,
   component: PropTypes.oneOfType([
@@ -31,4 +35,4 @@ const mapStateToProps = state => ({
   userRole: state.user.data.role,
 });
 
-export default connect(mapStateToProps)(PrivateRoute);
+export default connect(mapStateToProps)(PrivateAdminRoute);

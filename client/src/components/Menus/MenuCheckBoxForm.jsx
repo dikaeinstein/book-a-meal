@@ -74,7 +74,10 @@ class MealsCheckBoxForm extends Component {
           Select meals to add to menu
         </h6>
         <div>
-          <Label className="label label-block" htmlFor="name">
+          <Label
+            className="label label-block font-weight-bold"
+            htmlFor="name"
+          >
             Menu Name:
           </Label>
           <input
@@ -85,7 +88,12 @@ class MealsCheckBoxForm extends Component {
           />
         </div>
         <div>
-          <h6 style={{ margin: '.5rem 0' }}>Meals</h6>
+          <h6
+            style={{ margin: '.5rem 0' }}
+            className="font-weight-bold"
+          >
+            Meals
+          </h6>
           <ConnectedMealsCheckboxList
             meals={this.props.meals}
             checkedMeals={this.state.checked}

@@ -8,6 +8,7 @@ import Button from '../util/Button';
 import Footer from '../util/Footer';
 import ConnectedSetupMenu from './SetupMenu';
 import ConnectedUpdateMenu from './UpdateMenu';
+import ErrorBoundary from '../util/ErrorBoundary';
 import errorHandler from '../util/errorHandler';
 import './menumodal.scss';
 
@@ -89,45 +90,47 @@ export class Menus extends Component {
       );
 
     return (
-      <div>
-        <div style={btnContainerStyle}>
-          <Button
-            className="btn btn-default"
-            style={{ margin: '1rem 1rem 1rem 0' }}
-            value="Set Up Menu"
-            onClick={this.handleOpenModal}
-            disabled={this.props.isSet}
-          />
-          <Button
-            className="btn btn-default"
-            style={{ margin: '1rem 0 1rem 0' }}
-            value="Update Menu"
-            onClick={this.handleMenuUpdate}
-            disabled={!this.props.isSet}
-          />
-        </div>
-        <main
-          className="bg-light main"
-          style={{ minHeight: 'calc(100vh - 240px)' }}
-        >
-          <Modal
-            isOpen={this.state.isOpen}
-            contentLabel="Menu"
-            style={modalStyle}
-          >
+      <ErrorBoundary>
+        <div>
+          <div style={btnContainerStyle}>
             <Button
-              value="&times;"
-              onClick={this.handleCloseModal}
-              className="close"
+              className="btn btn-default"
+              style={{ margin: '1rem 1rem 1rem 0' }}
+              value="Set Up Menu"
+              onClick={this.handleOpenModal}
+              disabled={this.props.isSet}
             />
-            {!this.state.updating
-              ? <SetupMenuWithErrorHandling closeModal={this.handleCloseModal} />
-              : <UpdateMenuWithErrorHandling closeModal={this.handleCloseModal} />}
-          </Modal>
-          <MenuWithErrorHandling error={this.props.fetchMenuError} />
-        </main>
-        <Footer />
-      </div>
+            <Button
+              className="btn btn-default"
+              style={{ margin: '1rem 0 1rem 0' }}
+              value="Update Menu"
+              onClick={this.handleMenuUpdate}
+              disabled={!this.props.isSet}
+            />
+          </div>
+          <main
+            className="bg-light main"
+            style={{ minHeight: 'calc(100vh - 240px)' }}
+          >
+            <Modal
+              isOpen={this.state.isOpen}
+              contentLabel="Menu"
+              style={modalStyle}
+            >
+              <Button
+                value="&times;"
+                onClick={this.handleCloseModal}
+                className="close"
+              />
+              {!this.state.updating
+                ? <SetupMenuWithErrorHandling closeModal={this.handleCloseModal} />
+                : <UpdateMenuWithErrorHandling closeModal={this.handleCloseModal} />}
+            </Modal>
+            <MenuWithErrorHandling error={this.props.fetchMenuError} />
+          </main>
+          <Footer />
+        </div>
+      </ErrorBoundary>
     );
   }
 }

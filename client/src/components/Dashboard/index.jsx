@@ -7,6 +7,7 @@ import ConnectedFilterOrders from './FilterOrders';
 import ConnectedTotalOrders from './TotalOrders';
 import ConnectedTotalAmount from './TotalAmount';
 import errorHandler from '../util/errorHandler';
+import ErrorBoundary from '../util/ErrorBoundary';
 
 
 export const Dashboard = ({ fetchAllOrdersError }) => {
@@ -14,23 +15,25 @@ export const Dashboard = ({ fetchAllOrdersError }) => {
     errorHandler(ConnectedDashboardOrderHistory, 'Error fetching orders');
 
   return (
-    <div>
-      <main
-        className="dash-main text-center bg-dark-light"
-        style={{ minHeight: 'calc(100vh - 151px)' }}
-      >
-        <h4>Dashboard</h4>
-        <section className="card dashboard">
-          <ConnectedTotalOrders />
-          <ConnectedTotalAmount />
-          <ConnectedFilterOrders />
-          <DashboardOrderHistoryWithErrorHandling
-            error={fetchAllOrdersError}
-          />
-        </section>
-      </main>
-      <Footer />
-    </div>
+    <ErrorBoundary>
+      <div>
+        <main
+          className="dash-main text-center bg-dark-light"
+          style={{ minHeight: 'calc(100vh - 151px)' }}
+        >
+          <h4>Dashboard</h4>
+          <section className="card dashboard">
+            <ConnectedTotalOrders />
+            <ConnectedTotalAmount />
+            <ConnectedFilterOrders />
+            <DashboardOrderHistoryWithErrorHandling
+              error={fetchAllOrdersError}
+            />
+          </section>
+        </main>
+        <Footer />
+      </div>
+    </ErrorBoundary>
   );
 };
 

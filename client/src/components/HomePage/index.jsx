@@ -5,22 +5,25 @@ import IntroBanner from './IntroBanner';
 import ConnectedMenuCard from '../UserMenu/MenuCard';
 import errorHandler from '../util/errorHandler';
 import Footer from '../util/Footer';
+import ErrorBoundary from '../util/ErrorBoundary';
 
 export const HomePage = ({ error }) => {
   const MenuCardWithErrorHandling =
     errorHandler(ConnectedMenuCard, 'Error fetching menu');
 
   return (
-    <div>
-      <div style={{ minHeight: 'calc(100vh - 151px)' }}>
-        <IntroBanner />
-        <MenuCardWithErrorHandling
-          link="/signIn"
-          error={error}
-        />
-      </div>
-      <Footer />
-    </div>
+    <ErrorBoundary>
+      <main>
+        <div style={{ minHeight: 'calc(100vh - 151px)' }}>
+          <IntroBanner />
+          <MenuCardWithErrorHandling
+            link="/signIn"
+            error={error}
+          />
+        </div>
+        <Footer />
+      </main>
+    </ErrorBoundary>
   );
 };
 

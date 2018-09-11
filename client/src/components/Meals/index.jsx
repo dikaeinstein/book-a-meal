@@ -15,6 +15,7 @@ import {
   getNextPageUrl,
   getPreviousPageUrl, getCurrentPageUrl,
 } from '../../reducers/paginationReducer';
+import ErrorBoundary from '../util/ErrorBoundary';
 
 if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#root');
 
@@ -103,56 +104,58 @@ export class Meals extends Component {
       errorHandler(ConnectedCatererMeals, 'Error fetching meals', this.handleRetry, true);
 
     return (
-      <div>
-        <main
-          className="bg-light main"
-          style={{ minHeight: 'calc(100vh - 151px)' }}
-        >
-          <Button
-            value="Add meal"
-            className="btn btn-default"
-            onClick={this.handleAddMeal}
-            style={{ margin: '1rem 1rem 1rem 0' }}
-          />
-          <Modal
-            isOpen={this.state.isOpen}
-            contentLabel="Meal"
-            style={modalStyle}
-            closeTimeoutMS={150}
+      <ErrorBoundary>
+        <div>
+          <main
+            className="bg-light main"
+            style={{ minHeight: 'calc(100vh - 151px)' }}
           >
             <Button
-              value="&times;"
-              onClick={this.handleCloseModal}
-              className="close"
+              value="Add meal"
+              className="btn btn-default"
+              onClick={this.handleAddMeal}
+              style={{ margin: '1rem 1rem 1rem 0' }}
             />
-            {!this.state.updating
-              ? <ConnectedAddMeal closeModal={this.handleCloseModal} />
-              : <ConnectedUpdateMeal
-                meal={this.state.meal}
-                closeModal={this.handleCloseModal}
-              />}
-          </Modal>
-          <CatererMealsWithErrorHandling
-            handleMealUpdate={this.handleMealUpdate}
-            error={this.props.error}
-          />
-          <Paginate
-            onPageChange={userRole === 'superAdmin'
-              ? this.handlePageChange
-              : this.handleCatererPageChange
-            }
-            nextUrl={userRole === 'superAdmin'
-              ? this.props.nextUrl
-              : this.props.catererNextUrl
-            }
-            previousUrl={userRole === 'superAdmin'
-              ? this.props.previousUrl
-              : this.props.catererPreviousUrl
-            }
-          />
-        </main>
-        <Footer />
-      </div>
+            <Modal
+              isOpen={this.state.isOpen}
+              contentLabel="Meal"
+              style={modalStyle}
+              closeTimeoutMS={150}
+            >
+              <Button
+                value="&times;"
+                onClick={this.handleCloseModal}
+                className="close"
+              />
+              {!this.state.updating
+                ? <ConnectedAddMeal closeModal={this.handleCloseModal} />
+                : <ConnectedUpdateMeal
+                  meal={this.state.meal}
+                  closeModal={this.handleCloseModal}
+                />}
+            </Modal>
+            <CatererMealsWithErrorHandling
+              handleMealUpdate={this.handleMealUpdate}
+              error={this.props.error}
+            />
+            <Paginate
+              onPageChange={userRole === 'superAdmin'
+                ? this.handlePageChange
+                : this.handleCatererPageChange
+              }
+              nextUrl={userRole === 'superAdmin'
+                ? this.props.nextUrl
+                : this.props.catererNextUrl
+              }
+              previousUrl={userRole === 'superAdmin'
+                ? this.props.previousUrl
+                : this.props.catererPreviousUrl
+              }
+            />
+          </main>
+          <Footer />
+        </div>
+      </ErrorBoundary>
     );
   }
 }

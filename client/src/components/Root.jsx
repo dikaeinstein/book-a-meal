@@ -16,9 +16,10 @@ import ConnectedSignIn from './SignIn';
 import ConnectedSignUp from './SignUp';
 import ConnectedUserMenu from './UserMenu';
 import ConnectedUserOrderHistory from './UserOrderHistory';
-import ConnectedPrivateRoute from './PrivateRoute';
-import ConnectedPrivateAdminRoute from './PrivateAdminRoute';
+import ConnectedPrivateRoute from './util/PrivateRoute';
+import ConnectedPrivateAdminRoute from './util/PrivateAdminRoute';
 import NotFound from './NotFound';
+import Forbidden from './Forbidden';
 import ConnectedDashboard from './Dashboard';
 import ConnectedMeals from './Meals';
 import ConnectedMenus from './Menus';
@@ -32,39 +33,47 @@ export const Root = ({ store }) => (
         <Header className="navbar" />
         <Switch>
           <Route exact path="/" component={ConnectedHomePage} />
-          <Route path="/signin" component={ConnectedSignIn} />
-          <Route path="/signup" component={ConnectedSignUp} />
+          <Route exact path="/signin" component={ConnectedSignIn} />
+          <Route exact path="/signup" component={ConnectedSignUp} />
           <Route
+            exact
             path="/signout"
             render={() => (
               <Redirect to="/" />
             )}
           />
           <ConnectedPrivateRoute
+            exact
             path="/user-menu"
             component={ConnectedUserMenu}
           />
           <ConnectedPrivateRoute
+            exact
             path="/user-order-history"
             component={ConnectedUserOrderHistory}
           />
           <ConnectedPrivateRoute
+            exact
             path="/order-confirmation"
             component={ConnectedOrderConfirmation}
           />
           <ConnectedPrivateAdminRoute
+            exact
             path="/dashboard"
             component={ConnectedDashboard}
           />
           <ConnectedPrivateAdminRoute
+            exact
             path="/meals"
             component={ConnectedMeals}
           />
           <ConnectedPrivateAdminRoute
+            exact
             path="/menus"
             component={ConnectedMenus}
           />
-          <Route component={NotFound} />
+          <Route exact path="/forbidden" component={Forbidden} />
+          <Route exact path="*" component={NotFound} />
         </Switch>
       </div>
     </Router>

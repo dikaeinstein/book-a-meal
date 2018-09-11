@@ -36,7 +36,7 @@ export class SetupMenu extends Component {
 
     return (
       <section>
-        <h5 className="text-center">Set Up Menu</h5>
+        <h5 className="text-center font-weight-bold">Set Up Menu</h5>
         <MenuCheckBoxForm
           error={error}
           handleSubmit={this.handleSubmit}

@@ -4,23 +4,26 @@ import { connect } from 'react-redux';
 import ConnectedMenuCard from './MenuCard';
 import Footer from '../util/Footer';
 import errorHandler from '../util/errorHandler';
+import ErrorBoundary from '../util/ErrorBoundary';
 
 export const UserMenu = ({ fetchMenuError }) => {
   const MenuCardWithErrorHandling =
     errorHandler(ConnectedMenuCard, 'Error fetching menu');
 
   return (
-    <div>
-      <div className="landing-main bg-light">
-        <main style={{ minHeight: 'calc(93vh - 151px)' }}>
-          <MenuCardWithErrorHandling
-            link="/order-confirmation"
-            error={fetchMenuError}
-          />
-        </main>
+    <ErrorBoundary>
+      <div>
+        <div className="landing-main bg-light">
+          <main style={{ minHeight: 'calc(93vh - 151px)' }}>
+            <MenuCardWithErrorHandling
+              link="/order-confirmation"
+              error={fetchMenuError}
+            />
+          </main>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </ErrorBoundary>
   );
 };
 

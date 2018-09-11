@@ -1,5 +1,5 @@
-$font-family: "Fira Sans", "Varela Round", -apple-system, BlinkMacSystemFont,
-  "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
+$font-family: BlinkMacSystemFont, "Fira Sans", "Varela Round", -apple-system,
+ "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
   sans-serif;
 $base-color: #eb480b;
 
@@ -507,6 +507,7 @@ footer a:hover {
 .navbar {
   display: flex;
   padding: 1rem;
+  border-bottom: 2px solid gainsboro;
 }
 
 .navbar,
@@ -548,6 +549,7 @@ a:hover {
   cursor: pointer;
   text-decoration: none;
   margin-top: 15px;
+  line-height: 2rem;
 }
 
 .navbar-toggle-show {
@@ -898,6 +900,30 @@ li.user {
   background-repeat: no-repeat;
 }
 
+.forbidden-overlay {
+  width: 100%;
+  background-position: center;
+  background-image: url(https://res.cloudinary.com/dikaeinstein/image/upload/v1536681286/image_4_h6ehpf.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.notfound-overlay {
+  width: 100%;
+  background-position: center;
+  background-image: url(https://res.cloudinary.com/dikaeinstein/image/upload/v1536742825/Group404_zr26aw.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.error-overlay {
+  width: 100%;
+  background-position: center;
+  background-image: url(http://res.cloudinary.com/dikaeinstein/image/upload/v1536683618/book-a-meal/404.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 .intro-banner {
   width: 100%;
   height: 100%;
@@ -1032,6 +1058,7 @@ hr {
   .navbar {
     display: flex;
     padding: 0 4rem;
+    border-bottom: 2px solid gainsboro;
   }
 
   .navbar,
