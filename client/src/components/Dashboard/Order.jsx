@@ -72,9 +72,9 @@ export const Order = (props) => {
   return (
     <tr key={order.id}>
       <td>{order.id}</td>
-      <td>{order.meal.name ? order.meal.name : '-'}</td>
-      <td>{order.user.name ? order.user.name : '-'}</td>
-      <td>{order.meal.price ? order.meal.price : '-'}</td>
+      <td>{order.user ? order.user.name : '-'}</td>
+      <td>{order.meal ? order.meal.name : '-'}</td>
+      <td>{order.meal ? order.meal.price : '-'}</td>
       <td>{order.quantity}</td>
       <td>{order.total}</td>
       <td className={orderStatus}>{order.status}</td>

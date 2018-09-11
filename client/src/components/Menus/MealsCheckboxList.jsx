@@ -10,6 +10,11 @@ export const MealsCheckboxList = ({
   const handleChange = (event) => {
     handleCheck(event);
   };
+  const checkboxStyle = {
+    width: 'inherit',
+    display: 'inline',
+    margin: '0.25rem',
+  };
 
   if (isFetching) {
     return (
@@ -20,14 +25,14 @@ export const MealsCheckboxList = ({
   }
   const checkboxList = meals.map(meal => (
     <div key={meal.id} style={{ margin: '.5rem 0' }}>
-      <label>
-        <input
-          type="checkbox"
-          name={`meal-${meal.id}`}
-          onClick={handleChange}
-          onChange={handleChange}
-          checked={checkedMeals[`meal-${meal.id}`]}
-        />
+      <input
+        type="checkbox"
+        name={`meal-${meal.id}`}
+        onChange={handleChange}
+        defaultChecked={checkedMeals[`meal-${meal.id}`]}
+        style={checkboxStyle}
+      />
+      <label style={{ margin: '0.75rem' }}>
         <span>{meal.name}</span>
       </label>
     </div>

@@ -1,25 +1,30 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getTotalOrders, getCatererTotalOrders }
   from '../../actions/dashboardActions';
 
-export const TotalOrders = ({
-  fetchTotalOrders, totalOrders, userRole, fetchCatererTotalOrders,
-}) => {
-  if (userRole === 'superAdmin') {
-    fetchTotalOrders();
-  } else {
-    fetchCatererTotalOrders();
+export class TotalOrders extends Component {
+  componentDidMount() {
+    if (this.props.userRole === 'superAdmin') {
+      this.props.fetchTotalOrders();
+    } else {
+      this.props.fetchCatererTotalOrders();
+    }
   }
 
-  return (
-    <div className="dashboard-item">
-      <p className="font-weight-bold">Total Orders</p>
-      <h2 className="amount font-weight-bold">{totalOrders}</h2>
-    </div>
-  );
-};
+  render() {
+    return (
+      <div className="dashboard-item">
+        <p className="font-weight-bold">Total Orders</p>
+        <h2 className="amount font-weight-bold">
+          {this.props.totalOrders}
+        </h2>
+      </div>
+    );
+  }
+}
+
 
 TotalOrders.propTypes = {
   totalOrders: PropTypes.number.isRequired,

@@ -8,15 +8,21 @@ import { updateMeal } from '../../actions/mealActions';
 
 
 export const UpdateMeal = ({ editMeal, meal, closeModal }) => {
+  const currentMeal = {
+    name: meal.name,
+    description: meal.description,
+    price: meal.price,
+    imageUrl: meal.imageUrl,
+  };
   const handleSubmit = async (values, actions) => {
     await editMeal(values, actions, meal.id);
     return closeModal();
   };
   return (
     <section className="add-section">
-      <h4 className="text-center">Update Meal</h4>
+      <h5 className="text-center">Update Meal</h5>
       <Formik
-        initialValues={meal}
+        initialValues={currentMeal}
         validationSchema={mealSchema}
         component={ConnectedUpdateMealForm}
         onSubmit={handleSubmit}
@@ -27,7 +33,7 @@ export const UpdateMeal = ({ editMeal, meal, closeModal }) => {
 
 UpdateMeal.propTypes = {
   meal: PropTypes.objectOf(PropTypes.oneOfType([
-    PropTypes.string, PropTypes.number])).isRequired,
+    PropTypes.string, PropTypes.number, PropTypes.object])).isRequired,
   editMeal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
 };

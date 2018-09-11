@@ -208,9 +208,19 @@ class MealController {
         userId,
       });
 
+    const newMeal = await Meal.findById(meal.id, {
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
+    });
+
     return res.status(201).json({
       message: 'Successfully added meal',
-      meal,
+      meal: newMeal,
       status: 'success',
     });
   }
@@ -266,8 +276,18 @@ class MealController {
     // Update meal
     const updatedMeal = await matchedMeal.update(req.body);
 
+    const returnedMeal = await Meal.findById(updatedMeal.id, {
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
+    });
+
     return res.status(200).json({
-      meal: updatedMeal,
+      meal: returnedMeal,
       status: 'success',
       message: 'Successfully updated meal',
     });

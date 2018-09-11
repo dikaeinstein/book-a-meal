@@ -150,12 +150,6 @@ export class AddMealForm extends Component {
               </div> : null
           }
         </div>
-        <div>
-          <Field
-            type="hidden"
-            name="imageUrl"
-          />
-        </div>
         <Button
           value="Add meal"
           type="submit"

@@ -1,25 +1,29 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getTotalAmount, getCatererTotalAmount }
   from '../../actions/dashboardActions';
 
-export const TotalAmount = ({
-  totalAmount, fetchTotalAmount, userRole, fetchCatererTotalAmount,
-}) => {
-  if (userRole === 'superAdmin') {
-    fetchTotalAmount();
-  } else {
-    fetchCatererTotalAmount();
+export class TotalAmount extends Component {
+  componentDidMount() {
+    if (this.props.userRole === 'superAdmin') {
+      this.props.fetchTotalAmount();
+    } else {
+      this.props.fetchCatererTotalAmount();
+    }
   }
 
-  return (
-    <div className="dashboard-item">
-      <p className="font-weight-bold">Total Amount</p>
-      <h2 className="amount font-weight-bold">&#x20a6; {totalAmount}</h2>
-    </div>
-  );
-};
+  render() {
+    return (
+      <div className="dashboard-item">
+        <p className="font-weight-bold">Total Amount</p>
+        <h2 className="amount font-weight-bold">
+          &#x20a6; {this.props.totalAmount}
+        </h2>
+      </div>
+    );
+  }
+}
 
 TotalAmount.propTypes = {
   totalAmount: PropTypes.number.isRequired,
