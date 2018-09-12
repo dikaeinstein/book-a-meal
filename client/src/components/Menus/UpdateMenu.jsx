@@ -37,7 +37,7 @@ export class UpdateMenu extends Component {
 
     return (
       <section>
-        <h5 className="text-center">Update Menu</h5>
+        <h5 className="text-center font-weight-bold">Update Menu</h5>
         <MenuCheckBoxForm
           error={error}
           handleSubmit={this.handleSubmit}

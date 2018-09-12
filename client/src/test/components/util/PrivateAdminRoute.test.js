@@ -3,8 +3,8 @@ import { shallow } from 'enzyme';
 import { Route } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import ConnectedPrivateAdminRoute, { PrivateAdminRoute }
-  from '../../components/PrivateAdminRoute';
-import Dashboard from '../../components/Dashboard';
+  from '../../../components/util/PrivateAdminRoute';
+import { Dashboard } from '../../../components/Dashboard';
 
 describe('<PrivateAdminRoute />', () => {
   let wrapper;
@@ -39,6 +39,15 @@ describe('<PrivateAdminRoute />', () => {
       path="/dashboard"
       loggedIn={false}
       userRole="caterer"
+      component={Dashboard}
+    />);
+    expect(wrapper.find(Route).props().render()).toBeDefined();
+  });
+  it('should redirect "Forbidden" when user is customer', () => {
+    wrapper = shallow(<PrivateAdminRoute
+      path="/dashboard"
+      loggedIn
+      userRole="customer"
       component={Dashboard}
     />);
     expect(wrapper.find(Route).props().render()).toBeDefined();

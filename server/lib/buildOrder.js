@@ -11,6 +11,7 @@ export const buildNewOrder = async (payload) => {
   const { mealId, quantity = 1 } = payload;
 
   const meal = await Meal.findById(mealId);
+
   const total = quantity * meal.price;
 
   return {
@@ -40,13 +41,15 @@ export const buildUpdateOrder = async (order, payload, differenceInMinutes) => {
     ? await Meal.findById(mealId)
     : await Meal.findById(order.mealId);
 
-  const total = meal.price * quantity;
+  const mealPrice = meal && meal.price * quantity;
+  const mealAmount = meal && meal.amount;
+  const id = meal && meal.id;
 
   return {
-    mealId: meal.id,
-    total,
+    mealId: id || order.mealId,
+    total: mealPrice || order.total,
     quantity,
-    amount: meal.price,
+    amount: mealAmount || order.amount,
     status,
     expired: differenceInMinutes > 30 || false,
   };

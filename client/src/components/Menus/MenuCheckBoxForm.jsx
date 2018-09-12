@@ -40,7 +40,7 @@ class MealsCheckBoxForm extends Component {
       // Extract mealId from input name
       const mealId = event.target.name.slice(5);
       this.setState({
-        mealIds: [...this.state.mealIds, mealId],
+        mealIds: [...this.state.mealIds, parseInt(mealId, 10)],
         checked: {
           ...this.state.checked,
           [event.target.name]: true,
@@ -49,7 +49,7 @@ class MealsCheckBoxForm extends Component {
     } else {
       const mealId = event.target.name.slice(5);
       const filteredMealIds = this.state.mealIds.filter(OldMealId =>
-        OldMealId !== mealId);
+        OldMealId !== parseInt(mealId, 10));
 
       this.setState({
         mealIds: filteredMealIds,
@@ -74,7 +74,10 @@ class MealsCheckBoxForm extends Component {
           Select meals to add to menu
         </h6>
         <div>
-          <Label className="label label-block" htmlFor="name">
+          <Label
+            className="label label-block font-weight-bold"
+            htmlFor="name"
+          >
             Menu Name:
           </Label>
           <input
@@ -85,7 +88,12 @@ class MealsCheckBoxForm extends Component {
           />
         </div>
         <div>
-          <h5 style={{ margin: '.5rem 0' }}>Meals</h5>
+          <h6
+            style={{ margin: '.5rem 0' }}
+            className="font-weight-bold"
+          >
+            Meals
+          </h6>
           <ConnectedMealsCheckboxList
             meals={this.props.meals}
             checkedMeals={this.state.checked}

@@ -2,8 +2,9 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { Route } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import ConnectedPrivateRoute, { PrivateRoute } from '../../components/PrivateRoute';
-import Dashboard from '../../components/Dashboard';
+import ConnectedPrivateRoute, { PrivateRoute }
+  from '../../../components/util/PrivateRoute';
+import { Dashboard } from '../../../components/Dashboard';
 
 describe('<PrivateRoute />', () => {
   let wrapper;

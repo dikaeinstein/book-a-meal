@@ -12,6 +12,7 @@ import {
   getCurrentPageUrl, getNextPageUrl,
   getPreviousPageUrl,
 } from '../../reducers/paginationReducer';
+import ErrorBoundary from '../util/ErrorBoundary';
 
 export class UserOrderHistory extends Component {
   constructor(props) {
@@ -52,24 +53,26 @@ export class UserOrderHistory extends Component {
     }
 
     return (
-      <div>
-        <main
-          className="bg-light order-history-main text-center"
-          style={{ minHeight: 'calc(100vh - 151px)' }}
-        >
-          <h4>Order history</h4>
-          <section className="card order-history">
-            <OrderHistoryWithErrorHandling error={error} />
-            <Pagination
-              onPageChange={this.handlePageChange}
-              nextUrl={this.props.nextUrl}
-              previousUrl={this.props.previousUrl}
-              style={{ marginTop: '0' }}
-            />
-          </section>
-        </main>
-        <Footer />
-      </div>
+      <ErrorBoundary>
+        <div>
+          <main
+            className="bg-light order-history-main text-center"
+            style={{ minHeight: 'calc(100vh - 151px)' }}
+          >
+            <h4>Order history</h4>
+            <section className="card order-history">
+              <OrderHistoryWithErrorHandling error={error} />
+              <Pagination
+                onPageChange={this.handlePageChange}
+                nextUrl={this.props.nextUrl}
+                previousUrl={this.props.previousUrl}
+                style={{ marginTop: '0' }}
+              />
+            </section>
+          </main>
+          <Footer />
+        </div>
+      </ErrorBoundary>
     );
   }
 }

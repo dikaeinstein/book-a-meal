@@ -2,10 +2,10 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Footer from './util/Footer';
 
-const NotFound = () => (
+const Forbidden = () => (
   <main>
     <div
-      className="notfound-overlay"
+      className="forbidden-overlay"
       style={{
         minHeight: 'calc(100vh - 145px)',
         padding: '1rem',
@@ -15,6 +15,7 @@ const NotFound = () => (
         className="text-center"
         style={{ paddingTop: '60vh' }}
       >
+        Sorry, access to this page is denied.
         Either check the url or <NavLink to="/">go home</NavLink>
       </h6>
     </div>
@@ -22,4 +23,4 @@ const NotFound = () => (
   </main>
 );
 
-export default NotFound;
+export default Forbidden;

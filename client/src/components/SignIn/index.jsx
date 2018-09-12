@@ -6,6 +6,7 @@ import SignInForm from './SignInForm';
 import SideImage from '../util/SideImage';
 import userSigninSchema from '../../validation/userSigninSchema';
 import { userSignIn } from '../../actions/userActions';
+import ErrorBoundary from '../util/ErrorBoundary';
 
 export const SignIn = ({ signIn }) => {
   const handleSubmit = (values, actions) => {
@@ -13,17 +14,19 @@ export const SignIn = ({ signIn }) => {
   };
 
   return (
-    <main className="flex-container">
-      <SideImage id="signIn" />
-      <section id="signIn" className="col-1-4 aside bg-dark">
-        <Formik
-          initialValues={{ email: '', password: '' }}
-          validationSchema={userSigninSchema}
-          component={SignInForm}
-          onSubmit={handleSubmit}
-        />
-      </section>
-    </main>
+    <ErrorBoundary>
+      <main className="flex-container">
+        <SideImage id="signIn" />
+        <section id="signIn" className="col-1-4 aside bg-dark">
+          <Formik
+            initialValues={{ email: '', password: '' }}
+            validationSchema={userSigninSchema}
+            component={SignInForm}
+            onSubmit={handleSubmit}
+          />
+        </section>
+      </main>
+    </ErrorBoundary>
   );
 };
 

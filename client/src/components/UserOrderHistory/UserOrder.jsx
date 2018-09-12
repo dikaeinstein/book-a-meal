@@ -96,8 +96,8 @@ export class UserOrder extends Component {
       <React.Fragment>
         <tr key={order.id}>
           <td>{order.id}</td>
-          <td>{order.meal.name}</td>
-          <td>{order.meal.price}</td>
+          <td>{order.meal ? order.meal.name : '-'}</td>
+          <td>{order.meal ? order.meal.price : '-'}</td>
           <td>{order.quantity}</td>
           <td>{order.total}</td>
           <td className={orderStatus}>{order.status}</td>
