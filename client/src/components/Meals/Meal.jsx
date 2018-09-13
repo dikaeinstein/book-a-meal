@@ -97,7 +97,10 @@ export class Meal extends Component {
     };
 
     return (
-      <div className="card user-menu-item">
+      <div
+        className="card user-menu-item"
+        data-test={`meal-${this.props.meal.id}`}
+      >
         <div
           className="overlay-container"
           onClick={this.handleOpenModal}

@@ -29,3 +29,7 @@ yarn-error.log*
 
 # mac
 .DS_Store
+
+# e2e
+e2e-tests/reports/
+e2e-tests/selenium-report/

@@ -101,7 +101,7 @@ export class Meals extends Component {
       },
     };
     const CatererMealsWithErrorHandling =
-      errorHandler(ConnectedCatererMeals, 'Error fetching meals', this.handleRetry, true);
+      errorHandler(ConnectedCatererMeals, 'Error fetching meals');
 
     return (
       <ErrorBoundary>
@@ -113,6 +113,7 @@ export class Meals extends Component {
             <Button
               value="Add meal"
               className="btn btn-default"
+              data-test="addmeal"
               onClick={this.handleAddMeal}
               style={{ margin: '1rem 1rem 1rem 0' }}
             />

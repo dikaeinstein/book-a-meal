@@ -37,10 +37,7 @@ export class UserOrderHistory extends Component {
     const { isFetching, error } = this.props;
 
     const OrderHistoryWithErrorHandling =
-      errorHandler(
-        ConnectedOrderHistory, 'Error fetching orders',
-        this.handleRetry, true,
-      );
+      errorHandler(ConnectedOrderHistory, 'Error fetching orders');
 
     if (isFetching) {
       return (

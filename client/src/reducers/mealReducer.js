@@ -120,7 +120,7 @@ const fetchError = (state = initialState.meals.fetchError, action) => {
     case FETCH_MEALS_ERROR:
       return action.message;
     default:
-      return state;
+      return initialState.meals.fetchError;
   }
 };
 
