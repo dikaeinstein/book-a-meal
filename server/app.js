@@ -15,9 +15,10 @@ dotenv.config();
 const app = express();
 
 let root = '../../client/dist';
+const env = process.env.NODE_ENV;
 
 // Load webpack config
-if (process.env.NODE_ENV === 'development') {
+if (env === 'development' || env === 'e2e') {
   /* eslint global-require: 0 */
   const config = require('../webpack.dev');
   const compiler = webpack(config);
@@ -55,14 +56,14 @@ app.get('*', (req, res) => (
 ));
 
 // Catch all error handler
-// app.use((err, req, res, next) => {
-//   if (res.headersSent) {
-//     return next(err);
-//   }
-//   return res.status(500).json({
-//     message: 'Something failed, we are working on it :)',
-//     status: 'error',
-//   });
-// });
+app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
+  return res.status(500).json({
+    message: 'Something failed, we are working on it :)',
+    status: 'error',
+  });
+});
 
 export default app;

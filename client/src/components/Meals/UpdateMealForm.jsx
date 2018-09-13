@@ -153,6 +153,7 @@ export class UpdateMealForm extends Component {
         <Button
           value="update meal"
           type="submit"
+          data-test="updatemeal-submit"
           className="btn btn-default font-weight-bold"
           disabled={isUpdating}
         />

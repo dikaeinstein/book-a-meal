@@ -154,6 +154,7 @@ export class AddMealForm extends Component {
           value="Add meal"
           type="submit"
           className="btn btn-default font-weight-bold"
+          data-test="addmeal-submit"
           disabled={isSaving}
         />
         {isSaving ?

@@ -18,15 +18,19 @@ export class TotalAmount extends Component {
       <div className="dashboard-item">
         <p className="font-weight-bold">Total Amount</p>
         <h2 className="amount font-weight-bold">
-          &#x20a6; {this.props.totalAmount}
+          &#x20a6; {this.props.totalAmount || 0}
         </h2>
       </div>
     );
   }
 }
 
+TotalAmount.defaultProps = {
+  totalAmount: 0,
+};
+
 TotalAmount.propTypes = {
-  totalAmount: PropTypes.number.isRequired,
+  totalAmount: PropTypes.number,
   userRole: PropTypes.string.isRequired,
   fetchTotalAmount: PropTypes.func.isRequired,
   fetchCatererTotalAmount: PropTypes.func.isRequired,

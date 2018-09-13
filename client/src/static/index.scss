@@ -119,6 +119,7 @@ img {
   display: block;
   padding: 2rem;
   color: #333;
+  margin: 0 auto;
 }
 
 .error {
@@ -817,6 +818,8 @@ input[type="date"] {
 .orders {
   overflow-x: auto;
   margin-top: 1rem;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .orders table {
@@ -913,14 +916,6 @@ li.user {
   background-position: center;
   background-image: url(https://res.cloudinary.com/dikaeinstein/image/upload/v1536742825/Group404_zr26aw.png);
   background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.error-overlay {
-  width: 100%;
-  background-position: center;
-  background-image: url(http://res.cloudinary.com/dikaeinstein/image/upload/v1536683618/book-a-meal/404.png);
-  background-size: contain;
   background-repeat: no-repeat;
 }
 

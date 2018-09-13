@@ -7,6 +7,7 @@ module.exports = {
     '/client/__mocks__',
     '/client/src/store/',
     '/client/src/helpers/',
+    '/e2e-tests/',
   ],
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',
@@ -18,7 +19,7 @@ module.exports = {
   ],
   coveragePathIgnorePatterns: [
     '/server/', '/UI/', '/coverage/', '/dist/', '/node_modules/',
-    '/client/src/store/', '/client/src/helpers/',
+    '/client/src/store/', '/client/src/helpers/', '/e2e-tests/',
   ],
   snapshotSerializers: ['enzyme-to-json/serializer'],
   setupTestFrameworkScriptFile: './client/src/test/setupTests.js',

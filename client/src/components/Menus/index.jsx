@@ -97,6 +97,7 @@ export class Menus extends Component {
               className="btn btn-default"
               style={{ margin: '1rem 1rem 1rem 0' }}
               value="Set Up Menu"
+              data-test="setup-menu"
               onClick={this.handleOpenModal}
               disabled={this.props.isSet}
             />
@@ -104,6 +105,7 @@ export class Menus extends Component {
               className="btn btn-default"
               style={{ margin: '1rem 0 1rem 0' }}
               value="Update Menu"
+              data-test="update-menu"
               onClick={this.handleMenuUpdate}
               disabled={!this.props.isSet}
             />
