@@ -16,7 +16,7 @@ before_script:
 - psql -c 'create database book_a_meal_ci_test;' -U postgres
 script:
 - yarn test
-after_success: yarn coverage
+after_success: yarn report-coverage
 deploy:
   provider: heroku
   api_key:
