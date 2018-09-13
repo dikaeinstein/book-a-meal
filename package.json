@@ -15,9 +15,11 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "db-migrate": "sequelize db:migrate --env production",
     "db-migrate-dev": "sequelize db:migrate --env development",
-    "db-seed": "export NODE_ENV=test || set NODE_ENV=test&& sequelize db:seed:all",
     "db-migrate-test": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test",
+    "db-migrate-e2e": "sequelize db:migrate:undo:all --env e2e && sequelize db:migrate --env e2e",
     "deploy": "gh-pages -d UI",
+    "db-seed-test": "export NODE_ENV=test || set NODE_ENV=test&& sequelize db:seed:all",
+    "db-seed-e2e": "export NODE_ENV=e2e || set NODE_ENV=e2e&& sequelize db:seed:all",
     "heroku-postbuild": "yarn build&& yarn db-migrate",
     "sequelize": "sequelize",
     "start": "export NODE_ENV=production || set NODE_ENV=production&& node server/bin/www",
@@ -28,11 +30,11 @@
     "test-client": "jest",
     "test-client:watch": "jest --watchAll -u",
     "test-client:ci": "jest --ci -u",
-    "test-server": "yarn db-migrate-test && nyc --require babel-core/register mocha server/test/**.spec.js -t 15000 --exit",
+    "test-server": "yarn db-migrate-test && nyc --require babel-core/register mocha server/test/**.spec.js -t 5000 --exit",
     "babel": "babel",
     "e2e-setup": "selenium-standalone install",
-    "test-e2e": "yarn db-migrate-test && yarn db-seed && nightwatch",
-    "start-e2e": "export NODE_ENV=test || set NODE_ENV=test&& nodemon --exec babel-node server/bin/www"
+    "test-e2e": "yarn db-migrate-e2e && yarn db-seed-e2e && nightwatch",
+    "start-e2e": "export NODE_ENV=e2e || set NODE_ENV=e2e&& nodemon --exec babel-node server/bin/www"
   },
   "dependencies": {
     "axios": "^0.18.0",

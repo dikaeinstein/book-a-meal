@@ -90,6 +90,16 @@ const config = {
     },
     define,
   },
+  e2e: {
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_E2E,
+    host: process.env.DB_HOST,
+    dialect: 'postgres',
+    operatorsAliases: false,
+    logging: false,
+    define,
+  }
 };
 
 export default config;

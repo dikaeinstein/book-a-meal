@@ -18,7 +18,7 @@ let root = '../../client/dist';
 const env = process.env.NODE_ENV;
 
 // Load webpack config
-if (env === 'development' || env === 'test') {
+if (env === 'development' || env === 'e2e') {
   /* eslint global-require: 0 */
   const config = require('../webpack.dev');
   const compiler = webpack(config);
