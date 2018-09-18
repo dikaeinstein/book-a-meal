@@ -4,9 +4,7 @@ import bodyParser from 'body-parser';
 import logger from 'morgan';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
+import setupWebpackDev from './lib/setupWebpackDev';
 import routes from './routes';
 
 dotenv.config();
@@ -14,28 +12,8 @@ dotenv.config();
 // Set up express app
 const app = express();
 
-let root = '../../client/dist';
-const env = process.env.NODE_ENV;
-
-// Load webpack config
-if (env === 'development' || env === 'e2e') {
-  /* eslint global-require: 0 */
-  const config = require('../webpack.dev');
-  const compiler = webpack(config);
-  // Tell express to use the webpack-dev-middleware
-  app.use(webpackDevMiddleware(compiler, {
-    publicPath: config.output.publicPath,
-    contentBase: config.devServer.contentBase,
-    hot: config.devServer.hot,
-    historyApiFallback: config.devServer.historyApiFallback,
-  }));
-
-  app.use(webpackHotMiddleware(compiler, {
-    path: '/__webpack_hmr',
-  }));
-
-  root = '../client/dist';
-}
+// Set up webpackDevServer and hmr
+const root = setupWebpackDev(app);
 
 // Enable CORS Pre-Flight on all routes
 app.use(cors());
