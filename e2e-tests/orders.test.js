@@ -11,14 +11,14 @@ module.exports = {
       .click('#signIn > form > button')
       .pause(2000)
       .click('div.card:nth-child(1) > button:nth-child(3)')
-      .pause(1000)
+      .pause(3000)
       .click('#checkout > button:nth-child(3)')
       .pause(2000)
       .assert.urlEquals('http://localhost:8000/order-confirmation')
       // Confirm order
       .click('button.btn:nth-child(2)')
       .click('.swal-button')
-      .pause(1000)
+      .pause(3000)
       .assert.urlEquals('http://localhost:8000/user-order-history')
       .click('.nav-container > li:nth-child(4)')
       .click('.swal-button--confirm')
@@ -30,20 +30,20 @@ module.exports = {
       .click('#signIn > form > button')
       .pause(2000)
       .click('div.card:nth-child(1) > button:nth-child(3)')
-      .pause(1000)
+      .pause(3000)
       .click('#checkout > button:nth-child(3)')
       .pause(2000)
       .assert.urlEquals('http://localhost:8000/order-confirmation')
       // Confirm order
       .click('button.btn:nth-child(2)')
       .click('.swal-button')
-      .pause(1000);
+      .pause(3000);
   },
   'User can update their order': (client) => {
     client
       .pause(2000)
       .click('button.action-btn:nth-child(1)')
-      .pause(1000)
+      .pause(2000)
       .clearValue('#quantity')
       .setValue('#quantity', '2')
       .pause(2000)
@@ -96,7 +96,7 @@ module.exports = {
       .click('.swal-button--confirm')
       .waitForElementVisible('.swal-button--confirm', 2000)
       .click('.swal-button--confirm')
-      .waitForElementVisible('.text-success', 1000)
+      .waitForElementVisible('.text-success', 2000)
       .assert.containsText('.text-success', 'delivered')
       .click('.nav-container > li:nth-child(4)')
       .click('.swal-button--confirm')

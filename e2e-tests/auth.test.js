@@ -15,6 +15,7 @@ module.exports = {
       .setValue('#confirmPassword', 'password')
       .setValue('#role', 'caterer')
       .click('#signIn > form > button')
+      .waitForElementVisible('main.dash-main > h4:nth-child(1)', 5000)
       .assert.urlEquals('http://localhost:8000/dashboard')
       .assert.containsText('main.dash-main > h4:nth-child(1)', 'Dashboard')
       .end();

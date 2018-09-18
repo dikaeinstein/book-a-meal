@@ -14,7 +14,7 @@ module.exports = {
       .click('.nav-container > li:nth-child(3) > a:nth-child(1)')
       .waitForElementVisible('button[data-test=setup-menu]', 2000)
       .click('button[data-test=setup-menu]')
-      .waitForElementVisible('.form', 1000)
+      .waitForElementVisible('.form', 2000)
       .click('.form > div:nth-child(3) > div:nth-child(2) > input:nth-child(1)')
       .assert
       .attributeEquals(
@@ -40,7 +40,7 @@ module.exports = {
   'Super Admin can update menu': (client) => {
     client
       .click('button[data-test=update-menu]')
-      .waitForElementVisible('.form', 1000)
+      .waitForElementVisible('.form', 2000)
       .click('.form > div:nth-child(3) > div:nth-child(3) > input:nth-child(1)')
       .assert
       .attributeEquals(

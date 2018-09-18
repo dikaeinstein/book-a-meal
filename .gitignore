@@ -33,3 +33,4 @@ yarn-error.log*
 # e2e
 e2e-tests/reports/
 e2e-tests/selenium-report/
+tests_output/
