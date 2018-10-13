@@ -1,0 +1,17 @@
+# snapshot files
+client/src/**/*.snap
+
+# css
+client/src/**/*.css
+
+# scss
+client/src/**/*.scss
+
+# html
+client/src/**/*.html
+
+client/src/static/
+
+# build directories
+server/dist/
+client/dist/

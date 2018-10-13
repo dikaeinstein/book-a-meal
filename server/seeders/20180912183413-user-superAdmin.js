@@ -13,7 +13,6 @@ module.exports = {
     }], {});
   },
 
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('users', null, {});
-  },
+  down: (queryInterface, Sequelize) =>
+    queryInterface.bulkDelete('users', null, {}),
 };

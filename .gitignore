@@ -34,3 +34,6 @@ yarn-error.log*
 e2e-tests/reports/
 e2e-tests/selenium-report/
 tests_output/
+
+# eslint
+.eslintcache
