@@ -99,7 +99,7 @@ const config = {
     operatorsAliases: false,
     logging: false,
     define,
-  }
+  },
 };
 
 export default config;

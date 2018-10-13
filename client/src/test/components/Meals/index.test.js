@@ -2,8 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import ConnectedMeals, { Meals } from '../../../components/Meals';
-import ConnectedCatererMeals from '../../../components/Meals/CatererMeals';
-import errorHandler from '../../../components/util/errorHandler';
 import Button from '../../../components/util/Button';
 import initialState from '../../../reducers/initialState';
 

@@ -115,7 +115,7 @@ class MealsCheckBoxForm extends Component {
           {this.props.action} Menu
         </button>
         {this.props.isSubmitting ?
-          <Loading text="signing in">
+          <Loading text="setting menu">
             <ProgressBar />
           </Loading>
           : null}
