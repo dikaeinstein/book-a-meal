@@ -137,8 +137,7 @@ export const getTotalOrders = () => async (dispatch, getState) => {
   dispatch({ type: GET_TOTAL_ORDERS_REQUEST });
   try {
     const totalOrders = await dashboardService
-      .getTotalNumberOfOrders(
-        `${config.API_BASE_URL}/api/v1/orders/totalOrders`);
+      .getTotalNumberOfOrders(`${config.API_BASE_URL}/api/v1/orders/totalOrders`);
     dispatch(getTotalOrdersSuccess(totalOrders));
   } catch (error) {
     dispatch(getTotalOrdersError(axiosErrorWrapper(error, dispatch)));
@@ -161,8 +160,7 @@ export const getCatererTotalOrders = () => async (dispatch, getState) => {
   dispatch({ type: GET_TOTAL_ORDERS_REQUEST });
   try {
     const totalOrders = await dashboardService
-      .getTotalNumberOfOrders(
-        `${config.API_BASE_URL}/api/v1/orders/totalOrders/caterers`);
+      .getTotalNumberOfOrders(`${config.API_BASE_URL}/api/v1/orders/totalOrders/caterers`);
     dispatch(getTotalOrdersSuccess(totalOrders));
   } catch (error) {
     dispatch(getTotalOrdersError(axiosErrorWrapper(error, dispatch)));

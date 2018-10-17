@@ -23,6 +23,7 @@
     "e2e-setup": "selenium-standalone install",
     "heroku-postbuild": "yarn build&& yarn db-migrate",
     "kill-node": "lsof -i tcp:8000 | grep LISTEN | awk '{print $2}' | xargs kill -2",
+    "lint": "eslint 'server/**' 'client/src/**' -c .eslintrc --cache",
     "posttest:e2e": "yarn stop",
     "pretest:e2e": "yarn start:e2e &",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
@@ -137,7 +138,7 @@
   },
   "config": {
     "ghooks": {
-      "pre-commit": "yarn test"
+      "pre-commit": "yarn lint && yarn test"
     }
   },
   "engines": {

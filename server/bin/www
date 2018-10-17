@@ -11,5 +11,6 @@ const server = http.createServer(app);
 
 // Listen on specified port
 server.listen(port, () => {
+  /* eslint no-console: 0 */
   console.log(`Express server listening on ${port}`);
 });
